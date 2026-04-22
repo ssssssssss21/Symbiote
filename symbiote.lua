@@ -472,7 +472,7 @@ DiscordLink.MouseLeave:Connect(function()
 end)
 
 DiscordLink.MouseButton1Click:Connect(function()
-    local link = "https://discord.gg/w2yCPhqj5"
+    local link = "https://discord.gg/9QAWtYxbcb"
     if setclipboard then
         setclipboard(link)
         local old = DiscordLink.Text
