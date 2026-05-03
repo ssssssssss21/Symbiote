@@ -405,12 +405,97 @@ end
 local function TryClickRetry(rewards)
     if not AutoRetryEnabled then return end
     if not rewards or not rewards.Visible then return end
-    local retryBtn = nil
-    pcall(function()
-        retryBtn = rewards.Main.Info.Main.Buttons.Retry
-    end)
-    if not retryBtn or not retryBtn:IsA("TextButton") then return end
-    pcall(function() firesignal(retryBtn.MouseButton1Click) end)
+
+    local function FindRetryButton(parent, depth)
+        if depth > 10 then return nil end
+        for _, child in ipairs(parent:GetChildren()) do
+            if child:IsA("TextButton") or child:IsA("ImageButton") then
+                local name = child.Name:lower()
+                if name:find("retry") or name:find("yeniden") or name:find("again") then
+                    return child
+                end
+            end
+            local found = FindRetryButton(child, depth + 1)
+            if found then return found end
+        end
+        return nil
+    end
+
+    local retryBtn = FindRetryButton(rewards, 0)
+    if not retryBtn then return end
+
+    local clicked = false
+
+    if not clicked then
+        pcall(function()
+            if firesignal then
+                firesignal(retryBtn.MouseButton1Click)
+                clicked = true
+            end
+        end)
+    end
+
+    if not clicked then
+        pcall(function()
+            if firebutton then
+                firebutton(retryBtn)
+                clicked = true
+            end
+        end)
+    end
+
+    if not clicked then
+        pcall(function()
+            local vim = game:GetService("VirtualInputManager")
+            if vim then
+                local camera = game:GetService("Workspace").CurrentCamera
+                local viewportSize = camera.ViewportSize
+                local btnPos = retryBtn.AbsolutePosition
+                local btnSize = retryBtn.AbsoluteSize
+                local centerX = math.floor(btnPos.X + btnSize.X / 2)
+                local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
+                if centerX > 0 and centerY > 0 
+                   and centerX < viewportSize.X 
+                   and centerY < viewportSize.Y then
+                    vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
+                    task.wait(0.05)
+                    vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+                    clicked = true
+                end
+            end
+        end)
+    end
+
+    if not clicked then
+        pcall(function()
+            local uis = game:GetService("UserInputService")
+            local btnPos = retryBtn.AbsolutePosition
+            local btnSize = retryBtn.AbsoluteSize
+            local centerX = math.floor(btnPos.X + btnSize.X / 2)
+            local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
+            if centerX > 0 and centerY > 0 then
+                uis:SendMouseButtonEvent(centerX, centerY,
+                    Enum.UserInputType.MouseButton1, true)
+                task.wait(0.05)
+                uis:SendMouseButtonEvent(centerX, centerY,
+                    Enum.UserInputType.MouseButton1, false)
+                clicked = true
+            end
+        end)
+    end
+
+    if not clicked then
+        pcall(function()
+            retryBtn:SimulateClick()
+            clicked = true
+        end)
+    end
+
+    if not clicked then
+        pcall(function()
+            retryBtn:Activate()
+        end)
+    end
 end
 
 local function EnableAutoRetry()
