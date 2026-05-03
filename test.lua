@@ -404,7 +404,7 @@ end
 
 local function TryClickRetry(rewards)
     if not AutoRetryEnabled then return end
-    if not rewards or not rewards.Visible then return end
+    if not rewards then return end
 
     local function FindRetryButton(parent, depth)
         if depth > 10 then return nil end
@@ -446,22 +446,53 @@ local function TryClickRetry(rewards)
 
     if not clicked then
         pcall(function()
-            local vim = game:GetService("VirtualInputManager")
-            if vim then
-                local camera = game:GetService("Workspace").CurrentCamera
-                local viewportSize = camera.ViewportSize
-                local btnPos = retryBtn.AbsolutePosition
-                local btnSize = retryBtn.AbsoluteSize
-                local centerX = math.floor(btnPos.X + btnSize.X / 2)
-                local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
-                if centerX > 0 and centerY > 0 
-                   and centerX < viewportSize.X 
-                   and centerY < viewportSize.Y then
-                    vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
-                    task.wait(0.05)
-                    vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+            if getcallbackvalue then
+                local cb = getcallbackvalue(retryBtn, "MouseButton1Click")
+                if cb then
+                    cb()
                     clicked = true
                 end
+            end
+        end)
+    end
+
+    if not clicked then
+        pcall(function()
+            if getconnections then
+                local conns = getconnections(retryBtn.MouseButton1Click)
+                if conns and #conns > 0 then
+                    for _, conn in ipairs(conns) do
+                        pcall(function()
+                            if conn.Function then
+                                conn.Function()
+                            elseif conn.Callback then
+                                conn.Callback()
+                            elseif type(conn) == "function" then
+                                conn()
+                            end
+                        end)
+                    end
+                    clicked = true
+                end
+            end
+        end)
+    end
+
+    if not clicked then
+        pcall(function()
+            local vim = game:GetService("VirtualInputManager")
+            local btnPos = retryBtn.AbsolutePosition
+            local btnSize = retryBtn.AbsoluteSize
+            local centerX = math.floor(btnPos.X + btnSize.X / 2)
+            local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
+            local viewportSize = Workspace.CurrentCamera.ViewportSize
+            if centerX > 0 and centerY > 0
+                and centerX < viewportSize.X
+                and centerY < viewportSize.Y then
+                vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
+                task.wait(0.05)
+                vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+                clicked = true
             end
         end)
     end
@@ -494,6 +525,32 @@ local function TryClickRetry(rewards)
     if not clicked then
         pcall(function()
             retryBtn:Activate()
+            clicked = true
+        end)
+    end
+
+    if not clicked then
+        pcall(function()
+            local vim = game:GetService("VirtualInputManager")
+            local btnPos = retryBtn.AbsolutePosition
+            local btnSize = retryBtn.AbsoluteSize
+            local centerX = math.floor(btnPos.X + btnSize.X / 2)
+            local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
+            vim:SendMouseMoveEvent(centerX, centerY, game)
+            task.wait(0.05)
+            vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
+            task.wait(0.1)
+            vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+            clicked = true
+        end)
+    end
+
+    if not clicked then
+        pcall(function()
+            if writecapability then
+                writecapability(retryBtn, "MouseButton1Click")
+                clicked = true
+            end
         end)
     end
 end
