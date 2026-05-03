@@ -420,17 +420,26 @@ local function TryClickRetry()
         return false
     end
 
+    local function GetScreenPosition(btn)
+        local btnPos = btn.AbsolutePosition
+        local btnSize = btn.AbsoluteSize
+        local centerX = math.floor(btnPos.X + btnSize.X / 2)
+        local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
+
+        local guiInset = Vector2.new(0, 0)
+        pcall(function()
+            guiInset = game:GetService("GuiService"):GetGuiInset()
+        end)
+        centerY = centerY + math.floor(guiInset.Y)
+
+        return centerX, centerY
+    end
+
     local methods = {
 
         function()
             if not firesignal then return false end
             pcall(function() firesignal(retryBtn.MouseButton1Click) end)
-            return DidClickWork()
-        end,
-
-        function()
-            if not firebutton then return false end
-            pcall(function() firebutton(retryBtn) end)
             return DidClickWork()
         end,
 
@@ -450,6 +459,12 @@ local function TryClickRetry()
         end,
 
         function()
+            if not firebutton then return false end
+            pcall(function() firebutton(retryBtn) end)
+            return DidClickWork()
+        end,
+
+        function()
             if not getcallbackvalue then return false end
             local ok, cb = pcall(function()
                 return getcallbackvalue(retryBtn, "MouseButton1Click")
@@ -460,27 +475,12 @@ local function TryClickRetry()
         end,
 
         function()
-            local ok, vim = pcall(function()
-                return game:GetService("VirtualInputManager")
-            end)
-            if not ok or not vim then return false end
-            local btnPos = retryBtn.AbsolutePosition
-            local btnSize = retryBtn.AbsoluteSize
-            local centerX = math.floor(btnPos.X + btnSize.X / 2)
-            local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
-            local viewportSize = Workspace.CurrentCamera.ViewportSize
-            if centerX <= 0 or centerY <= 0
-                or centerX >= viewportSize.X
-                or centerY >= viewportSize.Y then
-                return false
-            end
-            pcall(function()
-                vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
-            end)
-            task.wait(0.05)
-            pcall(function()
-                vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
-            end)
+            pcall(function() retryBtn:Activate() end)
+            return DidClickWork()
+        end,
+
+        function()
+            pcall(function() retryBtn:SimulateClick() end)
             return DidClickWork()
         end,
 
@@ -489,11 +489,13 @@ local function TryClickRetry()
                 return game:GetService("VirtualInputManager")
             end)
             if not ok or not vim then return false end
-            local btnPos = retryBtn.AbsolutePosition
-            local btnSize = retryBtn.AbsoluteSize
-            local centerX = math.floor(btnPos.X + btnSize.X / 2)
-            local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
-            if centerX <= 0 or centerY <= 0 then return false end
+            local centerX, centerY = GetScreenPosition(retryBtn)
+            local viewportSize = Workspace.CurrentCamera.ViewportSize
+            if centerX <= 0 or centerY <= 0
+                or centerX >= viewportSize.X
+                or centerY >= viewportSize.Y then
+                return false
+            end
             pcall(function() vim:SendMouseMoveEvent(centerX, centerY, game) end)
             task.wait(0.05)
             pcall(function()
@@ -511,10 +513,7 @@ local function TryClickRetry()
                 return game:GetService("UserInputService")
             end)
             if not ok or not uis then return false end
-            local btnPos = retryBtn.AbsolutePosition
-            local btnSize = retryBtn.AbsoluteSize
-            local centerX = math.floor(btnPos.X + btnSize.X / 2)
-            local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
+            local centerX, centerY = GetScreenPosition(retryBtn)
             if centerX <= 0 or centerY <= 0 then return false end
             pcall(function()
                 uis:SendMouseButtonEvent(centerX, centerY,
@@ -525,16 +524,6 @@ local function TryClickRetry()
                 uis:SendMouseButtonEvent(centerX, centerY,
                     Enum.UserInputType.MouseButton1, false)
             end)
-            return DidClickWork()
-        end,
-
-        function()
-            pcall(function() retryBtn:SimulateClick() end)
-            return DidClickWork()
-        end,
-
-        function()
-            pcall(function() retryBtn:Activate() end)
             return DidClickWork()
         end,
     }
