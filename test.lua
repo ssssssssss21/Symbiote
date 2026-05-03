@@ -116,6 +116,7 @@ local InfiniteJumpConnection = nil
 
 local AutoRefillEnabled = false
 local IsRefilling = false
+local SetsWentEmptyAt = nil
 
 local ChangeCursorEnabled = false
 local CursorConnection = nil
@@ -172,6 +173,52 @@ local function GetSetsX()
     return nil
 end
 
+local function GetBladesBroken()
+    local ok, result = pcall(function()
+        local charsFolder = Workspace:FindFirstChild("Characters")
+        if not charsFolder then return false end
+        local playerFolder = charsFolder:FindFirstChild(LocalPlayer.Name)
+        if not playerFolder then return false end
+        local rigName = "Rig_" .. LocalPlayer.Name
+        local rig = playerFolder:FindFirstChild(rigName)
+        if not rig then return false end
+        local blades = {}
+        for _, desc in ipairs(rig:GetDescendants()) do
+            if desc:IsA("MeshPart") and desc.Name:sub(1, 5) == "Blade" then
+                table.insert(blades, desc)
+            end
+        end
+        if #blades == 0 then return true end
+        for _, blade in ipairs(blades) do
+            local val = blade:GetAttribute("Broken")
+            if not val then return false end
+        end
+        return true
+    end)
+    if ok then return result end
+    return false
+end
+
+local function SetsEmpty()
+    local x = GetSetsX()
+    return x ~= nil and x == 0
+end
+
+local function NeedsRefill()
+    if not SetsEmpty() then
+        SetsWentEmptyAt = nil
+        return false
+    end
+    if SetsWentEmptyAt == nil then
+        SetsWentEmptyAt = os.clock()
+        return false
+    end
+    if os.clock() - SetsWentEmptyAt < 2 then
+        return false
+    end
+    return GetBladesBroken()
+end
+
 local function GetRefillParts()
     local parts = {}
     pcall(function()
@@ -193,21 +240,23 @@ local function DoRefill()
     local hrp = char and char:FindFirstChild("HumanoidRootPart")
     if not hrp then return end
     hrp.CFrame = CFrame.new(chosen.Position + Vector3.new(0, 10, 0))
-    task.wait(0.8)
+    task.wait(1.5)
     SendKeyR()
 end
 
 local function RefillUntilFull()
     if IsRefilling then return end
     IsRefilling = true
+    SetsWentEmptyAt = nil
     while AutoRefillEnabled do
-        local x = GetSetsX()
-        if x == nil or x ~= 0 then break end
+        if not SetsEmpty() then break end
+        if not GetBladesBroken() then break end
         DoRefill()
         task.wait(5)
-        local xAfter = GetSetsX()
-        if xAfter == nil or xAfter ~= 0 then break end
+        if not SetsEmpty() then break end
+        if not GetBladesBroken() then break end
     end
+    SetsWentEmptyAt = nil
     IsRefilling = false
 end
 
@@ -353,15 +402,15 @@ local function DisableChangeCursor()
     OriginalCursorVisible = nil
 end
 
-local function ClickRetryButton(retryBtn)
-    pcall(function() firesignal(retryBtn.MouseButton1Click) end)
+local function TryClickRetry(rewards)
+    if not AutoRetryEnabled then return end
+    if not rewards or not rewards.Visible then return end
+    local retryBtn = nil
     pcall(function()
-        local vim = game:GetService("VirtualInputManager")
-        local center = retryBtn.AbsolutePosition + (retryBtn.AbsoluteSize * 0.5)
-        vim:SendMouseButtonEvent(center.X, center.Y, 0, true, game, 0)
-        task.wait(0.05)
-        vim:SendMouseButtonEvent(center.X, center.Y, 0, false, game, 0)
+        retryBtn = rewards.Main.Info.Main.Buttons.Retry
     end)
+    if not retryBtn or not retryBtn:IsA("TextButton") then return end
+    pcall(function() firesignal(retryBtn.MouseButton1Click) end)
 end
 
 local function EnableAutoRetry()
@@ -374,18 +423,16 @@ local function EnableAutoRetry()
         local rewards = iface:WaitForChild("Rewards", 30)
         if not rewards then return end
 
+        if rewards.Visible then
+            task.wait(2)
+            TryClickRetry(rewards)
+        end
+
         AutoRetryConnection = rewards:GetPropertyChangedSignal("Visible"):Connect(function()
             if not AutoRetryEnabled then return end
             if not rewards.Visible then return end
-            task.wait(0.5)
-            if not AutoRetryEnabled then return end
-            local retryBtn = nil
-            pcall(function()
-                retryBtn = rewards.Main.Info.Main.Buttons.Retry
-            end)
-            if retryBtn and retryBtn:IsA("TextButton") then
-                ClickRetryButton(retryBtn)
-            end
+            task.wait(2)
+            TryClickRetry(rewards)
         end)
     end)
 end
@@ -466,19 +513,15 @@ local function GetNapeTopPosition(nape)
     local napeUp = nape.CFrame.UpVector
     local napeRight = nape.CFrame.RightVector
     local napeLook = nape.CFrame.LookVector
-
     local topCenter = nape.Position + napeUp * halfExtent
-
     local corner1 = topCenter + napeRight * halfExtent + napeLook * halfExtent
     local corner2 = topCenter + napeRight * halfExtent - napeLook * halfExtent
     local corner3 = topCenter - napeRight * halfExtent + napeLook * halfExtent
     local corner4 = topCenter - napeRight * halfExtent - napeLook * halfExtent
-
     local highest = corner1
     if corner2.Y > highest.Y then highest = corner2 end
     if corner3.Y > highest.Y then highest = corner3 end
     if corner4.Y > highest.Y then highest = corner4 end
-
     return highest
 end
 
@@ -546,33 +589,41 @@ local function GetFarmCFrame(titan)
         local topPos = hrp.Position + Vector3.new(0, 3, 0)
         return CFrame.new(topPos + Vector3.new(0, FarmAboveOffset, 0), topPos)
     end
-
     local topCorner = GetNapeTopPosition(nape)
     local targetPos = topCorner + Vector3.new(0, FarmAboveOffset, 0)
     return CFrame.new(targetPos, topCorner)
 end
 
-local function FindClosestTitan()
+local function GetTitanHeight(model)
+    local minY = math.huge
+    local maxY = -math.huge
+    for _, part in ipairs(model:GetDescendants()) do
+        if part:IsA("BasePart") then
+            local top = part.Position.Y + part.Size.Y / 2
+            local bot = part.Position.Y - part.Size.Y / 2
+            if top > maxY then maxY = top end
+            if bot < minY then minY = bot end
+        end
+    end
+    if maxY == -math.huge then return 0 end
+    return maxY - minY
+end
+
+local function FindBestTitan()
     local folder = GetTitansFolder()
     if not folder then return nil end
-    local char = LocalPlayer.Character
-    local hrp = char and char:FindFirstChild("HumanoidRootPart")
-    local closest = nil
-    local closestDist = math.huge
+    local best = nil
+    local bestHeight = -math.huge
     for _, model in ipairs(folder:GetChildren()) do
         if model:IsA("Model") and IsTitanValid(model) then
-            local nape = GetNapePart(model)
-            local ref = nape or model:FindFirstChild("HumanoidRootPart") or model.PrimaryPart
-            if ref then
-                local dist = hrp and (hrp.Position - ref.Position).Magnitude or 0
-                if dist < closestDist then
-                    closestDist = dist
-                    closest = model
-                end
+            local height = GetTitanHeight(model)
+            if height > bestHeight then
+                bestHeight = height
+                best = model
             end
         end
     end
-    return closest
+    return best
 end
 
 local function FarmLoop()
@@ -610,15 +661,15 @@ local function FarmLoop()
     task.spawn(function()
         while AutoFarmEnabled do
             if AutoRefillEnabled and not IsRefilling then
-                local x = GetSetsX()
-                if x ~= nil and x == 0 then
+                if NeedsRefill() then
                     task.spawn(RefillUntilFull)
                     while IsRefilling do task.wait(0.2) end
                 end
             end
             if IsRefilling then task.wait(0.2); continue end
+
             if not CurrentTarget or not IsTitanValid(CurrentTarget) then
-                CurrentTarget = FindClosestTitan()
+                CurrentTarget = FindBestTitan()
             end
             if not CurrentTarget or not IsTitanValid(CurrentTarget) then
                 task.wait(0.3)
@@ -641,8 +692,7 @@ local function FarmLoop()
                 task.wait(0.2)
 
                 if AutoRefillEnabled and not IsRefilling then
-                    local x = GetSetsX()
-                    if x ~= nil and x == 0 then
+                    if NeedsRefill() then
                         task.spawn(RefillUntilFull)
                         while IsRefilling do task.wait(0.2) end
                     end
@@ -678,10 +728,8 @@ local function FarmLoop()
                             end
                         end)
                         if headPart then
-                            pcall(function()
-                                headPart.Anchored = true
-                            end)
-                            task.delay(0.5, function()
+                            pcall(function() headPart.Anchored = true end)
+                            task.delay(0.2, function()
                                 pcall(function()
                                     if headPart and headPart.Parent then
                                         headPart.Anchored = false
@@ -738,11 +786,15 @@ end)
 task.spawn(function()
     while true do
         task.wait(0.5)
-        if not AutoRefillEnabled then continue end
+        if not AutoRefillEnabled then
+            SetsWentEmptyAt = nil
+            continue
+        end
         if AutoFarmEnabled then continue end
         if IsRefilling then continue end
-        local x = GetSetsX()
-        if x ~= nil and x == 0 then task.spawn(RefillUntilFull) end
+        if NeedsRefill() then
+            task.spawn(RefillUntilFull)
+        end
     end
 end)
 
@@ -944,6 +996,7 @@ end)
 local autoRefillToggleRef = VariousTab:AddToggle("Auto Refill", function(state)
     AutoRefillEnabled = state
     SetSetting("AutoRefill", state)
+    if not state then SetsWentEmptyAt = nil end
 end)
 
 local changeCursorToggleRef = VariousTab:AddToggle("Change Cursor", function(state)
