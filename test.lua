@@ -424,134 +424,101 @@ local function TryClickRetry(rewards)
     local retryBtn = FindRetryButton(rewards, 0)
     if not retryBtn then return end
 
-    local clicked = false
+    local methods = {
 
-    if not clicked then
-        pcall(function()
-            if firesignal then
-                firesignal(retryBtn.MouseButton1Click)
-                clicked = true
-            end
-        end)
-    end
+        function()
+            if not firesignal then error("nil") end
+            firesignal(retryBtn.MouseButton1Click)
+        end,
 
-    if not clicked then
-        pcall(function()
-            if firebutton then
-                firebutton(retryBtn)
-                clicked = true
-            end
-        end)
-    end
+        function()
+            if not firebutton then error("nil") end
+            firebutton(retryBtn)
+        end,
 
-    if not clicked then
-        pcall(function()
-            if getcallbackvalue then
-                local cb = getcallbackvalue(retryBtn, "MouseButton1Click")
-                if cb then
-                    cb()
-                    clicked = true
+        function()
+            if not getcallbackvalue then error("nil") end
+            local cb = getcallbackvalue(retryBtn, "MouseButton1Click")
+            if not cb then error("callback : no") end
+            cb()
+        end,
+
+        function()
+            if not getconnections then error("nil") end
+            local conns = getconnections(retryBtn.MouseButton1Click)
+            if not conns or #conns == 0 then error("connection : nil") end
+            local called = false
+            for _, conn in ipairs(conns) do
+                local fn = conn.Function or conn.Callback
+                if type(fn) == "function" then
+                    pcall(fn)
+                    called = true
                 end
             end
-        end)
-    end
+            if not called then error("function not found") end
+        end,
 
-    if not clicked then
-        pcall(function()
-            if getconnections then
-                local conns = getconnections(retryBtn.MouseButton1Click)
-                if conns and #conns > 0 then
-                    for _, conn in ipairs(conns) do
-                        pcall(function()
-                            if conn.Function then
-                                conn.Function()
-                            elseif conn.Callback then
-                                conn.Callback()
-                            elseif type(conn) == "function" then
-                                conn()
-                            end
-                        end)
-                    end
-                    clicked = true
-                end
-            end
-        end)
-    end
-
-    if not clicked then
-        pcall(function()
+        function()
             local vim = game:GetService("VirtualInputManager")
             local btnPos = retryBtn.AbsolutePosition
             local btnSize = retryBtn.AbsoluteSize
             local centerX = math.floor(btnPos.X + btnSize.X / 2)
             local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
             local viewportSize = Workspace.CurrentCamera.ViewportSize
-            if centerX > 0 and centerY > 0
-                and centerX < viewportSize.X
-                and centerY < viewportSize.Y then
-                vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
-                task.wait(0.05)
-                vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
-                clicked = true
+            if centerX <= 0 or centerY <= 0
+                or centerX >= viewportSize.X
+                or centerY >= viewportSize.Y then
+                error("coordinate out of screen")
             end
-        end)
-    end
+            vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
+            task.wait(0.05)
+            vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+        end,
 
-    if not clicked then
-        pcall(function()
-            local uis = game:GetService("UserInputService")
-            local btnPos = retryBtn.AbsolutePosition
-            local btnSize = retryBtn.AbsoluteSize
-            local centerX = math.floor(btnPos.X + btnSize.X / 2)
-            local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
-            if centerX > 0 and centerY > 0 then
-                uis:SendMouseButtonEvent(centerX, centerY,
-                    Enum.UserInputType.MouseButton1, true)
-                task.wait(0.05)
-                uis:SendMouseButtonEvent(centerX, centerY,
-                    Enum.UserInputType.MouseButton1, false)
-                clicked = true
-            end
-        end)
-    end
-
-    if not clicked then
-        pcall(function()
-            retryBtn:SimulateClick()
-            clicked = true
-        end)
-    end
-
-    if not clicked then
-        pcall(function()
-            retryBtn:Activate()
-            clicked = true
-        end)
-    end
-
-    if not clicked then
-        pcall(function()
+        function()
             local vim = game:GetService("VirtualInputManager")
             local btnPos = retryBtn.AbsolutePosition
             local btnSize = retryBtn.AbsoluteSize
             local centerX = math.floor(btnPos.X + btnSize.X / 2)
             local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
+            if centerX <= 0 or centerY <= 0 then error("coordinate invalid") end
             vim:SendMouseMoveEvent(centerX, centerY, game)
             task.wait(0.05)
             vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
             task.wait(0.1)
             vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
-            clicked = true
-        end)
-    end
+        end,
 
-    if not clicked then
-        pcall(function()
-            if writecapability then
-                writecapability(retryBtn, "MouseButton1Click")
-                clicked = true
-            end
-        end)
+        function()
+            local uis = game:GetService("UserInputService")
+            local btnPos = retryBtn.AbsolutePosition
+            local btnSize = retryBtn.AbsoluteSize
+            local centerX = math.floor(btnPos.X + btnSize.X / 2)
+            local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
+            if centerX <= 0 or centerY <= 0 then error("coordinate invalid") end
+            uis:SendMouseButtonEvent(centerX, centerY,
+                Enum.UserInputType.MouseButton1, true)
+            task.wait(0.05)
+            uis:SendMouseButtonEvent(centerX, centerY,
+                Enum.UserInputType.MouseButton1, false)
+        end,
+
+        function()
+            retryBtn:SimulateClick()
+        end,
+
+        function()
+            retryBtn:Activate()
+        end,
+    }
+
+    local clicked = false
+    for i, method in ipairs(methods) do
+        if clicked then break end
+        local ok, err = pcall(method)
+        if ok then
+            clicked = true
+        end
     end
 end
 
