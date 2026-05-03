@@ -402,64 +402,68 @@ local function DisableChangeCursor()
     OriginalCursorVisible = nil
 end
 
-local function TryClickRetry(rewards)
+local function TryClickRetry()
     if not AutoRetryEnabled then return end
-    if not rewards then return end
 
-    local function FindRetryButton(parent, depth)
-        if depth > 10 then return nil end
-        for _, child in ipairs(parent:GetChildren()) do
-            if child:IsA("TextButton") or child:IsA("ImageButton") then
-                local name = child.Name:lower()
-                if name:find("retry") or name:find("yeniden") or name:find("again") then
-                    return child
-                end
-            end
-            local found = FindRetryButton(child, depth + 1)
-            if found then return found end
-        end
-        return nil
-    end
-
-    local retryBtn = FindRetryButton(rewards, 0)
+    local retryBtn = nil
+    pcall(function()
+        retryBtn = LocalPlayer.PlayerGui.Interface.Rewards.Main.Info.Main.Buttons.Retry
+    end)
     if not retryBtn then return end
+
+    local function DidClickWork()
+        task.wait(0.5)
+        local ok, vis = pcall(function()
+            return LocalPlayer.PlayerGui.Interface.Rewards.Visible
+        end)
+        if ok and not vis then return true end
+        return false
+    end
 
     local methods = {
 
         function()
-            if not firesignal then error("nil") end
-            firesignal(retryBtn.MouseButton1Click)
+            if not firesignal then return false end
+            pcall(function() firesignal(retryBtn.MouseButton1Click) end)
+            return DidClickWork()
         end,
 
         function()
-            if not firebutton then error("nil") end
-            firebutton(retryBtn)
+            if not firebutton then return false end
+            pcall(function() firebutton(retryBtn) end)
+            return DidClickWork()
         end,
 
         function()
-            if not getcallbackvalue then error("nil") end
-            local cb = getcallbackvalue(retryBtn, "MouseButton1Click")
-            if not cb then error("callback : no") end
-            cb()
-        end,
-
-        function()
-            if not getconnections then error("nil") end
-            local conns = getconnections(retryBtn.MouseButton1Click)
-            if not conns or #conns == 0 then error("connection : nil") end
-            local called = false
+            if not getconnections then return false end
+            local ok, conns = pcall(function()
+                return getconnections(retryBtn.MouseButton1Click)
+            end)
+            if not ok or not conns or #conns == 0 then return false end
             for _, conn in ipairs(conns) do
-                local fn = conn.Function or conn.Callback
-                if type(fn) == "function" then
-                    pcall(fn)
-                    called = true
-                end
+                pcall(function()
+                    local fn = conn.Function or conn.Callback
+                    if type(fn) == "function" then fn() end
+                end)
             end
-            if not called then error("function not found") end
+            return DidClickWork()
         end,
 
         function()
-            local vim = game:GetService("VirtualInputManager")
+            if not getcallbackvalue then return false end
+            local ok, cb = pcall(function()
+                return getcallbackvalue(retryBtn, "MouseButton1Click")
+            end)
+            if not ok or not cb then return false end
+            pcall(cb)
+            return DidClickWork()
+        end,
+
+        function()
+            local ok, vim = pcall(function()
+                return game:GetService("VirtualInputManager")
+            end)
+            if not ok or not vim then return false end
             local btnPos = retryBtn.AbsolutePosition
             local btnSize = retryBtn.AbsoluteSize
             local centerX = math.floor(btnPos.X + btnSize.X / 2)
@@ -468,86 +472,161 @@ local function TryClickRetry(rewards)
             if centerX <= 0 or centerY <= 0
                 or centerX >= viewportSize.X
                 or centerY >= viewportSize.Y then
-                error("coordinate out of screen")
+                return false
             end
-            vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
+            pcall(function()
+                vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
+            end)
             task.wait(0.05)
-            vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+            pcall(function()
+                vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+            end)
+            return DidClickWork()
         end,
 
         function()
-            local vim = game:GetService("VirtualInputManager")
+            local ok, vim = pcall(function()
+                return game:GetService("VirtualInputManager")
+            end)
+            if not ok or not vim then return false end
             local btnPos = retryBtn.AbsolutePosition
             local btnSize = retryBtn.AbsoluteSize
             local centerX = math.floor(btnPos.X + btnSize.X / 2)
             local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
-            if centerX <= 0 or centerY <= 0 then error("coordinate invalid") end
-            vim:SendMouseMoveEvent(centerX, centerY, game)
+            if centerX <= 0 or centerY <= 0 then return false end
+            pcall(function() vim:SendMouseMoveEvent(centerX, centerY, game) end)
             task.wait(0.05)
-            vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
+            pcall(function()
+                vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
+            end)
             task.wait(0.1)
-            vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+            pcall(function()
+                vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
+            end)
+            return DidClickWork()
         end,
 
         function()
-            local uis = game:GetService("UserInputService")
+            local ok, uis = pcall(function()
+                return game:GetService("UserInputService")
+            end)
+            if not ok or not uis then return false end
             local btnPos = retryBtn.AbsolutePosition
             local btnSize = retryBtn.AbsoluteSize
             local centerX = math.floor(btnPos.X + btnSize.X / 2)
             local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
-            if centerX <= 0 or centerY <= 0 then error("coordinate invalid") end
-            uis:SendMouseButtonEvent(centerX, centerY,
-                Enum.UserInputType.MouseButton1, true)
+            if centerX <= 0 or centerY <= 0 then return false end
+            pcall(function()
+                uis:SendMouseButtonEvent(centerX, centerY,
+                    Enum.UserInputType.MouseButton1, true)
+            end)
             task.wait(0.05)
-            uis:SendMouseButtonEvent(centerX, centerY,
-                Enum.UserInputType.MouseButton1, false)
+            pcall(function()
+                uis:SendMouseButtonEvent(centerX, centerY,
+                    Enum.UserInputType.MouseButton1, false)
+            end)
+            return DidClickWork()
         end,
 
         function()
-            retryBtn:SimulateClick()
+            pcall(function() retryBtn:SimulateClick() end)
+            return DidClickWork()
         end,
 
         function()
-            retryBtn:Activate()
+            pcall(function() retryBtn:Activate() end)
+            return DidClickWork()
         end,
     }
 
-    local clicked = false
-    for i, method in ipairs(methods) do
-        if clicked then break end
-        local ok, err = pcall(method)
-        if ok then
-            clicked = true
-        end
+    for _, method in ipairs(methods) do
+        local visOk, visVal = pcall(function()
+            return LocalPlayer.PlayerGui.Interface.Rewards.Visible
+        end)
+        if visOk and not visVal then break end
+
+        local success = false
+        pcall(function() success = method() end)
+        if success then break end
+
+        task.wait(0.2)
     end
 end
 
+local AutoRetryTitanConnection = nil
+
 local function EnableAutoRetry()
     if AutoRetryConnection then return end
+
     task.spawn(function()
-        local pg = LocalPlayer:WaitForChild("PlayerGui", 30)
-        if not pg then return end
-        local iface = pg:WaitForChild("Interface", 30)
-        if not iface then return end
-        local rewards = iface:WaitForChild("Rewards", 30)
+        local rewards = nil
+        pcall(function()
+            rewards = LocalPlayer:WaitForChild("PlayerGui", 60)
+                :WaitForChild("Interface", 60)
+                :WaitForChild("Rewards", 60)
+        end)
         if not rewards then return end
 
         if rewards.Visible then
             task.wait(2)
-            TryClickRetry(rewards)
+            TryClickRetry()
         end
 
         AutoRetryConnection = rewards:GetPropertyChangedSignal("Visible"):Connect(function()
             if not AutoRetryEnabled then return end
             if not rewards.Visible then return end
             task.wait(2)
-            TryClickRetry(rewards)
+            TryClickRetry()
+        end)
+
+        task.spawn(function()
+            local lastVisible = rewards.Visible
+            while AutoRetryEnabled do
+                task.wait(1)
+                if not AutoRetryEnabled then break end
+                local ok, currentVisible = pcall(function() return rewards.Visible end)
+                if not ok then break end
+                if currentVisible and not lastVisible then
+                    task.wait(2)
+                    TryClickRetry()
+                end
+                lastVisible = currentVisible
+            end
+        end)
+
+        task.spawn(function()
+            while AutoRetryEnabled do
+                task.wait(3)
+                if not AutoRetryEnabled then break end
+                local titansFolder = Workspace:FindFirstChild("Titans")
+                if titansFolder then
+                    local hasModel = false
+                    for _, c in ipairs(titansFolder:GetChildren()) do
+                        if c:IsA("Model") then
+                            hasModel = true
+                            break
+                        end
+                    end
+                    if not hasModel then
+                        task.wait(3)
+                        if not AutoRetryEnabled then break end
+                        TryClickRetry()
+                    end
+                end
+            end
         end)
     end)
 end
 
 local function DisableAutoRetry()
-    if AutoRetryConnection then AutoRetryConnection:Disconnect(); AutoRetryConnection = nil end
+    if AutoRetryConnection then
+        AutoRetryConnection:Disconnect()
+        AutoRetryConnection = nil
+    end
+    if AutoRetryTitanConnection then
+        AutoRetryTitanConnection:Disconnect()
+        AutoRetryTitanConnection = nil
+    end
 end
 
 local function GetTitansFolder()
