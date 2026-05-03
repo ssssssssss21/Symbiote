@@ -33,7 +33,7 @@ local function LoadSettings()
         elseif readfile then
             raw = readfile(SaveKey)
         end
-        if raw then
+        if raw and raw ~= "" then
             return HttpService:JSONDecode(raw)
         end
         return nil
@@ -461,11 +461,25 @@ local function RestoreNapeHitbox()
     end
 end
 
-local function GetCurrentNapeHalfExtent(titan)
-    local nape = GetNapePart(titan)
-    if not nape then return 0 end
-    local size = nape.Size
-    return math.max(size.X, size.Y, size.Z) / 2
+local function GetNapeTopPosition(nape)
+    local halfExtent = math.max(nape.Size.X, nape.Size.Y, nape.Size.Z) / 2
+    local napeUp = nape.CFrame.UpVector
+    local napeRight = nape.CFrame.RightVector
+    local napeLook = nape.CFrame.LookVector
+
+    local topCenter = nape.Position + napeUp * halfExtent
+
+    local corner1 = topCenter + napeRight * halfExtent + napeLook * halfExtent
+    local corner2 = topCenter + napeRight * halfExtent - napeLook * halfExtent
+    local corner3 = topCenter - napeRight * halfExtent + napeLook * halfExtent
+    local corner4 = topCenter - napeRight * halfExtent - napeLook * halfExtent
+
+    local highest = corner1
+    if corner2.Y > highest.Y then highest = corner2 end
+    if corner3.Y > highest.Y then highest = corner3 end
+    if corner4.Y > highest.Y then highest = corner4 end
+
+    return highest
 end
 
 local function CreateOrUpdateVisuals()
@@ -522,18 +536,20 @@ RunService.Heartbeat:Connect(function()
     if VisualizeHitboxEnabled then CreateOrUpdateVisuals() end
 end)
 
+local FarmAboveOffset = 4
+
 local function GetFarmCFrame(titan)
     local nape = GetNapePart(titan)
     if not nape then
         local hrp = titan:FindFirstChild("HumanoidRootPart")
         if not hrp then return nil end
-        return CFrame.new(hrp.Position + Vector3.new(0, 6, 0), hrp.Position)
+        local topPos = hrp.Position + Vector3.new(0, 6, 0)
+        return CFrame.new(topPos + Vector3.new(0, FarmAboveOffset, 0), topPos)
     end
-    local napePos = nape.Position
-    local halfExtent = GetCurrentNapeHalfExtent(titan)
-    local offset = halfExtent + 6
-    local targetPos = napePos + Vector3.new(0, offset, 0)
-    return CFrame.new(targetPos, napePos)
+
+    local topCorner = GetNapeTopPosition(nape)
+    local targetPos = topCorner + Vector3.new(0, FarmAboveOffset, 0)
+    return CFrame.new(targetPos, topCorner)
 end
 
 local function FindClosestTitan()
