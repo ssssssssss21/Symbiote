@@ -536,14 +536,14 @@ RunService.Heartbeat:Connect(function()
     if VisualizeHitboxEnabled then CreateOrUpdateVisuals() end
 end)
 
-local FarmAboveOffset = 4
+local FarmAboveOffset = 2
 
 local function GetFarmCFrame(titan)
     local nape = GetNapePart(titan)
     if not nape then
         local hrp = titan:FindFirstChild("HumanoidRootPart")
         if not hrp then return nil end
-        local topPos = hrp.Position + Vector3.new(0, 6, 0)
+        local topPos = hrp.Position + Vector3.new(0, 3, 0)
         return CFrame.new(topPos + Vector3.new(0, FarmAboveOffset, 0), topPos)
     end
 
@@ -624,16 +624,22 @@ local function FarmLoop()
                 task.wait(0.3)
                 continue
             end
+
             local char = LocalPlayer.Character
             local hrp = char and char:FindFirstChild("HumanoidRootPart")
             if hrp then
                 local farmCF = GetFarmCFrame(CurrentTarget)
                 if farmCF then hrp.CFrame = farmCF end
             end
+
             local nape = GetNapePart(CurrentTarget)
             if nape then SendClick() end
+
+            local hitCount = 1
+
             while AutoFarmEnabled do
                 task.wait(0.2)
+
                 if AutoRefillEnabled and not IsRefilling then
                     local x = GetSetsX()
                     if x ~= nil and x == 0 then
@@ -642,18 +648,49 @@ local function FarmLoop()
                     end
                 end
                 if IsRefilling then continue end
+
                 if not IsTitanValid(CurrentTarget) then
                     CurrentTarget = nil
+                    hitCount = 0
                     break
                 end
+
                 local c = LocalPlayer.Character
                 local h = c and c:FindFirstChild("HumanoidRootPart")
                 if h then
                     local farmCF = GetFarmCFrame(CurrentTarget)
                     if farmCF then h.CFrame = farmCF end
                 end
+
                 local napeNow = GetNapePart(CurrentTarget)
-                if napeNow then SendClick() end
+                if napeNow then
+                    SendClick()
+                    hitCount = hitCount + 1
+
+                    if hitCount % 2 == 0 then
+                        local headPart = nil
+                        pcall(function()
+                            for _, desc in ipairs(CurrentTarget:GetDescendants()) do
+                                if desc:IsA("MeshPart") and desc.Name == "Head" then
+                                    headPart = desc
+                                    break
+                                end
+                            end
+                        end)
+                        if headPart then
+                            pcall(function()
+                                headPart.Anchored = true
+                            end)
+                            task.delay(0.5, function()
+                                pcall(function()
+                                    if headPart and headPart.Parent then
+                                        headPart.Anchored = false
+                                    end
+                                end)
+                            end)
+                        end
+                    end
+                end
             end
         end
     end)
