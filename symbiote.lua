@@ -1,4 +1,4 @@
-local SERVER_URL = "symbiote.up.railway.app"
+local SERVER_URL = "https://symbiote.up.railway.app"
 local KEY_FILE = "advanced_key.json"
 
 local TweenService = game:GetService("TweenService")
