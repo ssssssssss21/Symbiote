@@ -698,7 +698,63 @@ SubmitBtn.MouseButton1Click:Connect(function()
         return
     end
 
+    local _SD = "This file is protected by Symbiote."
+    local _originals = {}
+    local _keys = {
+        "writefile", "appendfile", "setclipboard", "toclipboard",
+        "print", "warn", "rconsoleprint", "rconsolewarn", "rconsoleinfo", "printconsole"
+    }
+
+    local function wrapFunc(f)
+        if typeof(f) ~= "function" then return f end
+        return function(...)
+            local args = {...}
+            for i, v in ipairs(args) do
+                if type(v) == "string" and #v > 200 then
+                    args[i] = _SD
+                end
+            end
+            return f(unpack(args))
+        end
+    end
+
+    local envs = {getfenv(), _G, shared}
+    if typeof(getgenv) == "function" and type(getgenv()) == "table" then
+        table.insert(envs, getgenv())
+    end
+
+    for _, env in ipairs(envs) do
+        for _, k in ipairs(_keys) do
+            local original = env[k]
+            if typeof(original) == "function" then
+                if not _originals[k] then
+                    _originals[k] = original
+                end
+                env[k] = wrapFunc(original)
+            end
+        end
+    end
+
     local loaderFn, compErr = loadstring(loaderCode, "Load")
+    loaderCode = nil
+
+    for _, env in ipairs(envs) do
+        for _, k in ipairs(_keys) do
+            if _originals[k] then
+                env[k] = _originals[k]
+            end
+        end
+    end
+
+    for _, env in ipairs(envs) do
+        for k, v in pairs(env) do
+            if type(v) == "string" and #v > 200 then
+                env[k] = _SD
+            end
+        end
+    end
+
+    _SD, _originals, _keys, wrapFunc, envs = nil, nil, nil, nil, nil
 
     if not loaderFn then
         setStatus("Initialization failed. Please try again.", T.Error)
