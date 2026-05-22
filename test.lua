@@ -76,7 +76,7 @@ if GetSetting("AutoExecute") and queue_on_teleport then
     ]])
 end
 
-local Library = loadstring(game:HttpGet("https://gist.githubusercontent.com/ssssssssss21/f2127829151a31beea020f5dd9211ad6/raw/4730962c311408ca7adf51a4bfc9bd7e1987bfe3/UI.lua"))()
+local Library = loadstring(game:HttpGet("https://gist.githubusercontent.com/ssssssssss21/f2127829151a31beea020f5dd9211ad6/raw/bfd3e7a2ac3a3c694a96d92c0314e432be9bef38/UI.lua"))()
 
 local Workspace = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
