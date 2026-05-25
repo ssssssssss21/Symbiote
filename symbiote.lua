@@ -1,3 +1,790 @@
+local SERVER_URL = "https://symbiote.up.railway.app"
+local KEY_FILE = "advanced_key.json"
+
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local UIS = game:GetService("UserInputService")
+local HttpService = game:GetService("HttpService")
+local CoreGui = game:GetService("CoreGui")
+
+local _req = (typeof(request) == "function" and request)
+    or (typeof(http_request) == "function" and http_request)
+    or (syn and typeof(syn.request) == "function" and syn.request)
+    or (fluxus and typeof(fluxus.request) == "function" and fluxus.request)
+    or nil
+
+local b64chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+local function base64encode(data)
+    local result = {}
+    local pad = ""
+    local len = #data
+    local mod = len % 3
+    if mod > 0 then
+        data = data .. string.rep("\0", 3 - mod)
+        if mod == 1 then pad = "==" elseif mod == 2 then pad = "=" end
+    end
+    for i = 1, #data, 3 do
+        local a, b, c = string.byte(data, i, i+2)
+        local n = a * 65536 + b * 256 + c
+        local c1 = math.floor(n / 262144) % 64
+        local c2 = math.floor(n / 4096) % 64
+        local c3 = math.floor(n / 64) % 64
+        local c4 = n % 64
+        table.insert(result, string.sub(b64chars, c1+1, c1+1))
+        table.insert(result, string.sub(b64chars, c2+1, c2+1))
+        table.insert(result, string.sub(b64chars, c3+1, c3+1))
+        table.insert(result, string.sub(b64chars, c4+1, c4+1))
+    end
+    local encoded = table.concat(result)
+    if #pad > 0 then
+        encoded = string.sub(encoded, 1, #encoded - #pad) .. pad
+    end
+    encoded = encoded:gsub("+", "-"):gsub("/", "_"):gsub("=", "")
+    return encoded
+end
+
+local function urlEncode(str)
+    str = tostring(str)
+    local result = {}
+    for i = 1, #str do
+        local c = string.sub(str, i, i)
+        local b = string.byte(c)
+        if (b >= 48 and b <= 57) or (b >= 65 and b <= 90) or (b >= 97 and b <= 122) or c == "-" or c == "_" or c == "." or c == "~" then
+            table.insert(result, c)
+        else
+            table.insert(result, string.format("%%%02X", b))
+        end
+    end
+    return table.concat(result)
+end
+
+local function doHttp(url, bodyTable)
+    local fullUrl = url
+    local headers = {["Content-Type"] = "application/json"}
+    
+    if bodyTable then
+        local jsonStr = HttpService:JSONEncode(bodyTable)
+        headers["X-Payload"] = base64encode(jsonStr)
+    end
+    
+    if _req then
+        local ok, res = pcall(_req, {
+            Url = fullUrl,
+            Method = "GET",
+            Headers = headers
+        })
+        if not ok then return nil, "HTTP_FAIL: " .. tostring(res) end
+        if type(res) ~= "table" then return nil, "RES_NOT_TABLE" end
+        return res.Body or res.body or "", nil
+    else
+        local ok, res = pcall(function()
+            return HttpService:RequestAsync({
+                Url = fullUrl,
+                Method = "GET",
+                Headers = headers
+            })
+        end)
+        if not ok then return nil, "HTTP_FAIL: " .. tostring(res) end
+        return res.Body or res.body or "", nil
+    end
+end
 
 
-local Gd,ua,ba,a_,ud,Nb=type,bit32.bxor,getmetatable,pairs local we,Pe,ae,la,Id,Ya,Hf,R,y,Be,_e,B,j,Kf,if_,ge,qb,Zd,aa,wa,K,ef,Wd,Ab,ec,ce,id,ff,te,za,Jc,me,Pa,qc,Wa,mb,Bf,Tb,d_,hf,Oe,Tc,cf,p;Ya=(getfenv());_e,Be,Hf=(string.char),(string.byte),(bit32 .bxor);p=function(Vb,o_)local je,Wc,rd,X,b_,L,Ye,W;rd,Ye={},function(sa,oe,Af)rd[oe]=ua(Af,57073)-ua(sa,21046)return rd[oe]end;je=rd[-11688]or Ye(25430,-11688,36771)while je~=45034 do if je>12717 then if je<=46771 then return L else W=Wc if X~=X then je=rd[-16884]or Ye(41522,-16884,96326)else je=12717 end end elseif je<8178 then if je>1053 then Wc=Wc+b_;W=Wc if Wc~=Wc then je=rd[24575]or Ye(49137,24575,96907)else je=12717 end else je,L=rd[-15727]or Ye(35385,-15727,11316),L.._e(Hf(Be(Vb,(W-135)+1),Be(o_,(W-135)%#o_+1)))end elseif je>8178 then if(b_>=0 and Wc>X)or((b_<0 or b_~=b_)and Wc<X)then je=rd[-8668]or Ye(23842,-8668,6966)else je=rd[-21698]or Ye(44095,-21698,122071)end else L='';b_,Wc,X,je=1,135,(#Vb-1)+135,51199 end end end;if_=(select);y=(function(...)return{[1]={...},[2]=if_('#',...)}end);la=((function()local function tc(se_,yf,ya)if yf>ya then return end return se_[yf],tc(se_,yf+1,ya)end return tc end)());id,ef=(string.gsub),(string.char);j=(function(dc)dc=id(dc,'[^ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=]','')return(dc:gsub('.',function(bc)if(bc=='=')then return''end local Ge,Ba='',(('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'):find(bc)-1)for Rf=6,1,-1 do Ge=Ge..(Ba%2^Rf-Ba%2^(Rf-1)>0 and'1'or'0')end return Ge end):gsub('%d%d%d?%d?%d?%d?%d?%d?',function(Ua)if(#Ua~=8)then return''end local Cc=0 for rc=1,8 do Cc=Cc+(Ua:sub(rc,rc)=='1'and 2^(8-rc)or 0)end return ef(Cc)end))end);Pe,ec,Ab,Tb,Wd,aa,Bf,Kf=Ya[p('.\245-4\239\56',']\129_')][p('\218\213\194\206\216\217','\175\187\178')],Ya[p('\198\237\51\220\247&','\181\153A')][p('\197\195\212','\182')],Ya[p('\220\17T\198\vA','\175e&')][p('\"\147\52\143','@\234')],Ya[p('I\189_\231\25','+\212')][p('~\130\248{\151\228','\18\241\144')],Ya[p('\244P\226\n\164','\150\57')][p('\28\240\228\a\229\248','n\131\140')],Ya[p('\235\136\253\210\187','\137\225')][p('p\224|\229','\18\129')],Ya[p('\224\1\246\f\241','\148\96')][p('}(\168}&\178','\30G\198')],{};wa=(function(Dc)local ib=Kf[Dc]if not(ib)then else return ib end local gf,ne,Ta,wc,C=Tb(1,11),Tb(1,5),1,{},''while Ta<=#Dc do local Xc=Ab(Dc,Ta);Ta=Ta+1 for ob=61,(8)+60 do local Xe=nil if not(aa(Xc,1)~=0)then if not(Ta+1<=#Dc)then else local Oc=Pe(p('\187\204\183','\133'),Dc,Ta);Ta=Ta+2 local e_,Ve=#C-Wd(Oc,5),aa(Oc,(ne-1))+3;Xe=ec(C,e_,e_+Ve-1)end else if Ta<=#Dc then Xe=ec(Dc,Ta,Ta);Ta=Ta+1 end end Xc=Wd(Xc,1)if not(Xe)then else wc[#wc+1]=Xe;C=ec(C..Xe,-gf)end end end local bb=Bf(wc);Kf[Dc]=bb return bb end);Wa=(function()local H,i_,T,Pd,Lf,n_,Gc,Jb,rb,ve,hc,Ad=Ya[p('\29\50\vhM','\127[')][p('\234\155\231\145','\136\227')],Ya[p('\r\146\27\200]','o\251')][p('k\176g\181','\t\209')],Ya[p('\220\221\202\135\140','\190\180')][p('\v\6\27','i')],Ya[p('\243\254\229\164\163','\145\151')][p('\197E\190\192P\162','\169\54\214')],Ya[p('\233\155\255\193\185','\139\242')][p('SQ\206HD\210','!\"\166')],Ya[p('u6Io,\\','\6B;')][p('VPG','%')],Ya[p('\4f\219\30|\206','w\18\169')][p('H\167[\173','8\198')],Ya[p('\168%\147\178?\134','\219Q\225')][p('\223\199\189\203\202\166','\170\169\205')],Ya[p('\175v\220\181l\201','\220\2\174')][p('\218\205\216','\168')],Ya[p('\241\149\231\152\224','\133\244')][p('nC}I','\30\"')],Ya[p('\24\217\14\212\t','l\184')][p('s\243\190g\254\165','\6\157\206')],Ya[p('\139%\157(\154','\255D')][p('\255\174\14\243\178\t','\150\192}')]local function ab(kc,mf,ye,Gb,Ac)local hb,I,Hd,sb=kc[mf],kc[ye],kc[Gb],kc[Ac]local zc;hb=i_(hb+I,4294967295);zc=H(sb,hb);sb=i_(T(Pd(zc,16),Lf(zc,16)),4294967295);Hd=i_(Hd+sb,4294967295);zc=H(I,Hd);I=i_(T(Pd(zc,12),Lf(zc,20)),4294967295);hb=i_(hb+I,4294967295);zc=H(sb,hb);sb=i_(T(Pd(zc,8),Lf(zc,24)),4294967295);Hd=i_(Hd+sb,4294967295);zc=H(I,Hd);I=i_(T(Pd(zc,7),Lf(zc,25)),4294967295);kc[mf],kc[ye],kc[Gb],kc[Ac]=hb,I,Hd,sb return kc end local Ud,gd={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}local fd=function(Ma,Kb,A)Ud[1],Ud[2],Ud[3],Ud[4]=4292707690,1294913393,958606986,2793197568 for Sc=81,(8)+80 do Ud[(Sc-80)+4]=Ma[(Sc-80)]end Ud[13]=Kb for De=35,(3)+34 do Ud[(De-34)+13]=A[(De-34)]end for Ob=168,(16)+167 do gd[(Ob-167)]=Ud[(Ob-167)]end for bd=249,(10)+248 do ab(gd,1,5,9,13);ab(gd,2,6,10,14);ab(gd,3,7,11,15);ab(gd,4,8,12,16);ab(gd,1,6,11,16);ab(gd,2,7,12,13);ab(gd,3,8,9,14);ab(gd,4,5,10,15)end for Zb=62,(16)+61 do Ud[(Zb-61)]=i_(Ud[(Zb-61)]+gd[(Zb-61)],4294967295)end return Ud end local function cb(sf,Yc,Fd,La,Yb)local h=#La-Yb+1 if h<64 then local E=n_(La,Yb);La=E..rb(p('\239','\239'),64-h);Yb=1 end Ya[p('\20\193\241\16\192\246','u\178\130')](#La>=64)local gb,t_=ve(Jb(p('\252l+\241}\218\233\26.\205\5Yj\142\212>\244l+\241}\218\233\26.\205\5Yj\142\212>\244','\192%\31\184I\147\221S\26\132\49\16^\199\224w'),La,Yb)),fd(sf,Yc,Fd)for m=179,(16)+178 do gb[(m-178)]=H(gb[(m-178)],t_[(m-178)])end local of=Gc(p('\182\127\25\26\149\17d\242\163\180G\143\16\206A:\190\127\25\26\149\17d\242\163\180G\143\16\206A:\190','\138\54-S\161XP\187\151\253s\198$\135us'),hc(gb))if h<64 then of=n_(of,1,h)end return of end local function ia(he)local P=''for Je=119,(#he)+118 do P=P..he[(Je-118)]end return P end local function Ze(Cd,Rb,N,Ce)local zf,_d,V,Kc=ve(Jb(p('wRY96T>\232\127RY96T>\232\127','K\27mp\2\29\n\161'),Cd)),ve(Jb(p('\3\57WvD*\v','?pc'),N)),{},1 while Kc<=#Ce do Ad(V,cb(zf,Rb,_d,Ce,Kc));Kc=Kc+64;Rb=Rb+1 end return ia(V)end return function(D,ad,sc)return Ze(sc,0,ad,D)end end)();qc=(function()local cd,jb,Aa,S,jd,ue,Ia,tf,Ka,z,Ff=Ya[p('\30/\buN','|F')][p('\223\146\210\136','\189\252')],Ya[p('-\212;\142}','O\189')][p('\141\24\128\18','\239\96')],Ya[p('\28\198\n\156L','~\175')][p('\155]\243\128H\239','\233.\155')],Ya[p('|_j\5,','\30\54')][p('\255\57\148\250,\136','\147J\252')],Ya[p('\162\226\180\184\242','\192\139')][p('TMXH','6,')],Ya[p(']\136K\210\r','?\225')][p('49$','V')],Ya[p('\131\19\149\30\146','\247r')][p('\151\250\b\155\230\15','\254\148{')],Ya[p('EqS|T','1\16')][p('\v\96\235\31m\240','~\14\155')],Ya[p('>\138\198$\144\211','M\254\180')][p('\a\16\5','u')],Ya[p('\222\4c\196\30v','\173p\17')][p('\151\215\149\205','\244\191')],Ya[p('\209\250&\203\224\51','\162\142T')][p('#\171\53\183','A\210')]local function ze(Z,pf)local xc,Za=Aa(Z,pf),S(Z,32-pf)return jd(ue(xc,Za),4294967295)end local jf=function(M)local nf={1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298}local function rf(ke)local Ha=#ke local pd=Ha*8;ke=ke..p('\147','\19')local ld=64-((Ha+9)%64)if not(ld~=64)then else ke=ke..Ka(p('\208','\208'),ld)end ke=ke..z(jd(Aa(pd,56),255),jd(Aa(pd,48),255),jd(Aa(pd,40),255),jd(Aa(pd,32),255),jd(Aa(pd,24),255),jd(Aa(pd,16),255),jd(Aa(pd,8),255),jd(pd,255))return ke end local function Q(Td)local Vc={}for Nc=34,(#Td)+33,64 do Ia(Vc,Td[p('\"$3','Q')](Td,(Nc-33),(Nc-33)+63))end return Vc end local function ra(Fc,ca)local Jf={}for qd=182,(64)+181 do if(qd-181)<=16 then Jf[(qd-181)]=ue(S(Ff(Fc,((qd-181)-1)*4+1),24),S(Ff(Fc,((qd-181)-1)*4+2),16),S(Ff(Fc,((qd-181)-1)*4+3),8),Ff(Fc,((qd-181)-1)*4+4))else local Mf,ic=jb(ze(Jf[(qd-181)-15],7),ze(Jf[(qd-181)-15],18),Aa(Jf[(qd-181)-15],3)),jb(ze(Jf[(qd-181)-2],17),ze(Jf[(qd-181)-2],19),Aa(Jf[(qd-181)-2],10));Jf[(qd-181)]=jd(Jf[(qd-181)-16]+Mf+Jf[(qd-181)-7]+ic,4294967295)end end local qe,Df,cc,nb,Pb,xf,lc,fc=tf(ca)for J=141,(64)+140 do local Eb,xa=jb(ze(Pb,6),ze(Pb,11),ze(Pb,25)),jb(jd(Pb,xf),jd(cd(Pb),lc))local ed,Na,w_=jd(fc+Eb+xa+nf[(J-140)]+Jf[(J-140)],4294967295),jb(ze(qe,2),ze(qe,13),ze(qe,22)),jb(jd(qe,Df),jd(qe,cc),jd(Df,cc))local Qe=jd(Na+w_,4294967295);fc=lc;lc=xf;xf=Pb;Pb=jd(nb+ed,4294967295);nb=cc;cc=Df;Df=qe;qe=jd(ed+Qe,4294967295)end return jd(ca[1]+qe,4294967295),jd(ca[2]+Df,4294967295),jd(ca[3]+cc,4294967295),jd(ca[4]+nb,4294967295),jd(ca[5]+Pb,4294967295),jd(ca[6]+xf,4294967295),jd(ca[7]+lc,4294967295),jd(ca[8]+fc,4294967295)end M=rf(M)local yc,Ja,mc=Q(M),{1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225},''for f_,dd in Ya[p('W\242\246W\240\228','>\130\151')](yc)do Ja={ra(dd,Ja)}end for Ue,Wb in Ya[p('[\206\215[\204\197','2\190\182')](Ja)do mc=mc..z(jd(Aa(Wb,24),255));mc=mc..z(jd(Aa(Wb,16),255));mc=mc..z(jd(Aa(Wb,8),255));mc=mc..z(jd(Wb,255))end return mc end return jf end)()local wb,ta,Le,s_,be,qa,If,Nd,Bc,ie,xe,fe,oc,Ic,na,tb,wf,Uc,pb,Qc,Hc,Vd,Mb,_a,Ea,Lb,Pc,Ne,ka,Ed=Ya[p('!V%J','U/')],Ya[p('\183\230\166\233\171','\199\133')],Ya[p('\157\160\138\189\138','\248\210')],Ya[p('l\139\249au\134\242f','\24\228\151\20')],Ya[p('\183\237\53\179\236\50','\214\158F')],Ya[p('\255\0\140\233\6\148','\140e\224')],Ya[p('\157\149\196\223\131W\143\132\209\208\138F','\238\240\176\178\230#')],Ya[p('\200\231)\210\253<','\187\147[')][p('\251\203w\240\197q','\157\164\5')],Ya[p('N\129*T\155?','=\245X')][p('\128Q%\148\\>','\245?U')],Ya[p('{\17\186a\v\175','\be\200')][p('agp','\18')],Ya[p('_a\201E{\220',',\21\187')][p('\186\142\172\146','\216\247')],Ya[p('\14@$\20Z1','}4V')][p('\222B\220X','\189*')],Ya[p(':\213,\216+','N\180')][p('S\190H\180','>\209')],Ya[p('W\245A\248F','#\148')][p('\20\210\a\216','d\179')],Ya[p('\253_\235R\236','\137>')][p('\240\127\192\242y\192','\147\r\165')],Ya[p('\144i\134d\129','\228\b')][p('\t:>\5&9','\96TM')],Ya[p('*O<B;','^.')][p('\16a\133\16o\159','s\14\235')],Ya[p('\18\212\153a\4\207\130\96\20','q\187\235\14')][p('t|OvzO','\23\14*')],Ya[p('d\131yZr\152b[b','\a\236\v\53')][p('\245\\\233Y\232','\140\53')],Ya[p('\230\57M\222\240\"V\223\224','\133V?\177')][p('\232B\204\239J\218',"\154\'\191")],Ya[p('\141\n\196x\155\17\223y\139','\238e\182\23')][p('g&k9a','\4J')],Ya[p('\153K\249\152K\227\136','\254.\141')],Ya[p('\187\f\173V\235','\217e')][p('^SN','<')],Ya[p('\27\25\rCK','yp')][p('\20\50\25\56','vJ')],Ya[p('\t\215\31\141Y','k\190')][p('[\154W\159','9\251')],Ya[p('/\156\57\198\127','M\245')][p('\238Z\233]\248','\140.')],Ya[p('\158\133\136\223\206','\252\236')][p('P\128\169K\149\181','\"\243\193')],Ya[p('3\200%\146c','Q\161')][p("\5\50}\0\'a",'iA\21')],Ya[p('\"\5\52_r','@l')][p('\145\a\157\134\30\138\128','\244\127\233')],{[59374]={},[61434]={{8,8,false},{1,5,true},{8,7,false},{8,8,false},{3,5,false},{8,1,false},{8,8,true},{7,7,true},{8,8,false},{3,0,false},{8,6,false},{4,2,false},{4,5,false},{4,2,false},{10,0,false},{1,8,false},{1,0,false},{8,8,false},{10,7,true},{10,6,false},{1,5,false},{8,8,false},{3,0,false},{1,6,false},{4,6,true},{4,8,true},{3,2,false},{10,6,true},{10,6,true},{1,6,true},{8,9,false},{8,8,false},{3,6,true},{10,2,true},{7,6,true},{3,3,false},{4,6,false},{8,5,true},{3,8,false},{3,8,false},{8,8,false},{3,8,true},{8,7,false},{3,3,true},{4,9,false},{10,5,true},{1,6,false},{3,1,false},{8,5,false},{8,7,false},{8,0,true},{3,8,false},{10,1,true},{4,7,true},{1,6,true},{3,8,true},{3,8,true},{4,8,true},{8,6,false},{8,5,true},{10,1,true},{7,3,true},{8,8,false},{7,7,false},{8,8,false},{8,10,false},{8,8,false},{8,5,false},{10,5,false},{7,4,false},{10,1,false},{7,7,true},{7,8,false},{1,8,true},{7,2,false},{8,8,false},{8,0,true},{3,2,false},{7,6,true},{1,7,true},{8,9,false},{7,9,false},{8,8,false},{1,8,true},{8,6,true},{7,5,false},{8,7,false},{10,1,false},{10,5,false},{10,8,true},{7,2,false},{8,8,false},{3,8,false},{1,0,false},{8,6,true},{4,9,false},{1,7,false},{10,1,false},{4,9,true},{8,3,true},{1,5,true},{7,1,true},{7,5,true},{8,0,false},{7,6,true},{8,8,false},{1,6,false},{3,8,true},{8,8,false},{4,3,true},{3,8,false},{3,5,false},{8,8,true},{7,3,false},{3,8,false},{8,1,false},{7,8,true},{1,6,false},{8,8,false},{8,6,true},{4,1,false},{3,8,true},{7,8,false},{8,8,true},{8,6,true},{8,6,true},{4,6,false},{1,1,false},{4,3,true},{7,1,false},{10,0,false},{8,0,false},{1,0,false},{8,1,false},{8,8,false},{8,1,true},{8,8,true},{4,6,false},{8,7,false},{8,6,true},{1,8,false},{4,9,true},{10,6,false},{3,5,true},{3,0,true},{3,8,false},{8,8,false},{3,0,true},{7,9,false},{3,0,false},{8,10,false},{8,8,false},{3,7,false},{7,8,true},{8,6,true},{4,7,true},{1,2,false},{8,3,false},{7,8,true},{8,7,true},{8,8,false},{1,7,true},{1,9,false},{10,6,true},{7,7,false},{8,0,false},{4,6,true},{7,3,false},{10,0,false},{8,1,false},{7,7,true},{3,8,false},{3,6,true},{7,0,true},{7,2,false},{1,3,true},{8,8,false},{3,2,true},{1,7,false},{8,5,true},{3,9,true},{8,7,false},{10,8,true},{1,1,true},{3,8,false},{1,8,false},{4,2,false},{7,5,true},{1,7,false},{3,8,false},{10,7,true},{3,2,false},{10,6,true},{8,8,false},{4,3,false},{1,3,false},{8,8,false},{8,8,false},{7,9,false},{1,3,false},{10,6,false},{10,1,true},{4,7,false},{3,7,false},{8,8,false},{1,9,true},{7,0,true},{3,8,true},{8,8,false},{8,8,false},{10,6,true},{4,3,true},{7,6,false},{8,6,true},{8,8,false},{4,7,false},{8,8,false},{3,8,false},{8,8,false},{1,9,false},{7,0,true},{8,6,true},{1,9,true},{8,10,false},{3,2,true},{8,8,false},{1,7,false},{4,6,false},{4,2,false},{3,5,true},{1,6,false},{4,2,true},{1,6,false},{10,3,true},{1,7,false},{8,8,false},{10,3,true},{3,9,true},{3,8,true},{3,7,true},{3,8,false},{4,7,false},{8,8,false},{10,3,false},{8,8,false},{3,5,false},{1,0,true},{10,3,true},{8,8,false},{10,6,true},{8,7,false},{7,8,false},{4,6,true},{4,8,false},{3,8,true},{7,8,true}},[46314]={}}local He=(function(ub)local Oa=Ed[46314][ub]if Oa then return Oa end local Qd=1 local function Ee()local Fb,Xd,td,bf,gc,Da,df,ga,Ub,G,Od,Se,Db,vb,Xb,vc,le,jc,fa_,k,Md,Kd,yd,uc,F,oa,Jd,U,Xa,od,af,Ef;uc,Xd={},function(Mc,Cb,Nf)uc[Mc]=ua(Cb,4634)-ua(Nf,1769)return uc[Mc]end;jc=uc[6764]or Xd(6764,94802,28551)repeat if jc>=33972 then if jc>=49683 then if jc<58198 then if jc>=53243 then if jc>56449 then if jc<=57022 then if jc>56767 then Db=0;jc,df,bf,le=42505,1,9,5 elseif jc>56522 then fa_[8455],jc=le[fa_[64552]+1],uc[-21512]or Xd(-21512,45784,900)else if(Jd==5)then jc=uc[-14533]or Xd(-14533,82188,28796)continue else jc=uc[25594]or Xd(25594,59016,34608)continue end jc=uc[-14969]or Xd(-14969,52813,18411)end else jc,td=uc[30020]or Xd(30020,21362,18121),y''continue end elseif jc<=54492 then if jc<=53834 then if jc>53243 then fa_[8455],jc=le[fa_[192]+1],uc[25600]or Xd(25600,88162,43466)else if(le>=0 and oa>Db)or((le<0 or le~=le)and oa<Db)then jc=9137 else jc=18841 end end else Ef=Ef+fa_;Jd=Ef if Ef~=Ef then jc=uc[22082]or Xd(22082,51429,28001)else jc=59788 end end elseif jc<=54570 then oa=oa+le;bf=oa if oa~=oa then jc=9137 else jc=53243 end else vc=fa_[192];td,U=Pc(vc,30),Ea(Pc(vc,20),1023);fa_[8455]=le[U+1];fa_[26195]=td if td==2 then jc=uc[9843]or Xd(9843,54730,9465)continue elseif td==3 then jc=uc[-4870]or Xd(-4870,53219,19076)continue end jc=uc[-24670]or Xd(-24670,41863,4257)end elseif jc<52050 then if jc<51678 then if jc>49683 then jc,Od=8117,nil else yd=Bc(p('\127','='),ub,Qd);jc,Qd=uc[28134]or Xd(28134,31468,22587),Qd+1 end elseif jc>51678 then td,jc=y(nil),6522 else le=le+df;Ef=le if le~=le then jc=uc[-24232]or Xd(-24232,73081,57297)else jc=uc[-30935]or Xd(-30935,110973,62607)end end elseif jc<=53118 then if jc<=52948 then if jc>52050 then if(Ef>=0 and bf>df)or((Ef<0 or Ef~=Ef)and bf<df)then jc=47317 else jc=48004 end else gc=Bc(p('\132\241\140','\184'),ub,Qd);jc,Qd=19126,Qd+4 end else jc,td=uc[10215]or Xd(10215,15956,11759),y(Od)continue end else U=0;jc,Od,Da,Kd=uc[-31912]or Xd(-31912,36182,24626),106,1,102 end elseif jc<=63165 then if jc<59788 then if jc>59092 then jc=uc[1433]or Xd(1433,57767,47995)continue elseif jc<=58690 then if jc>58198 then jc,td=uc[-15398]or Xd(-15398,60800,57198),nil else jc,Xa,ga=uc[16695]or Xd(16695,54877,1245),Md,nil end else jc,td=43444,y(_a(U,781574209))continue end elseif jc<61233 then if jc<=59788 then if(fa_>=0 and Ef>gc)or((fa_<0 or fa_~=fa_)and Ef<gc)then jc=uc[1303]or Xd(1303,77371,51779)else jc=uc[1342]or Xd(1342,21382,11008)end else Xb=Xb+oa;Db=Xb if Xb~=Xb then jc=uc[-14039]or Xd(-14039,40661,28654)else jc=37983 end end elseif jc>=62248 then if jc>62248 then Od=Od+G;vb=Od if Od~=Od then jc=uc[-24018]or Xd(-24018,85608,60094)else jc=40568 end else gc=bf if df~=df then jc=19575 else jc=uc[1846]or Xd(1846,55673,16811)end end else Kd[58619]=Ea(Pc(gc,8),255);Od=Ea(Pc(gc,16),65535);Kd[53451]=Od;Da=nil;Da=if Od<32768 then Od else Od-65536;Kd[64552],jc=Da,uc[6169]or Xd(6169,83628,44065)end elseif jc<64100 then if jc<=63624 then if jc<=63355 then if jc<=63194 then af,jc=nil,uc[-20131]or Xd(-20131,85594,56989)else Ef,jc=nil,52050 end else bf=oa if Db~=Db then jc=9137 else jc=uc[10875]or Xd(10875,85418,35164)end end else jc,fa_[8455]=uc[30465]or Xd(30465,98219,54453),le[fa_[54935]+1]end elseif jc<64428 then if jc<=64100 then od=Bc(p('=','\127'),ub,Qd);jc,Qd=34927,Qd+1 else jc,af=uc[-31522]or Xd(-31522,77865,26128),_a(F,90)continue end elseif jc<=64428 then if(Jd==7)then jc=uc[-27263]or Xd(-27263,114834,57175)continue else jc=uc[-15236]or Xd(-15236,95244,36773)continue end jc=uc[-25348]or Xd(-25348,84380,50904)else gc=bf if df~=df then jc=uc[29761]or Xd(29761,100642,58506)else jc=52948 end end elseif jc>40365 then if jc<43502 then if jc<42432 then if jc<=42182 then if jc<41299 then if(G>=0 and Od>Da)or((G<0 or G~=G)and Od<Da)then jc=uc[18004]or Xd(18004,87151,53427)else jc=uc[-24533]or Xd(-24533,56122,47601)end elseif jc<=41299 then fa_=gc;Db=Mb(Db,Ne(Ea(fa_,127),(Ef-5)*7))if not Lb(fa_,128)then jc=uc[20779]or Xd(20779,97320,32914)continue end jc=uc[28658]or Xd(28658,103826,47939)else if(Jd>=0 and gc>fa_)or((Jd<0 or Jd~=Jd)and gc<fa_)then jc=4091 else jc=uc[-10475]or Xd(-10475,66798,46712)end end else td,jc=U,uc[-2338]or Xd(-2338,40701,36644)continue end elseif jc>=43352 then if jc>43352 then jc,vc=uc[-3667]or Xd(-3667,50933,26223),la(td[1],1,td[2])else jc,Od=uc[9147]or Xd(9147,91128,42125),Da continue end elseif jc<=42432 then Kd=Ea(Pc(vc,10),1023);fa_[24376],jc=le[Kd+1],uc[-3524]or Xd(-3524,100629,63827)else Ef=le if bf~=bf then jc=uc[-14511]or Xd(-14511,80760,62942)else jc=uc[-29151]or Xd(-29151,83001,41931)end end elseif jc<47900 then if jc>=45713 then if jc>45713 then df,jc,Ef,bf=(Ub)+36,62248,1,37 else Se,jc=df,uc[-12463]or Xd(-12463,103206,43771)end elseif jc<=43502 then if(U)then jc=uc[-20529]or Xd(-20529,110553,62234)continue else jc=uc[30332]or Xd(30332,44855,37140)continue end jc=uc[13415]or Xd(13415,8650,2121)else if(df>=0 and le>bf)or((df<0 or df~=df)and le<bf)then jc=uc[-15723]or Xd(-15723,61043,49367)else jc=34809 end end elseif jc>48007 then F,Md,jc=af,nil,uc[20249]or Xd(20249,65432,58264)elseif jc>=48004 then if jc>48004 then vb,jc=nil,uc[30075]or Xd(30075,112122,43925)else jc,fa_=uc[28298]or Xd(28298,60694,58259),nil end else jc,td=53162,y(nil)end elseif jc<37260 then if jc<34757 then if jc<=34095 then if jc>=34046 then if jc<=34046 then jc=uc[-27270]or Xd(-27270,88975,57235)continue else Db=Xb if Se~=Se then jc=uc[-4208]or Xd(-4208,18669,12742)else jc=uc[-29251]or Xd(-29251,71814,28884)end end else jc,od=uc[-3451]or Xd(-3451,50678,15025),_a(k,90)continue end else Db=oa;le=na(Db);jc,Ef,df,bf=64568,1,(Db)+67,68 end elseif jc<=34927 then if jc<34809 then jc,fa_=uc[-24658]or Xd(-24658,10351,5858),_a(Jd,90)continue elseif jc<=34809 then gc,jc=nil,uc[-9513]or Xd(-9513,66684,42797)else jc,vb=uc[-427]or Xd(-427,83902,51934),_a(od,90)continue end elseif jc>35181 then fa_=Xb[(gc-36)];Jd=fa_[48887]if(Jd==9)then jc=uc[-15439]or Xd(-15439,20427,8197)continue else jc=uc[-10150]or Xd(-10150,50250,37747)continue end jc=uc[15630]or Xd(15630,41880,4292)else od=vb;U=Mb(U,Ne(Ea(od,127),(G-102)*7))if not Lb(od,128)then jc=uc[-23764]or Xd(-23764,18594,8522)continue end jc=uc[29247]or Xd(29247,15669,2156)end elseif jc>=38078 then if jc>39828 then if jc<=39999 then le,jc=_a(bf,90),40365 continue else bf=le;Ub=Mb(Ub,Ne(Ea(bf,127),(Db-34)*7))if(not Lb(bf,128))then jc=uc[-13623]or Xd(-13623,32657,6277)continue else jc=uc[25395]or Xd(25395,116787,60894)continue end jc=uc[10726]or Xd(10726,127542,63443)end elseif jc<39765 then fa_[8455],jc=le[fa_[58619]+1],uc[9216]or Xd(9216,36453,1987)elseif jc<=39765 then bf=bf+Ef;gc=bf if bf~=bf then jc=uc[-23409]or Xd(-23409,60752,46138)else jc=uc[27016]or Xd(27016,88034,51006)end else k=od;Kd=Mb(Kd,Ne(Ea(k,127),(vb-82)*7))if(not Lb(k,128))then jc=uc[17601]or Xd(17601,91852,59697)continue else jc=uc[9338]or Xd(9338,91653,31627)continue end jc=uc[28087]or Xd(28087,90126,32190)end elseif jc<=37882 then if jc>37420 then df=0;gc,fa_,Ef,jc=143,1,139,313 elseif jc<=37260 then Kd,Od=Ea(Pc(vc,10),1023),Ea(Pc(vc,0),1023);fa_[24376]=le[Kd+1];jc,fa_[63055]=uc[-30636]or Xd(-30636,81663,38777),le[Od+1]else vb=Od if Da~=Da then jc=uc[1974]or Xd(1974,56726,22936)else jc=40568 end end else if(oa>=0 and Xb>Se)or((oa<0 or oa~=oa)and Xb<Se)then jc=uc[7518]or Xd(7518,58201,52114)else jc=6394 end end elseif jc<=13648 then if jc>=7964 then if jc>9747 then if jc<12494 then if jc<11363 then if jc<=10858 then Jd=fa_ if(Jd==4)then jc=uc[7261]or Xd(7261,79611,28460)continue else jc=uc[6493]or Xd(6493,71931,45588)continue end jc=uc[-20283]or Xd(-20283,73586,40470)else Ub=Fb;Xb,Se=na(Ub),false;oa,jc,le,Db=61,63624,1,(Ub)+60 end elseif jc>11363 then fa_[8455],jc=le[fa_[17726]+1],uc[-29495]or Xd(-29495,68957,34075)else Od,jc=_a(Da,167147694),17496 continue end elseif jc<13077 then if jc<=12494 then td=Bc(p('\170','\232'),ub,Qd);jc,Qd=27171,Qd+1 else yd,Fb,jc=ga,nil,9509 end elseif jc<=13077 then jc=uc[-13863]or Xd(-13863,81522,17277)continue else gc,jc=_a(fa_,90),41299 continue end elseif jc>=9137 then if jc>=9509 then if jc>9520 then U=Bc(p('\148\204','\168'),ub,Qd);Qd,jc=Qd+8,uc[19225]or Xd(19225,53496,6958)elseif jc<=9509 then Ub=0;jc,Se,Xb,oa=34095,38,34,1 else jc,df=45713,U continue end elseif jc<=9137 then oa,jc=nil,uc[-6042]or Xd(-6042,96587,35450)else Fb,jc=_a(Ub,781574209),10950 continue end elseif jc<=8362 then if jc>=8117 then if jc<=8117 then Da=Bc(p('\217\172\209','\229'),ub,Qd);Qd,jc=Qd+4,uc[-20385]or Xd(-20385,41096,32966)else Kd=Kd+Da;G=Kd if Kd~=Kd then jc=uc[-11229]or Xd(-11229,122519,58192)else jc=1122 end end else fa_[8455],jc=ka(fa_[192],0,16),uc[-29678]or Xd(-29678,100611,63789)end elseif jc<=8606 then Kd=0;Od,jc,G,Da=82,uc[218]or Xd(218,35739,444),1,86 else Kd[58619]=Ea(Pc(gc,8),255);Kd[17726]=Ea(Pc(gc,16),255);Kd[54935],jc=Ea(Pc(gc,24),255),uc[-31551]or Xd(-31551,81746,34227)end elseif jc<=2596 then if jc<=2065 then if jc>794 then if jc<=1122 then if(Da>=0 and Kd>Od)or((Da<0 or Da~=Da)and Kd<Od)then jc=uc[8270]or Xd(8270,93276,37275)else jc=48007 end else Xa=Bc(p('q','3'),ub,Qd);jc,Qd=uc[-8795]or Xd(-8795,68124,44367),Qd+1 end elseif jc<=328 then if jc<=313 then Jd=Ef if gc~=gc then jc=uc[19046]or Xd(19046,87222,53724)else jc=59788 end else jc,vc=uc[9739]or Xd(9739,28438,3658),la(td[1],1,td[2])end else jc,vc=uc[12702]or Xd(12702,78067,43113),td end elseif jc>=2568 then if jc>2568 then jc,ga=12767,_a(yd,90)continue else od,jc=nil,uc[-24715]or Xd(-24715,17043,15802)end elseif jc<=2319 then Kd=U if(Kd==0)then jc=uc[-22546]or Xd(-22546,86632,22537)continue else jc=uc[7377]or Xd(7377,11879,6209)continue end jc=uc[-26619]or Xd(-26619,14921,2096)else td=vc;df=Mb(df,Ne(Ea(td,127),(Jd-139)*7))if(not Lb(td,128))then jc=uc[-25103]or Xd(-25103,26731,3082)continue else jc=uc[-8486]or Xd(-8486,100592,49383)continue end jc=uc[-20235]or Xd(-20235,52904,319)end elseif jc>=6522 then if jc<6546 then if jc>6522 then gc=gc+Jd;vc=gc if gc~=gc then jc=4091 else jc=42182 end else jc,U=uc[28390]or Xd(28390,67698,65059),nil end elseif jc<=6546 then Jd=Bc(p('\\','\30'),ub,Qd);jc,Qd=34757,Qd+1 else Od,jc=nil,uc[-16710]or Xd(-16710,66453,38092)end elseif jc>5430 then jc,le=31654,nil elseif jc<5043 then return{[6551]=Xa,[49135]='',[45394]=Xb,[16042]=yd,[15016]=F,[3221]=Ef}elseif jc>5043 then k=Bc(p('\127','='),ub,Qd);Qd,jc=Qd+1,uc[-30462]or Xd(-30462,63423,26136)else vc,jc=nil,12494 end elseif jc<=27171 then if jc>=19316 then if jc>20255 then if jc>=26211 then if jc<=26211 then jc,Ef[(vc-121)]=uc[-1597]or Xd(-1597,55874,43059),Ee()else jc,vc=2380,_a(td,90)continue end elseif jc<=21988 then if Jd==1 then jc=uc[28940]or Xd(28940,120468,55717)continue elseif(Jd==6)then jc=uc[1674]or Xd(1674,61209,46762)continue else jc=uc[-2062]or Xd(-2062,60072,43991)continue end jc=uc[-12137]or Xd(-12137,27584,920)else gc=Ef;fa_=Ea(gc,255);Jd=Ed[61434][fa_+1];vc,td,U=Jd[1],Jd[2],Jd[3];Kd={[54935]=0,[45712]=0,[192]=0,[17726]=0,[26195]=0,[58619]=0,[15694]=fa_,[64552]=0,[8455]=0,[48887]=td,[53451]=0,[44539]=0,[63055]=0,[24376]=0,[243]=nil};tb(Xb,Kd)if vc==3 then jc=uc[2374]or Xd(2374,111370,46902)continue elseif vc==7 then jc=uc[22880]or Xd(22880,55918,20623)continue elseif vc==8 then jc=uc[-18699]or Xd(-18699,28346,24496)continue end jc=43502 end elseif jc<19648 then if jc>19316 then jc,bf=uc[9891]or Xd(9891,82145,47592),nil else if(Jd==3)then jc=uc[-3080]or Xd(-3080,104176,48219)continue else jc=uc[-3041]or Xd(-3041,52882,28406)continue end jc=uc[-8538]or Xd(-8538,27580,980)end elseif jc<19711 then vc,jc=nil,uc[26411]or Xd(26411,36977,2283)elseif jc>19711 then jc=uc[31538]or Xd(31538,53119,49012)continue else df,jc=nil,uc[21902]or Xd(21902,123307,64223)end elseif jc>16566 then if jc<18841 then Da=Od;Kd[192]=Da;tb(Xb,{});jc=uc[3153]or Xd(3153,22517,9814)elseif jc>18841 then jc,Ef=22052,_a(gc,167147694)continue else if Se then jc=uc[-14102]or Xd(-14102,79710,48697)continue else jc=uc[29895]or Xd(29895,32890,17288)continue end jc=uc[21726]or Xd(21726,106547,55830)end elseif jc<14449 then if jc>13867 then fa_[8455]=le[ka(fa_[192],0,24)+1];jc,fa_[44539]=uc[-22476]or Xd(-22476,52853,18419),ka(fa_[192],31,1)==1 else jc,oa=34661,_a(Db,781574209)continue end elseif jc<=15436 then if jc>14449 then vc=gc if fa_~=fa_ then jc=uc[-23022]or Xd(-23022,73386,64092)else jc=42182 end else G=Kd if Od~=Od then jc=uc[-22269]or Xd(-22269,100036,43235)else jc=1122 end end else if(Jd==10)then jc=uc[29679]or Xd(29679,71306,26939)continue else jc=uc[-5401]or Xd(-5401,106107,38492)continue end jc=uc[31219]or Xd(31219,59218,24346)end elseif jc<29858 then if jc>28699 then if jc>29369 then jc,le[(gc-67)]=uc[19347]or Xd(19347,65469,32260),vc elseif jc>29198 then if Jd==0 then jc=uc[-31362]or Xd(-31362,102087,47607)continue elseif Jd==1 then jc=uc[-32085]or Xd(-32085,55654,40406)continue elseif Jd==4 then jc=uc[12340]or Xd(12340,88937,53105)continue elseif Jd==3 then jc=uc[-3632]or Xd(-3632,61385,55390)continue elseif Jd==6 then jc=uc[-23000]or Xd(-23000,122341,64348)continue end jc=uc[21155]or Xd(21155,42377,6871)else Od,Da=Ea(Pc(gc,8),16777215),nil;Da=if Od<8388608 then Od else Od-16777216;jc,Kd[45712]=uc[15064]or Xd(15064,111601,61716),Da end elseif jc>28535 then if jc<=28558 then jc=uc[1309]or Xd(1309,75684,49326)continue else jc,U=2319,_a(Kd,781574209)continue end elseif jc>=27764 then if jc>27764 then bf,jc=_a(df,781574209),uc[8392]or Xd(8392,51415,23425)continue else Se,jc=false,uc[4008]or Xd(4008,64787,7990)end else Md,jc=_a(Xa,90),58198 continue end elseif jc>=32618 then if jc>=33740 then if jc<=33740 then F=Bc(p('\165','\231'),ub,Qd);Qd,jc=Qd+1,uc[-25522]or Xd(-25522,81248,13046)else if(Ef>=0 and bf>df)or((Ef<0 or Ef~=Ef)and bf<df)then jc=19575 else jc=uc[17199]or Xd(17199,61193,28022)end end elseif jc>32618 then fa_[8455],jc=le[fa_[45712]+1],uc[-9341]or Xd(-9341,54863,12265)else Da=Bc(p('\31','|')..Kd,ub,Qd);jc,Qd=uc[-6710]or Xd(-6710,49352,12179),Qd+Kd end elseif jc<31654 then if jc<=29858 then fa_=Bc(p('\194','\128'),ub,Qd);jc,Qd=uc[16660]or Xd(16660,30732,12847),Qd+1 else bf=bf+Ef;gc=bf if bf~=bf then jc=uc[17483]or Xd(17483,73764,32640)else jc=uc[6127]or Xd(6127,79641,20678)end end elseif jc>31654 then df=bf;Ef=na(df);Jd,gc,fa_,jc=1,122,(df)+121,15436 else bf=Bc(p('\133','\199'),ub,Qd);jc,Qd=39999,Qd+1 end until jc==36949 end local c=Ee();Ed[46314][ub]=c return c end)local hd=(function(zb,Dd)zb=He(zb)local Ae=Vd()local function Bb(kb,Me)local va=(function(...)return{...},qa('#',...)end)local _c;_c=(function(lf,Yd,sd)if Yd>sd then return end return lf[Yd],_c(lf,Yd+1,sd)end)local function Fe(Ra,Qf,Sb,O)local Rd,ea,eb,_b,Cf,vd,Ld,Sa,Ec,ma,r_,da,Of,de,pa,Hb,l_,Rc,re_,ha,Qa,Ke,xb,Sd;ea,pa={},function(nd,q,Ie)ea[Ie]=ua(nd,23580)-ua(q,65332)return ea[Ie]end;r_=ea[-29900]or pa(32970,47411,-29900)repeat if r_<33070 then if r_<14799 then if r_<7418 then if r_<=3184 then if r_<=2221 then if r_<1374 then if r_>=511 then if r_<716 then Cf,Qa=Rd[58619],Rd[17726];xb=Qa-1 if xb==-1 then r_=ea[-22802]or pa(128105,18213,-22802)continue else r_=ea[-24065]or pa(90081,56888,-24065)continue end r_=ea[5535]or pa(39867,54575,5535)elseif r_>716 then Qa,xb,_b=Cf[p('\253B\165\214x\190','\162\29\204')](Qa);r_=ea[-30935]or pa(110591,2544,-30935)else if ma>143 then r_=ea[22868]or pa(102470,12092,22868)continue else r_=ea[24322]or pa(92991,9583,24322)continue end r_=ea[-17901]or pa(44126,52031,-17901)end elseif r_>90 then r_,Ra[Rd[17726]]=ea[2561]or pa(93802,35083,2561),_b else if(_b<=Qa)then r_=ea[6057]or pa(117937,22601,6057)continue else r_=ea[20784]or pa(44633,51514,20784)continue end r_=ea[12856]or pa(87480,45657,12856)end elseif r_<=1431 then if r_>1402 then if(ma>207)then r_=ea[20967]or pa(67698,34118,20967)continue else r_=ea[23672]or pa(49973,32316,23672)continue end r_=ea[-24442]or pa(82932,40069,-24442)elseif r_>1374 then if ma>92 then r_=ea[559]or pa(58522,34065,559)continue else r_=ea[7505]or pa(2557,55224,7505)continue end r_=ea[22756]or pa(46017,52370,22756)else Cf=ba(Qa)if(Cf~=nil and Cf[p(';\19%\16)>','dLL')]~=nil)then r_=ea[11530]or pa(34083,16145,11530)continue else r_=ea[30646]or pa(94711,38203,30646)continue end r_=ea[-22241]or pa(127857,16116,-22241)end elseif r_<=2019 then Ld=Ld+da;Ke=Ld if Ld~=Ld then r_=ea[2400]or pa(54297,49504,2400)else r_=39577 end else _b,r_=nil,43036 end elseif r_<3063 then if r_>=2952 then if r_<=2952 then if(ma>149)then r_=ea[-2739]or pa(125616,5084,-2739)continue else r_=ea[-28234]or pa(46710,64749,-28234)continue end r_=ea[-23365]or pa(88001,45202,-23365)else if ma>21 then r_=ea[-29344]or pa(56573,62169,-29344)continue else r_=ea[1237]or pa(84411,25566,1237)continue end r_=ea[-30334]or pa(117967,11176,-30334)end elseif r_>2394 then Ra[Rd[58619]],r_=Ra[Rd[17726]],ea[26206]or pa(86550,44775,26206)else ha+=1;r_=ea[-20815]or pa(124859,68,-20815)end elseif r_<=3169 then if r_>3153 then if(not(Ld<=Qa))then r_=ea[-715]or pa(13890,50338,-715)continue else r_=ea[10429]or pa(33005,57230,10429)continue end r_=ea[-17872]or pa(38631,61936,-17872)elseif r_<=3063 then ha+=1;r_=ea[792]or pa(89796,47509,792)else Cf=Me[Rd[17726]+1];r_,Cf[3][Cf[2]]=ea[24866]or pa(44983,51264,24866),Ra[Rd[58619]]end else r_,xb=ea[-28211]or pa(45349,38593,-28211),Sd-Qa+1 end elseif r_>4835 then if r_>6426 then if r_<=7281 then if r_>6614 then Cf=Rd[58619];Qa,xb=Ra[Cf],Ra[Cf+1];_b=Ra[Cf+2]+xb;Ra[Cf+2]=_b if(xb>0)then r_=ea[6852]or pa(59220,17882,6852)continue else r_=ea[-13931]or pa(70929,25639,-13931)continue end r_=ea[5127]or pa(33664,56401,5127)else ha+=Rd[64552];r_=ea[-13053]or pa(79467,20852,-13053)end else if(ma>55)then r_=ea[18581]or pa(86245,43307,18581)continue else r_=ea[1154]or pa(70658,2408,1154)continue end r_=ea[20770]or pa(91936,32817,20770)end elseif r_>=5495 then if r_>5495 then Qa,xb,_b=Cf[p('\229\217\158\206\227\133','\186\134\247')](Qa);r_=ea[2479]or pa(74676,28367,2479)else if Rd[54935]==11 then r_=ea[-31971]or pa(42007,33232,-31971)continue elseif Rd[54935]==18 then r_=ea[14052]or pa(61077,23630,14052)continue elseif Rd[54935]==180 then r_=ea[9827]or pa(104122,3509,9827)continue elseif(Rd[54935]==187)then r_=ea[-556]or pa(119932,5116,-556)continue else r_=ea[28463]or pa(84457,14073,28463)continue end r_=ea[-12023]or pa(129899,5236,-12023)end elseif r_<=4836 then r_,Ra[Rd[17726]]=ea[14950]or pa(128748,4493,14950),Ra[Rd[54935]]/Rd[8455]else Le'';r_=ea[-14571]or pa(87604,32819,-14571)end elseif r_>=3855 then if r_>=4418 then if r_<4520 then ha-=1;Sb[ha],r_={[15694]=66,[58619]=_a(Rd[58619],245),[17726]=_a(Rd[17726],199),[54935]=0},ea[-20023]or pa(129014,4231,-20023)elseif r_>4520 then Cf=Rd[8455];Ra[Rd[58619]][Cf]=Ra[Rd[17726]];ha+=1;r_=ea[25885]or pa(116159,8792,25885)else de=de+re_;Ld=de if de~=de then r_=ea[355]or pa(1635,42908,355)else r_=45346 end end elseif r_>3855 then ha-=1;r_,Sb[ha]=ea[21504]or pa(94409,36778,21504),{[15694]=208,[58619]=_a(Rd[58619],168),[17726]=_a(Rd[17726],241),[54935]=0}else ha-=1;Sb[ha],r_={[15694]=244,[58619]=_a(Rd[58619],142),[17726]=_a(Rd[17726],59),[54935]=0},ea[1831]or pa(96519,38864,1831)end elseif r_>=3662 then if r_>3662 then Sd,r_=Cf+re_-1,ea[-13273]or pa(4918,62355,-13273)else Sa=Ke[17726];Of=eb[Sa]if(Of==nil)then r_=ea[-21275]or pa(52142,35246,-21275)continue else r_=ea[-18744]or pa(116012,23698,-18744)continue end r_=62858 end elseif r_<=3404 then if(ma>107)then r_=ea[-6995]or pa(128134,6822,-6995)continue else r_=ea[27374]or pa(98649,3756,27374)continue end r_=ea[10807]or pa(40955,63620,10807)else xb=Sb[ha+Rd[64552]]if Ec[xb]==nil then r_=ea[-11429]or pa(46024,58155,-11429)continue end r_=ea[-4965]or pa(50821,60059,-4965)end elseif r_<=10321 then if r_<=9653 then if r_>8472 then if r_<9345 then if r_<=8986 then Cf[8455]=Qa;Rd[15694],r_=140,ea[-9526]or pa(73474,31187,-9526)else _b..=Ra[Ld];r_=ea[29059]or pa(26435,54915,29059)end elseif r_>9345 then Cf=Rd[58619];Qa,xb=Ra[Cf],nil;_b=Qa;xb=wb(_b)==p('\149C\130\153S\157','\251\54\239')if not xb then r_=ea[-3081]or pa(60015,46465,-3081)continue end r_=49754 else if(ma>22)then r_=ea[21623]or pa(114811,16938,21623)continue else r_=ea[22163]or pa(38939,58255,22163)continue end r_=ea[-31077]or pa(87124,45861,-31077)end elseif r_<=8273 then if r_>=7713 then if r_>7713 then de,r_=de..fe(_a(xe(xb,(vd-98)+1),xe(_b,(vd-98)%#_b+1))),ea[-14539]or pa(63362,57957,-14539)else if ma>204 then r_=ea[-3233]or pa(41516,40219,-3233)continue else r_=ea[22198]or pa(50892,42749,22198)continue end r_=ea[12426]or pa(79060,21413,12426)end elseif r_>7418 then Ra[Cf+2]=Ke;r_,Ld=ea[23809]or pa(37724,53585,23809),Ke else if(Cf==3)then r_=ea[6786]or pa(36989,21694,6786)continue else r_=ea[24719]or pa(74020,25889,24719)continue end r_=ea[18260]or pa(68050,36255,18260)end elseif r_<=8407 then _b,r_=nil,ea[-30392]or pa(78363,22284,-30392)else Of={[2]=Sa,[3]=Ra};r_,eb[Sa]=ea[12888]or pa(76018,32848,12888),Of end elseif r_<10097 then if r_<9796 then if r_<=9758 then Ra[Rd[58619]],r_=#Ra[Rd[17726]],ea[17958]or pa(46232,54137,17958)else ha+=Rd[64552];r_=ea[13115]or pa(69426,27075,13115)end elseif r_>9796 then if(ma>225)then r_=ea[12725]or pa(53117,60702,12725)continue else r_=ea[-3706]or pa(117324,12559,-3706)continue end r_=ea[-4151]or pa(91826,33091,-4151)else Sa={[1]=Ra[Ke[17726]],[2]=1};Sa[3]=Sa;r_,Rc[(da-222)]=ea[-29894]or pa(118411,26620,-29894),Sa end elseif r_<10272 then if r_<=10097 then if(vd>=0 and re_>Ld)or((vd<0 or vd~=vd)and re_<Ld)then r_=ea[-14176]or pa(38515,47310,-14176)else r_=ea[32734]or pa(118090,16359,32734)end else Cf=Me[Rd[17726]+1];Ra[Rd[58619]],r_=Cf[3][Cf[2]],ea[-28453]or pa(86357,44582,-28453)end elseif r_>10272 then Ke=s_(Ld)if(Ke==nil)then r_=ea[-1711]or pa(46274,30418,-1711)continue else r_=ea[-25740]or pa(88489,5896,-25740)continue end r_=ea[-29346]or pa(83002,1433,-29346)else ha+=Rd[64552];r_=ea[5200]or pa(119859,13516,5200)end elseif r_<=12112 then if r_<11915 then if r_>11605 then if ma>208 then r_=ea[28297]or pa(10598,47863,28297)continue else r_=ea[-10326]or pa(29575,54576,-10326)continue end r_=ea[-1893]or pa(80086,22439,-1893)elseif r_>11323 then if ma>91 then r_=ea[1471]or pa(42088,11659,1471)continue else r_=ea[-10369]or pa(58066,51889,-10369)continue end r_=ea[947]or pa(94061,34830,947)elseif r_>10769 then _b=Ra[Cf];de,r_,re_,Rc=Cf+1,22544,1,Qa else r_,Ra[Rd[17726]]=ea[6217]or pa(69687,28864,6217),Rd[8455]-Ra[Rd[58619]]end elseif r_>12022 then if r_>12032 then Cf=ba(Qa)if(Cf~=nil and Cf[p('\224\223\173\203\229\182','\191\128\196')]~=nil)then r_=ea[31603]or pa(21498,62585,31603)continue else r_=ea[-3120]or pa(55406,56503,-3120)continue end r_=ea[-6039]or pa(121989,31822,-6039)else r_,Qa=8986,de continue end elseif r_>11976 then r_,Ra[Rd[58619]]=ea[-17540]or pa(11520,52469,-17540),xb elseif r_>11915 then ha+=Rd[64552];r_=ea[-5313]or pa(70455,28096,-5313)else Cf,Qa,xb=Rd[8455],Rd[44539],Ra[Rd[58619]]if((xb==Cf)~=Qa)then r_=ea[19796]or pa(50001,34330,19796)continue else r_=ea[28733]or pa(62510,50020,28733)continue end r_=ea[-10616]or pa(75783,18640,-10616)end elseif r_>13200 then if r_<=13683 then if r_>13387 then ha+=1;r_=ea[-2665]or pa(33758,56511,-2665)else if ma>240 then r_=ea[-27023]or pa(51377,48826,-27023)continue else r_=ea[14743]or pa(36847,35625,14743)continue end r_=ea[940]or pa(130014,5311,940)end else Rc[1]=Rc[3][Rc[2]];Rc[3]=Rc;Rc[2]=1;r_,eb[de]=ea[-8263]or pa(120633,12155,-8263),nil end elseif r_>12983 then if r_>13009 then r_,re_=ea[-14553]or pa(60374,35443,-14553),xb-1 else r_,Rc[(da-222)]=ea[11824]or pa(84279,58472,11824),Me[Ke[17726]+1]end elseif r_<12576 then Qa,xb,_b=eb if(Gd(Qa)~=p('\b\56W\232\26$V\229','nM9\139'))then r_=ea[17400]or pa(118617,25749,17400)continue else r_=ea[18401]or pa(37988,62102,18401)continue end r_=ea[26307]or pa(97256,37418,26307)elseif r_>12576 then r_,xb[(re_-148)]=ea[-31338]or pa(97485,26339,-31338),Me[Ld[17726]+1]else ha+=Rd[64552];r_=ea[32575]or pa(46508,53837,32575)end elseif r_<=23752 then if r_<=18970 then if r_<=17080 then if r_>=15979 then if r_>16821 then if r_<=17027 then oc(Rc,1,re_,Cf,Ra);r_=ea[-5190]or pa(79882,22763,-5190)else ha+=Rd[64552];r_=ea[-1236]or pa(96839,38160,-1236)end elseif r_<=16647 then if r_>15979 then Cf,Qa=Rd[58619],Rd[54935];xb,_b=ta(wf,Ra,'',Cf,Qa)if not xb then r_=ea[25031]or pa(96479,1980,25031)continue end r_=471 else Rd=Sb[ha];ma,r_=Rd[15694],ea[24167]or pa(9519,58576,24167)end else if(ma>151)then r_=ea[5952]or pa(44298,45546,5952)continue else r_=ea[31875]or pa(104385,5883,31875)continue end r_=ea[-18126]or pa(81125,23542,-18126)end elseif r_<=15707 then if r_<14986 then Qa=O[14461];Sd,r_=Cf+Qa-1,ea[28565]or pa(42482,20704,28565)elseif r_>14986 then ha+=1;r_=ea[12889]or pa(129349,5654,12889)else ha+=1;r_=ea[31943]or pa(94693,36598,31943)end elseif r_<=15869 then Ra[Rd[54935]],r_=Ra[Rd[58619]][Ra[Rd[17726]]],ea[-9804]or pa(126598,2391,-9804)else Cf,Qa,xb=Rd[17726],Rd[58619],Rd[8455];_b=Ra[Qa];Ra[Cf+1]=_b;Ra[Cf]=_b[xb];ha+=1;r_=ea[18370]or pa(79432,20777,18370)end elseif r_<=18387 then if r_>=18221 then if r_>=18327 then if r_<=18327 then if(Ld>=0 and Rc>re_)or((Ld<0 or Ld~=Ld)and Rc<re_)then r_=ea[645]or pa(38989,27237,645)else r_=8273 end else Ra[Rd[58619]][Ra[Rd[54935]]],r_=Ra[Rd[17726]],ea[4639]or pa(58069,64934,4639)end else re_,r_=re_..fe(_a(xe(de,(Ke-9)+1),xe(Rc,(Ke-9)%#Rc+1))),ea[14764]or pa(63719,25132,14764)end elseif r_>17952 then Le'';r_=ea[-11310]or pa(46172,39580,-11310)else re_=re_+vd;da=re_ if re_~=re_ then r_=ea[10694]or pa(36956,46847,10694)else r_=10097 end end elseif r_<=18865 then if r_>18665 then _b,r_=re_,46723 continue else Ra[Rd[17726]],r_=Ra[Rd[58619]]+Rd[8455],ea[-10843]or pa(96815,38600,-10843)end else oc(O[32870],1,Qa,Cf,Ra);r_=ea[-12464]or pa(87840,45105,-12464)end elseif r_<20742 then if r_>19496 then if r_<=19620 then if r_<=19602 then da=re_ if Ld~=Ld then r_=ea[31683]or pa(47702,54567,31683)else r_=ea[-17809]or pa(122503,28402,-17809)end else if(ma>56)then r_=ea[9599]or pa(40220,26193,9599)continue else r_=ea[29585]or pa(45143,12357,29585)continue end r_=ea[1597]or pa(48961,55314,1597)end else if(ma>94)then r_=ea[-4173]or pa(35136,30312,-4173)continue else r_=ea[-6425]or pa(89385,34038,-6425)continue end r_=ea[8188]or pa(70450,28099,8188)end elseif r_>19205 then if r_>19456 then r_,Ra[Rd[58619]]=ea[-28119]or pa(117873,11010,-28119),nil else if(ma>112)then r_=ea[-32096]or pa(79042,26808,-32096)continue else r_=ea[-4353]or pa(121632,29083,-4353)continue end r_=ea[6571]or pa(128493,4750,6571)end elseif r_<19172 then Ra[Cf]=de;Qa,r_=de,ea[-12617]or pa(46106,55960,-12617)elseif r_>19172 then Ke=Sb[ha];ha+=1;l_=Ke[58619]if l_==0 then r_=ea[23195]or pa(7,51939,23195)continue elseif(l_==1)then r_=ea[26235]or pa(48741,11039,26235)continue else r_=ea[29820]or pa(48364,46435,29820)continue end r_=ea[-20170]or pa(80532,37773,-20170)else oc(Rc,1,Qa,Cf+3,Ra);Ra[Cf+2]=Ra[Cf+3];ha+=Rd[64552];r_=ea[-17767]or pa(91791,33128,-17767)end elseif r_>22390 then if r_>22885 then Cf,Qa=Rd[26195],Rd[8455];xb=Ae[Qa]or Ed[59374][Qa]if(Cf==1)then r_=ea[-18547]or pa(43127,14913,-18547)continue else r_=ea[6214]or pa(36413,55244,6214)continue end r_=15707 elseif r_<22544 then Qa,xb,_b=Cf[p('\189\54V\150\fM','\226i?')](Qa);r_=ea[-20861]or pa(130984,6122,-20861)elseif r_>22544 then Ra[Rd[54935]],r_=Ra[Rd[58619]]-Rd[8455],ea[-13390]or pa(58262,64615,-13390)else Ld=de if Rc~=Rc then r_=ea[21007]or pa(5844,47045,21007)else r_=45346 end end elseif r_<21279 then if r_<=20742 then ha+=Rd[64552];r_=ea[22902]or pa(76230,18071,22902)else if(Ra[Rd[58619]]==Ra[Rd[192]])then r_=ea[24546]or pa(34995,17901,24546)continue else r_=ea[-2531]or pa(47338,20663,-2531)continue end r_=ea[13731]or pa(45822,52639,13731)end elseif r_<=21364 then if r_>21279 then Qa,xb,_b=a_(Qa);r_=ea[-18218]or pa(110623,4560,-18218)else if(ma>242)then r_=ea[604]or pa(43265,59291,604)continue else r_=ea[-26500]or pa(56753,50926,-26500)continue end r_=ea[7859]or pa(82158,40847,7859)end else Cf,Qa=Rd[58619],Rd[8455];Sd=Cf+6;xb,_b=Ra[Cf],nil;_b=wb(xb)==p('\239\1\233\132\253\29\232\137','\137t\135\231')if _b then r_=ea[-13668]or pa(63956,63820,-13668)continue else r_=ea[-26180]or pa(118865,22748,-26180)continue end r_=ea[-11179]or pa(41012,49349,-11179)end elseif r_<=29428 then if r_<=27582 then if r_<24876 then if r_>=24312 then if r_<=24534 then if r_>24312 then if ma>237 then r_=ea[-18174]or pa(65226,55365,-18174)continue else r_=ea[29740]or pa(92547,51452,29740)continue end r_=ea[8222]or pa(80956,23773,8222)else Le'';r_=ea[1052]or pa(83980,2467,1052)end else if Gd(Qa)==p('g\nq\av','\19k')then r_=ea[-4221]or pa(33799,31635,-4221)continue end r_=ea[15146]or pa(109339,1756,15146)end elseif r_<=23887 then Hb=false;ha+=1 if(ma>133)then r_=ea[-1539]or pa(82842,44528,-1539)continue else r_=ea[11154]or pa(54187,57365,11154)continue end r_=ea[17489]or pa(77780,18597,17489)else if not Ra[Rd[58619]]then r_=ea[-4218]or pa(67951,20672,-4218)continue end r_=ea[-2073]or pa(39283,62988,-2073)end elseif r_<=26276 then if r_<=25037 then if r_>24876 then Cf,Qa,xb=_a(Rd[58619],61),_a(Rd[54935],8),_a(Rd[17726],202);_b,de=Qa==0 and Sd-Cf or Qa-1,Ra[Cf];Rc,re_=va(de(_c(Ra,Cf+1,Cf+_b)))if xb==0 then r_=ea[-6087]or pa(50277,30434,-6087)continue else r_=ea[21290]or pa(49390,38486,21290)continue end r_=ea[-16919]or pa(90865,862,-16919)else Ld=Sb[ha];ha+=1;vd=Ld[58619]if(vd==0)then r_=ea[-14369]or pa(93221,47836,-14369)continue else r_=ea[-9217]or pa(99355,8322,-9217)continue end r_=ea[-12999]or pa(42055,36437,-12999)end else Cf,Qa,xb=Rd[8455],Rd[44539],Ra[Rd[58619]]if(xb==Cf)~=Qa then r_=ea[4298]or pa(77331,26271,4298)continue else r_=ea[9192]or pa(25197,52558,9192)continue end r_=ea[19941]or pa(66729,25418,19941)end elseif r_<=27507 then if ma>153 then r_=ea[-22030]or pa(82883,14670,-22030)continue else r_=ea[11671]or pa(6080,61030,11671)continue end r_=ea[4268]or pa(67222,24935,4268)else de=s_(Qa)if(de==nil)then r_=ea[3939]or pa(65595,6386,3939)continue else r_=ea[-24497]or pa(50409,45430,-24497)continue end r_=19123 end elseif r_<=28359 then if r_>27982 then if r_>28142 then r_,Ra[Rd[58619]]=ea[-19501]or pa(85511,43728,-19501),Ra[Rd[54935]]*Rd[8455]else if Ra[Rd[58619]]==Ra[Rd[192]]then r_=ea[-27481]or pa(81594,9355,-27481)continue else r_=ea[14433]or pa(130708,16716,14433)continue end r_=ea[4838]or pa(127668,3397,4838)end elseif r_<27669 then ha+=1;r_=ea[27502]or pa(120615,12336,27502)elseif r_>27669 then if(ma>39)then r_=ea[17185]or pa(68720,18880,17185)continue else r_=ea[-13380]or pa(48693,17052,-13380)continue end r_=ea[-9041]or pa(35966,60191,-9041)else Ld,vd=Ra[Cf+2],nil;da=Ld;vd=wb(da)==p('Q\174\143]\190\144','?\219\226')if not vd then r_=ea[28371]or pa(63309,31796,28371)continue end r_=ea[27235]or pa(48599,49092,27235)end elseif r_>=29210 then if r_<=29210 then if ma>43 then r_=ea[-25618]or pa(32820,29718,-25618)continue else r_=ea[-20040]or pa(67340,27098,-20040)continue end r_=ea[3350]or pa(88344,47097,3350)else r_,Ra[Rd[58619]]=ea[5876]or pa(86910,44063,5876),Rd[8455]end else if(ma>66)then r_=ea[-31815]or pa(81925,12877,-31815)continue else r_=ea[-6]or pa(57613,45303,-6)continue end r_=ea[28390]or pa(117765,11478,28390)end elseif r_<30909 then if r_<30193 then if r_>29793 then Qa,xb,_b=a_(Qa);r_=ea[20129]or pa(127327,16546,20129)elseif r_<=29474 then if r_<=29440 then ha-=1;r_,Sb[ha]=ea[-6192]or pa(78750,19583,-6192),{[15694]=151,[58619]=_a(Rd[58619],151),[17726]=_a(Rd[17726],93),[54935]=0}else if(da>=0 and Ld>vd)or((da<0 or da~=da)and Ld<vd)then r_=ea[-898]or pa(39910,59588,-898)else r_=ea[-20078]or pa(123257,17143,-20078)end end else Le'';r_=ea[18531]or pa(48892,26393,18531)end elseif r_<=30252 then if r_<30245 then if(ma>216)then r_=ea[-6314]or pa(46635,10336,-6314)continue else r_=ea[-30231]or pa(84279,59427,-30231)continue end r_=ea[-3945]or pa(89624,47865,-3945)elseif r_>30245 then ha+=1;r_=ea[16105]or pa(119110,11799,16105)else Ke=Ld if vd~=vd then r_=ea[-19270]or pa(33204,53930,-19270)else r_=ea[-11301]or pa(96875,19553,-11301)end end else Rc,re_=Qa[63055],Rd[63055];re_=p('e\3','\212')..re_;Ld='';r_,da,vd,Ke=49294,(#Rc-1)+27,27,1 end elseif r_<=32210 then if r_>31575 then if r_<=31589 then if Ra[Rd[58619]]then r_=ea[-29006]or pa(128554,18179,-29006)continue end r_=ea[-5323]or pa(80503,21760,-5323)else ha+=1;r_=ea[-4846]or pa(93820,35101,-4846)end elseif r_<31015 then if(Rd[54935]==149)then r_=ea[27686]or pa(116015,3319,27686)continue else r_=ea[29074]or pa(27217,54189,29074)continue end r_=ea[13367]or pa(67418,24635,13367)elseif r_>31015 then if Rd[54935]==102 then r_=ea[10902]or pa(43391,6933,10902)continue elseif(Rd[54935]==125)then r_=ea[30434]or pa(66561,19638,30434)continue else r_=ea[-9418]or pa(62236,21045,-9418)continue end r_=ea[-26901]or pa(119039,12184,-26901)else ha-=1;Sb[ha],r_={[15694]=214,[58619]=_a(Rd[58619],136),[17726]=_a(Rd[17726],249),[54935]=0},ea[-15303]or pa(69780,28517,-15303)end elseif r_>=32769 then if r_<=32769 then r_,Qa[63055]=ea[30604]or pa(100639,3796,30604),de else if(ma>223)then r_=ea[-19273]or pa(14072,51629,-19273)continue else r_=ea[-28197]or pa(77130,20365,-28197)continue end r_=ea[17871]or pa(97497,39866,17871)end else vd=Rc if re_~=re_ then r_=ea[-9928]or pa(43731,14587,-9928)else r_=18327 end end elseif r_>50140 then if r_<=58384 then if r_<=55034 then if r_<=53379 then if r_<=52387 then if r_>=51221 then if r_<51652 then if Rd[54935]==86 then r_=ea[954]or pa(64266,27335,954)continue elseif(Rd[54935]==145)then r_=ea[-27275]or pa(48405,37181,-27275)continue else r_=ea[10055]or pa(46955,52191,10055)continue end r_=ea[651]or pa(84541,42718,651)elseif r_>51652 then if ma>31 then r_=ea[-17662]or pa(60840,58213,-17662)continue else r_=ea[4446]or pa(35166,35905,4446)continue end r_=ea[-19592]or pa(91803,33124,-19592)else Cf=Ra[Rd[54935]];Ra[Rd[17726]],r_=if Cf then Cf else Rd[8455]or false,ea[1611]or pa(126044,2877,1611)end elseif r_>50639 then if(Ke>=0 and vd>da)or((Ke<0 or Ke~=Ke)and vd<da)then r_=ea[-31892]or pa(126007,7496,-31892)else r_=56203 end elseif r_>50210 then de,Rc=Qa[24376],Rd[24376];Rc=p('\249\159','H')..Rc;re_='';da,r_,Ld,vd=1,30245,214,(#de-1)+214 else if ma>41 then r_=ea[-13176]or pa(52400,50690,-13176)continue else r_=ea[-22388]or pa(83319,59119,-22388)continue end r_=ea[14920]or pa(125891,1180,14920)end elseif r_<=53322 then if r_<=52655 then if r_<=52418 then if(ma>189)then r_=ea[29718]or pa(61900,54251,29718)continue else r_=ea[32082]or pa(11490,53373,32082)continue end r_=ea[3003]or pa(48058,54363,3003)else r_,de=ea[17743]or pa(58285,49284,17743),Ld continue end else if(ma>134)then r_=ea[13503]or pa(89694,61959,13503)continue else r_=ea[-11046]or pa(65323,39438,-11046)continue end r_=ea[14839]or pa(116561,8226,14839)end else Rc,r_=Rc..fe(_a(xe(_b,(da-186)+1),xe(de,(da-186)%#de+1))),ea[-32766]or pa(45597,22741,-32766)end elseif r_<54477 then if r_<=53914 then if r_>=53817 then if r_<=53817 then Ld=s_(de)if(Ld==nil)then r_=ea[8520]or pa(88914,3821,8520)continue else r_=ea[2288]or pa(53609,64864,2288)continue end r_=ea[-592]or pa(43641,38000,-592)else Le'';r_=ea[-13229]or pa(46120,41894,-13229)end else if ma>114 then r_=ea[12959]or pa(42070,30391,12959)continue else r_=ea[29825]or pa(67703,2362,29825)continue end r_=ea[2123]or pa(66692,25429,2123)end else _b=(function(...)for Ga,md,Bd,lb,uf,zd,Qb,xd,ac,_f,Te,fb,Y,Pf,Va,vf,Re,pe,We,ee in...do pb{Ga,md,Bd,lb,uf,zd,Qb,xd,ac,_f,Te,fb,Y,Pf,Va,vf,Re,pe,We,ee}end pb(-2)end);Ec[xb],r_=Uc(_b),ea[-27786]or pa(63743,57549,-27786)end elseif r_<=54699 then if r_<54542 then Cf,Qa=nil,_a(Rd[53451],51083);Cf=if Qa<32768 then Qa else Qa-65536;xb=Cf;Ra[_a(Rd[58619],66)],r_=xb,ea[10435]or pa(76712,17481,10435)elseif r_>54542 then Qa,xb,_b=Ec if(Gd(Qa)~=p('\4\189\55)\22\161\54$','b\200YJ'))then r_=ea[22470]or pa(85713,7241,22470)continue else r_=ea[-23684]or pa(68397,42278,-23684)continue end r_=ea[1276]or pa(105474,15819,1276)else Qa,xb,_b=a_(Qa);r_=ea[-14558]or pa(91397,33143,-14558)end else r_=ea[-23132]or pa(120030,27528,-23132)continue end elseif r_>56525 then if r_<58097 then if r_>57870 then Cf,Qa=nil,_a(Rd[53451],38169);Cf=if Qa<32768 then Qa else Qa-65536;xb=Cf;_b=Qf[xb+1];de=_b[16042];Rc=na(de);Ra[_a(Rd[58619],211)]=Bb(_b,Rc);re_,Ld,r_,vd=223,(de)+222,ea[-24395]or pa(56686,52180,-24395),1 elseif r_>57161 then if ma>145 then r_=ea[13761]or pa(88213,54193,13761)continue else r_=ea[3715]or pa(74190,16453,3715)continue end r_=ea[4170]or pa(73803,16148,4170)elseif r_<=56594 then if(Rc[2]>=Rd[58619])then r_=ea[14202]or pa(5712,61347,14202)continue else r_=ea[-27330]or pa(73738,15988,-27330)continue end r_=ea[30405]or pa(69531,26501,30405)else if(ma>38)then r_=ea[-30782]or pa(128248,11043,-30782)continue else r_=ea[30253]or pa(84747,46400,30253)continue end r_=ea[-13219]or pa(124336,577,-13219)end elseif r_<=58188 then if r_<=58147 then if r_>58097 then Rd[15694]=153;ha+=1;r_=ea[17115]or pa(130912,6257,17115)else _b,r_=Qa-1,ea[8272]or pa(89611,39871,8272)end else if(ma>138)then r_=ea[-27332]or pa(94169,35002,-27332)continue else r_=ea[19762]or pa(89000,51294,19762)continue end r_=ea[16899]or pa(83378,41539,16899)end else ha+=Rd[64552];r_=ea[-11658]or pa(41063,49008,-11658)end elseif r_<=55804 then if r_>55333 then if r_<=55396 then ha+=Rd[64552];r_=ea[-6044]or pa(66388,23589,-6044)else if(Rd[54935]==52)then r_=ea[-23005]or pa(83457,35503,-23005)continue else r_=ea[-18559]or pa(93843,18444,-18559)continue end r_=ea[14426]or pa(85638,43351,14426)end elseif r_>=55300 then if r_<=55300 then if(ma>150)then r_=ea[-3905]or pa(31428,61013,-3905)continue else r_=ea[-12864]or pa(46187,9179,-12864)continue end r_=ea[-31624]or pa(97899,39284,-31624)else ha-=1;Sb[ha],r_={[15694]=82,[58619]=_a(Rd[58619],179),[17726]=_a(Rd[17726],70),[54935]=0},ea[2951]or pa(68192,25969,2951)end else if ma>3 then r_=ea[11743]or pa(43332,61428,11743)continue else r_=ea[-5992]or pa(43875,36456,-5992)continue end r_=ea[4311]or pa(117814,11463,4311)end elseif r_<=56430 then if r_>=56203 then if r_>56203 then if Ra[Rd[58619]]<=Ra[Rd[192]]then r_=ea[-14944]or pa(58415,55772,-14944)continue else r_=ea[16964]or pa(88618,43327,16964)continue end r_=ea[17224]or pa(65553,24802,17224)else r_,Ld=ea[32446]or pa(66509,10946,32446),Ld..fe(_a(xe(Rc,(l_-27)+1),xe(re_,(l_-27)%#re_+1)))end else if not(Qa<=Ld)then r_=ea[-9331]or pa(94954,34016,-9331)continue end r_=ea[-18177]or pa(115281,7458,-18177)end else if(Rc>=0 and _b>de)or((Rc<0 or Rc~=Rc)and _b<de)then r_=ea[-26227]or pa(67083,25300,-26227)else r_=24876 end end elseif r_<61653 then if r_<=59911 then if r_>=59025 then if r_>=59696 then if r_>59802 then Qa[24376]=_b;r_,de=ea[6831]or pa(56202,61353,6831),nil elseif r_<=59696 then ha+=Rd[64552];r_=ea[-23478]or pa(128043,4916,-23478)else Ke=Ld if vd~=vd then r_=ea[16061]or pa(61643,39954,16061)else r_=39577 end end elseif r_>59025 then Hc(Rc);r_,Ec[de]=ea[516]or pa(66559,40432,516),nil else Cf=Qf[Rd[8455]+1];Qa=Cf[16042];xb=na(Qa);Ra[Rd[58619]]=Bb(Cf,xb);_b,de,Rc,r_=149,(Qa)+148,1,ea[-8103]or pa(79490,15964,-8103)end elseif r_<58566 then if r_>58469 then Ra[Rd[54935]]=na(Rd[192]);ha+=1;r_=ea[12964]or pa(74485,15750,12964)else de,Rc=Qc(Ec[Rd],xb,Ra[Cf+1],Ra[Cf+2])if not de then r_=ea[-4119]or pa(122217,25499,-4119)continue end r_=63774 end elseif r_>58566 then Cf=Rd[8455];Ra[Rd[17726]]=Ra[Rd[54935]][Cf];ha+=1;r_=ea[-11499]or pa(130490,6747,-11499)else Le(Rc);r_=ea[3041]or pa(86479,60289,3041)end elseif r_<60845 then if r_>=60054 then if r_<=60054 then if(ma>84)then r_=ea[9127]or pa(619,52050,9127)continue else r_=ea[3317]or pa(82032,56941,3317)continue end r_=ea[12098]or pa(41020,49373,12098)else if(ma>102)then r_=ea[-12066]or pa(85754,40864,-12066)continue else r_=ea[10783]or pa(94395,23782,10783)continue end r_=ea[15532]or pa(125136,1953,15532)end else da={[1]=Ra[Ld[17726]],[2]=1};da[3]=da;xb[(re_-148)],r_=da,ea[-17897]or pa(42718,36092,-17897)end elseif r_>=61343 then if r_<=61343 then da=re_ if Ld~=Ld then r_=ea[-15586]or pa(64403,55854,-15586)else r_=10097 end else r_,_b=ea[-27857]or pa(66139,16271,-27857),Sd-Cf+1 end elseif r_>60845 then if(ma>169)then r_=ea[12993]or pa(31857,64712,12993)continue else r_=ea[-12348]or pa(41461,27970,-12348)continue end r_=ea[-32127]or pa(116683,8340,-32127)else de,Rc=Qa(xb,_b);_b=de if _b==nil then r_=ea[-4898]or pa(122977,6630,-4898)else r_=ea[-20770]or pa(81856,19090,-20770)end end elseif r_>=63774 then if r_>64799 then if r_<65424 then if r_>64983 then Ra[Rd[17726]]=Rd[58619]==1;ha+=Rd[54935];r_=ea[13075]or pa(126863,2152,13075)else if ma>235 then r_=ea[-29962]or pa(97354,18054,-29962)continue else r_=ea[-26781]or pa(36060,22176,-26781)continue end r_=ea[13786]or pa(127646,3455,13786)end elseif r_<=65424 then if ma>40 then r_=ea[10214]or pa(57434,45420,10214)continue else r_=ea[-10899]or pa(9558,44056,-10899)continue end r_=ea[12186]or pa(78898,21699,12186)else r_,re_=ea[-1320]or pa(42260,40474,-1320),re_..fe(_a(xe(de,(Ke-214)+1),xe(Rc,(Ke-214)%#Rc+1)))end elseif r_<64275 then if r_>63774 then re_=re_+vd;da=re_ if re_~=re_ then r_=ea[-9555]or pa(73969,16258,-9555)else r_=61653 end else if(Rc==-2)then r_=ea[18314]or pa(35180,58806,18314)continue else r_=ea[19721]or pa(64745,43301,19721)continue end r_=ea[-2029]or pa(33607,56336,-2029)end elseif r_>=64594 then if r_<=64594 then Cf,Qa=Ra[Rd[58619]],nil;Qa=wb(Cf)==p('|\15V\an\19W\n','\26z8d')if not Qa then r_=ea[24862]or pa(31124,59529,24862)continue end r_=ea[-22339]or pa(58190,50524,-22339)else de,Rc=Qa(xb,_b);_b=de if _b==nil then r_=55034 else r_=ea[-13827]or pa(69021,38308,-13827)end end else if(ma>82)then r_=ea[29999]or pa(72153,40818,29999)continue else r_=ea[-7094]or pa(76529,10944,-7094)continue end r_=ea[-6282]or pa(93427,35724,-6282)end elseif r_<63272 then if r_>62735 then r_,Rc[(da-222)]=ea[-1217]or pa(101486,10647,-1217),Of elseif r_<=61951 then if r_<=61653 then if(vd>=0 and re_>Ld)or((vd<0 or vd~=vd)and re_<Ld)then r_=ea[-15362]or pa(38737,61474,-15362)else r_=19205 end else ha+=Rd[64552];r_=ea[-16917]or pa(66292,23941,-16917)end else r_,Ra[Rd[17726]]=ea[-10498]or pa(130381,6702,-10498),Ra[Rd[58619]]%Rd[8455]end elseif r_<63569 then if r_>63272 then Cf=ba(Qa)if Cf~=nil and Cf[p('\251q\146\208K\137','\164.\251')]~=nil then r_=ea[20915]or pa(61329,42113,20915)continue elseif(Gd(Qa)==p('\251C\237N\234','\143\"'))then r_=ea[-26014]or pa(33551,62769,-26014)continue else r_=ea[11728]or pa(118421,10375,11728)continue end r_=ea[6717]or pa(79913,22123,6717)else Ra[Rd[58619]],r_=xb[Rd[24376]][Rd[63055]],ea[12181]or pa(90019,14672,12181)end elseif r_<=63569 then if(vd==2)then r_=ea[-15324]or pa(13478,51511,-15324)continue else r_=ea[-23693]or pa(91749,19531,-23693)continue end r_=ea[-31068]or pa(69886,15068,-31068)else if(ma>110)then r_=ea[30354]or pa(35168,44693,30354)continue else r_=ea[29452]or pa(7188,52616,29452)continue end r_=ea[8824]or pa(120790,12455,8824)end elseif r_>42139 then if r_>=45650 then if r_<47854 then if r_>=46723 then if r_>46810 then de,Rc=Qa(xb,_b);_b=de if _b==nil then r_=ea[21161]or pa(122441,14634,21161)else r_=ea[-1404]or pa(80419,30233,-1404)end elseif r_<46732 then r_,Qa[24376]=ea[13781]or pa(41323,58720,13781),_b elseif r_<=46732 then Cf,Qa=Rd[58619],Rd[17726]-1 if Qa==-1 then r_=ea[-12762]or pa(47633,21258,-12762)continue end r_=ea[4376]or pa(51911,46069,4376)else if Ra[Rd[58619]]<=Ra[Rd[192]]then r_=ea[-19634]or pa(78661,14759,-19634)continue else r_=ea[-15412]or pa(43407,32851,-15412)continue end r_=ea[-29014]or pa(70890,29579,-29014)end elseif r_>45858 then Qa[8455]=xb if(Cf==2)then r_=ea[12477]or pa(17620,61231,12477)continue else r_=ea[27440]or pa(15638,47908,27440)continue end r_=ea[30045]or pa(126429,12714,30045)elseif r_<45741 then if(Ra[Rd[58619]]<Ra[Rd[192]])then r_=ea[-23758]or pa(55641,48569,-23758)continue else r_=ea[18233]or pa(5022,47388,18233)continue end r_=ea[-27959]or pa(125174,1927,-27959)elseif r_>45741 then ha+=Rd[64552];r_=ea[30179]or pa(66112,23825,30179)else ha+=Rd[64552];r_=ea[25398]or pa(127992,3225,25398)end elseif r_>=49294 then if r_<49754 then if r_<=49294 then l_=vd if da~=da then r_=ea[4604]or pa(74587,20140,4604)else r_=50795 end else if(ma>214)then r_=ea[-4039]or pa(73635,25840,-4039)continue else r_=ea[27257]or pa(46716,17257,27257)continue end r_=ea[-259]or pa(85134,43887,-259)end elseif r_>=49928 then if r_>49928 then if Gd(Qa)==p('\171\135\189\138\186','\223\230')then r_=ea[-9654]or pa(87552,27554,-9654)continue end r_=ea[20287]or pa(121560,26147,20287)else Cf,Qa=nil,Ra[Rd[58619]];Cf=wb(Qa)==p('F\238\26\55T\242\27:',' \155tT')if not Cf then r_=ea[-10162]or pa(81973,46779,-10162)continue end r_=35746 end else de,Rc=Ra[Cf+1],nil;re_=de;Rc=wb(re_)==p('\206%\n\194\53\21','\160Pg')if(not Rc)then r_=ea[-11259]or pa(83516,47315,-11259)continue else r_=ea[-1928]or pa(49980,52287,-1928)continue end r_=27669 end elseif r_>48737 then Qa,xb,_b=eb if Gd(Qa)~=p('\148R\225\221\134N\224\208',"\242\'\143\190")then r_=ea[5487]or pa(31151,57185,5487)continue end r_=ea[-25072]or pa(44214,64969,-25072)elseif r_>48183 then if(ma>140)then r_=ea[16950]or pa(34436,10488,16950)continue else r_=ea[19174]or pa(119927,23083,19174)continue end r_=ea[21022]or pa(119743,11352,21022)elseif r_<=47854 then Ec[Rd]=nil;ha+=1;r_=ea[15064]or pa(124694,487,15064)else if not Hb then r_=ea[9433]or pa(59652,35225,9433)continue end r_=23887 end elseif r_>43318 then if r_>=45066 then if r_>45346 then if(ma>171)then r_=ea[-6366]or pa(58943,29868,-6366)continue else r_=ea[-25835]or pa(119678,24549,-25835)continue end r_=ea[27874]or pa(67625,26826,27874)elseif r_>=45099 then if r_<=45099 then ha+=Rd[64552];r_=ea[-21172]or pa(48730,55611,-21172)else if(re_>=0 and de>Rc)or((re_<0 or re_~=re_)and de<Rc)then r_=ea[-17098]or pa(50056,25225,-17098)else r_=9121 end end else _b,r_=re_,ea[24441]or pa(83167,53640,24441)continue end elseif r_>=44598 then if r_>44598 then Cf,r_,Qa=Sb[ha],35701,nil else Rc[1]=Rc[3][Rc[2]];Rc[3]=Rc;Rc[2]=1;eb[de],r_=nil,ea[-5910]or pa(99130,3661,-5910)end elseif r_<=44538 then if(Qa<=_b)then r_=ea[-691]or pa(86110,42657,-691)continue else r_=ea[-14797]or pa(77731,18620,-14797)continue end r_=ea[-28485]or pa(124947,2284,-28485)else Ra[Cf+2]=Ra[Cf+3];ha+=Rd[64552];r_=ea[-22901]or pa(35594,58859,-22901)end elseif r_>43003 then if r_>43305 then re_=_b if de~=de then r_=ea[15079]or pa(124561,354,15079)else r_=56525 end elseif r_<=43206 then if r_>43036 then ha+=Rd[64552];r_=ea[13954]or pa(126794,2091,13954)else de,Rc=Qa[24376],Rd[24376];Rc=p('\251\157','J')..Rc;re_='';da,r_,vd,Ld=1,ea[17963]or pa(130433,18231,17963),(#de-1)+9,9 end else if Cf==2 then r_=ea[5418]or pa(56795,65453,5418)continue elseif Cf==3 then r_=ea[12308]or pa(99159,5911,12308)continue end r_=ea[-15738]or pa(39396,30633,-15738)end elseif r_<42401 then if r_>42352 then ha+=Rd[64552];r_=ea[-21435]or pa(119317,12006,-21435)else ha-=1;r_,Sb[ha]=ea[-28860]or pa(69429,27078,-28860),{[15694]=40,[58619]=_a(Rd[58619],169),[17726]=_a(Rd[17726],114),[54935]=0}end elseif r_>=42828 then if r_<=42828 then if ma>6 then r_=ea[21615]or pa(29267,56746,21615)continue else r_=ea[-32238]or pa(103542,3634,-32238)continue end r_=ea[29884]or pa(68208,25857,29884)else if(ma>221)then r_=ea[-4770]or pa(49854,29834,-4770)continue else r_=ea[-27374]or pa(65184,54271,-27374)continue end r_=ea[22403]or pa(84417,42642,22403)end else _b,de=Qa[8455],Rd[8455];de=p('c\5','\210')..de;Rc='';Ld,vd,re_,r_=(#_b-1)+186,1,186,61343 end elseif r_<36429 then if r_>34535 then if r_>35291 then if r_>35701 then ha+=Rd[64552];r_=ea[12047]or pa(33867,58132,12047)elseif r_<=35617 then Ra[Cf+1]=Ld;de,r_=Ld,ea[-23320]or pa(11591,64114,-23320)else xb,_b=Cf[8455],Rd[8455];_b=p('\231\129','V').._b;de='';Rc,r_,re_,Ld=98,ea[30221]or pa(47820,38731,30221),(#xb-1)+98,1 end elseif r_>=35029 then if r_>35145 then vd=vd+Ke;l_=vd if vd~=vd then r_=ea[22836]or pa(77993,24626,22836)else r_=ea[-16552]or pa(90389,35242,-16552)end elseif r_>35029 then r_,Ra[Rd[54935]]=ea[18108]or pa(33744,56481,18108),Ra[Rd[17726]]+Ra[Rd[58619]]else Cf,Qa,r_,xb=Rd[26195],Sb[ha+1],ea[10015]or pa(92312,29143,10015),nil end elseif r_<=34554 then _b=_b+Rc;re_=_b if _b~=_b then r_=ea[2821]or pa(39446,63207,2821)else r_=ea[-3535]or pa(117471,18114,-3535)end else if(ma>184)then r_=ea[-31058]or pa(55137,42345,-31058)continue else r_=ea[-24576]or pa(92054,42963,-24576)continue end r_=ea[-19860]or pa(130269,7102,-19860)end elseif r_<33755 then if r_<33397 then if r_>33070 then Ra[Rd[54935]],r_=Ra[Rd[58619]]-Ra[Rd[17726]],ea[-24751]or pa(67613,26878,-24751)else r_,Ra[Rd[58619]]=ea[-21571]or pa(93849,2590,-21571),xb[Rd[24376]]end elseif r_>=33432 then if r_>33432 then oc(Ra,Qa,Qa+xb-1,Rd[192],Ra[Cf]);ha+=1;r_=ea[-26894]or pa(41399,48704,-26894)else ha+=Rd[64552];r_=ea[-19395]or pa(76869,19222,-19395)end else r_,xb=ea[20173]or pa(82596,38168,20173),Rc continue end elseif r_>34163 then if r_>34339 then ha+=1;r_=ea[32007]or pa(79039,21336,32007)else if(ma>2)then r_=ea[-5789]or pa(43692,50509,-5789)continue else r_=ea[14924]or pa(12215,54774,14924)continue end r_=ea[30592]or pa(94083,34908,30592)end elseif r_>34026 then if ma>86 then r_=ea[334]or pa(41950,1404,334)continue else r_=ea[-6731]or pa(105389,8751,-6731)continue end r_=ea[-10676]or pa(124678,471,-10676)elseif r_<=33755 then Cf,Qa,xb=Rd[58619],Rd[54935],Rd[17726]-1 if(xb==-1)then r_=ea[8484]or pa(2753,46425,8484)continue else r_=ea[10471]or pa(51798,60466,10471)continue end r_=ea[-14283]or pa(36510,45066,-14283)else ha+=Rd[64552];r_=ea[24780]or pa(45935,52232,24780)end elseif r_>39937 then if r_<41478 then if r_<=41179 then if r_<=40784 then if r_<=40332 then return _c(Ra,Cf,Cf+_b-1)else de={xb(Ra[Cf+1],Ra[Cf+2])};oc(de,1,Qa,Cf+3,Ra)if(Ra[Cf+3]~=nil)then r_=ea[8399]or pa(38396,58608,8399)continue else r_=ea[31134]or pa(36560,53234,31134)continue end r_=ea[-30714]or pa(81546,22891,-30714)end else if de>0 then r_=ea[-14023]or pa(41682,3417,-14023)continue else r_=ea[-27140]or pa(69452,35069,-27140)continue end r_=ea[-16404]or pa(71864,30553,-16404)end else if(ma>69)then r_=ea[-3141]or pa(6304,51039,-3141)continue else r_=ea[17470]or pa(95473,34369,17470)continue end r_=ea[3761]or pa(91056,31809,3761)end elseif r_>=42114 then if r_<=42114 then ha-=1;r_,Sb[ha]=ea[14346]or pa(93446,35799,14346),{[15694]=21,[58619]=_a(Rd[58619],214),[17726]=_a(Rd[17726],207),[54935]=0}else ha-=1;r_,Sb[ha]=ea[-25481]or pa(72905,31658,-25481),{[15694]=225,[58619]=_a(Rd[58619],226),[17726]=_a(Rd[17726],80),[54935]=0}end elseif r_>41478 then if ma>180 then r_=ea[17385]or pa(77287,5582,17385)continue else r_=ea[31680]or pa(41346,45887,31680)continue end r_=ea[-10221]or pa(47518,54911,-10221)else ha+=1;r_=ea[-13515]or pa(65750,24487,-13515)end elseif r_<38874 then if r_>=38243 then if r_<=38553 then if r_<=38243 then Cf,Qa=nil,Ra[Rd[58619]];Cf=wb(Qa)==p('\128\205\4\204\146\209\5\193','\230\184j\175')if(not Cf)then r_=ea[-27887]or pa(96000,7044,-27887)continue else r_=ea[-5819]or pa(71130,14362,-5819)continue end r_=ea[20443]or pa(74848,2768,20443)else if l_==2 then r_=ea[-9426]or pa(62780,35195,-9426)continue end r_=ea[-9755]or pa(77743,34512,-9755)end else r_,Sd,ha,eb,Ec,Hb=48183,-1,1,If({},{[p('\141\172\26\189\151\18','\210\243w')]=p('\150\147','\224')}),If({},{[p('Q\183\223a\140\215','\14\232\178')]=p('(0','C')}),false end elseif r_<=36429 then Rc=Rc+Ld;vd=Rc if Rc~=Rc then r_=ea[-17254]or pa(96923,2227,-17254)else r_=ea[9712]or pa(36817,29442,9712)end else ha+=1;r_=ea[16469]or pa(43170,51123,16469)end elseif r_<=39577 then if r_<39288 then Ld=Ld+da;Ke=Ld if Ld~=Ld then r_=ea[18628]or pa(48216,53006,18628)else r_=29474 end elseif r_>39288 then if(da>=0 and Ld>vd)or((da<0 or da~=da)and Ld<vd)then r_=ea[17386]or pa(45093,23996,17386)else r_=ea[24490]or pa(3952,62219,24490)end else if ma>51 then r_=ea[16004]or pa(62189,40313,16004)continue else r_=ea[-2479]or pa(8282,62744,-2479)continue end r_=ea[-23870]or pa(120814,12431,-23870)end elseif r_>39832 then if Ra[Rd[58619]]<Ra[Rd[192]]then r_=ea[-24005]or pa(38070,46572,-24005)continue else r_=ea[-24062]or pa(54793,40641,-24062)continue end r_=ea[-21370]or pa(35431,58736,-21370)else ha-=1;r_,Sb[ha]=ea[18710]or pa(76348,18141,18710),{[15694]=17,[58619]=_a(Rd[58619],105),[17726]=_a(Rd[17726],210),[54935]=0}end until r_==62470 end return function(...)local Lc,qf,Ib,Zc,Fa,nc,v,Gf,yb,u_,wd;Lc,wd=function(ja,g,pc)wd[ja]=ua(g,43587)-ua(pc,21754)return wd[ja]end,{};nc=wd[21255]or Lc(21255,99146,47151)repeat if nc<=25259 then if nc<15412 then if nc<=3650 then v,Ib=Fa[2],nil;u_=v;Ib=wb(u_)==p('3\144N)\138[','@\228<')if(Ib==false)then nc=wd[8618]or Lc(8618,123930,12441)continue else nc=wd[5060]or Lc(5060,18887,1107)continue end nc=37595 else Fa,yb=va(ta(Fe,Zc,kb[3221],kb[45394],Gf))if Fa[1]then nc=wd[15681]or Lc(15681,109284,62623)continue else nc=wd[8526]or Lc(8526,110003,44372)continue end nc=37762 end elseif nc>=24642 then if nc<=24642 then return _c(Fa,2,yb)else Fa,yb=kb[6551]+1,qf[p('\207','\161')]-kb[6551];Gf[14461]=yb;oc(qf,Fa,Fa+yb-1,1,Gf[32870]);nc=wd[27335]or Lc(27335,49874,4582)end else qf,Zc,Gf=Ic(...),na(kb[15016]),{[32870]={},[14461]=0};oc(qf,1,kb[6551],0,Zc)if(kb[6551]<qf[p('\226','\140')])then nc=wd[11297]or Lc(11297,14445,31609)continue else nc=wd[-10345]or Lc(-10345,49869,4579)continue end nc=wd[27515]or Lc(27515,7397,51147)end elseif nc<37762 then return Le(v,0)elseif nc<=37762 then nc=wd[20720]or Lc(20720,126448,13953)continue else nc,v=wd[-32469]or Lc(-32469,117303,39267),wb(v)end until nc==58680 end end return Bb(zb,Dd)end)local kf;kf,ud={[0]=0},function()kf[0]=kf[0]+1 return{[3]=kf,[2]=kf[0]}end;Nb=hd return(function()local x,Ca,kd,db;db={[2]=1,[1]=Nb};db[3]=db;Ca={[2]=1,[1]=wa};Ca[3]=Ca;x={[2]=1,[1]=Wa};x[3]=x;kd={[2]=1,[1]=qc};kd[3]=kd return Nb(j'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',{[3]=x,[4]=kd,[2]=Ca,[1]=db})end)()(...)      
+
+local function jDecode(s)
+    local ok, v = pcall(function() return HttpService:JSONDecode(s) end)
+    return ok and v or nil
+end
+
+local function jEncode(t)
+    local ok, v = pcall(function() return HttpService:JSONEncode(t) end)
+    return ok and v or nil
+end
+
+local function saveKey(key)
+    pcall(function()
+        if writefile then
+            writefile(KEY_FILE, jEncode({key = key, date = os.date("%x")}))
+        end
+    end)
+end
+
+local function loadStoredKey()
+    local ok, res = pcall(function()
+        if isfile and isfile(KEY_FILE) then
+            local data = jDecode(readfile(KEY_FILE))
+            return data and data.key or ""
+        end
+        return ""
+    end)
+    return ok and res or ""
+end
+
+local T = {
+    Background = Color3.fromRGB(8, 6, 14),
+    Surface = Color3.fromRGB(14, 11, 24),
+    SurfaceLight = Color3.fromRGB(22, 18, 36),
+    SurfaceHover = Color3.fromRGB(32, 26, 52),
+    Accent = Color3.fromRGB(140, 60, 255),
+    AccentBright = Color3.fromRGB(170, 100, 255),
+    AccentDark = Color3.fromRGB(90, 35, 180),
+    AccentDim = Color3.fromRGB(55, 25, 110),
+    Border = Color3.fromRGB(40, 30, 65),
+    BorderLight = Color3.fromRGB(55, 42, 90),
+    Text = Color3.fromRGB(245, 240, 255),
+    TextSub = Color3.fromRGB(180, 170, 200),
+    TextDim = Color3.fromRGB(120, 110, 150),
+    TextMuted = Color3.fromRGB(75, 65, 105),
+    Success = Color3.fromRGB(80, 220, 150),
+    SuccessDim = Color3.fromRGB(30, 80, 55),
+    Error = Color3.fromRGB(240, 65, 75),
+    ErrorDim = Color3.fromRGB(80, 25, 30),
+    DropdownBg = Color3.fromRGB(12, 9, 20),
+    Green = Color3.fromRGB(34, 140, 75),
+    GreenHover = Color3.fromRGB(40, 170, 90),
+    Yellow = Color3.fromRGB(250, 204, 21),
+}
+
+local function tw(obj, props, dur, style, dir)
+    TweenService:Create(
+        obj,
+        TweenInfo.new(dur or 0.18, style or Enum.EasingStyle.Quart, dir or Enum.EasingDirection.Out),
+        props
+    ):Play()
+end
+
+local function addStroke(parent, color, thickness)
+    local s = Instance.new("UIStroke")
+    s.Color = color or T.Border
+    s.Thickness = thickness or 1
+    s.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    s.Parent = parent
+    return s
+end
+
+local old = CoreGui:FindFirstChild("KeySystemGui")
+if old then old:Destroy() end
+
+local SG = Instance.new("ScreenGui")
+SG.Name = "KeySystemGui"
+SG.ResetOnSpawn = false
+SG.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+SG.DisplayOrder = 999
+SG.IgnoreGuiInset = true
+pcall(function() SG.Parent = CoreGui end)
+if not SG.Parent then SG.Parent = LocalPlayer:WaitForChild("PlayerGui") end
+
+local Overlay = Instance.new("Frame")
+Overlay.Size = UDim2.new(1, 0, 1, 0)
+Overlay.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Overlay.BackgroundTransparency = 0.5
+Overlay.BorderSizePixel = 0
+Overlay.ZIndex = 1
+Overlay.Parent = SG
+
+local Card = Instance.new("Frame")
+Card.Name = "Card"
+Card.Size = UDim2.new(0, 460, 0, 310)
+Card.Position = UDim2.new(0.5, -230, 0.5, -155)
+Card.BackgroundColor3 = T.Background
+Card.BorderSizePixel = 0
+Card.ClipsDescendants = true
+Card.ZIndex = 2
+Card.Parent = SG
+addStroke(Card, T.Border, 1)
+
+local EdgeGlow = Instance.new("Frame")
+EdgeGlow.Size = UDim2.new(1, 6, 1, 6)
+EdgeGlow.Position = UDim2.new(0, -3, 0, -3)
+EdgeGlow.BackgroundTransparency = 1
+EdgeGlow.BorderSizePixel = 0
+EdgeGlow.ZIndex = 1
+EdgeGlow.Parent = Card
+
+local edgeStroke = Instance.new("UIStroke")
+edgeStroke.Color = T.AccentDim
+edgeStroke.Thickness = 2
+edgeStroke.Transparency = 0.4
+edgeStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+edgeStroke.Parent = EdgeGlow
+
+local edgeGradient = Instance.new("UIGradient")
+edgeGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, T.Accent),
+    ColorSequenceKeypoint.new(0.15, T.AccentDim),
+    ColorSequenceKeypoint.new(0.35, Color3.fromRGB(20, 12, 40)),
+    ColorSequenceKeypoint.new(0.65, Color3.fromRGB(20, 12, 40)),
+    ColorSequenceKeypoint.new(0.85, T.AccentDim),
+    ColorSequenceKeypoint.new(1, T.Accent),
+})
+edgeGradient.Rotation = 45
+edgeGradient.Parent = edgeStroke
+
+local AccentLine = Instance.new("Frame")
+AccentLine.Size = UDim2.new(1, 0, 0, 2)
+AccentLine.Position = UDim2.new(0, 0, 0, 0)
+AccentLine.BackgroundColor3 = T.Accent
+AccentLine.BorderSizePixel = 0
+AccentLine.ZIndex = 10
+AccentLine.Parent = Card
+
+local accentGrad = Instance.new("UIGradient")
+accentGrad.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(8, 6, 14)),
+    ColorSequenceKeypoint.new(0.2, T.AccentDim),
+    ColorSequenceKeypoint.new(0.5, T.AccentBright),
+    ColorSequenceKeypoint.new(0.8, T.AccentDim),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(8, 6, 14)),
+})
+accentGrad.Parent = AccentLine
+
+local TopBar = Instance.new("Frame")
+TopBar.Name = "TopBar"
+TopBar.Size = UDim2.new(1, 0, 0, 42)
+TopBar.Position = UDim2.new(0, 0, 0, 2)
+TopBar.BackgroundColor3 = T.Surface
+TopBar.BorderSizePixel = 0
+TopBar.ZIndex = 3
+TopBar.Parent = Card
+
+local topBottomLine = Instance.new("Frame")
+topBottomLine.Size = UDim2.new(1, 0, 0, 1)
+topBottomLine.Position = UDim2.new(0, 0, 1, 0)
+topBottomLine.BackgroundColor3 = T.Border
+topBottomLine.BorderSizePixel = 0
+topBottomLine.ZIndex = 3
+topBottomLine.Parent = TopBar
+
+local TitleIcon = Instance.new("TextLabel")
+TitleIcon.Text = utf8.char(9670)
+TitleIcon.Size = UDim2.new(0, 30, 0, 42)
+TitleIcon.Position = UDim2.new(0, 10, 0, -2)
+TitleIcon.BackgroundTransparency = 1
+TitleIcon.TextColor3 = T.Accent
+TitleIcon.Font = Enum.Font.GothamBlack
+TitleIcon.TextSize = 32
+TitleIcon.TextYAlignment = Enum.TextYAlignment.Center
+TitleIcon.ZIndex = 4
+TitleIcon.Parent = TopBar
+
+local TitleLbl = Instance.new("TextLabel")
+TitleLbl.Text = "  Symbiote Key System "
+TitleLbl.Size = UDim2.new(1, -100, 1, 0)
+TitleLbl.Position = UDim2.new(0, 44, 0, 0)
+TitleLbl.BackgroundTransparency = 1
+TitleLbl.TextColor3 = T.Text
+TitleLbl.Font = Enum.Font.GothamBold
+TitleLbl.TextSize = 17
+TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
+TitleLbl.TextTruncate = Enum.TextTruncate.AtEnd
+TitleLbl.ZIndex = 4
+TitleLbl.Parent = TopBar
+
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Name = "Close"
+CloseBtn.Size = UDim2.new(0, 30, 0, 30)
+CloseBtn.Position = UDim2.new(1, -40, 0.5, -15)
+CloseBtn.BackgroundColor3 = T.ErrorDim
+CloseBtn.BorderSizePixel = 0
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = T.Error
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.TextSize = 14
+CloseBtn.AutoButtonColor = false
+CloseBtn.ZIndex = 4
+CloseBtn.Parent = TopBar
+
+CloseBtn.MouseEnter:Connect(function() tw(CloseBtn, {BackgroundColor3 = Color3.fromRGB(120, 30, 35)}, 0.1) end)
+CloseBtn.MouseLeave:Connect(function() tw(CloseBtn, {BackgroundColor3 = T.ErrorDim}, 0.1) end)
+CloseBtn.MouseButton1Click:Connect(function()
+    tw(Card, {Size = UDim2.new(0, 460, 0, 0)}, 0.25)
+    task.wait(0.28)
+    SG:Destroy()
+end)
+
+local dragging, dragStart, startPos = false, nil, nil
+TopBar.InputBegan:Connect(function(inp)
+    if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = inp.Position
+        startPos = Card.Position
+    end
+end)
+TopBar.InputEnded:Connect(function(inp)
+    if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+    end
+end)
+UIS.InputChanged:Connect(function(inp)
+    if dragging and (inp.UserInputType == Enum.UserInputType.MouseMovement or inp.UserInputType == Enum.UserInputType.Touch) then
+        local d = inp.Position - dragStart
+        Card.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + d.X, startPos.Y.Scale, startPos.Y.Offset + d.Y)
+    end
+end)
+
+local Content = Instance.new("Frame")
+Content.Name = "Content"
+Content.Size = UDim2.new(1, -40, 1, -64)
+Content.Position = UDim2.new(0, 20, 0, 54)
+Content.BackgroundTransparency = 1
+Content.ZIndex = 3
+Content.Parent = Card
+
+local Desc = Instance.new("TextLabel")
+Desc.Text = "Enter your key below to continue. If you don't have one, click 'Get Key'."
+Desc.Size = UDim2.new(1, 0, 0, 30)
+Desc.Position = UDim2.new(0, 0, 0, 0)
+Desc.BackgroundTransparency = 1
+Desc.TextColor3 = T.TextDim
+Desc.Font = Enum.Font.Gotham
+Desc.TextSize = 12
+Desc.TextXAlignment = Enum.TextXAlignment.Left
+Desc.TextWrapped = true
+Desc.ZIndex = 3
+Desc.Parent = Content
+
+local InputFrame = Instance.new("Frame")
+InputFrame.Size = UDim2.new(1, 0, 0, 42)
+InputFrame.Position = UDim2.new(0, 0, 0, 42)
+InputFrame.BackgroundColor3 = T.DropdownBg
+InputFrame.BorderSizePixel = 0
+InputFrame.ZIndex = 3
+InputFrame.Parent = Content
+local InputStroke = addStroke(InputFrame, T.Border, 1)
+
+local KeyInput = Instance.new("TextBox")
+KeyInput.Size = UDim2.new(1, -20, 1, 0)
+KeyInput.Position = UDim2.new(0, 10, 0, 0)
+KeyInput.BackgroundTransparency = 1
+KeyInput.PlaceholderText = "Paste key here..."
+KeyInput.PlaceholderColor3 = T.TextMuted
+KeyInput.TextColor3 = T.AccentBright
+KeyInput.TextSize = 13
+KeyInput.Font = Enum.Font.Code
+KeyInput.ClearTextOnFocus = false
+KeyInput.ZIndex = 4
+KeyInput.Text = loadStoredKey()
+KeyInput.Parent = InputFrame
+
+KeyInput.Focused:Connect(function()
+    tw(InputStroke, {Color = T.Accent}, 0.15)
+    tw(InputFrame, {BackgroundColor3 = T.SurfaceLight}, 0.15)
+end)
+KeyInput.FocusLost:Connect(function()
+    tw(InputStroke, {Color = T.Border}, 0.15)
+    tw(InputFrame, {BackgroundColor3 = T.DropdownBg}, 0.15)
+end)
+
+local StatusLabel = Instance.new("TextLabel")
+StatusLabel.Text = ""
+StatusLabel.Size = UDim2.new(1, 0, 0, 22)
+StatusLabel.Position = UDim2.new(0, 0, 0, 92)
+StatusLabel.BackgroundTransparency = 1
+StatusLabel.TextColor3 = T.Error
+StatusLabel.Font = Enum.Font.GothamSemibold
+StatusLabel.TextSize = 11
+StatusLabel.TextXAlignment = Enum.TextXAlignment.Left
+StatusLabel.TextWrapped = true
+StatusLabel.ZIndex = 3
+StatusLabel.Parent = Content
+
+local StatusDot = Instance.new("Frame")
+StatusDot.Size = UDim2.new(0, 6, 0, 6)
+StatusDot.Position = UDim2.new(0, 0, 0, 100)
+StatusDot.BackgroundColor3 = T.TextMuted
+StatusDot.BackgroundTransparency = 1
+StatusDot.BorderSizePixel = 0
+StatusDot.ZIndex = 3
+StatusDot.Parent = Content
+
+local function setStatus(msg, col)
+    StatusLabel.Text = "    " .. msg
+    StatusLabel.TextColor3 = col or T.Error
+    StatusDot.BackgroundTransparency = 0
+    StatusDot.BackgroundColor3 = col or T.Error
+    tw(StatusDot, {BackgroundColor3 = col or T.Error}, 0.2)
+end
+
+local function clearStatus()
+    StatusLabel.Text = ""
+    StatusDot.BackgroundTransparency = 1
+end
+
+local GetKeyBtn = Instance.new("TextButton")
+GetKeyBtn.Size = UDim2.new(0.35, -4, 0, 42)
+GetKeyBtn.Position = UDim2.new(0, 0, 0, 124)
+GetKeyBtn.BackgroundColor3 = T.SurfaceLight
+GetKeyBtn.BorderSizePixel = 0
+GetKeyBtn.Text = "Get Key"
+GetKeyBtn.TextColor3 = T.Accent
+GetKeyBtn.Font = Enum.Font.GothamBold
+GetKeyBtn.TextSize = 13
+GetKeyBtn.AutoButtonColor = false
+GetKeyBtn.ZIndex = 3
+GetKeyBtn.Parent = Content
+addStroke(GetKeyBtn, T.Border, 1)
+
+GetKeyBtn.MouseEnter:Connect(function() tw(GetKeyBtn, {BackgroundColor3 = T.SurfaceHover}, 0.1) end)
+GetKeyBtn.MouseLeave:Connect(function() tw(GetKeyBtn, {BackgroundColor3 = T.SurfaceLight}, 0.1) end)
+
+local SubmitBtn = Instance.new("TextButton")
+SubmitBtn.Size = UDim2.new(0.65, -4, 0, 42)
+SubmitBtn.Position = UDim2.new(0.35, 4, 0, 124)
+SubmitBtn.BackgroundColor3 = T.Accent
+SubmitBtn.BorderSizePixel = 0
+SubmitBtn.Text = "Continue"
+SubmitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+SubmitBtn.Font = Enum.Font.GothamBold
+SubmitBtn.TextSize = 14
+SubmitBtn.AutoButtonColor = false
+SubmitBtn.ZIndex = 3
+SubmitBtn.Parent = Content
+
+SubmitBtn.MouseEnter:Connect(function() tw(SubmitBtn, {BackgroundColor3 = T.AccentBright}, 0.1) end)
+SubmitBtn.MouseLeave:Connect(function() tw(SubmitBtn, {BackgroundColor3 = T.Accent}, 0.1) end)
+
+local DiscordLink = Instance.new("TextButton")
+DiscordLink.Size = UDim2.new(1, 0, 0, 30)
+DiscordLink.Position = UDim2.new(0, 0, 0, 176)
+DiscordLink.BackgroundTransparency = 1
+DiscordLink.Text = "Join Discord: https://discord.gg/9QAWtYxbcb"
+DiscordLink.TextColor3 = T.AccentBright
+DiscordLink.Font = Enum.Font.GothamBold
+DiscordLink.TextSize = 13
+DiscordLink.AutoButtonColor = false
+DiscordLink.ZIndex = 3
+DiscordLink.Parent = Content
+
+local discordGlow = Instance.new("UIStroke")
+discordGlow.Color = T.Accent
+discordGlow.Thickness = 0.5
+discordGlow.Transparency = 0.4
+discordGlow.Parent = DiscordLink
+
+DiscordLink.MouseEnter:Connect(function() 
+    tw(DiscordLink, {TextColor3 = Color3.new(1, 1, 1)}, 0.2)
+    tw(discordGlow, {Thickness = 1, Transparency = 0}, 0.2)
+end)
+DiscordLink.MouseLeave:Connect(function() 
+    tw(DiscordLink, {TextColor3 = T.AccentBright}, 0.2)
+    tw(discordGlow, {Thickness = 0.5, Transparency = 0.4}, 0.2)
+end)
+
+DiscordLink.MouseButton1Click:Connect(function()
+    local link = "https://discord.gg/9QAWtYxbcb"
+    if setclipboard then
+        setclipboard(link)
+        local old = DiscordLink.Text
+        DiscordLink.Text = "Copied to Clipboard!"
+        DiscordLink.TextColor3 = T.Success
+        discordGlow.Color = T.Success
+        task.delay(2, function()
+            DiscordLink.Text = old
+            DiscordLink.TextColor3 = T.AccentBright
+            discordGlow.Color = T.Accent
+        end)
+    end
+end)
+
+local Footer = Instance.new("TextLabel")
+Footer.Text = ""
+Footer.Size = UDim2.new(1, 0, 0, 20)
+Footer.Position = UDim2.new(0, 0, 0, 216)
+Footer.BackgroundTransparency = 1
+Footer.TextColor3 = T.TextMuted
+Footer.Font = Enum.Font.Gotham
+Footer.TextSize = 10
+Footer.TextXAlignment = Enum.TextXAlignment.Center
+Footer.ZIndex = 3
+Footer.Parent = Content
+
+local BottomAccent = Instance.new("Frame")
+BottomAccent.Size = UDim2.new(1, 0, 0, 2)
+BottomAccent.Position = UDim2.new(0, 0, 1, -2)
+BottomAccent.BackgroundColor3 = T.Accent
+BottomAccent.BorderSizePixel = 0
+BottomAccent.ZIndex = 10
+BottomAccent.Parent = Card
+
+local bottomGrad = Instance.new("UIGradient")
+bottomGrad.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(8, 6, 14)),
+    ColorSequenceKeypoint.new(0.2, T.AccentDim),
+    ColorSequenceKeypoint.new(0.5, T.AccentBright),
+    ColorSequenceKeypoint.new(0.8, T.AccentDim),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(8, 6, 14)),
+})
+bottomGrad.Parent = BottomAccent
+
+GetKeyBtn.MouseButton1Click:Connect(function()
+    GetKeyBtn.Active = false
+    GetKeyBtn.Text = "Loading..."
+    tw(GetKeyBtn, {TextColor3 = T.TextDim}, 0.1)
+
+    local rawBody, err = doHttp(SERVER_URL .. "/getlink")
+    local data = jDecode(rawBody or "")
+    if data and data.url then
+        setclipboard(data.url)
+        setStatus("Link copied to clipboard!", T.Yellow)
+        GetKeyBtn.Text = "Copied!"
+        tw(GetKeyBtn, {TextColor3 = T.Success}, 0.1)
+    else
+        setStatus("Failed to get link: " .. tostring(err or (rawBody and rawBody:sub(1,60)) or "Unknown"), T.Error)
+    end
+    task.delay(2, function()
+        GetKeyBtn.Active = true
+        GetKeyBtn.Text = "Get Key"
+        tw(GetKeyBtn, {TextColor3 = T.Accent}, 0.1)
+    end)
+end)
+
+SubmitBtn.MouseButton1Click:Connect(function()
+    local key = KeyInput.Text:match("^%s*(.-)%s*$")
+    if key == "" then
+        setStatus("Key cannot be empty!", T.Error)
+        return
+    end
+
+    SubmitBtn.Active = false
+    SubmitBtn.Text = "Verifying..."
+    tw(SubmitBtn, {BackgroundColor3 = T.AccentDark}, 0.1)
+    setStatus("Authenticating...", T.TextDim)
+
+    local rawBody, err = doHttp(SERVER_URL .. "/getloader", {
+        key = key,
+        userId = tostring(LocalPlayer.UserId),
+        clientId = game:GetService("RbxAnalyticsService"):GetClientId(),
+        platform = UIS:GetPlatform().Name,
+        executor = (identifyexecutor and identifyexecutor()) or "Unknown"
+    })
+    if not rawBody then
+        setStatus("Connection Error: " .. tostring(err), T.Error)
+        SubmitBtn.Active = true
+        SubmitBtn.Text = "Continue"
+        tw(SubmitBtn, {BackgroundColor3 = T.Accent}, 0.1)
+        return
+    end
+
+    local data = jDecode(rawBody)
+    if not data then
+        setStatus("JSON Parse Error: " .. rawBody:sub(1, 50), T.Error)
+        SubmitBtn.Active = true
+        SubmitBtn.Text = "Continue"
+        tw(SubmitBtn, {BackgroundColor3 = T.Accent}, 0.1)
+        return
+    end
+
+    if not data.success then
+        setStatus(tostring(data.reason or "Invalid Key"), T.Error)
+        SubmitBtn.Active = true
+        SubmitBtn.Text = "Continue"
+        tw(SubmitBtn, {BackgroundColor3 = T.Accent}, 0.1)
+        return
+    end
+
+    saveKey(key)
+    setStatus("Success! Loading components...", T.Success)
+    SubmitBtn.Text = "Loading..."
+    tw(SubmitBtn, {BackgroundColor3 = T.Green}, 0.2)
+
+    task.spawn(function()
+        local expiresIso = data.expires_at
+        local timeStr = "Unknown"
+        if expiresIso and type(expiresIso) == "string" then
+            local ok, dt = pcall(function() return DateTime.fromIsoDate(expiresIso) end)
+            if ok and dt then
+                local secsLeft = dt.UnixTimestamp - DateTime.now().UnixTimestamp
+                if secsLeft > 0 then
+                    local d = math.floor(secsLeft / 86400)
+                    local h = math.floor((secsLeft % 86400) / 3600)
+                    local m = math.floor((secsLeft % 3600) / 60)
+                    local parts = {}
+                    if d > 0 then table.insert(parts, d .. "D") end
+                    if h > 0 then table.insert(parts, h .. "H") end
+                    if m > 0 or #parts == 0 then table.insert(parts, m .. "M") end
+                    timeStr = table.concat(parts, " ")
+                else
+                    timeStr = "Expired"
+                end
+            end
+        end
+
+        local ToastGui = Instance.new("ScreenGui")
+        ToastGui.Name = "KeyExpiryToast"
+        ToastGui.ResetOnSpawn = false
+        ToastGui.DisplayOrder = 9999
+        ToastGui.IgnoreGuiInset = true
+        pcall(function() ToastGui.Parent = game:GetService("CoreGui") end)
+        if not ToastGui.Parent then
+            ToastGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+        end
+
+        local Toast = Instance.new("Frame")
+        Toast.Size = UDim2.new(0, 320, 0, 72)
+        Toast.Position = UDim2.new(1, 10, 1, -90)
+        Toast.BackgroundColor3 = T.Surface
+        Toast.BorderSizePixel = 0
+        Toast.ZIndex = 10
+        Toast.Parent = ToastGui
+        do
+            local r = Instance.new("UICorner")
+            r.CornerRadius = UDim.new(0, 10)
+            r.Parent = Toast
+        end
+        do
+            local s = Instance.new("UIStroke")
+            s.Color = T.Border
+            s.Thickness = 1
+            s.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+            s.Parent = Toast
+        end
+
+        local strip = Instance.new("Frame")
+        strip.Size = UDim2.new(0, 3, 1, -16)
+        strip.Position = UDim2.new(0, 0, 0, 8)
+        strip.BackgroundColor3 = T.Success
+        strip.BorderSizePixel = 0
+        strip.ZIndex = 11
+        strip.Parent = Toast
+        do
+            local r = Instance.new("UICorner")
+            r.CornerRadius = UDim.new(0, 3)
+            r.Parent = strip
+        end
+
+        local TopLine = Instance.new("TextLabel")
+        TopLine.Text = utf8.char(9670) .. "  Key Active"
+        TopLine.Size = UDim2.new(1, -20, 0, 24)
+        TopLine.Position = UDim2.new(0, 14, 0, 10)
+        TopLine.BackgroundTransparency = 1
+        TopLine.TextColor3 = T.Success
+        TopLine.Font = Enum.Font.GothamBold
+        TopLine.TextSize = 14
+        TopLine.TextXAlignment = Enum.TextXAlignment.Left
+        TopLine.ZIndex = 11
+        TopLine.Parent = Toast
+
+        local BotLine = Instance.new("TextLabel")
+        BotLine.Text = "Key will expire in:  " .. timeStr
+        BotLine.Size = UDim2.new(1, -20, 0, 22)
+        BotLine.Position = UDim2.new(0, 14, 0, 36)
+        BotLine.BackgroundTransparency = 1
+        BotLine.TextColor3 = T.TextSub
+        BotLine.Font = Enum.Font.Gotham
+        BotLine.TextSize = 12
+        BotLine.TextXAlignment = Enum.TextXAlignment.Left
+        BotLine.ZIndex = 11
+        BotLine.Parent = Toast
+
+        TweenService:Create(Toast, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+            {Position = UDim2.new(1, -330, 1, -90)}):Play()
+
+        task.wait(5)
+        TweenService:Create(Toast, TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
+            {Position = UDim2.new(1, 10, 1, -90)}):Play()
+        task.wait(0.38)
+        ToastGui:Destroy()
+    end)
+
+    task.wait(0.5)
+
+    local loaderCode = data.loader
+    if type(loaderCode) ~= "string" or loaderCode == "" then
+        setStatus("Server Error: Please try again.", T.Error)
+        SubmitBtn.Active = true
+        SubmitBtn.Text = "Continue"
+        tw(SubmitBtn, {BackgroundColor3 = T.Accent}, 0.1)
+        return
+    end
+
+    local _SD = "This file is protected by Symbiote."
+    local _originals = {}
+    local _keys = {
+        "writefile", "appendfile", "setclipboard", "toclipboard",
+        "print", "warn", "rconsoleprint", "rconsolewarn", "rconsoleinfo", "printconsole"
+    }
+
+    local function wrapFunc(f)
+        if typeof(f) ~= "function" then return f end
+        return function(...)
+            local args = {...}
+            for i, v in ipairs(args) do
+                if type(v) == "string" and #v > 200 then
+                    args[i] = _SD
+                end
+            end
+            return f(unpack(args))
+        end
+    end
+
+    local envs = {getfenv(), _G, shared}
+    if typeof(getgenv) == "function" and type(getgenv()) == "table" then
+        table.insert(envs, getgenv())
+    end
+
+    for _, env in ipairs(envs) do
+        for _, k in ipairs(_keys) do
+            local original = env[k]
+            if typeof(original) == "function" then
+                if not _originals[k] then
+                    _originals[k] = original
+                end
+                env[k] = wrapFunc(original)
+            end
+        end
+    end
+
+    local loaderFn, compErr = loadstring(loaderCode, "Load")
+    loaderCode = nil
+
+    for _, env in ipairs(envs) do
+        for _, k in ipairs(_keys) do
+            if _originals[k] then
+                env[k] = _originals[k]
+            end
+        end
+    end
+
+    for _, env in ipairs(envs) do
+        for k, v in pairs(env) do
+            if type(v) == "string" and #v > 200 then
+                env[k] = _SD
+            end
+        end
+    end
+
+    _SD, _originals, _keys, wrapFunc, envs = nil, nil, nil, nil, nil
+
+    if not loaderFn then
+        setStatus("Initialization failed. Please try again.", T.Error)
+        SubmitBtn.Active = true
+        SubmitBtn.Text = "Continue"
+        tw(SubmitBtn, {BackgroundColor3 = T.Accent}, 0.1)
+        return
+    end
+
+    tw(Card, {Size = UDim2.new(0, 460, 0, 0)}, 0.25)
+    tw(Overlay, {BackgroundTransparency = 1}, 0.25)
+    task.wait(0.28)
+    SG:Destroy()
+
+    task.spawn(function()
+        local sessToken = data.session_token
+        if not sessToken then return end
+        
+        task.spawn(function()
+            while task.wait(20) do
+                pcall(function() doHttp(SERVER_URL .. "/heartbeat", {token = sessToken}) end)
+            end
+        end)
+        
+        local function deactivate() 
+            pcall(function() doHttp(SERVER_URL .. "/deactivate", {token = sessToken}) end) 
+        end
+        pcall(function() game:BindToClose(deactivate) end)
+        pcall(function() Players.PlayerRemoving:Connect(function(p) if p == LocalPlayer then deactivate() end end) end)
+    end)
+
+    pcall(loaderFn)
+end)
