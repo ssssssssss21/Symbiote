@@ -1,7 +1,3 @@
-local session_token, config = ...
-local user_key = config and config.user_key
-local server_url = config and config.server_url or "https://symbiote.up.railway.app"
-
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -73,35 +69,11 @@ local function SetSetting(key, value)
     SaveSettings(SavedSettings)
 end
 
-local function UpdateAutoExecute(state)
-    if not queue_on_teleport then return end
-    if state then
-        if session_token and user_key then
-            local teleport_script = string.format([[
-                task.wait(3)
-                local ok, res = pcall(function()
-                    return game:HttpGet("%s/rejoin?key=%s&session_token=%s&userId=%s&clientId=%s")
-                end)
-                if ok and res then
-                    local fn = loadstring(res)
-                    if fn then fn() end
-                end
-            ]], server_url, user_key, session_token, tostring(LocalPlayer.UserId), game:GetService("RbxAnalyticsService"):GetClientId())
-            queue_on_teleport(teleport_script)
-        else
-            -- Fallback to github raw
-            queue_on_teleport([[
-                task.wait(3)
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/ssssssssss21/Symbiote/refs/heads/main/test.lua"))()
-            ]])
-        end
-    else
-        queue_on_teleport("")
-    end
-end
-
-if GetSetting("AutoExecute") then
-    UpdateAutoExecute(true)
+if GetSetting("AutoExecute") and queue_on_teleport then
+    queue_on_teleport([[
+        task.wait(3)
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/ssssssssss21/Symbiote/refs/heads/main/test.lua"))()
+    ]])
 end
 
 local Library = loadstring(game:HttpGet("https://gist.githubusercontent.com/ssssssssss21/f2127829151a31beea020f5dd9211ad6/raw/39cabe77a3a30898f880ab55a48c9d7770d31a01/UI.lua"))()
@@ -1212,7 +1184,16 @@ end)
 
 local autoExecuteToggleRef = VariousTab:AddToggle("Auto Execute", function(state)
     SetSetting("AutoExecute", state)
-    UpdateAutoExecute(state)
+    if queue_on_teleport then
+        if state then
+            queue_on_teleport([[
+                task.wait(3)
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/ssssssssss21/Symbiote/refs/heads/main/test.lua"))()
+            ]])
+        else
+            queue_on_teleport("")
+        end
+    end
 end)
 
 local autoRetryToggleRef = VariousTab:AddToggle("Auto Retry", function(state)
