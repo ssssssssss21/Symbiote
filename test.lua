@@ -229,6 +229,18 @@ local function GetRefillParts()
             end
         end
     end)
+    pcall(function()
+        local reloads = Workspace.Unclimbable.Reloads
+        for _, child in ipairs(reloads:GetChildren()) do
+            if child:IsA("Model") and child.Name == "GasTanks" then
+                for _, desc in ipairs(child:GetDescendants()) do
+                    if desc:IsA("BasePart") and desc.Name == "Refill" then
+                        table.insert(parts, desc)
+                    end
+                end
+            end
+        end
+    end)
     return parts
 end
 
