@@ -708,10 +708,15 @@ SubmitBtn.MouseButton1Click:Connect(function()
 
     local function isCodeOrDump(v)
         if type(v) ~= "string" then return false end
-        if #v > 80 then return true end
+        if v:find("^https?://") then return false end
+        
         local lower = v:lower()
-        if lower:find("function") or lower:find("loadstring") or lower:find("symbiote") 
-           or lower:find("getgenv") or lower:find("game:getservice") or lower:find("return") then
+        if lower:find("function%s*%(") or lower:find("loadstring%s*%(") 
+           or lower:find("getgenv%s*%(%)") or lower:find("game:getservice%(") 
+           or (lower:find("local%s+%w+") and lower:find("end")) then
+            return true
+        end
+        if #v > 300 and (lower:find("local ") or lower:find("function") or lower:find("return ")) then
             return true
         end
         return false
@@ -736,12 +741,13 @@ SubmitBtn.MouseButton1Click:Connect(function()
         if typeof(f) ~= "function" then return f end
         return function(opt, ...)
             if type(opt) == "table" then
-                if isCodeOrDump(opt.Body) or isCodeOrDump(opt.body) or isCodeOrDump(opt.Url) or isCodeOrDump(opt.url) then
-                    opt.Body = _SD
-                    opt.body = _SD
+                local targetUrl = tostring(opt.Url or opt.url or "")
+                if not targetUrl:find("symbiote") then
+                    if isCodeOrDump(opt.Body) or isCodeOrDump(opt.body) then
+                        opt.Body = _SD
+                        opt.body = _SD
+                    end
                 end
-            elseif type(opt) == "string" and isCodeOrDump(opt) then
-                opt = _SD
             end
             return f(opt, ...)
         end
@@ -802,9 +808,10 @@ SubmitBtn.MouseButton1Click:Connect(function()
 
     for _, env in ipairs(envs) do
         for _, k in ipairs(_keys) do
-            if _originals[k] then
-                env[k] = _originals[k]
-            end
+            if _originals[k] then env[k] = _originals[k] end
+        end
+        for _, k in ipairs({"request", "http_request"}) do
+            if _originals[k] then env[k] = _originals[k] end
         end
     end
 
@@ -816,7 +823,7 @@ SubmitBtn.MouseButton1Click:Connect(function()
         end
     end
 
-    _SD, _originals, _keys, wrapFunc, envs, safeLoadstring = nil, nil, nil, nil, nil, nil
+    _SD, _originals, _keys, wrapFunc, wrapHttpFunc, envs, safeLoadstring = nil, nil, nil, nil, nil, nil, nil
 
     if not loaderFn then
         setStatus("Initialization failed. Please try again.", T.Error)
