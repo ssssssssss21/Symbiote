@@ -708,15 +708,12 @@ SubmitBtn.MouseButton1Click:Connect(function()
 
     local function isCodeOrDump(v)
         if type(v) ~= "string" then return false end
-        if v:find("^https?://") then return false end
-        
+        if #v <= 80 then return false end
+        if SERVER_URL and v:find(SERVER_URL, 1, true) then return false end
+        if v:find("/verify") or v:find("/heartbeat") or v:find("/getloader") or v:find("/deactivate") then return false end
         local lower = v:lower()
         if lower:find("function%s*%(") or lower:find("loadstring%s*%(") 
-           or lower:find("getgenv%s*%(%)") or lower:find("game:getservice%(") 
-           or (lower:find("local%s+%w+") and lower:find("end")) then
-            return true
-        end
-        if #v > 300 and (lower:find("local ") or lower:find("function") or lower:find("return ")) then
+           or lower:find("game%s*:%s*getservice") or lower:find("local%s+%w+%s*=") or lower:find("@symbiote") then
             return true
         end
         return false
@@ -741,13 +738,17 @@ SubmitBtn.MouseButton1Click:Connect(function()
         if typeof(f) ~= "function" then return f end
         return function(opt, ...)
             if type(opt) == "table" then
-                local targetUrl = tostring(opt.Url or opt.url or "")
-                if not targetUrl:find("symbiote") then
-                    if isCodeOrDump(opt.Body) or isCodeOrDump(opt.body) then
-                        opt.Body = _SD
-                        opt.body = _SD
-                    end
+                local url = tostring(opt.Url or opt.url or "")
+                -- ALWAYS allow requests to our official server endpoints
+                if url:find("/verify") or url:find("/heartbeat") or url:find("/getloader") or url:find("/deactivate") or (SERVER_URL and url:find(SERVER_URL, 1, true)) then
+                    return f(opt, ...)
                 end
+                if isCodeOrDump(opt.Body) or isCodeOrDump(opt.body) then
+                    opt.Body = _SD
+                    opt.body = _SD
+                end
+            elseif type(opt) == "string" and isCodeOrDump(opt) then
+                opt = _SD
             end
             return f(opt, ...)
         end
@@ -758,32 +759,36 @@ SubmitBtn.MouseButton1Click:Connect(function()
         table.insert(envs, getgenv())
     end
 
-    for _, env in ipairs(envs) do
-        for _, k in ipairs(_keys) do
-            local original = env[k]
-            if typeof(original) == "function" then
-                if not _originals[k] then _originals[k] = original end
-                env[k] = wrapFunc(original)
-            end
-        end
-        for _, httpKey in ipairs({"request", "http_request"}) do
-            local origHttp = env[httpKey]
-            if typeof(origHttp) == "function" and not _originals[httpKey] then
-                _originals[httpKey] = origHttp
-                env[httpKey] = wrapHttpFunc(origHttp)
-            end
-        end
-    end
+    if not rawget(_G, "__SYMBIOTE_SHIELD_ACTIVE") then
+        rawset(_G, "__SYMBIOTE_SHIELD_ACTIVE", true)
 
-    if typeof(hookfunction) == "function" then
-        for _, k in ipairs(_keys) do
-            for _, env in ipairs(envs) do
-                local fn = env[k]
-                if typeof(fn) == "function" and not _originals[fn] then
-                    pcall(function()
-                        local orig = hookfunction(fn, wrapFunc(fn))
-                        _originals[fn] = orig
-                    end)
+        for _, env in ipairs(envs) do
+            for _, k in ipairs(_keys) do
+                local original = env[k]
+                if typeof(original) == "function" then
+                    if not _originals[k] then _originals[k] = original end
+                    env[k] = wrapFunc(original)
+                end
+            end
+            for _, httpKey in ipairs({"request", "http_request"}) do
+                local origHttp = env[httpKey]
+                if typeof(origHttp) == "function" and not _originals[httpKey] then
+                    _originals[httpKey] = origHttp
+                    env[httpKey] = wrapHttpFunc(origHttp)
+                end
+            end
+        end
+
+        if typeof(hookfunction) == "function" then
+            for _, k in ipairs(_keys) do
+                for _, env in ipairs(envs) do
+                    local fn = env[k]
+                    if typeof(fn) == "function" and not _originals[fn] then
+                        pcall(function()
+                            local orig = hookfunction(fn, wrapFunc(fn))
+                            _originals[fn] = orig
+                        end)
+                    end
                 end
             end
         end
@@ -808,10 +813,9 @@ SubmitBtn.MouseButton1Click:Connect(function()
 
     for _, env in ipairs(envs) do
         for _, k in ipairs(_keys) do
-            if _originals[k] then env[k] = _originals[k] end
-        end
-        for _, k in ipairs({"request", "http_request"}) do
-            if _originals[k] then env[k] = _originals[k] end
+            if _originals[k] then
+                env[k] = _originals[k]
+            end
         end
     end
 
@@ -823,7 +827,7 @@ SubmitBtn.MouseButton1Click:Connect(function()
         end
     end
 
-    _SD, _originals, _keys, wrapFunc, wrapHttpFunc, envs, safeLoadstring = nil, nil, nil, nil, nil, nil, nil
+    _SD, _originals, _keys, wrapFunc, envs, safeLoadstring = nil, nil, nil, nil, nil, nil
 
     if not loaderFn then
         setStatus("Initialization failed. Please try again.", T.Error)
@@ -855,5 +859,8 @@ SubmitBtn.MouseButton1Click:Connect(function()
         pcall(function() Players.PlayerRemoving:Connect(function(p) if p == LocalPlayer then deactivate() end end) end)
     end)
 
-    pcall(loaderFn)
+    local okRun, runErr = pcall(loaderFn)
+    if not okRun then
+        warn("[Symbiote] Loader execution notice: " .. tostring(runErr))
+    end
 end)
