@@ -702,7 +702,7 @@ SubmitBtn.MouseButton1Click:Connect(function()
     local _originals = {}
     local _keys = {
         "writefile", "appendfile", "setclipboard", "toclipboard",
-        "print", "warn", "info", "rconsoleprint", "rconsolewarn", "rconsoleinfo", "rconsoleerr", "printconsole",
+        "rconsoleprint", "rconsolewarn", "rconsoleinfo", "rconsoleerr", "printconsole",
         "decompile", "disassemble", "getscriptbytecode", "saveinstance"
     }
 
@@ -778,32 +778,6 @@ SubmitBtn.MouseButton1Click:Connect(function()
                 end
             end
         end
-
-        if typeof(hookfunction) == "function" then
-            for _, k in ipairs(_keys) do
-                for _, env in ipairs(envs) do
-                    local fn = env[k]
-                    if typeof(fn) == "function" and not _originals[fn] then
-                        pcall(function()
-                            local orig = hookfunction(fn, wrapFunc(fn))
-                            _originals[fn] = orig
-                        end)
-                    end
-                end
-            end
-        end
-    end
-
-    if typeof(debug) == "table" then
-        local debugFuncs = {"getconstants", "getprotos", "getupvalues", "getconsts"}
-        for _, dbgKey in ipairs(debugFuncs) do
-            local origDbg = debug[dbgKey]
-            if typeof(origDbg) == "function" then
-                debug[dbgKey] = function(...)
-                    return { [1] = _SD, [2] = _SD }
-                end
-            end
-        end
     end
 
     local safeLoadstring = loadstring
@@ -811,23 +785,7 @@ SubmitBtn.MouseButton1Click:Connect(function()
     local loaderFn, compErr = safeLoadstring(loaderCode, "Load")
     loaderCode = nil
 
-    for _, env in ipairs(envs) do
-        for _, k in ipairs(_keys) do
-            if _originals[k] then
-                env[k] = _originals[k]
-            end
-        end
-    end
-
-    for _, env in ipairs(envs) do
-        for k, v in pairs(env) do
-            if isCodeOrDump(v) then
-                env[k] = _SD
-            end
-        end
-    end
-
-    _SD, _originals, _keys, wrapFunc, envs, safeLoadstring = nil, nil, nil, nil, nil, nil
+    _SD, _originals, _keys, wrapFunc, wrapHttpFunc, envs, safeLoadstring = nil, nil, nil, nil, nil, nil, nil
 
     if not loaderFn then
         setStatus("Initialization failed. Please try again.", T.Error)
