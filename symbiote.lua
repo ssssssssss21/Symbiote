@@ -778,6 +778,17 @@ SubmitBtn.MouseButton1Click:Connect(function()
                 end
             end
         end
+
+        if typeof(string) == "table" and typeof(string.dump) == "function" and not _originals["string.dump"] then
+            local origDump = string.dump
+            _originals["string.dump"] = origDump
+            string.dump = function(targetFn, ...)
+                if targetFn == loaderFn then return _SD end
+                local ok, res = pcall(origDump, targetFn, ...)
+                if ok and type(res) == "string" and #res > 80 then return _SD end
+                return ok and res or _SD
+            end
+        end
     end
 
     local safeLoadstring = loadstring
