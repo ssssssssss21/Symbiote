@@ -806,7 +806,7 @@ SubmitBtn.MouseButton1Click:Connect(function()
         end
     end
 
-    local safeLoadstring = (typeof(getrenv) == "function" and type(getrenv()) == "table" and typeof(getrenv().loadstring) == "function" and getrenv().loadstring) or loadstring
+    local safeLoadstring = loadstring
 
     local loaderFn, compErr = safeLoadstring(loaderCode, "Load")
     loaderCode = nil
