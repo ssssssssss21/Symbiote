@@ -23,6 +23,9 @@ local DefaultSettings = {
     ChangeCursor = false,
     AutoExecute = false,
     AutoRetry = false,
+    KillWithoutTP = false,
+    DelayToKill = false,
+    DelayToKillAmount = 1,
 }
 
 local function LoadSettings()
@@ -81,6 +84,7 @@ local Library = loadstring(game:HttpGet("https://gist.githubusercontent.com/ssss
 local Workspace = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local AutoFarmEnabled = false
 local NoClipEnabled = false
@@ -125,38 +129,60 @@ local OriginalCursorVisible = nil
 local AutoRetryEnabled = false
 local AutoRetryConnection = nil
 
-local function SendClick()
+local KillWithoutTPEnabled = false
+local DelayToKillEnabled = false
+local DelayToKillAmount = 1
+
+local RemotePOST = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("POST")
+local RemoteGET  = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("GET")
+
+local function SendSlashAttack(titanModel)
+    local modelName = titanModel.Name
+    local distAttr = titanModel:GetAttribute("Distance") or 10
+
+    local hitboxes = titanModel:FindFirstChild("Hitboxes")
+    local hitPart = hitboxes and hitboxes:FindFirstChild("Hit")
+    local napeHit = hitPart and hitPart:FindFirstChild("Nape")
+    if not napeHit then return end
+
     pcall(function()
-        local vim = game:GetService("VirtualInputManager")
-        vim:SendMouseButtonEvent(0, 0, 0, true, nil, 0)
-        vim:SendMouseButtonEvent(0, 0, 0, false, nil, 0)
+        RemotePOST:FireServer("Attacks", "Slash", true)
     end)
     pcall(function()
-        UserInputService:SendMouseButtonEvent(0, 0, Enum.UserInputType.MouseButton1, true)
-        UserInputService:SendMouseButtonEvent(0, 0, Enum.UserInputType.MouseButton1, false)
+        RemotePOST:FireServer("Hitboxes", "Register", napeHit, distAttr, 10)
+    end)
+    pcall(function()
+        RemotePOST:FireServer("Attacks", "Slash", false)
     end)
 end
 
-local function SendReload()
+local function SendReloadRemote()
     pcall(function()
-        local vim = game:GetService("VirtualInputManager")
-        vim:SendKeyEvent(true, Enum.KeyCode.R, false, game)
-        task.wait(0.05)
-        vim:SendKeyEvent(false, Enum.KeyCode.R, false, game)
-    end)
-    pcall(function()
-        UserInputService:SendKeyEvent(Enum.KeyCode.R, true)
-        task.wait(0.05)
-        UserInputService:SendKeyEvent(Enum.KeyCode.R, false)
+        RemoteGET:InvokeServer("Blades", "Reload")
     end)
 end
 
-local function SendKeyR()
+local function SendRefillRemote()
+    local refillPart = nil
     pcall(function()
-        local vim = game:GetService("VirtualInputManager")
-        vim:SendKeyEvent(true, Enum.KeyCode.R, false, game)
-        task.wait(0.1)
-        vim:SendKeyEvent(false, Enum.KeyCode.R, false, game)
+        local unclimbable = Workspace:FindFirstChild("Unclimbable")
+        if not unclimbable then return end
+        for _, desc in ipairs(unclimbable:GetDescendants()) do
+            if desc:IsA("BasePart") and desc.Name == "Refill" then
+                refillPart = desc
+                break
+            end
+        end
+    end)
+    if not refillPart then return end
+    pcall(function()
+        RemotePOST:FireServer("Attacks", "Reload", refillPart)
+    end)
+end
+
+local function SendRetryRemote()
+    pcall(function()
+        RemoteGET:InvokeServer("Functions", "Retry", "Add")
     end)
 end
 
@@ -219,43 +245,6 @@ local function NeedsRefill()
     return GetBladesBroken()
 end
 
-local function GetRefillParts()
-    local parts = {}
-    pcall(function()
-        local hq = Workspace.Unclimbable.Props.HQ
-        for _, desc in ipairs(hq:GetDescendants()) do
-            if desc:IsA("BasePart") and desc.Name == "Refill" then
-                table.insert(parts, desc)
-            end
-        end
-    end)
-    pcall(function()
-        local reloads = Workspace.Unclimbable.Reloads
-        for _, child in ipairs(reloads:GetChildren()) do
-            if child:IsA("Model") and child.Name == "GasTanks" then
-                for _, desc in ipairs(child:GetDescendants()) do
-                    if desc:IsA("BasePart") and desc.Name == "Refill" then
-                        table.insert(parts, desc)
-                    end
-                end
-            end
-        end
-    end)
-    return parts
-end
-
-local function DoRefill()
-    local parts = GetRefillParts()
-    if #parts == 0 then return end
-    local chosen = parts[math.random(1, #parts)]
-    local char = LocalPlayer.Character
-    local hrp = char and char:FindFirstChild("HumanoidRootPart")
-    if not hrp then return end
-    hrp.CFrame = CFrame.new(chosen.Position + Vector3.new(0, 10, 0))
-    task.wait(1.5)
-    SendKeyR()
-end
-
 local function RefillUntilFull()
     if IsRefilling then return end
     IsRefilling = true
@@ -263,7 +252,7 @@ local function RefillUntilFull()
     while AutoRefillEnabled do
         if not SetsEmpty() then break end
         if not GetBladesBroken() then break end
-        DoRefill()
+        SendRefillRemote()
         task.wait(5)
         if not SetsEmpty() then break end
         if not GetBladesBroken() then break end
@@ -414,144 +403,9 @@ local function DisableChangeCursor()
     OriginalCursorVisible = nil
 end
 
-local function TryClickRetry()
+local function TryRetry()
     if not AutoRetryEnabled then return end
-
-    local retryBtn = nil
-    pcall(function()
-        retryBtn = LocalPlayer.PlayerGui.Interface.Rewards.Main.Info.Main.Buttons.Retry
-    end)
-    if not retryBtn then return end
-
-    local function DidClickWork()
-        task.wait(0.5)
-        local ok, vis = pcall(function()
-            return LocalPlayer.PlayerGui.Interface.Rewards.Visible
-        end)
-        if ok and not vis then return true end
-        return false
-    end
-
-    local function GetScreenPosition(btn)
-        local btnPos = btn.AbsolutePosition
-        local btnSize = btn.AbsoluteSize
-        local centerX = math.floor(btnPos.X + btnSize.X / 2)
-        local centerY = math.floor(btnPos.Y + btnSize.Y / 2)
-
-        local guiInset = Vector2.new(0, 0)
-        pcall(function()
-            guiInset = game:GetService("GuiService"):GetGuiInset()
-        end)
-        centerY = centerY + math.floor(guiInset.Y)
-
-        return centerX, centerY
-    end
-
-    local methods = {
-
-        function()
-            if not firesignal then return false end
-            pcall(function() firesignal(retryBtn.MouseButton1Click) end)
-            return DidClickWork()
-        end,
-
-        function()
-            if not getconnections then return false end
-            local ok, conns = pcall(function()
-                return getconnections(retryBtn.MouseButton1Click)
-            end)
-            if not ok or not conns or #conns == 0 then return false end
-            for _, conn in ipairs(conns) do
-                pcall(function()
-                    local fn = conn.Function or conn.Callback
-                    if type(fn) == "function" then fn() end
-                end)
-            end
-            return DidClickWork()
-        end,
-
-        function()
-            if not firebutton then return false end
-            pcall(function() firebutton(retryBtn) end)
-            return DidClickWork()
-        end,
-
-        function()
-            if not getcallbackvalue then return false end
-            local ok, cb = pcall(function()
-                return getcallbackvalue(retryBtn, "MouseButton1Click")
-            end)
-            if not ok or not cb then return false end
-            pcall(cb)
-            return DidClickWork()
-        end,
-
-        function()
-            pcall(function() retryBtn:Activate() end)
-            return DidClickWork()
-        end,
-
-        function()
-            pcall(function() retryBtn:SimulateClick() end)
-            return DidClickWork()
-        end,
-
-        function()
-            local ok, vim = pcall(function()
-                return game:GetService("VirtualInputManager")
-            end)
-            if not ok or not vim then return false end
-            local centerX, centerY = GetScreenPosition(retryBtn)
-            local viewportSize = Workspace.CurrentCamera.ViewportSize
-            if centerX <= 0 or centerY <= 0
-                or centerX >= viewportSize.X
-                or centerY >= viewportSize.Y then
-                return false
-            end
-            pcall(function() vim:SendMouseMoveEvent(centerX, centerY, game) end)
-            task.wait(0.05)
-            pcall(function()
-                vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 0)
-            end)
-            task.wait(0.1)
-            pcall(function()
-                vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 0)
-            end)
-            return DidClickWork()
-        end,
-
-        function()
-            local ok, uis = pcall(function()
-                return game:GetService("UserInputService")
-            end)
-            if not ok or not uis then return false end
-            local centerX, centerY = GetScreenPosition(retryBtn)
-            if centerX <= 0 or centerY <= 0 then return false end
-            pcall(function()
-                uis:SendMouseButtonEvent(centerX, centerY,
-                    Enum.UserInputType.MouseButton1, true)
-            end)
-            task.wait(0.05)
-            pcall(function()
-                uis:SendMouseButtonEvent(centerX, centerY,
-                    Enum.UserInputType.MouseButton1, false)
-            end)
-            return DidClickWork()
-        end,
-    }
-
-    for _, method in ipairs(methods) do
-        local visOk, visVal = pcall(function()
-            return LocalPlayer.PlayerGui.Interface.Rewards.Visible
-        end)
-        if visOk and not visVal then break end
-
-        local success = false
-        pcall(function() success = method() end)
-        if success then break end
-
-        task.wait(0.2)
-    end
+    SendRetryRemote()
 end
 
 local AutoRetryTitanConnection = nil
@@ -570,14 +424,14 @@ local function EnableAutoRetry()
 
         if rewards.Visible then
             task.wait(2)
-            TryClickRetry()
+            TryRetry()
         end
 
         AutoRetryConnection = rewards:GetPropertyChangedSignal("Visible"):Connect(function()
             if not AutoRetryEnabled then return end
             if not rewards.Visible then return end
             task.wait(2)
-            TryClickRetry()
+            TryRetry()
         end)
 
         task.spawn(function()
@@ -589,7 +443,7 @@ local function EnableAutoRetry()
                 if not ok then break end
                 if currentVisible and not lastVisible then
                     task.wait(2)
-                    TryClickRetry()
+                    TryRetry()
                 end
                 lastVisible = currentVisible
             end
@@ -611,7 +465,7 @@ local function EnableAutoRetry()
                     if not hasModel then
                         task.wait(3)
                         if not AutoRetryEnabled then break end
-                        TryClickRetry()
+                        TryRetry()
                     end
                 end
             end
@@ -826,6 +680,7 @@ local function FarmLoop()
             return
         end
         if IsRefilling then return end
+        if KillWithoutTPEnabled then return end
         local char = LocalPlayer.Character
         if not char then return end
         local hum = char:FindFirstChild("Humanoid")
@@ -847,6 +702,8 @@ local function FarmLoop()
         end
     end)
 
+    local isFirstTitan = true
+
     task.spawn(function()
         while AutoFarmEnabled do
             if AutoRefillEnabled and not IsRefilling then
@@ -865,15 +722,17 @@ local function FarmLoop()
                 continue
             end
 
-            local char = LocalPlayer.Character
-            local hrp = char and char:FindFirstChild("HumanoidRootPart")
-            if hrp then
-                local farmCF = GetFarmCFrame(CurrentTarget)
-                if farmCF then hrp.CFrame = farmCF end
+            if not KillWithoutTPEnabled then
+                local char = LocalPlayer.Character
+                local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                if hrp then
+                    local farmCF = GetFarmCFrame(CurrentTarget)
+                    if farmCF then hrp.CFrame = farmCF end
+                end
             end
 
             local nape = GetNapePart(CurrentTarget)
-            if nape then SendClick() end
+            if nape then SendSlashAttack(CurrentTarget) end
 
             local hitCount = 1
 
@@ -889,21 +748,30 @@ local function FarmLoop()
                 if IsRefilling then continue end
 
                 if not IsTitanValid(CurrentTarget) then
+                    local previousTarget = CurrentTarget
                     CurrentTarget = nil
                     hitCount = 0
+
+                    if DelayToKillEnabled and not isFirstTitan then
+                        task.wait(DelayToKillAmount)
+                    end
+                    isFirstTitan = false
+
                     break
                 end
 
-                local c = LocalPlayer.Character
-                local h = c and c:FindFirstChild("HumanoidRootPart")
-                if h then
-                    local farmCF = GetFarmCFrame(CurrentTarget)
-                    if farmCF then h.CFrame = farmCF end
+                if not KillWithoutTPEnabled then
+                    local c = LocalPlayer.Character
+                    local h = c and c:FindFirstChild("HumanoidRootPart")
+                    if h then
+                        local farmCF = GetFarmCFrame(CurrentTarget)
+                        if farmCF then h.CFrame = farmCF end
+                    end
                 end
 
                 local napeNow = GetNapePart(CurrentTarget)
                 if napeNow then
-                    SendClick()
+                    SendSlashAttack(CurrentTarget)
                     hitCount = hitCount + 1
 
                     if hitCount % 2 == 0 then
@@ -966,8 +834,8 @@ task.spawn(function()
             if not ok or not val then allBroken = false; break end
         end
         if allBroken then
-            SendReload()
-            task.wait(1.5)
+            SendReloadRemote()
+            task.wait(3)
         end
     end
 end)
@@ -1158,6 +1026,20 @@ local autoReloadToggleRef = AutoFarmTab:AddToggle("Auto Reload", function(state)
     SetSetting("AutoReload", state)
 end)
 
+local killWithoutTPToggleRef = AutoFarmTab:AddToggle("Kill Without TP", function(state)
+    KillWithoutTPEnabled = state
+    SetSetting("KillWithoutTP", state)
+end)
+
+local delayToKillToggleRef = AutoFarmTab:AddToggle("Delay To Kill", function(state)
+    DelayToKillEnabled = state
+    SetSetting("DelayToKill", state)
+end)
+local delayToKillSliderRef = AutoFarmTab:AddSlider("Delay(s)", 0, 300, GetSetting("DelayToKillAmount"), function(v)
+    DelayToKillAmount = v
+    SetSetting("DelayToKillAmount", v)
+end)
+
 local expandHitboxToggleRef = AutoFarmTab:AddToggle("Expand Nape Hitbox", function(state)
     ExpandNapeHitboxEnabled = state
     SetSetting("ExpandNapeHitbox", state)
@@ -1219,6 +1101,7 @@ local function ApplySavedSettings()
     LaggyRunDistance = GetSetting("LaggyRunDistance")
     LaggyRunDelay = GetSetting("LaggyRunDelay")
     NapeHitboxSize = GetSetting("HitboxSize")
+    DelayToKillAmount = GetSetting("DelayToKillAmount")
 
     task.wait(0.3)
 
@@ -1267,6 +1150,18 @@ local function ApplySavedSettings()
         AutoReloadEnabled = true
         autoReloadToggleRef:SetState(true)
     end
+
+    if GetSetting("KillWithoutTP") then
+        KillWithoutTPEnabled = true
+        killWithoutTPToggleRef:SetState(true)
+    end
+
+    if GetSetting("DelayToKill") then
+        DelayToKillEnabled = true
+        delayToKillToggleRef:SetState(true)
+    end
+
+    delayToKillSliderRef:SetValue(GetSetting("DelayToKillAmount"))
 
     if GetSetting("ExpandNapeHitbox") then
         ExpandNapeHitboxEnabled = true
