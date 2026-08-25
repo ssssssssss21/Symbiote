@@ -101,6 +101,7 @@ local OriginalNapeSizes = {}
 local HitboxVisuals = {}
 
 local AutoReloadEnabled = false
+local IsReloading = false
 
 local WalkSpeedEnabled = false
 local WalkSpeedSmoothing = 1
@@ -137,6 +138,7 @@ local RemotePOST = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("Remote
 local RemoteGET  = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("GET")
 
 local function SendSlashAttack(titanModel)
+    if IsReloading or IsRefilling then return end
     local modelName = titanModel.Name
     local distAttr = titanModel:GetAttribute("Distance") or 10
 
@@ -712,7 +714,7 @@ local function FarmLoop()
                     while IsRefilling do task.wait(0.2) end
                 end
             end
-            if IsRefilling then task.wait(0.2); continue end
+            if IsRefilling or IsReloading then task.wait(0.2); continue end
 
             if not CurrentTarget or not IsTitanValid(CurrentTarget) then
                 CurrentTarget = FindBestTitan()
@@ -745,7 +747,7 @@ local function FarmLoop()
                         while IsRefilling do task.wait(0.2) end
                     end
                 end
-                if IsRefilling then continue end
+                if IsRefilling or IsReloading then continue end
 
                 if not IsTitanValid(CurrentTarget) then
                     local previousTarget = CurrentTarget
@@ -834,8 +836,11 @@ task.spawn(function()
             if not ok or not val then allBroken = false; break end
         end
         if allBroken then
+            IsReloading = true
+            task.wait(0.1)
             SendReloadRemote()
-            task.wait(3)
+            task.wait(1.2)
+            IsReloading = false
         end
     end
 end)
