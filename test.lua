@@ -681,7 +681,6 @@ local function FarmLoop()
             if hum then hum.PlatformStand = false end
             return
         end
-        if IsRefilling then return end
         if KillWithoutTPEnabled then return end
         local char = LocalPlayer.Character
         if not char then return end
@@ -750,11 +749,22 @@ local function FarmLoop()
                 if IsRefilling or IsReloading then continue end
 
                 if not IsTitanValid(CurrentTarget) then
-                    local previousTarget = CurrentTarget
                     CurrentTarget = nil
                     hitCount = 0
 
                     if DelayToKillEnabled and not isFirstTitan then
+                        local nextTarget = FindBestTitan()
+                        if nextTarget then
+                            CurrentTarget = nextTarget
+                            if not KillWithoutTPEnabled then
+                                local c = LocalPlayer.Character
+                                local h = c and c:FindFirstChild("HumanoidRootPart")
+                                if h then
+                                    local farmCF = GetFarmCFrame(nextTarget)
+                                    if farmCF then h.CFrame = farmCF end
+                                end
+                            end
+                        end
                         task.wait(DelayToKillAmount)
                     end
                     isFirstTitan = false
