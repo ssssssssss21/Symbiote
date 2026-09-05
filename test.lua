@@ -167,13 +167,21 @@ end
 local function SendRefillRemote()
     local refillPart = nil
     pcall(function()
-        local unclimbable = Workspace:FindFirstChild("Unclimbable")
-        if not unclimbable then return end
-        for _, desc in ipairs(unclimbable:GetDescendants()) do
-            if desc:IsA("BasePart") and desc.Name == "Refill" then
-                refillPart = desc
-                break
+        local searchFolders = {
+            Workspace:FindFirstChild("Unclimbable"),
+            Workspace:FindFirstChild("Climbable")
+        }
+
+        for _, folder in ipairs(searchFolders) do
+            if folder then
+                for _, desc in ipairs(folder:GetDescendants()) do
+                    if desc:IsA("BasePart") and desc.Name == "Refill" then
+                        refillPart = desc
+                        break
+                    end
+                end
             end
+            if refillPart then break end
         end
     end)
     if not refillPart then return end
