@@ -458,28 +458,6 @@ local function EnableAutoRetry()
                 lastVisible = currentVisible
             end
         end)
-
-        task.spawn(function()
-            while AutoRetryEnabled do
-                task.wait(3)
-                if not AutoRetryEnabled then break end
-                local titansFolder = Workspace:FindFirstChild("Titans")
-                if titansFolder then
-                    local hasModel = false
-                    for _, c in ipairs(titansFolder:GetChildren()) do
-                        if c:IsA("Model") then
-                            hasModel = true
-                            break
-                        end
-                    end
-                    if not hasModel then
-                        task.wait(3)
-                        if not AutoRetryEnabled then break end
-                        TryRetry()
-                    end
-                end
-            end
-        end)
     end)
 end
 
