@@ -1,4 +1,3654 @@
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local SaveKey = "SymbioteSettings_" .. tostring(game.PlaceId) .. ".json"
+
+local DefaultSettings = {
+    NoClip = false,
+    WalkSpeed = false,
+    WalkSpeedAmount = 1,
+    LaggyRun = false,
+    LaggyRunDistance = 1,
+    LaggyRunDelay = 1,
+    CtrlClickTP = false,
+    InfiniteJump = false,
+    AutoFarm = false,
+    DistanceToTitan = 0,
+    AutoReload = false,
+    ExpandNapeHitbox = false,
+    HitboxSize = 20,
+    VisualizeHitbox = false,
+    TitanESP = false,
+    AutoRefill = false,
+    ChangeCursor = false,
+    AutoExecute = false,
+    AutoRetry = false,
+    AutoSkipCutscenes = false,
+    KillWithoutTP = false,
+    DelayToKill = false,
+    DelayToKillAmount = 1,
+    HitAll = false,
+    AutoFamilySpin = false,
+    FamiliesToStop = {},
+    FamilyTiersToStop = {},
+    AutoSellPerks = false,
+    PerkTiersToSell = {},
+    SpecificPerksToSell = {},
+    AutoCreateTowers = false,
+    AutoRetrieveSupplyCrates = false,
+}
+
+local AutoExecuteScript = [[
+    task.wait(3)
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ssssssssss21/Symbiote/refs/heads/main/test.lua"))()
+]]
+
+local function ReadFileContent(filename)
+    local ok, data = pcall(function()
+        local readFn = (syn and syn.read_file) or readfile
+        if readFn then
+            return readFn(filename)
+        end
+        return nil
+    end)
+    if ok and data and data ~= "" then
+        return data
+    end
+    return nil
+end
+
+local function WriteFileContent(filename, content)
+    pcall(function()
+        local writeFn = (syn and syn.write_file) or writefile
+        if writeFn then
+            writeFn(filename, content)
+        end
+    end)
+end
+
+local function QueueOnTeleport(scriptCode)
+    local fn = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
+    if fn then
+        pcall(function()
+            fn(scriptCode)
+        end)
+    end
+end
+
+local function LoadSettings()
+    local raw = ReadFileContent(SaveKey)
+    if raw then
+        local ok, data = pcall(function()
+            return HttpService:JSONDecode(raw)
+        end)
+        if ok and type(data) == "table" then
+            return data
+        end
+    end
+    return {}
+end
+
+local function SaveSettings(settings)
+    local ok, json = pcall(function()
+        return HttpService:JSONEncode(settings)
+    end)
+    if ok and json then
+        WriteFileContent(SaveKey, json)
+    end
+end
+
+local SavedSettings = LoadSettings()
+
+local function GetSetting(key)
+    if SavedSettings[key] ~= nil then
+        return SavedSettings[key]
+    end
+    return DefaultSettings[key]
+end
+
+local function SetSetting(key, value)
+    SavedSettings[key] = value
+    SaveSettings(SavedSettings)
+end
+
+if GetSetting("AutoExecute") then
+    QueueOnTeleport(AutoExecuteScript)
+end
+
+local Library = loadstring(game:HttpGet("https://gist.githubusercontent.com/ssssssssss21/09b303c5a1cf601bda1370252c65712a/raw/d7c50c43db2b33c1f7516a10317ff642f77c89a6/UITest.luau"))()
+
+local Workspace = game:GetService("Workspace")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+
+local AutoFarmEnabled = false
+local NoClipEnabled = false
+local CurrentTarget = nil
+local NoClipConnection = nil
+
+local TitanESPEnabled = false
+
+local ExpandNapeHitboxEnabled = false
+local NapeHitboxSize = 20
+local VisualizeHitboxEnabled = false
+local OriginalNapeSizes = {}
+local HitboxVisuals = {}
+
+local AutoReloadEnabled = false
+local IsReloading = false
+
+local WalkSpeedEnabled = false
+local WalkSpeedSmoothing = 1
+local WalkSpeedConnection = nil
+
+local LaggyRunEnabled = false
+local LaggyRunDistance = 1
+local LaggyRunDelay = 1
+local LaggyRunConnection = nil
+local LaggyRunAccum = 0
+
+local CtrlClickTPEnabled = false
+local CtrlClickTPConnection = nil
+
+local InfiniteJumpEnabled = false
+local InfiniteJumpConnection = nil
+
+local AutoRefillEnabled = false
+local IsRefilling = false
+local SetsWentEmptyAt = nil
+
+local ChangeCursorEnabled = false
+local CursorConnection = nil
+local OriginalCursorVisible = nil
+
+local AutoRetryEnabled = false
+local AutoRetryConnection = nil
+
+local AutoSkipCutscenesEnabled = false
+local AutoSkipCutscenesConnection = nil
+local AutoSkipCutscenesBusy = false
+local AutoSkipCutscenesThread = nil
+
+local AutoFamilySpinEnabled = false
+local FamiliesToStop = {}
+local FamilyTiersToStop = {}
+local AutoFamilySpinThread = nil
+
+local AutoSellPerksEnabled = false
+local PerkTiersToSell = {}
+local SpecificPerksToSell = {}
+local AutoSellPerksThread = nil
+
+local AutoCreateTowersEnabled = false
+local AutoRetrieveSupplyCratesEnabled = false
+local CurrentTowerTarget = nil
+local IsRetrievingCrates = false
+local HoverConnection = nil
+local LastHoverCFrame = nil
+local AutoRetrieveSupplyCratesThread = nil
+
+local UI = {}
+
+local KillWithoutTPEnabled = false
+local DelayToKillEnabled = false
+local DelayToKillAmount = 1
+
+local HitAllEnabled = false
+
+local DistanceToTitanAmount = 0
+
+local RemotePOST = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("POST")
+local RemoteGET  = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("GET")
+
+local function IsUsingSpears()
+    local ok, result = pcall(function()
+        local charsFolder = Workspace:FindFirstChild("Characters")
+        if not charsFolder then return false end
+        local playerFolder = charsFolder:FindFirstChild(LocalPlayer.Name)
+        if not playerFolder then return false end
+        local rig = playerFolder:FindFirstChild("Rig_" .. LocalPlayer.Name)
+        if not rig then return false end
+        local lla = rig:FindFirstChild("LeftLowerArm")
+        local rla = rig:FindFirstChild("RightLowerArm")
+        local llaSpears = lla and lla:FindFirstChild("Spears")
+        local rlaSpears = rla and rla:FindFirstChild("Spears")
+        return (llaSpears ~= nil) or (rlaSpears ~= nil)
+    end)
+    if ok then return result end
+    return false
+end
+
+local function GetPlayerRig()
+    local charsFolder = Workspace:FindFirstChild("Characters")
+    local playerFolder = charsFolder and charsFolder:FindFirstChild(LocalPlayer.Name)
+    local rig = playerFolder and playerFolder:FindFirstChild("Rig_" .. LocalPlayer.Name)
+    if rig then return rig end
+    local char = LocalPlayer.Character
+    if char then
+        return char:FindFirstChild("Rig_" .. LocalPlayer.Name)
+    end
+    return nil
+end
+
+local function GetPhysicalSpearCount()
+    local rig = GetPlayerRig()
+    if not rig then
+        local char = LocalPlayer.Character
+        local attr = char and char:GetAttribute("Spears")
+        return (attr and tonumber(attr)) or 0
+    end
+    local lla = rig:FindFirstChild("LeftLowerArm") and rig.LeftLowerArm:FindFirstChild("Spears")
+    local rla = rig:FindFirstChild("RightLowerArm") and rig.RightLowerArm:FindFirstChild("Spears")
+    if not lla and not rla then
+        local char = LocalPlayer.Character
+        local attr = char and char:GetAttribute("Spears")
+        return (attr and tonumber(attr)) or 0
+    end
+    local count = 0
+    for i = 1, 16 do
+        local folder = (i % 2 == 0) and rla or lla
+        local sp = folder and folder:FindFirstChild(tostring(i))
+        if sp and sp:GetAttribute("Used") == nil and sp.Transparency < 0.9 then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+local function GetSpearsEmpty()
+    local physCount = GetPhysicalSpearCount()
+    local char = LocalPlayer.Character
+    local attr = char and char:GetAttribute("Spears")
+    if physCount == 0 then
+        if char and attr ~= 0 then
+            pcall(function() char:SetAttribute("Spears", 0) end)
+        end
+        return true
+    end
+    if attr ~= nil and tonumber(attr) ~= nil and tonumber(attr) <= 0 then
+        return true
+    end
+    return false
+end
+
+local function GetCurrentSpearNumber()
+    local ok, num = pcall(function()
+        if GetSpearsEmpty() then return 0 end
+        local rig = GetPlayerRig()
+        if rig then
+            local lla = rig:FindFirstChild("LeftLowerArm") and rig.LeftLowerArm:FindFirstChild("Spears")
+            local rla = rig:FindFirstChild("RightLowerArm") and rig.RightLowerArm:FindFirstChild("Spears")
+            for i = 16, 1, -1 do
+                local folder = (i % 2 == 0) and rla or lla
+                local sp = folder and folder:FindFirstChild(tostring(i))
+                if sp and sp:GetAttribute("Used") == nil and sp.Transparency < 0.9 then
+                    return i
+                end
+            end
+        end
+        return 0
+    end)
+    if ok and num and num > 0 then return num end
+    return 0
+end
+
+local function IsUsingBlades()
+    if IsUsingSpears() then return false end
+    local ok, result = pcall(function()
+        local charsFolder = Workspace:FindFirstChild("Characters")
+        if not charsFolder then return false end
+        local playerFolder = charsFolder:FindFirstChild(LocalPlayer.Name)
+        if not playerFolder then return false end
+        local rig = playerFolder:FindFirstChild("Rig_" .. LocalPlayer.Name)
+        if not rig then return false end
+        for _, desc in ipairs(rig:GetDescendants()) do
+            if desc:IsA("MeshPart") and desc.Name:sub(1, 5) == "Blade" then
+                return true
+            end
+        end
+        return false
+    end)
+    if ok then return result end
+    return true
+end
+
+local function SendReloadRemote()
+    if not IsUsingBlades() then return end
+    pcall(function()
+        RemoteGET:InvokeServer("Blades", "Reload")
+    end)
+end
+
+local CachedRefillPart = nil
+
+local function GetRefillPart()
+    if CachedRefillPart and CachedRefillPart.Parent and CachedRefillPart:IsA("BasePart") then
+        return CachedRefillPart
+    end
+    CachedRefillPart = nil
+    pcall(function()
+        local searchFolders = {
+            Workspace:FindFirstChild("Unclimbable"),
+            Workspace:FindFirstChild("Climbable")
+        }
+        for _, folder in ipairs(searchFolders) do
+            if folder then
+                for _, desc in ipairs(folder:GetDescendants()) do
+                    if desc:IsA("BasePart") and desc.Name == "Refill" then
+                        CachedRefillPart = desc
+                        return
+                    end
+                end
+            end
+        end
+    end)
+    return CachedRefillPart
+end
+
+local function SendRefillRemote()
+    local refillPart = GetRefillPart()
+    if not refillPart then return end
+    pcall(function()
+        RemotePOST:FireServer("Attacks", "Reload", refillPart)
+    end)
+end
+
+local function SendSpearReloadRemote()
+    local refillPart = GetRefillPart()
+    if not refillPart then return end
+    pcall(function()
+        RemotePOST:FireServer("Attacks", "Reload", refillPart)
+    end)
+    local startWait = os.clock()
+    while os.clock() - startWait < 2 do
+        task.wait(0.1)
+        if not GetSpearsEmpty() then break end
+    end
+end
+
+local function SendRetryRemote()
+    pcall(function()
+        RemoteGET:InvokeServer("Functions", "Retry", "Add")
+    end)
+end
+
+local function GetSetsX()
+    local ok, result = pcall(function()
+        local gui = LocalPlayer.PlayerGui
+        local label = gui.Interface.HUD.Main.Top["7"].Blades.Sets
+        local text = label.Text
+        local x = text:match("^(%d+)%s*/")
+        if x then return tonumber(x) end
+        return nil
+    end)
+    if ok then return result end
+    return nil
+end
+
+local function GetBladesBroken()
+    local ok, result = pcall(function()
+        local rig = GetPlayerRig()
+        if not rig then return false end
+        local foundBlade = false
+        for _, desc in ipairs(rig:GetDescendants()) do
+            if desc:IsA("MeshPart") and desc.Name:sub(1, 5) == "Blade" then
+                foundBlade = true
+                if not desc:GetAttribute("Broken") then
+                    return false
+                end
+            end
+        end
+        return foundBlade
+    end)
+    if ok then return result end
+    return false
+end
+
+local function SetsEmpty()
+    local x = GetSetsX()
+    return x ~= nil and x == 0
+end
+
+local function NeedsRefill()
+    if not SetsEmpty() then
+        SetsWentEmptyAt = nil
+        return false
+    end
+    if SetsWentEmptyAt == nil then
+        SetsWentEmptyAt = os.clock()
+        return false
+    end
+    if os.clock() - SetsWentEmptyAt < 2 then
+        return false
+    end
+    return GetBladesBroken()
+end
+
+local function PerformReload()
+    if IsReloading then return end
+    IsReloading = true
+    task.wait(0.05)
+    if IsUsingSpears() then
+        SendSpearReloadRemote()
+    elseif IsUsingBlades() then
+        SendReloadRemote()
+        local start = os.clock()
+        while os.clock() - start < 1.8 do
+            task.wait(0.1)
+            if not GetBladesBroken() then break end
+        end
+    end
+    task.wait(0.2)
+    IsReloading = false
+end
+
+local function RefillUntilFull()
+    if IsRefilling then return end
+    IsRefilling = true
+    SetsWentEmptyAt = nil
+    while AutoRefillEnabled do
+        if not SetsEmpty() then break end
+        if not GetBladesBroken() then break end
+        SendRefillRemote()
+        task.wait(3)
+        if not SetsEmpty() then break end
+        if not GetBladesBroken() then break end
+    end
+    SetsWentEmptyAt = nil
+    task.wait(0.25)
+    IsRefilling = false
+end
+
+local function CanAttack()
+    if IsReloading or IsRefilling then return false end
+    local char = LocalPlayer.Character
+    if char and (char:GetAttribute("Ragdolled") ~= nil or char:GetAttribute("Shifter") ~= nil) then return false end
+    if AutoReloadEnabled and IsUsingBlades() and GetBladesBroken() then return false end
+    if AutoRefillEnabled and IsUsingBlades() and SetsEmpty() and GetBladesBroken() then return false end
+    if IsUsingSpears() and GetSpearsEmpty() then return false end
+    return true
+end
+
+local function GetTitansFolder()
+    return Workspace:FindFirstChild("Titans")
+end
+
+local function GetAllTitans()
+    local titans = {}
+    local folder = GetTitansFolder()
+    if not folder then return titans end
+    for _, model in ipairs(folder:GetChildren()) do
+        if model:IsA("Model") then table.insert(titans, model) end
+    end
+    return titans
+end
+
+local function GetNapePart(titan)
+    local hitboxes = titan:FindFirstChild("Hitboxes")
+    if not hitboxes then return nil end
+    local hit = hitboxes:FindFirstChild("Hit")
+    if not hit then return nil end
+    return hit:FindFirstChild("Nape")
+end
+
+local function IsTitanDead(titan)
+    if not titan or not titan.Parent then return true end
+    local hrp = titan:FindFirstChild("HumanoidRootPart")
+    if not hrp then return true end
+    if hrp.Anchored == true then return true end
+    local state = titan:GetAttribute("State")
+    if state == "Dead" or state == "Die" or state == "Dying" then return true end
+    local hum = titan:FindFirstChild("Humanoid")
+    if hum and hum.Health <= 0 then return true end
+    return false
+end
+
+local function IsTitanValid(titan)
+    if not titan or not titan.Parent then return false end
+    local folder = GetTitansFolder()
+    if not folder then return false end
+    if titan.Parent ~= folder then return false end
+    return not IsTitanDead(titan)
+end
+
+local function DetonateClientSpear()
+    pcall(function()
+        if run_on_actor and getactors then
+            local actors = getactors()
+            if actors and #actors > 0 then
+                run_on_actor(actors[1], [[
+                    for _, obj in ipairs(getgc(true)) do
+                        if type(obj) == "table" and rawget(obj, "Cache") and rawget(obj, "Services") and rawget(obj, "Modules") then
+                            obj.Spear_State = nil
+                            obj.Using_Spear = nil
+                            obj.Detonate = nil
+                            obj.Can_Detonate = nil
+
+                            if obj.Cache and obj.Cache.Variables and obj.Cache.Variables.Slash then
+                                obj.Cache.Variables.Slash.Slashing = false
+                                obj.Cache.Variables.Slash.Holding = false
+                                obj.Cache.Variables.Slash.Released = false
+                            end
+
+                            if obj.Events then
+                                if obj.Events.Spear_Stepped_2 then
+                                    pcall(function() obj.Events.Spear_Stepped_2:Disconnect() end)
+                                    obj.Events.Spear_Stepped_2 = nil
+                                end
+                                if obj.Events.Spear_Stepped then
+                                    pcall(function() obj.Events.Spear_Stepped:Disconnect() end)
+                                    obj.Events.Spear_Stepped = nil
+                                end
+                            end
+
+                            if obj.Cache and obj.Cache.Interface and obj.Cache.Interface.Cursor and obj.Cache.Interface.Cursor.Distance2 then
+                                obj.Cache.Interface.Cursor.Distance2.Visible = false
+                            end
+
+                            if obj.Cache and obj.Cache.Tracks then
+                                for name, track in pairs(obj.Cache.Tracks) do
+                                    if tostring(name):find("Spear") or tostring(name):find("Hit") or tostring(name):find("Slash") then
+                                        pcall(function() track:Stop(0.1) end)
+                                    end
+                                end
+                            end
+
+                            if obj.Cache and obj.Cache.Animations then
+                                for name, track in pairs(obj.Cache.Animations) do
+                                    if tostring(name):find("Spear") or tostring(name):find("Hit") or tostring(name):find("Slash") then
+                                        pcall(function() track:Stop(0.1) end)
+                                    end
+                                end
+                            end
+                            break
+                        end
+                    end
+                ]])
+            end
+        end
+    end)
+    pcall(function()
+        local pgui = LocalPlayer:FindFirstChild("PlayerGui")
+        local iface = pgui and pgui:FindFirstChild("Interface")
+        local cursor = iface and iface:FindFirstChild("Cursor")
+        local dist2 = cursor and cursor:FindFirstChild("Distance2")
+        if dist2 then dist2.Visible = false end
+    end)
+    pcall(function()
+        local char = LocalPlayer.Character
+        local hum = char and char:FindFirstChild("Humanoid")
+        local anim = hum and hum:FindFirstChild("Animator")
+        if anim then
+            for _, track in ipairs(anim:GetPlayingAnimationTracks()) do
+                if track.Name:find("Spear") or track.Name:find("Slash") or track.Name:find("Hit") or track.Name:find("Throw") then
+                    track:Stop(0.1)
+                end
+            end
+        end
+    end)
+end
+
+local function SendSpearAttack(targetInput)
+    if not CanAttack() then return false end
+    local napeParts = {}
+    if type(targetInput) == "table" and targetInput[1] ~= nil then
+        for _, item in ipairs(targetInput) do
+            if typeof(item) == "Instance" then
+                if item:IsA("BasePart") and item.Name == "Nape" then
+                    table.insert(napeParts, item)
+                else
+                    local n = GetNapePart(item)
+                    if n then table.insert(napeParts, n) end
+                end
+            end
+        end
+    elseif typeof(targetInput) == "Instance" then
+        if targetInput:IsA("BasePart") and targetInput.Name == "Nape" then
+            table.insert(napeParts, targetInput)
+        else
+            local n = GetNapePart(targetInput)
+            if n then table.insert(napeParts, n) end
+        end
+    end
+    if #napeParts == 0 then return false end
+
+    local spearNum = GetCurrentSpearNumber()
+    if not spearNum or spearNum <= 0 then
+        if AutoReloadEnabled and not IsReloading then
+            PerformReload()
+        end
+        return false
+    end
+
+    local fireSuccess = nil
+    local ok = pcall(function()
+        fireSuccess = RemoteGET:InvokeServer("Spears", "S_Fire", tostring(spearNum))
+    end)
+
+    if not ok or fireSuccess ~= true then
+        local nextSpear = GetCurrentSpearNumber()
+        if nextSpear and nextSpear > 0 and nextSpear ~= spearNum then
+            spearNum = nextSpear
+            pcall(function()
+                fireSuccess = RemoteGET:InvokeServer("Spears", "S_Fire", tostring(spearNum))
+            end)
+        end
+        if fireSuccess ~= true then
+            pcall(function()
+                RemotePOST:FireServer("Spears", "Reset")
+            end)
+            return false
+        end
+    end
+
+    task.wait(0.03)
+    for _, nape in ipairs(napeParts) do
+        if nape and nape.Parent then
+            pcall(function()
+                RemotePOST:FireServer("Spears", "S_Explode", nape.Position, 10)
+            end)
+        end
+    end
+    DetonateClientSpear()
+    return true
+end
+
+local function SendSlashAttack(titanModel)
+    if not CanAttack() then return end
+    if IsUsingSpears() then
+        SendSpearAttack(titanModel)
+        return
+    end
+    local distAttr = titanModel:GetAttribute("Distance") or 10
+
+    local hitboxes = titanModel:FindFirstChild("Hitboxes")
+    local hitPart = hitboxes and hitboxes:FindFirstChild("Hit")
+    local napeHit = hitPart and hitPart:FindFirstChild("Nape")
+    if not napeHit then return end
+
+    pcall(function()
+        RemotePOST:FireServer("Attacks", "Slash", true)
+    end)
+    pcall(function()
+        RemotePOST:FireServer("Hitboxes", "Register", napeHit, distAttr, 10)
+    end)
+    pcall(function()
+        RemotePOST:FireServer("Attacks", "Slash", false)
+    end)
+end
+
+local function EnableNoClip()
+    if NoClipConnection then return end
+    NoClipConnection = RunService.Stepped:Connect(function()
+        local character = LocalPlayer.Character
+        if character then
+            for _, part in pairs(character:GetDescendants()) do
+                if part:IsA("BasePart") then part.CanCollide = false end
+            end
+        end
+    end)
+end
+
+local function DisableNoClip()
+    if NoClipConnection then NoClipConnection:Disconnect(); NoClipConnection = nil end
+    local character = LocalPlayer.Character
+    if character then
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("BasePart") then part.CanCollide = true end
+        end
+    end
+end
+
+local function EnableWalkSpeed()
+    if WalkSpeedConnection then WalkSpeedConnection:Disconnect() end
+    WalkSpeedConnection = RunService.Heartbeat:Connect(function()
+        if not WalkSpeedEnabled then return end
+        local char = LocalPlayer.Character
+        if not char then return end
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+        local hum = char:FindFirstChild("Humanoid")
+        if not hum or hum.Health <= 0 then return end
+        local moveDir = hum.MoveDirection
+        if moveDir.Magnitude < 0.1 then return end
+        hrp.CFrame = hrp.CFrame + (moveDir.Unit * WalkSpeedSmoothing)
+    end)
+end
+
+local function DisableWalkSpeed()
+    if WalkSpeedConnection then WalkSpeedConnection:Disconnect(); WalkSpeedConnection = nil end
+end
+
+local function EnableLaggyRun()
+    if LaggyRunConnection then LaggyRunConnection:Disconnect() end
+    LaggyRunAccum = 0
+    LaggyRunConnection = RunService.Heartbeat:Connect(function(dt)
+        if not LaggyRunEnabled then return end
+        local char = LocalPlayer.Character
+        if not char then return end
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+        local hum = char:FindFirstChild("Humanoid")
+        if not hum or hum.Health <= 0 then return end
+        local moveDir = hum.MoveDirection
+        if moveDir.Magnitude < 0.1 then LaggyRunAccum = 0; return end
+        LaggyRunAccum = LaggyRunAccum + dt
+        local delayThreshold = LaggyRunDelay * 0.1
+        if LaggyRunAccum < delayThreshold then return end
+        LaggyRunAccum = 0
+        hrp.CFrame = hrp.CFrame + (moveDir.Unit * LaggyRunDistance)
+    end)
+end
+
+local function DisableLaggyRun()
+    if LaggyRunConnection then LaggyRunConnection:Disconnect(); LaggyRunConnection = nil end
+    LaggyRunAccum = 0
+end
+
+local function EnableCtrlClickTP()
+    if CtrlClickTPConnection then return end
+    CtrlClickTPConnection = UserInputService.InputBegan:Connect(function(input, gameProcessed)
+        if not CtrlClickTPEnabled then return end
+        if gameProcessed then return end
+        if input.UserInputType ~= Enum.UserInputType.MouseButton1 then return end
+        if not (UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) or UserInputService:IsKeyDown(Enum.KeyCode.RightControl)) then return end
+        local char = LocalPlayer.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+        local cam = Workspace.CurrentCamera
+        local mousePos = UserInputService:GetMouseLocation()
+        local ray = cam:ViewportPointToRay(mousePos.X, mousePos.Y)
+        local raycastParams = RaycastParams.new()
+        raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+        raycastParams.FilterDescendantsInstances = {char}
+        local result = Workspace:Raycast(ray.Origin, ray.Direction * 5000, raycastParams)
+        if result then
+            local hitPos = result.Position
+            hrp.CFrame = CFrame.new(hitPos + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
+        end
+    end)
+end
+
+local function DisableCtrlClickTP()
+    if CtrlClickTPConnection then CtrlClickTPConnection:Disconnect(); CtrlClickTPConnection = nil end
+end
+
+local function EnableInfiniteJump()
+    if InfiniteJumpConnection then InfiniteJumpConnection:Disconnect() end
+    InfiniteJumpConnection = UserInputService.JumpRequest:Connect(function()
+        if not InfiniteJumpEnabled then return end
+        local char = LocalPlayer.Character
+        local hum = char and char:FindFirstChild("Humanoid")
+        if hum then hum:ChangeState(Enum.HumanoidStateType.Jumping) end
+    end)
+end
+
+local function DisableInfiniteJump()
+    if InfiniteJumpConnection then
+        InfiniteJumpConnection:Disconnect()
+        InfiniteJumpConnection = nil
+    end
+end
+
+local function EnableChangeCursor()
+    local playerGui = LocalPlayer:FindFirstChild("PlayerGui")
+    local interface = playerGui and playerGui:FindFirstChild("Interface")
+    local cursor = interface and interface:FindFirstChild("Cursor")
+    if cursor and OriginalCursorVisible == nil then
+        OriginalCursorVisible = cursor.Visible
+    end
+    if cursor then cursor.Visible = false end
+    UserInputService.MouseIconEnabled = true
+    if CursorConnection then CursorConnection:Disconnect() end
+    CursorConnection = RunService.Heartbeat:Connect(function()
+        if not ChangeCursorEnabled then return end
+        if not cursor or not cursor.Parent then
+            local pg = LocalPlayer:FindFirstChild("PlayerGui")
+            local iface = pg and pg:FindFirstChild("Interface")
+            cursor = iface and iface:FindFirstChild("Cursor")
+        end
+        if cursor then cursor.Visible = false end
+    end)
+end
+
+local function DisableChangeCursor()
+    if CursorConnection then CursorConnection:Disconnect(); CursorConnection = nil end
+    local playerGui = LocalPlayer:FindFirstChild("PlayerGui")
+    local interface = playerGui and playerGui:FindFirstChild("Interface")
+    local cursor = interface and interface:FindFirstChild("Cursor")
+    if cursor then
+        cursor.Visible = OriginalCursorVisible ~= nil and OriginalCursorVisible or true
+    end
+    OriginalCursorVisible = nil
+end
+
+local function TryRetry()
+    if not AutoRetryEnabled then return end
+    SendRetryRemote()
+end
+
+local function DisableAutoRetry()
+    if AutoRetryConnection then
+        AutoRetryConnection:Disconnect()
+        AutoRetryConnection = nil
+    end
+end
+
+local function EnableAutoRetry()
+    DisableAutoRetry()
+
+    task.spawn(function()
+        local rewards = nil
+        pcall(function()
+            rewards = LocalPlayer:WaitForChild("PlayerGui", 60)
+                :WaitForChild("Interface", 60)
+                :WaitForChild("Rewards", 60)
+        end)
+        if not rewards then return end
+
+        if rewards.Visible then
+            task.wait(1)
+            TryRetry()
+        end
+
+        AutoRetryConnection = rewards:GetPropertyChangedSignal("Visible"):Connect(function()
+            if not AutoRetryEnabled then return end
+            if not rewards.Visible then return end
+            task.wait(1)
+            TryRetry()
+        end)
+
+        task.spawn(function()
+            local lastVisible = rewards.Visible
+            while AutoRetryEnabled do
+                task.wait(1)
+                if not AutoRetryEnabled then break end
+                local ok, currentVisible = pcall(function() return rewards.Visible end)
+                if not ok then break end
+                if currentVisible and not lastVisible then
+                    task.wait(1)
+                    TryRetry()
+                end
+                lastVisible = currentVisible
+            end
+        end)
+    end)
+end
+
+local function GetNil(name)
+    local getNil = getnilinstances or get_nil_instances
+    if not getNil then return nil end
+    local list = getNil()
+    if type(list) == "table" then
+        for _, object in ipairs(list) do
+            if object.Name == name then
+                return object
+            end
+        end
+    end
+    return nil
+end
+
+local function SendSkipKeyInput(skipButton)
+    pcall(function()
+        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+        task.wait(0.05)
+        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+    end)
+
+    local interact = skipButton and (skipButton:FindFirstChild("Interact") or skipButton:FindFirstChildWhichIsA("GuiButton", true))
+    if interact then
+        local fireSignal = firesignal
+        if fireSignal then
+            pcall(function() fireSignal(interact.MouseButton1Click) end)
+            pcall(function() fireSignal(interact.MouseButton1Down) end)
+            pcall(function() fireSignal(interact.MouseButton1Up) end)
+            pcall(function() fireSignal(interact.Activated) end)
+        end
+        if interact.AbsolutePosition and interact.AbsoluteSize then
+            local center = interact.AbsolutePosition + (interact.AbsoluteSize / 2)
+            pcall(function()
+                VirtualInputManager:SendMouseButtonEvent(center.X, center.Y, 0, true, game, 0)
+                task.wait(0.05)
+                VirtualInputManager:SendMouseButtonEvent(center.X, center.Y, 0, false, game, 0)
+            end)
+        end
+    end
+end
+
+local function CheckAndSkipCutscene(skip)
+    if not AutoSkipCutscenesEnabled or AutoSkipCutscenesBusy then return end
+    if not (skip and skip.Visible) then return end
+
+    AutoSkipCutscenesBusy = true
+
+    local middleObj = GetNil("Middle")
+    if middleObj then
+        pcall(function()
+            RemotePOST:FireServer("Functions", "Finished", middleObj)
+        end)
+    end
+
+    task.wait(0.3)
+
+    if AutoSkipCutscenesEnabled and skip and skip.Visible then
+        SendSkipKeyInput(skip)
+    end
+
+    task.wait(0.5)
+    AutoSkipCutscenesBusy = false
+end
+
+local function DisableAutoSkipCutscenes()
+    if AutoSkipCutscenesConnection then
+        AutoSkipCutscenesConnection:Disconnect()
+        AutoSkipCutscenesConnection = nil
+    end
+    if AutoSkipCutscenesThread then
+        task.cancel(AutoSkipCutscenesThread)
+        AutoSkipCutscenesThread = nil
+    end
+    AutoSkipCutscenesBusy = false
+end
+
+local function EnableAutoSkipCutscenes()
+    DisableAutoSkipCutscenes()
+    AutoSkipCutscenesThread = task.spawn(function()
+        local skip = nil
+        pcall(function()
+            skip = LocalPlayer:WaitForChild("PlayerGui", 60)
+                :WaitForChild("Interface", 60)
+                :WaitForChild("Skip", 60)
+        end)
+        if not skip then return end
+
+        if skip.Visible then
+            task.spawn(function()
+                CheckAndSkipCutscene(skip)
+            end)
+        end
+
+        AutoSkipCutscenesConnection = skip:GetPropertyChangedSignal("Visible"):Connect(function()
+            if not AutoSkipCutscenesEnabled then return end
+            if skip.Visible then
+                task.spawn(function()
+                    CheckAndSkipCutscene(skip)
+                end)
+            end
+        end)
+
+        while AutoSkipCutscenesEnabled do
+            task.wait(0.5)
+            if not AutoSkipCutscenesEnabled then break end
+            if not skip or not skip.Parent then
+                if AutoSkipCutscenesConnection then
+                    AutoSkipCutscenesConnection:Disconnect()
+                    AutoSkipCutscenesConnection = nil
+                end
+                pcall(function()
+                    local pgui = LocalPlayer:FindFirstChild("PlayerGui")
+                    local iface = pgui and pgui:FindFirstChild("Interface")
+                    skip = iface and iface:FindFirstChild("Skip")
+                end)
+                if skip and AutoSkipCutscenesConnection == nil then
+                    AutoSkipCutscenesConnection = skip:GetPropertyChangedSignal("Visible"):Connect(function()
+                        if not AutoSkipCutscenesEnabled then return end
+                        if skip.Visible then
+                            task.spawn(function()
+                                CheckAndSkipCutscene(skip)
+                            end)
+                        end
+                    end)
+                end
+            end
+            local ok, isVisible = pcall(function() return skip and skip.Visible end)
+            if ok and isVisible and not AutoSkipCutscenesBusy then
+                task.spawn(function()
+                    CheckAndSkipCutscene(skip)
+                end)
+            end
+        end
+        AutoSkipCutscenesThread = nil
+    end)
+end
 
 
 
-return({function(i,h)return function()local a,d,_,b,g,j,l,e,f,k l=0b11100011 while true do if l>=0xa2 then if l<0xe3 then b,d,_=a,a.GetDescendants,pairs d=i.h(d(b))_,d,b=_(i.i(d))_,d,b=i.g(_,d,b)k,e=_(d,b)b=k l=b==nil and 0x46e/l or 0x1584/l elseif l>0xe3 then g=false l,e.CanCollide=0b10010100,g else _=h[1][0b10][h[1][0b11]]a=_.Character l=a and 0xa2 or 0b111 end elseif l<=0b100010 then if l>0b111 then j,f,g=e,"BasePart",e.IsA g=g(j,f)l=g and 0xec or 0b10010100 else return end else k,e=_(d,b)b=k l=b==nil and 0b111 or 0x13a8/l end end end end,function(g,e)return function()local _,a,d,c c=0x3b repeat if c<0b10001111 then _,a=g:Ib{e[1]},pcall a,_=a(_)c=a and 0b10111111 or 0b10001111 elseif c<=0x8f then d=nil return d else return _ end until false end end,function(i)return function(a)local f,c,e,_,d,b,g c=0xad while true do if c<=0xad then if c<0xa2 then if c<=0x5b then d=math b,d,_=a,tonumber,d.floor d=d(b)c=d and 0xa2 or 0x8d else c,d=0b10100010,0 end elseif c>0b10100010 then _=not a c=_ and 0xc3 or 0x5b else _=_(d)d,b=tostring,_ d=d(b)d,b=d.reverse,d d=d(b)f,e,d,b="(%d%d%d)","%1,",d.gsub,d d=d(b,f,e)d,b=d.reverse,d d=d(b)e=1 f,g,b=d,e,d.sub b=b(f,e,g)f=","c=b==f and 0b11110111 or 0x6ebe/c end elseif c<0b11000011 then return d elseif c>0b11000011 then b,c,e,f=d.sub,0xaf,0b10,d b=b(f,e)d=b else _="0"return _ end end end end,function(o)return function(a)local g,b,k,e,d,n,j,f,h,q,p,l,_ l=0xb9 while true do if l>0x99 then if l>0xec then g,q=f.Y,h.Y l=g>q and 0xf8-l or 0xec elseif l<=0xb9 then b=math d,k=b.max,a.Size e,b=a.Size,k.X e,k=a.Size,e.Y e=e.Z d=d(b,k,e)b=0b10 _,b=d/b,a.CFrame k,d=a.CFrame,b.UpVector b,e=k.RightVector,a.CFrame j,k,n=d*_,e.LookVector,a.Position f,e=b*_,n+j f,j=k*_,e+f n,p=j+f,b*_ p,f=k*_,e+p j,h=f-p,b*_ h,p=k*_,e-h g,f=b*_,p+h h,g=e-g,k*_ h,g,p=n,j.Y,h-g q=h.Y l=g>q and 0x57 or 0b11110010 else q,g=h.Y,p.Y l=g>q and 0x8d0c/l or 0b110111 end elseif l<0x57 then if l>0b110 then return h else l,h=0b11101100,f end elseif l<=0x57 then l,h=0b11110010,j else l,h=0b110111,p end end end end,function(g,e)return function()local _,d,b,a,c c=0b111100 while true do if c<0x7e then if c>0b111100 then _=a[0b10][a[0b11]].Visible c=_ and 0b10111011 or c+0x25 else a=nil a={[0b11]=1,[1]=a}a[0b10]=a _,d=pcall,g:_c{e[0b11],a}_(d)_=not a[0b10][a[0b11]]c=_ and 0x88 or 0x59 end elseif c<0b10001000 then d,b,_=a[0b10][a[0b11]],"Visible",a[0b10][a[0b11]].GetPropertyChangedSignal _=_(d,b)d,b,_=_,g:ac{a,e[1],e[0b10]},_.Connect _=_(d,b)d,e[0b100][0b10][e[0b100][0b11]]=task,_ d,_=g:Yb{e[0b10],e[1],a},d.spawn _(d)return elseif c>0b10001000 then d=task d,c,_=0b10,0x5c0a/c,d.wait _(d)_=e[1][0b10][e[1][0b11]]_()else return end end end end,function(g,e)return function()local c,a,_,d c=0b10110101 repeat if c>0b10110101 then return _ elseif c>0x76 then a,_=pcall,g:kc{e[0b10],e[1]}a,_=a(_)c=a and 0xf3 or 0x76 else d=true return d end until false end end,function(i,h)return function()local e,a,b,_,d,f a,d,e=h[1][0b10][h[1][0b11]],true,Enum f=e.KeyCode a,_,f,b,e=a.SendKeyEvent,a,false,f.E,game a(_,d,b,f,e)_=task a,_=_.wait,0.05 a(_)e,d,a=Enum,false,h[1][0b10][h[1][0b11]]f=e.KeyCode b,e,_,f,a=f.E,game,a,d,a.SendKeyEvent a(_,d,b,f,e)return end end,function(b,e)return function()local _,a _,a=e[1][0b10][e[1][0b11]],e[0b10][0b10][e[0b10][0b11]]a(_)return end end,function(f,e)return function()local c,_,a c=0b10010 repeat if c<=0b1100001 then if c>0x4d then a=e[0b101][0b10][e[0b101][0b11]]c=a and 0b1100101 or 0x6c elseif c<=0b10111 then if c<=0b10010 then c=0x65 else a=e[0b100][0b10][e[0b100][0b11]]c=a and c+0b1001110 or 0x8b7/c end else a=nil c,e[1][0b10][e[1][0b11]]=c+0x18,a end elseif c<0b1101100 then _=task _,a=0.5,_.wait a(_)_=e[0b11][0b10][e[0b11][0b11]]a=not _ c=a and 0x1e61/c or 0b10111 elseif c<=0x6c then a=e[0b10][0b10][e[0b10][0b11]]a=a()c=a and 0x4a40/c or c+-0b111 else c,_=0b1100101,task _,a=e[0b110][0b10][e[0b110][0b11]],_.spawn a(_)end until false end end,function(b,d)return function()local a a=d[1][0b10][d[1][0b11]]a()return end end,function(b,e)return function()local c,a,_ c=0b1101110 repeat if c<0x6e then a=e[1][0b10][e[1][0b11]]_,a=a,a.Disconnect c=0xc5-c a(_)a=nil e[1][0b10][e[1][0b11]]=a elseif c>0x6e then return else a=e[1][0b10][e[1][0b11]]c=a and 0x53 or 0b1110010 end until false end end,function(g,h)return function(a)local b,_,f,c,d c=0x36 while true do if c<=0b1111101 then if c<0b110111 then if c>0b110100 then _=not a c=_ and 0b11000001 or 0b11110100 else d=false return d end elseif c<0x6d then f,b=a,h[1][0b10][h[1][0b11]]b=b(f)d=not b return d elseif c>0x6d then d=false return d else _=false return _ end elseif c>0b11000001 then c,d=c+-0x33,a.Parent _=not d elseif c>0xae then c=_ and 0x6d or 0b101101111-c elseif c<=0b1111111 then d=a.Parent c=d~=_ and 0x34 or 0xb6-c else _=h[0b10][0b10][h[0b10][0b11]]_=_()d=not _ c=d and 0b100101011-c or 0b1111111 end end end end,function(f,e)return function()local _,c,a c=0xce repeat if c>0b10001100 then if c<0b11001110 then if c<=0b11000110 then a=e[0b110][0b10][e[0b110][0b11]]a=a()c=a and 0b10001100 or 0xdd else c=a and 0b11011101 or 0b1001101 end elseif c<=0xce then c=0b11011101 else _=task _,a=0.2,_.wait a(_)_=e[0b111][0b10][e[0b111][0b11]]a=not _ c=a and 0xbec9/c or c+-0x8f end elseif c>0b1001110 then if c<=0b10000000 then c,a=c+0x47,e[0b101][0b10][e[0b101][0b11]]else a=e[0b11][0b10][e[0b11][0b11]]c=0b11011101 a()end elseif c>=0x4d then if c>0x4d then a=e[1][0b10][e[1][0b11]]c=a and 0xdd or 0b110110 else _=e[0b10][0b10][e[0b10][0b11]]_=_()a=not _ c=a and 0b11011101 or 0xc6 end else a=e[0b100][0b10][e[0b100][0b11]]c=a and 0x29fa/c or 0xb6-c end until false end end,function(i,h)return function()local _,e,d,b,f,a,g f,d,b,e,g,a=h[1][0b10][h[1][0b11]],"Hitboxes","Register",h[0b10][0b10][h[0b10][0b11]],0b1010,h[0b11][0b10][h[0b11][0b11]]_,a=a,a.FireServer a(_,d,b,f,e,g)return end end,function(f,e)return function()local a,c,_ c=0b11010000 while true do if c>=0b11010000 then if c>0xd0 then return else _=e[0b10][0b10][e[0b10][0b11]]a=not _ c=a and 0b11101110 or 0x22 end else a=e[1][0b10][e[1][0b11]]a()return end end end end,function(f,e)return function()local a,_ _,a=e[1][0b10][e[1][0b11]],e[0b10][0b10][e[0b10][0b11]]_=_.MouseButton1Click a(_)return end end,function(i,h)return function()local e,a,c,_,g,d,b,k c=0x8b while true do if c<=0x8b then if c>=0b1100001 then if c>=0b1101100 then if c<=0b1101100 then c=e and 0b10101100 or 0x153-c else _,a=h[1][0b10][h[1][0b11]],pairs a,_,d=a(_)a,_,d=i.g(a,_,d)b,k=a(_,d)d=b c=d==nil and 0b10100110 or 0b11001000 end else e=k.billboard c=e and 0b1011 or 0b11001101-c end elseif c>=0b100011 then if c<=0b100011 then c=e and 0x122-c or 0xd43/c else c,g=0b100011,k.highlight e=g.Parent end else g=k.billboard c,e=c+0b1100001,g.Parent end elseif c>0xc8 then if c>0b11100111 then c,e=0b1100001,k.highlight e,g=e.Destroy,e e(g)else b,k=a(_,d)d=b c=d==nil and c+-0b1000001 or c+-0x1f end elseif c>=0b10101100 then if c>0b10101100 then e=k.highlight c=e and 0x3b or 0b100011 else c,e=0xe7,k.billboard e,g=e.Destroy,e e(g)end else _={}a=_ h[1][0b10][h[1][0b11]]=a return end end end end,function(i,m)return function()local c,l,e,f,d,a,b,k,_,j,n l=0b1100011 while true do if l>0b1101110 then if l>0b10111000 then if l<0xda then if l>0b11000010 then if l<=0b11000011 then l=b and l+-0x5a or 0b10110110 else k="XP"l,b=l+0x34,d==k end elseif l<=0xbc then if l>0b10111011 then j=m[0b10][0b10][m[0b10][0b11]]n=j.Modules l,e,n=0b1110000,n.Items,m[0b100][0b10][m[0b100][0b11]]k=e[n]else l=b and 0b1110100 or 0b11 end else e,k="XP",m[0b100][0b10][m[0b100][0b11]]b=k==e l=b and 0b11111110 or 0b11001010 end elseif l>=0xf4 then if l>=0b11110101 then if l>0xf5 then l=b and 0b11011010 or 0x17f-l else j=m[0b10][0b10][m[0b10][0b11]]n=j.Modules n,e=m[0b100][0b10][m[0b100][0b11]],n.Items k=e[n]l,b=l+-0x5e,k.Rarity end else e=m[0b10][0b10][m[0b10][0b11]]l,k=0x10b-l,e.Modules end elseif l<=0b11011010 then l,b=0x1c8-l,m[0b1001][0b10][m[0b1001][0b11]]n=b e=n.XP k=e+_ b.XP=k else return end elseif l>=0b10000001 then if l>0b10110001 then if l>0b10110110 then k,e=m[0b100][0b10][m[0b100][0b11]],"Gold"l,b=0x30,k==e else l=b and 0b11111000-l or l+-0b101 end elseif l>=0b10101111 then if l>0xaf then l,b=0xf3-l,m[0b100][0b10][m[0b100][0b11]]else d=d(b)k,e=m[0b1000][0b10][m[0b1000][0b11]],1 b=k==e l=b and 0b110000 or 0b101100111-l end elseif l>0x81 then k=b l=k and 0x6d or 0b100010 else e,k=d,m[0b110][0b10][m[0b110][0b11]]k=k(e)b=not k l=b and 0x50 or 0b11101110 end elseif l<=0x74 then if l>0b1110010 then b=m[0b1001][0b10][m[0b1001][0b11]]n=b e=n.Gold l,k=0x6bd8/l,e+_ b.Gold=k elseif l>0x70 then l,_=l+-0x41,1 else l=k and 0b11110101 or 0x97 end elseif l>0b1110110 then b,k=m[1][0b10][m[1][0b11]],""l,b=0xc3,b~=k else b=m[0b1001][0b10][m[0b1001][0b11]]n=b e=n.Gems k=e+_ l,b.Gems=0x6db4/l,k end elseif l>=0x41 then if l<=0b1100011 then if l<0b1010100 then if l>=0x42 then if l<=0b1000010 then l=b and l+0x6d or 0b111011 else k,b=d,m[0b11][0b10][m[0b11][0b11]]b=b(k)l=b and 0x6e or 0x6b end else l=k and l+0x7b or 0x70 end elseif l<=0b1010110 then if l<=0x54 then l=b and 0x76 or 0x3fa8/l else l,n=0b1000001,m[0b10][0b10][m[0b10][0b11]]e=n.Modules k=e.Items end else a,_=tostring,m[0b111][0b10][m[0b111][0b11]]l=_ and 0b111010 or 0x10 end elseif l<=0b1101011 then if l<0x69 then l,k=0xb8-l,"Gems"b=d==k elseif l>0b1101001 then l,b,k=0b1101110,m[0b101][0b10][m[0b101][0b11]],d b=b(k)else l,b=0b10110110,m[1][0b10][m[1][0b11]]end elseif l<=0x6d then b,e=k,string k,j,n,e=e.gsub," ","_",d k=k(e,n,j)j,c=" (",")"f=b..c n=j..f e,j=k..n,table l,f,n=0b11101110,m[0b1001][0b10][m[0b1001][0b11]],j.insert f,j=e,f.Items n(j,f)j=table n,f=j.insert,m[0b1001][0b10][m[0b1001][0b11]]f,j=b,f.Rarities n(j,f)else k=not b l=k and l+-0b1000110 or 0xb9a/l end elseif l>=0b101000 then if l>0x31 then if l>0x3a then l,b=l+0b1110100,""else a=a(_)_,a,d,b=a,a.gsub,",",""a=a(_,d,b)_,d,b,a=a,"%+","",a.gsub a=a(_,d,b)_,b,d,a=a,"","%s",a.gsub a=a(_,d,b)_,d=tonumber,a _=_(d)l=_ and 0b110001 or 0b1110010 end elseif l>=0b110000 then if l>0b110000 then b,d=m[1][0b10][m[1][0b11]],tostring l=b and 0xaa-l or 0b11000011 else l=b and 0x2310/l or 0x5c-l end elseif l<=0b101000 then e,n=type,m[0b10][0b10][m[0b10][0b11]]e=e(n)n="table"l,k=0x438/l,e==n else k="Gold"l,b=0b10111011,d==k end elseif l>=0b10111 then if l<=0b11011 then if l>0b10111 then l=k and 0b11110100 or l+-0b100 else l=k and 0x7ba/l or 0x58-l end else l,k=0x6d,"Common"end elseif l>0b11 then l,_=0x3a,""else k,e=m[0b100][0b10][m[0b100][0b11]],"Gems"b=k==e l=b and 0x54 or l+0x61 end end end end,function(g,e)return function(a)local d,_,c,b c=0x36 repeat if c>=0b1000101 then if c>0x45 then return else _,d=e[1][0b10][e[1][0b11]],"    task.wait(3)\n    loadstring(game:HttpGet(\"https://raw.githubusercontent.com/ssssssssss21/Symbiote/refs/heads/main/test.lua\"))()\n"c=0b11010001 _(d)end elseif c>0b100101 then d,_,b="AutoExecute",e[0b10][0b10][e[0b10][0b11]],a _(d,b)c=a and 0b1000101 or 0b100101 else d,_="",e[1][0b10][e[1][0b11]]c=0b11010001 _(d)end until false end end,function(b,d)return function()local a a=d[1][0b10][d[1][0b11]]a()return end end,function(g,h)return function()local d,a,b,_ a,b=require,h[1][0b10][h[1][0b11]]d=b.Modules _=d.Storage _=_.Items a=a(_)h[0b10][0b10][h[0b10][0b11]]=a return end end,function(b,e)return function()local a,_,c c=0xa5 while true do if c<=0xef then if c>0b10100101 then return else a=e[1][0b10][e[1][0b11]]c=a and 0xf6 or 0xef end else a=e[1][0b10][e[1][0b11]]a,c,_=a.Disconnect,c+-0b111,a a(_)a=nil e[1][0b10][e[1][0b11]]=a end end end end,function(i)return function(a)local d,b,_,f,e,c c=0b10001110 while true do if c<=0x8e then if c>0x7f then d,b,_=a,"Hitboxes",a.FindFirstChild _=_(d,b)d=not _ c=d and 0x7f or 0xc4 elseif c>0x62 then d=nil return d else b=nil return b end elseif c<=0xa2 then b,e,f=d.FindFirstChild,"Nape",d b=i.h(b(f,e))return i.i(b)else b,d,f=_,_.FindFirstChild,"Hit"d=d(b,f)b=not d c=b and c+-0b1100010 or 0b10100010 end end end end,function(g,e)return function(a)local d,_,c,b c=0x43 while true do if c<0xd0 then if c<=0b1000011 then _,e[0b11][0b10][e[0b11][0b11]],b,d=e[1][0b10][e[1][0b11]],a,a,"AutoSkipCutscenes"_(d,b)c=a and 0b11010000 or 0b11011110 else return end elseif c<=0b11010000 then _=e[0b100][0b10][e[0b100][0b11]]c=0x82 _()else _=e[0b10][0b10][e[0b10][0b11]]c=0x82 _()end end end end,function(g,e)return function(a)local d,b,_ e[0b10][0b10][e[0b10][0b11]],d,_,b=a,"LaggyRunDistance",e[1][0b10][e[1][0b11]],a _(d,b)return end end,function(i,h)return function()local c,_,a,f,e,d,b c=0b10100011 while true do if c<0xa3 then if c>=0x68 then if c>0b1101000 then _,d=pcall,i:mb{a,h[0b10]}_,d=_(d)b=_ c=b and 0x5f85/c or 0b1101000 else c=b and 0b1101101-c or 0b100110001-c end else return d end elseif c>0xc9 then f,c,e=type,0x68,d f=f(e)e="table"b=f==e elseif c<=0b10100011 then _,a=h[1][0b10][h[1][0b11]],h[0b11][0b10][h[0b11][0b11]]a=a(_)a={[0b11]=1,[1]=a}a[0b10]=a c=a[0b10][a[0b11]]and 0b1110101 or 0xc9 else d={}_=d return _ end end end end,function(i,h)return function()local a,b,c,f,d,_ c=0xf8 while true do if c<0x78 then if c>0b1001100 then if c>=0b1100110 then if c<=0b1101000 then if c<=0x66 then d=a[0b10][a[0b11]].Parent c,_=0b1101000,not d else c=_ and 0b100011 or 0b101000000-c end else d=task _,d=d.wait,0.5 _(d)d=h[0b101][0b10][h[0b101][0b11]]_=not d c=_ and 0x89-c or 0b11010100-c end elseif c>0b1011001 then _=not a[0b10][a[0b11]]c=_ and c+0b110 or c+0b100 else d,c,b=h[0b100][0b10][h[0b100][0b11]],0b100010011-c,nil _=d==b end elseif c>=0x17 then if c>=0x23 then if c>0b100011 then c=b and 0x118-c or 0x58-c else _=h[0b100][0b10][h[0b100][0b11]]c=_ and c+-0b1110 or 0b11001011-c end else return end elseif c>0x15 then _=a[0b10][a[0b11]].Visible c=_ and 0b11101110 or 0xb2 elseif c<=0b1100 then _=h[0b101][0b10][h[0b101][0b11]]c=_ and 0x558/c or 0b100011-c else c,_=c+0x93,h[0b100][0b10][h[0b100][0b11]]_,d=_.Disconnect,_ _(d)_=nil h[0b100][0b10][h[0b100][0b11]]=_ end elseif c<0b10111011 then if c>0xa8 then if c<=0b10110010 then c,b,d,_=0x858/c,"Visible",a[0b10][a[0b11]],a[0b10][a[0b11]].GetPropertyChangedSignal _=_(d,b)_,d,b=_.Connect,_,i:yb{a,h[1],h[0b101]}_=_(d,b)h[0b100][0b10][h[0b100][0b11]]=_ else c=_ and 0b100110010-c or 0b11011000 end elseif c>0b10011100 then _,d=pcall,i:Db{a,h[0b11]}_(d)_=a[0b10][a[0b11]]c=_ and 0x3a68/c or 0x162-c elseif c<=0x91 then if c>0x78 then f=h[0b10][0b10][h[0b10][0b11]]c,b=0xdd-c,not f else b,c,d,_="Visible",0xd8,a[0b10][a[0b11]],a[0b10][a[0b11]].GetPropertyChangedSignal _=_(d,b)_,b,d=_.Connect,i:zb{a,h[1],h[0b101]},_ _=_(d,b)h[0b100][0b10][h[0b100][0b11]]=_ end else c=b and 0x91 or 0b1001100 end elseif c<0b11101110 then if c>=0b11001100 then if c<=0xcc then f=task b,c,f=f.spawn,0b1100,i:Cb{a,h[1]}b(f)else d,_=i:Ab{a},pcall _,d=_(d)b=_ c=b and 0xbb or 0x83a0/c end else c,b=0b10011100,d end elseif c>0b11101111 then a=nil a={[0b11]=1,[1]=a}a[0b10]=a d,_=i:Eb{h[0b11],a},pcall _(d)_=not a[0b10][a[0b11]]c=_ and 0xef or 0x16 elseif c>0b11101110 then return else c,d=0b10110010,task d,_=i:Bb{a,h[1]},d.spawn _(d)end end end end,function(N,m)return function()local K,S,n,h,v,u,r,T,j,F,M,U,i,g,p,z,o,b,B,_,d,f,c,R,q,D,x,Q,k,l,s,y,C,L,P,a,I,H,w,G,O,t,e,A,J w=0b11011111 repeat if w>=0b11100001 then if w>=0x22e then if w>0x31f then if w<=0x39d then if w<=0x36a then if w<=0x345 then if w>=0x334 then if w<0x33b then w=z and 0x396 or 0x4b0-w elseif w<=0x33b then t=m[0b1001][0b10][m[0b1001][0b11]]w,_=0x1ad,t.Player T=_.Level else T,_=H(f,z)z=T w=z==nil and 0b110 or 0x361-w end elseif w<=0x320 then f.RarityCounts=z T,z=q,ipairs z,T,_=z(T)z,T,_=N.g(z,T,_)t,l=z(T,_)_=t w=_==nil and 0x3bf or 0x297 else w=p and 0x61b-w or 0b111001001 end elseif w<0x35e then if w>0x350 then w,v=0x5b046/w,"Common"else w,O=0x24060/w,n.Image end elseif w<=0x35e then c,U=m[0b10][0b10][m[0b10][0b11]],d c=c(U)v=not c w=v and 0x2b2 or 0x63a-w else c,U=m[0b10][0b10][m[0b10][0b11]],d c=c(U)v=not c w=v and w+-0x16b or 0x9d0c0/w end elseif w>0x38e then if w<0x396 then b=r w=b and 0xaa38e/w or 0x20c elseif w<=0x396 then T=i.Progression z,T=T.Prestige,nil w=z~=T and 0x204 or 0x239 else w,v=0x200,"Common"end elseif w<=0x388 then if w<0x380 then z=T+F f.Gold=z T=f.Gems w=T and 0x30a or 0x66576/w elseif w<=0x380 then w,f.FastestSeconds=0x34,a else T,_=type,i T=T(_)w,_=w+-0b11100111,"table"z=T==_ end else p=U w=p and 0x137 or 0x75a-w end elseif w>=0x3cc then if w>=0x3ea then if w<0x3f3 then if w>0x3ea then u,o="Common",m[0b1111][0b10][m[0b1111][0b11]]o=o()n=o w=n and 0x4b7-w or w+-0b101100000 else w=b and 0x283 or 0x57552/w end elseif w<=0x3f3 then _,t=ipairs,H.Perks _,t,l=_(t)_,t,l=N.g(_,t,l)g,d=_(t,l)l=g w=l==nil and 0x119 or 0x31f else w=b and 0x96 or 0b110110100 end elseif w<0x3d7 then if w<=0x3cc then w=p and 0x6bb-w or 0x3c9 else w,z.Gold=0b101001000,T end elseif w>0x3d7 then t,l=z(T,_)_=t w=_==nil and w+-0b101110 or 0x637-w else w,g=0x3b8,l.Text end elseif w<=0x3bf then if w<=0x3b8 then if w<=0x3b7 then if w<=0x3a4 then y=math y,Q,J=U.B,y.abs,b.B w,y=0x322,y-J Q=Q(y)y=0.05 p=Q<y else z=f.RarityCounts w=z and 0x320 or w+-0x204 end else w=g and w+-0x267 or 0b101011010 end else z=D w=z and 0x388 or 0x2a1 end elseif w<=0x3c8 then if w<=0x3c5 then _,t=type,H.Chests _=_(t)t="table"w=_==t and 0x3c8 or w+-0x2c4 else _,t=ipairs,H.Chests _,t,l=_(t)_,t,l=N.g(_,t,l)g,d=_(t,l)l=g w=l==nil and 0x3cbc8/w or 0x732-w end else w=p and 0xdc7c4/w or 0x322 end elseif w<=0x2b1 then if w>=0x26f then if w>=0x295 then if w>=0x2a1 then if w>=0x2a2 then if w<=0x2a2 then c,v=d,m[0b1101][0b10][m[0b1101][0b11]]v=v(c)w=v and 0x4a2-w or 0x9835a/w else t=m[0b1001][0b10][m[0b1001][0b11]]w,_=w+-0x9f,t.Player T=_.Gems end else w=z and w+-0b11000100 or 0x59b62/w end elseif w>0x295 then c,g=f.RarityCounts,f.RarityCounts v=c[l]w=v and w+-0x131 or w+-0x14a else U,c,u=t,t.FindFirstChild,"Rarity"c=c(U,u)U=c w=U and 0x2eb or 0x3f2 end elseif w<=0x283 then if w<=0x27c then if w>0x26f then b,p=pairs,A b,p,Q=b(p)b,p,Q=N.g(b,p,Q)y,J=b(p,Q)Q=y w=Q==nil and 0x393 or 0b100011000 else w=z and 0x440-w or 0x222 end else w,M=w+0b11000010,v end else w=n and 0x24d or 0x4c0-w end elseif w>0x24d then if w>=0x25a then if w<=0x25a then w,p=0x3ff,0 b=h==p else w,p=w+0x7c,0 b=F==p end else d=table w,g,d,v=w+0x193,d.insert,f.Items,l g(d,v)end elseif w>=0x232 then if w>=0x239 then if w<=0x239 then T=i.Progression z,T=T.Level,nil w=z~=T and 0b11101010 or 0b101111100 else n,O=pairs,o.Colours n,O,r=n(O)n,O,r=N.g(n,O,r)A,b=n(O,r)r=A w=r==nil and 0x47b-w or 0x38e end else w=G and 0x150 or 0b11111111 end elseif w<=0x22e then O,n,r=t,t.FindFirstChild,"Icon"n=n(O,r)O=n w=O and 0x73860/w or 0x17b44/w else p="Gems"b=r==p w=b and 0x15f8f/w or 0x3ea end elseif w<0x2ec then if w<0x2dc then if w<=0x2d5 then if w>=0x2cf then if w>0x2cf then w,T=0b101111000,0 else T,_=type,i.Currency T=T(_)w,_=0x53e-w,"table"z=T==_ end else v,c=m[0b1110][0b10][m[0b1110][0b11]],d v=v(c)w=v and 0b110110010 or 0x35b end else w=b and 0x1ef or 0x63379/w end elseif w<=0x2e0 then if w<=0x2de then if w<=0x2dc then g,d=_(t,l)l=g w=l==nil and 0x3c5 or 0x35e else w,v=w+-0xbb,"Rare"end else g,d=_(t,l)l=g w=l==nil and 0x3e1-w or w+0b10001010 end else w,U=w+0x107,c.BackgroundColor3 end elseif w>0x2fa then if w<0x31d then z=T+M f.Gems=z T=f.XP w=T and 0x182 or 0x219 elseif w<=0x31d then t,l=z(T,_)_=t w=_==nil and 0xba9a3/w or 0x8101b/w else c,U=m[0b10][0b10][m[0b10][0b11]],d c=c(U)v=not c w=v and 0x8379e/w or 0x46cf5/w end elseif w<=0x2f7 then if w<=0x2ef then if w<=0x2ec then A,r=m[0b101][0b10][m[0b101][0b11]],nil A=A()w=A and 0x27c or w+0xa7 else y=math y,Q,J=U.G,y.abs,b.G w,y=0x6b8-w,y-J Q=Q(y)y=0.05 p=Q<y end else y,J=b(p,Q)Q=y w=Q==nil and 0xa98d5/w or w+-0b111011111 end elseif w>0x2f9 then w,p,Q=0x617b8/w,m[0b10][0b10][m[0b10][0b11]],r p=p(Q)b=not p else w,u=0x67abe/w,A end elseif w>=0x16b then if w>0b111011101 then if w>0x200 then if w<=0x212 then if w>0x20c then w,z.Gems=0x222,T elseif w>=0x206 then if w<=0x206 then T={}w,z=0b11011101,T else w=b and 0b10000001 or w+0b100111001 end else T=m[0b1001][0b10][m[0b1001][0b11]]T,_,z=tonumber,i.Progression,T.Player _=_.Prestige T=T(_)w=T and 0x34a88/w or 0b11001110 end elseif w<0x222 then w,T=0x182,0 elseif w>0x222 then u=string o,u,n,U="_",d," ",u.gsub U=U(u,o,n)o,O=" (",")"n=v..O u=o..n u,c=table,U..u U,o,u=u.insert,c,K U(u,o)u=table o,w,u,U=v,0x2e0,q,u.insert U(u,o)else z=m[0b1010][0b10][m[0b1010][0b11]]z()z=m[0b1100][0b10][m[0b1100][0b11]]z()z=false m[1][0b10][m[1][0b11]]=z return end elseif w<0b111111100 then if w>=0b111101111 then if w>0b111101111 then w=z and 0x380 or 0x34 else w,F=0x345,v end elseif w<=0b111011111 then w,h=0x2f0-w,T else w,r=0x393,y end elseif w<=0b111111111 then if w>0b111111101 then c,v=d,m[0b1110][0b10][m[0b1110][0b11]]v=v(c)w=v and w+0x24 or 0x5b922/w elseif w<=0x1fc then z=T+L f.DamageDealt=z T=f.Gold w=T and 0x576-w or 0b10000101 else w,T=0x1fc,0 end else u=string n,o,U,u=" ","_",u.gsub,d U=U(u,o,n)O,o=")"," ("n=v..O u=o..n c,u=U..u,table u,U,o=K,u.insert,c U(u,o)u=table u,w,U,o=q,0x16b,u.insert,v U(u,o)end elseif w<=0b110101011 then if w>=0x182 then if w<=0b110011011 then if w>=0b110001100 then if w<=0b110001100 then T=m[0b1001][0b10][m[0b1001][0b11]]z,_,T=T.Player,i.Currency,tonumber _=_.Gold T=T(_)w=T and w+0x249 or 0x29484/w else T=m[0b1001][0b10][m[0b1001][0b11]]T,z,_=tonumber,T.Player,i.Currency _=_.Gems T=T(_)w=T and w+0x77 or 0x4522b/w end else z=T+h f.XP=z z=f.Items w=z and 0b11011101 or 0x30d0c/w end elseif w>0x1a2 then t=m[0b1001][0b10][m[0b1001][0b11]]_=t.Player w,T=0x3d5,_.Gold else w,z.Prestige=0x239,T end elseif w<=0b101111100 then if w>0x178 then z=i.Currency w=z and 0x2cf or 0x26f elseif w>0b101101011 then z=T+B f.TitansKilled=z T=f.DamageDealt w=T and 0x374-w or 0x2eb98/w else g,d=_(t,l)l=g w=l==nil and 0x284-w or 0x31f end else _,t=ipairs,H.Drops _,t,l=_(t)_,t,l=N.g(_,t,l)g,d=_(t,l)l=g w=l==nil and 0x3c5 or 0x502e6/w end elseif w<=0b111001001 then if w>0x1b3 then if w>0b110110100 then A,b=n(O,r)r=A w=r==nil and 0x3e41e/w or 0x38e else w,Q=0x345,string Q,J,y,p=r," ","_",Q.gsub p=p(Q,y,J)G,y=")"," ("J=u..G Q=y..J b,Q=p..Q,table p,Q,y=Q.insert,K,b p(Q,y)Q=table y,p,Q=u,Q.insert,q p(Q,y)end elseif w<0b110110010 then w,z.Level=0b101111100,T elseif w<=0x1b2 then u=string U,u,n,o=u.gsub,d," ","_"U=U(u,o,n)O,o=")"," ("n=v..O w,u=0x2dc,o..n c,u=U..u,table o,u,U=c,K,u.insert U(u,o)u=table o,U,u=v,u.insert,q U(u,o)else w,T=0x320,{}z=T end elseif w>0x1d7 then z=i.Progression w=z and 0x1a160/w or 0x5f7e4/w elseif w>0b111010001 then w,T=0x59766/w,0 else T=i.Currency z,T=T.Gold,nil w=z~=T and 0x18c or w+-0x89 end elseif w>=0x111 then if w<0b101010000 then if w<=0x137 then if w<0x119 then if w<=0b100010001 then _,t=type,H.Perks _=_(t)t="table"w=_==t and w+0x2e2 or 0x119 else G=J.Image w=G and 0b101001010 or 0x232 end elseif w>=0b100101110 then if w>0x12e then w,y=w+0x295,math J,y,Q=b.R,U.R,y.abs y=y-J Q=Q(y)y=0.05 p=Q<y else T,_=f.FastestSeconds,0 w,z=0x159,T==_ end else t,_=H.Drops,type _=_(t)t="table"w=_==t and 0x296-w or 0x4de-w end elseif w>0x14a then w,v=0x1d1ae/w,0 elseif w>0b101001000 then R,P=J.Image,tostring P=P(R)R=""w,G=0x232,P~=R else T=i.Currency z,T=T.Gems,nil w=z~=T and 0b110011011 or 0x222 end elseif w>0x15a then if w<=0b101100101 then if w>0x15b then p="XP"b=r==p w=b and 0x25a or 0x3ff else w,v=0x295,1 end else w,c=0x31d,1 d=v+c g[l]=d end elseif w>=0x156 then if w>0x159 then w,g=0x2ab-w,""elseif w>0x156 then w=z and 0x29f22/w or 0b101010110 else w,T=0x2994c/w,f.FastestSeconds z=a<T end elseif w<=0b101010000 then w,C,R=0x14eb0/w,J.Image,tostring R=N.h(R(C))P,G=O,O.find G=G(P,N.i(R))else v,c,d,U=g,",",g.gsub,""d=d(v,c,U)U,v,c,d="",d,"%+",d.gsub d=d(v,c,U)c,d,U,v="%s",d.gsub,"",d d=d(v,c,U)c,v=d,tonumber v=v(c)w=v and w+0x144 or 0b101011011 end elseif w<0b11110001 then if w>0b11101010 then if w>=0xee then if w<=0b11101110 then w=H and 0b110110001-w or 0x9108/w else w,H=0b11000001,m[0b1011][0b10][m[0b1011][0b11]]M=H.Gems end else f,H=S.Stats,tonumber w,f=0x4dc4/w,f.Kills H=H(f)B=H end elseif w>0xe7 then T=m[0b1001][0b10][m[0b1001][0b11]]_,z,T=i.Progression,T.Player,tonumber _=_.Level T=T(_)w=T and 0x1ad or 0x33b elseif w>0xe5 then q,D,K=M,"Kills",M.FindFirstChild K=K(q,D)w=K and w+-0x8e or 0x1b12/w elseif w<=0b11100001 then i,s=tonumber,K i=i(s)w=i and 0x45 or 0x6cfc/w else f,H=S.Seconds,tonumber w,H=0x78c3/w,H(f)end elseif w>=0b11110111 then if w>=0xff then if w<=0xff then w=G and w+0xe6 or w+0b111111000 else w,s=0b10000010,true end elseif w<=0xf7 then M,h,F=I,"Main",I.FindFirstChild w,F=w+-0b10111010,F(M,h)else w=K and 0x142-w or w+-0x23 end elseif w>=0b11110011 then if w>0xf3 then w,a=0xe7,D else w=B and 0b11010001 or 0xa61d/w end elseif w<=0b11110001 then f,z=type,S f=f(z)z="table"w,H=0b101101,f==z else B=math B,x,L=1,B.max,m[0b100][0b10][m[0b100][0b11]]L=L.Seconds x=x(B,L)w,a=0x11a-w,x end elseif w>=0x7a then if w>=0xae then if w<0xc2 then if w<0b10111000 then if w<=0b10110011 then if w>0b10110001 then if w<=0b10110010 then w=D and 0b10110100 or 0x8206/w else w=t and w+-0b10 or 0b10011101 end elseif w>0b10101111 then g,t="Inner",_.Main l,t=t,t.FindFirstChild w,t=0b10011101,t(l,g)elseif w>0xae then L,k=tostring,x w,L=0x8edf/w,L(k)k="N/A"B=L==k else w=O and 0x39a-w or 0b10110101 end elseif w>=0xb5 then if w>0xb5 then _=0 w=f>_ and 0b1101 or 0x6f else w,O=0x2ec,""end else D,i,s=q.Text,",",""S,D=D,D.gsub D=D(S,i,s)D,S,s,i=D.gsub,D,"","%s"D=D(S,i,s)i,S=D,tonumber S=S(i)w=S and 0x74b8/w or w+-0x16 end elseif w<=0b10111100 then if w<0b10111010 then if w>0xb8 then f,z=tonumber,S.Seconds f=f(z)w,z=0x1383/w,0 H=f>z else w=B and 0x4168/w or 0x8c end elseif w>0xbb then z=T+a f.TotalSeconds=z z=0 w=a>z and 0b1100010 or 0x34 elseif w<=0b10111010 then w,S,i,D=0x16c-w,q,"TextLabel",q.IsA D=D(S,i)else K,q,w,h=F,"Items",w+-0b1011000,F.FindFirstChild h=h(K,q)j=h end elseif w<0b10111111 then w=B and 0b110010000-w or 0x13a-w elseif w>0b10111111 then f=m[0b1011][0b10][m[0b1011][0b11]]f,H=0,f.XP w=H>f and 0x3a or 0xc7-w else z,f=S.Stats,tonumber w,z=0x22,z.Damage f=f(z)H=f>L end elseif w<0b11001111 then if w>=0b11000111 then if w<=0b11001100 then if w<=0xcb then if w<=0b11000111 then w,i=0x5ed6/w,0 else H,f,z=ipairs,j.GetChildren,j f=N.h(f(z))H,f,z=H(N.i(f))H,f,z=N.g(H,f,z)T,_=H(f,z)z=T w=z==nil and 0b110 or 0x1634/w end else K=h w=K and 0x6864/w or 0b10101000 end else w,t=0b110100010,m[0b1001][0b10][m[0b1001][0b11]]_=t.Player T=_.Prestige end elseif w>0b11000100 then w,n=0x292,o.Colours elseif w<=0b11000011 then if w<=0xc2 then L,B=x,tostring B=B(L)x,B=B,0 k,I,L=m[0b110][0b10][m[0b110][0b11]],"PlayerGui",B e,k=k,k.FindFirstChild k=k(e,I)e=k w=e and 0b11010011-w or 0x12a-w else f=table f,H=m[0b1011][0b10][m[0b1011][0b11]],f.clone f=f.Items H=H(f)K,f=H,table f,H=m[0b1011][0b10][m[0b1011][0b11]],f.clone f=f.Rarities H=H(f)f,q=m[0b1011][0b10][m[0b1011][0b11]],H f,H=0,f.Gold w=H>f and w+-0xc1 or 0b101011 end else w,e=0x90b4/w,m[0b1001][0b10][m[0b1001][0b11]]k=e.LastRound L,k=k.Difficulty,"N/A"B=L~=k end elseif w>=0b11010101 then if w<0b11011111 then if w<=0xd5 then w=K and w+-0x2b or 0b11100111 else f.Items=z T,z=K,ipairs z,T,_=z(T)z,T,_=N.g(z,T,_)t,l=z(T,_)_=t w=_==nil and 0x3b7 or 0x252 end elseif w>0b11011111 then _,T=i.Progression,type T=T(_)_="table"w,z=0x2cd80/w,T==_ else x,B=m[0b111][0b10][m[0b111][0b11]],"Ended"a=x==B w=a and 0x80 or 0x60 end elseif w<=0xd3 then if w<=0xd1 then if w<=0xcf then w=H and 0b1001011 or w+-0b1110000 else w=B and w+-0b111001 or 0x193-w end else L=m[0b1001][0b10][m[0b1001][0b11]]w,B=0xc2,L.LastRound x=B.Difficulty end else k,L=x,tostring L=L(k)k=""w,B=0xf3,L==k end elseif w<=0x96 then if w<0x85 then if w>0x80 then if w<=0b10000010 then if w<=0b10000001 then p="Gold"b=r==p w=b and 0x12fdb/w or 0x16e57/w else H=not s w=H and 0xd9-w or 0b111 end else w,D,K,q=w+0x25,"TextLabel",h.IsA,h K=K(q,D)end elseif w>0b1111100 then if w>0b1111101 then w=a and 0x9f-w or 0x2e00/w else w,x=0b11000010,"Easy"end elseif w>=0x7b then if w<=0x7b then w,T=w+-0x10,0 else w,i=0b1000101,0 end else S,D=0,S+i w=D>S and 0x16e-w or 0b11100111 end elseif w>=0x8c then if w>0x8e then if w<=0b10010001 then w=F and 0b111110 or 0b1100011 else w,h=0x345,v end elseif w>=0x8d then if w>0x8d then w,z=0b10001001,0 else j,F=nil,I w=F and 0xf7 or 0x2199/w end else k=m[0b1001][0b10][m[0b1001][0b11]]L=k.LastRound B=L.Difficulty w=B and 0b11000100 or 0x675c/w end elseif w<=0x88 then if w<0x87 then w,T=0x1ce62/w,0 elseif w<=0b10000111 then w=H and 0x618f/w or w+-0b1101100 else w,T=0b10111100,0 end else T,_=tonumber,H.XP T=T(_)w=T and 0x140-w or 0b110101 end elseif w<0b10100000 then if w<=0b10011100 then if w>=0x9b then if w<=0x9b then H=S.Seconds w=H and 0x8aa7/w or 0x51bd/w else H=not s w=H and 0x75 or 0b1010 end elseif w<=0x97 then H=S.Stats w=H and 0b1110011 or 0xcf else L=m[0b100][0b10][m[0b100][0b11]]B=L.Difficulty w=B and 0b111111 or 0x150-w end elseif w<0b10011110 then w=t and 0x2c28/w or 0x3e2-w elseif w<=0b10011110 then w,S=w+0b1000,0 else w,B=0x8b2/w,0 x=a<=B end elseif w>=0xa6 then if w<0b10101000 then if w>0xa6 then w=H and 0xed or 0x54 else w,L=0b10111011,S end elseif w>0b10101000 then q=string q,K,D=h.Text,q.match,"(%d+):(%d+)"K,q=K(q,D)D=K w=D and 0x33 or 0xfa-w else w=K and 0x4f or 0xa2c0/w end elseif w<0b10100010 then if w>0xa0 then w,p=0x2762a/w,0 b=M==p else w,H=w+-0b10011011,j end elseif w>0b10100010 then _=0 w=T>_ and 0x134bb/w or 0x111 else q,D,S=K.IsA,K,"TextLabel"w,q=0b1001001,q(D,S)end elseif w<=0x3d then if w>=0b11100 then if w>0b101100 then if w>=0b110101 then if w>=0b111100 then if w<=0x3c then D=q w=D and 0b11110110-w or 0b10110010 else w=F and 0x71 or 0b10010001 end elseif w>0x35 then H=m[0b1011][0b10][m[0b1011][0b11]]w,h=0b110,H.XP else w,T=0xec-w,0 end elseif w<0b110011 then w=H and 0b11001000-w or 0b10000010 elseif w>0x33 then T=f.TitansKilled w=T and 0b101111000 or 0x2d5 else w,D=0b1010000,q end elseif w>0x22 then if w<=0b101011 then if w<0b101000 then w,T=0b11101110,m[0b1011][0b10][m[0b1011][0b11]]z=T.Items f,z=#z,0 H=f>z elseif w>0b101000 then f=m[0b1011][0b10][m[0b1011][0b11]]f,H=0,f.Gems w=H>f and 0x2825/w or 0xc1 else L,x="Difficulty",m[0b1000][0b10][m[0b1000][0b11]]B,x=x,x.GetAttribute x=x(B,L)B=not x w=B and 0xf3 or 0x2120/w end else w,t,g,l=0xb3,_.FindFirstChild,"Main",_ t=t(l,g)end elseif w>=0x1e then if w>0b11111 then w=H and 0b1110111 or 0x5f elseif w<=0b11110 then q=K w=q and 0x12fc/w or 0x49 else return end elseif w>0x1c then h,q=M.Time_Taken,"Amount"h,w,K=h.FindFirstChild,0xcc,h h=h(K,q)else g,l,t="Frame",_,_.IsA t=t(l,g)w=t and 0x4d0/w or 0b11001111-w end elseif w<0b1110 then if w<=0b1000 then if w>0b110 then if w>0b111 then T,z=H.Gems,tonumber z=z(T)w=z and 0x89 or 0x8e else w,z,f=w+0x50,0,#K H=f==z end elseif w<0b101 then w,H=0b101011,m[0b1011][0b10][m[0b1011][0b11]]F=H.Gold elseif w<=0b101 then w=H and 0x3f7/w or 0x1e/w else f=m[0b1001][0b10][m[0b1001][0b11]]f,H,z=m[0b11][0b10][m[0b11][0b11]],f.LastRound,a f=f(z)H.TimeTaken=f H.Difficulty=x H.TitansKilled=B H.DamageDealt=L H.Gold=F H.Gems=M H.XP=h z=table f,z=z.clone,K f=f(z)H.Items=f z=m[0b1001][0b10][m[0b1001][0b11]]f=z.Session T=f.MissionsCompleted w=T and 0b1101011 or 0x7b end elseif w<=0b1010 then if w<=0b1001 then w,f=0b10001-w,0 else f,w,z=#K,0b1110101,0 H=f==z end else w,F=0x5a3/w,f end elseif w<=0x15 then if w>=0x11 then if w>0x13 then w,D=w+0b100,0 elseif w<=0x11 then e,I,j=k.FindFirstChild,k,"Interface"w,e=0x79-w,e(I,j)else z,f=S.Stats,tonumber z=z.Kills f=f(z)w,H=0xa7,f>B end elseif w>0b1110 then i,S,q="",",",K.Text D,q=q,q.gsub q=q(D,S,i)D,q,i,S=q,q.gsub,"","%s"q=q(D,S,i)D,S=tonumber,q D=D(S)w=D and w+0b1010 or 0x15 else w=x and w+0xe4 or 0x28 end elseif w<0x19 then S,w,q="Amount",0x52-w,M.Damage D,q=q,q.FindFirstChild q=q(D,S)elseif w<=0b11001 then w,B=w+0x2b,D else w=H and 0x53 or w+0b1111100 end elseif w>0x59 then if w<0x68 then if w<0x5f then if w>0x5c then F,I,j="Rewards",e.FindFirstChild,e w,I=0x3339/w,I(j,F)elseif w>0b1011011 then a=true a,m[1][0b10][m[1][0b11]]="Ended",a x,m[0b111][0b10][m[0b111][0b11]]=task,a a,x=x.wait,0.6 a(x)a,x=m[0b100][0b10][m[0b100][0b11]],"Completed"a.Status=x x,L,a=m[0b1000][0b10][m[0b1000][0b11]],"Seconds",tonumber x,B=x.GetAttribute,x x=N.h(x(B,L))a=a(N.i(x))x=not a w=x and 0x6a-w or 0x9f else B=m[0b100][0b10][m[0b100][0b11]]w,x=0xc2,B.Difficulty end elseif w>=0b1100010 then if w<=0x62 then T=f.FastestSeconds z=not T w=z and 0x159 or 0x190-w else M=m[0b1011][0b10][m[0b1011][0b11]]F,h=M.Gold,M M,K=h.Gems,h h,q=K.XP,{}K,D=q,{}S,D,q=N:Nb{m[0b10000]},pcall,D D,S,i=D(S)s,H=false,D w=H and w+0x8e or 0b101101 end elseif w<=0b1011111 then f,H=type,S.Obtained z=H f=f(z)z="table"w=f==z and 0x40 or w+0x23 else w,a=0x80,m[1][0b10][m[1][0b11]]end elseif w>0x71 then if w>0x75 then H,f=tonumber,S.Stats f=f.Damage w,H=w+-0x18,H(f)L=H elseif w>0x73 then w=H and 0b10100000 or 0b101 else z,f=S.Stats,type f=f(z)w,z=0x5cfd/w,"table"H=f==z end elseif w<0b1101100 then if w>0b1101000 then _=1 z=T+_ f.MissionsCompleted=z T=f.TotalSeconds w=T and w+0x51 or 0x88 else I=e w=I and w+-0b1011 or 0x8d end elseif w<0x6f then q,h,K="Time_Taken",M.FindFirstChild,M h=h(K,q)w=h and 0x1d or 0b11001100 elseif w>0x6f then F,h=I.Main,"Info"F,M=F.FindFirstChild,F w,F=0x91,F(M,h)else _=0 w=z>_ and 0x4e or 0b10100101 end elseif w>=0b1001011 then if w>=0x53 then if w>=0b1010111 then if w>0b1010111 then w,D,K=0b11110,"Amount",M.Kills K,q=K.FindFirstChild,K K=K(q,D)else w=H and 0x26 or 0b11101110 end elseif w>0b1010011 then f,H=S.Stats,tonumber f=f.Damage H=H(f)w=H and 0x113-w or w+-0x32 else H,f=tonumber,S.Seconds w,H=0x97,H(f)a=H end elseif w<0b1001111 then if w>0b1001011 then w,M=0b11110011-w,z else H,f=tonumber,S.Stats f=f.Kills H=H(f)w=H and 0b1011110-w or 0x30ed/w end elseif w<=0x4f then w,D,q=0xf8,"",h.Text K=q~=D else w=D and 0x131-w or 0b11100111 end elseif w>=0b1000101 then if w>0x49 then D,w,q="00:00",0x3d92/w,h.Text K=q~=D elseif w<0b1001000 then s=0b111100 i,S,s=tonumber,i*s,q i=i(s)w=i and 0b1111010 or 0xc7 elseif w>0x48 then w=q and 0b1111 or 0x8d-w else l=_.Main d,t="Quantity",l.Inner g,l=t,t.FindFirstChild l=l(g,d)g=l w=g and w+0x38f or 0x3b8 end elseif w>0x40 then q,S,D=M.FindFirstChild,"Damage",M q=q(D,S)w=q and 0x16 or 0b111100 elseif w<0b111111 then h=I.Main M=h.Info K,F="Stats",M.Main M,h=F.FindFirstChild,F M=M(h,K)w=M and w+0x2e or 0xf9-w elseif w>0x3f then z,f=H.Gold,tonumber f=f(z)w=f and 0b1000 or 0x240/w else k=m[0b100][0b10][m[0b100][0b11]]w,k,L=0b11110111-w,"N/A",k.Difficulty B=L~=k end until false end end,function(i,h)return function(a)local d,e,c,b,_,f c=0b1001100 while true do if c<0x4d then if c>0x37 then a={[0b11]=1,[1]=a}a[0b10]=a _,d=pcall,i:Hb{a,h[0b11]}_,d=_(d)b=_ c=b and 0b1100101 or 0x4d else return end elseif c>=0x65 then if c<=0b1100101 then c,b=0x1e61/c,d else c,b,e,f=0x37,h[1][0b10][h[1][0b11]],d,h[0b10][0b10][h[0b10][0b11]]b(f,e)end else c=b and 0xc3-c or 0x108b/c end end end end,function(g,e)return function()local c,a,d,_ c=0b1000111 while true do if c>0b10000010 then if c>0x9e then return else return end elseif c<=0x61 then if c<=0x47 then _=e[0b11][0b10][e[0b11][0b11]]a=not _ c=a and 0b11101001 or 0x61 else d=e[1][0b10][e[1][0b11]]_=d.Visible a=not _ c=a and 0b10011110 or 0x82 end else _=task _,a=0b10,_.wait a(_)a=e[0b10][0b10][e[0b10][0b11]]a()return end end end end,function(g,e)return function()local a,d,_ d,a=Vector3,e[1][0b10][e[1][0b11]]_=d.zero a.AssemblyLinearVelocity=_ _=d.zero a.AssemblyAngularVelocity=_ return end end,function(i,m)return function(a)local e,b,n,_,j,f,d,c,l,k,h l=0b1101 repeat if l<=0x95 then if l<0b1011111 then if l>0b1101 then b,_,d="HumanoidRootPart",a.FindFirstChild,a _=_(d,b)l=_ and 0x81 or 0x2baa/l else d=m[0b10][0b10][m[0b10][0b11]]_=d[a]l=_ and 0x5f or 0b1000101 end elseif l<=0x81 then if l<=0b1011111 then return else l=_ and 0xc3 or 0b100110000-l end else b=Instance d,b=b.new,"SelectionBox"d=d(b)k=Color3 b,n,e,k=k.fromRGB,0b11111111,0x50,0b1111000 b=b(k,e,n)d.Color3=b b=0.07 d.LineThickness=b b=0.85 d.SurfaceTransparency=b k=Color3 n,b,e,k=0b11111111,k.fromRGB,0b1010000,0x78 b=b(k,e,n)d.SurfaceColor3=b d.Adornee=a k=m[1][0b10][m[1][0b11]]b=k.CurrentCamera d.Parent=b k=Instance b,k=k.new,"BillboardGui"b=b(k)k=true b.AlwaysOnTop=k e=UDim2 e,n,k=0,0xa0,e.new f,j=0b110010,e k=k(e,n,j,f)b.Size=k e=Vector3 n,k,e=0b100,e.new,0 j=e k=k(e,n,j)b.StudsOffset=k b.Adornee=_ e=m[1][0b10][m[1][0b11]]k=e.CurrentCamera b.Parent=k e=Instance k,e=e.new,"TextLabel"k=k(e)n=UDim2 e,f,j,n=n.new,0.52,0,1 c=j e=e(n,j,f,c)k.Size=e e=1 k.BackgroundTransparency=e n=Color3 j,n,f,e=0xaa,0xc8,0b11111111,n.fromRGB e=e(n,j,f)k.TextColor3=e e=0.35 k.TextStrokeTransparency=e n=Color3 n,j,f,e=0x14,0b101,0x32,n.fromRGB e=e(n,j,f)k.TextStrokeColor3=e j=Enum n=j.Font e=n.GothamBold k.Font=e e=0b1110 k.TextSize=e e="Titan"k.Text=e k.Parent=b n=Instance n,e="TextLabel",n.new e=e(n)j=UDim2 n,c,f,j=j.new,0.48,0,1 h=f n=n(j,f,c,h)e.Size=n j=UDim2 n,j=j.new,0 f,c=j,0.52 h=f n=n(j,f,c,h)e.Position=n n=1 e.BackgroundTransparency=n j=Color3 c,j,n,f=0x64,0b11111111,j.fromRGB,0xdc n=n(j,f,c)e.TextColor3=n n=0.35 e.TextStrokeTransparency=n j=Color3 c,j,f,n=0x32,0x14,0b101,j.fromRGB n=n(j,f,c)e.TextStrokeColor3=n f=Enum j=f.Font n=j.GothamBold e.Font=n n=0b1101 e.TextSize=n n="-- m"e.Text=n e.Parent=b n,f=m[0b10][0b10][m[0b10][0b11]],{}f.highlight=d f.billboard=b f.distLabel=e f.rootPart=_ j=f n[a]=j return end elseif l>0b11000011 then return elseif l<=0b10101111 then if l>0xa2 then l,_=0xc3,a.PrimaryPart else b,d,l,_="BasePart",a,0x81,a.FindFirstChildWhichIsA _=_(d,b)end else d=not _ l=d and 0xb23e/l or 0x95 end until false end end,function(g,e)return function()local a,d,_ a,d=e[1][0b10][e[1][0b11]],Vector3 _=d.zero a.AssemblyLinearVelocity=_ _=d.zero a.AssemblyAngularVelocity=_ return end end,function(g,e)return function()local b,_,d,c,a c=0x95 repeat if c>=0b10010101 then if c<0b11001100 then if c>0b10100010 then if c<0xc6 then if c>0b10100100 then b,d,a="WalkSpeedAmount",e[0b101001][0b10][e[0b101001][0b11]],e[0b100011][0b10][e[0b100011][0b11]]d=d(b)a,_=a.SetValue,a a(_,d)a,_=e[0x29][0b10][e[0b101001][0b11]],"LaggyRun"a=a(_)c=a and 0xfa or 0b1011110 else a,_=e[0b101001][0b10][e[0x29][0b11]],"AutoRetry"a=a(_)c=a and 0b10101111-c or 0b11100000 end elseif c>0b11000110 then a=true a,e[0x25][0b10][e[0b100101][0b11]]=e[0x2f][0b10][e[0x2f][0b11]],a a()d,a=true,e[0b11100][0b10][e[0b11100][0b11]]_,c,a=a,0b11110011,a.SetState a(_,d)else c,a=0x582c/c,true e[0b10][0b10][e[0b10][0b11]],a=a,e[0b11001][0b10][e[0b11001][0b11]]a()d,a=true,e[0x24][0b10][e[0b100100][0b11]]a,_=a.SetState,a a(_,d)end elseif c<=0x9c then if c<0x99 then a,_=e[0x29][0b10][e[0b101001][0b11]],"WalkSpeedAmount"a=a(_)_,a,e[0b111][0b10][e[0b111][0b11]]="LaggyRunDistance",e[0b101001][0b10][e[0x29][0b11]],a a=a(_)a,_,e[0b100][0b10][e[0b100][0b11]]=e[0x29][0b10][e[0b101001][0b11]],"LaggyRunDelay",a a=a(_)_,e[0x15][0b10][e[0x15][0b11]],a="HitboxSize",a,e[0x29][0b10][e[0x29][0b11]]a=a(_)_,a,e[0b1001][0b10][e[0b1001][0b11]]="DelayToKillAmount",e[0x29][0b10][e[0b101001][0b11]],a a=a(_)_,a,e[0b10001][0b10][e[0x11][0b11]]="DistanceToTitan",e[0x29][0b10][e[0b101001][0b11]],a a=a(_)e[0b1011][0b10][e[0b1011][0b11]],_=a,task _,a=0.3,_.wait a(_)_,a="NoClip",e[0b101001][0b10][e[0b101001][0b11]]a=a(_)c=a and 0xce or 0x19 elseif c>0b10011001 then a=true d,c,e[0b1110][0b10][e[0b1110][0b11]],a=true,0b11100100,a,e[0x32][0b10][e[0x32][0b11]]a,_=a.SetState,a a(_,d)else a=true d,a,e[0x31][0b10][e[0b110001][0b11]]=true,e[0b101][0b10][e[0b101][0b11]],a a,c,_=a.SetState,0b11101110,a a(_,d)end elseif c>0b10100001 then d,a=true,e[0b1000][0b10][e[0b1000][0b11]]a,_=a.SetState,a c=0x67c8/c a(_,d)else a,_=e[0b101001][0b10][e[0b101001][0b11]],"InfiniteJump"a=a(_)c=a and 0b100001 or 0x65 end elseif c<=0b11101110 then if c<0b11100000 then if c>=0xce then if c>0b11001110 then _,a="ExpandNapeHitbox",e[0x29][0b10][e[0b101001][0b11]]a=a(_)c=a and 0xa1b8/c or 0b11110011 else a=true c,e[0b11101][0b10][e[0x1d][0b11]],a=0b11001,a,e[0b110101][0b10][e[0b110101][0b11]]a()d,a=true,e[0b1101][0b10][e[0b1101][0b11]]a,_=a.SetState,a a(_,d)end else a=true e[0b101110][0b10][e[0x2e][0b11]],a=a,e[0b101100][0b10][e[0x2c][0b11]]a()a,d=e[0x16][0b10][e[0b10110][0b11]],true a,c,_=a.SetState,0b110000101-c,a a(_,d)end elseif c<=0b11100100 then if c<=0b11100000 then a,_=e[0b101001][0b10][e[0x29][0b11]],"AutoSkipCutscenes"a=a(_)c=a and 0xc6 or 0x72 else a,_=e[0x29][0b10][e[0b101001][0b11]],"DelayToKill"a=a(_)c=a and c+-0x8f or 0b1001010 end else _,a="AutoRefill",e[0b101001][0b10][e[0x29][0b11]]a=a(_)c=a and 0x2b or 0x2f end elseif c<0b11110110 then if c<=0b11110011 then b,a,d="HitboxSize",e[0x2a][0b10][e[0b101010][0b11]],e[0x29][0b10][e[0x29][0b11]]d=d(b)a,_=a.SetValue,a a(_,d)_,a="VisualizeHitbox",e[0x29][0b10][e[0x29][0b11]]a=a(_)c=a and c+-0xca or 0xf6 else c,a=0xcf,true a,d,e[0b11010][0b10][e[0x1a][0b11]]=e[0x28][0b10][e[0x28][0b11]],true,a _,a=a,a.SetState a(_,d)end elseif c<=0b11110110 then a,_=e[0x29][0b10][e[0b101001][0b11]],"TitanESP"a=a(_)c=a and 0x99 or 0b11101110 else a=true a,e[0b1010][0b10][e[0b1010][0b11]]=e[0x22][0b10][e[0x22][0b11]],a c=0x5bcc/c a()d,a=true,e[0x30][0b10][e[0x30][0b11]]a,_=a.SetState,a a(_,d)end elseif c<=0b111011 then if c<=0b101011 then if c>=0b100001 then if c<=0b101001 then if c<=0x21 then a=true a,e[0x1f][0b10][e[0b11111][0b11]]=e[0b10111][0b10][e[0x17][0b11]],a c=0xd05/c a()d,a=true,e[0b100000][0b10][e[0b100000][0b11]]_,a=a,a.SetState a(_,d)else a=true e[0b11][0b10][e[0b11][0b11]],c,d,a=a,0xf6,true,e[0x1e][0b10][e[0x1e][0b11]]_,a=a,a.SetState a(_,d)end else a=true d,a,e[0x14][0b10][e[0x14][0b11]]=true,e[0b101011][0b10][e[0b101011][0b11]],a _,c,a=a,0x7e5/c,a.SetState a(_,d)end elseif c>0b1011 then a,_=e[0b101001][0b10][e[0b101001][0b11]],"WalkSpeed"a=a(_)c=a and c+0b10110011 or 0b11010010-c elseif c>0b1000 then a=true e[0b11011][0b10][e[0b11011][0b11]],a=a,e[0b1100][0b10][e[0b1100][0b11]]a()d,a=true,e[0b110][0b10][e[0b110][0b11]]c,_,a=0x9a0/c,a,a.SetState a(_,d)else a=true a,e[0x25][0b10][e[0x25][0b11]],e[1][0b10][e[1][0b11]]=0b1100100,a,a e[0b1001][0b10][e[0b1001][0b11]],a,_=a,e[0b101111][0b10][e[0b101111][0b11]],0b1100100 a(_)_=task _,a=e[0b100001][0b10][e[0b100001][0b11]],_.spawn a(_)d,a=true,e[0x12][0b10][e[0b10010][0b11]]_,a=a,a.SetState c=0b1000011-c a(_,d)d,a=true,e[0b11100][0b10][e[0b11100][0b11]]_,a=a,a.SetState a(_,d)end elseif c>0b110101 then return elseif c>0b101111 then _,a="KillWithoutTP",e[0b101001][0b10][e[0b101001][0b11]]a=a(_)c=a and 0x9c or 0b11100100 elseif c<=0b101101 then a=true e[0x33][0b10][e[0x33][0b11]],d,a=a,true,e[0x10][0b10][e[0x10][0b11]]_,a=a,a.SetState c=0x35 a(_,d)else a,_=e[0x29][0b10][e[0b101001][0b11]],"ChangeCursor"a=a(_)c=a and c+0x19 or 0x88 end elseif c>=0b1100101 then if c>=0x88 then if c<=0x88 then a,_=e[0x29][0b10][e[0b101001][0b11]],"AutoExecute"a=a(_)c=a and 0x12a-c or 0xa4 else a=true a,e[0b1111][0b10][e[0b1111][0b11]]=e[0b100111][0b10][e[0b100111][0b11]],a a()a,d=e[0x36][0b10][e[0b110110][0b11]],true _,a=a,a.SetState c=0x5629/c a(_,d)end elseif c>0b1100101 then _,a="AutoFarm",e[0x29][0b10][e[0x29][0b11]]a=a(_)c=a and 0b1000 or 0x3b else _,a="AutoReload",e[0b101001][0b10][e[0b101001][0b11]]a=a(_)c=a and c+-0x38 or 0b10011010-c end elseif c>0b1010101 then d,b,a=e[0b101001][0b10][e[0x29][0b11]],"LaggyRunDistance",e[0b111010][0b10][e[0b111010][0b11]]d=d(b)_,a=a,a.SetValue a(_,d)a,b,d=e[0b10011][0b10][e[0x13][0b11]],"LaggyRunDelay",e[0b101001][0b10][e[0x29][0b11]]d=d(b)a,_=a.SetValue,a a(_,d)_,a="CtrlClickTP",e[0b101001][0b10][e[0b101001][0b11]]a=a(_)c=a and 0x89 or 0xff-c elseif c>0x4a then a=true a,d,e[0b111001][0b10][e[0x39][0b11]]=e[0b110111][0b10][e[0b110111][0b11]],true,a _,a=a,a.SetState c=0x4a a(_,d)elseif c<=0x48 then a=true a,e[0x18][0b10][e[0b11000][0b11]]=e[0x26][0b10][e[0x26][0b11]],a c=0b11010000-c a()d,a=true,e[0x34][0b10][e[0x34][0b11]]_,a=a,a.SetState a(_,d)else d,b,a=e[0b101001][0b10][e[0b101001][0b11]],"DelayToKillAmount",e[0b101101][0b10][e[0b101101][0b11]]d=d(b)_,a=a,a.SetValue a(_,d)b,d,a="DistanceToTitan",e[0x29][0b10][e[0x29][0b11]],e[0x38][0b10][e[0b111000][0b11]]d=d(b)_,a=a,a.SetValue a(_,d)_,a="HitAll",e[0b101001][0b10][e[0x29][0b11]]a=a(_)c=a and c+0b10101010 or 0x119-c end until false end end,function(i,h)return function(a,_)local d,b,f,c c=0b11011010 repeat if c>=0b1111010 then if c>0b1111010 then b,f,d=a,_,h[0b11][0b10][h[0b11][0b11]]d=d(b,f)b,f=h[1][0b10][h[1][0b11]],"Playing"c=b==f and 0b1111010 or 0x4d else c,f=0b1001101,task b,f=f.defer,i:tb{h[0b10]}b(f)end else return d end until false end end,function(g,e)return function(a)local _,c,b,d c=0b101101 repeat if c<0x70 then d,b,_,e[0b11][0b10][e[0b11][0b11]]="VisualizeHitbox",a,e[1][0b10][e[1][0b11]],a _(d,b)_=not a c=_ and 0x70 or 0xc7 elseif c<=0x70 then _=e[0b10][0b10][e[0b10][0b11]]c=0xc7 _()else return end until false end end,function(g,h)return function()local f,a,d,_,b a,b,d,f=h[1][0b10][h[1][0b11]],"Slash","Attacks",false _,a=a,a.FireServer a(_,d,b,f)return end end,function(g,e)return function()local b,a,d,_ a,b,d=e[1][0b10][e[1][0b11]],"Reload","Blades"a,_=a.InvokeServer,a a(_,d,b)return end end,function(f,e)return function()local d,a,_,c c=0b11101010 while true do if c<=0b1101001 then if c>0x4b then if c<=0x51 then c,a=0x10c5/c,e[0b100][0b10][e[0b100][0b11]]else c=a and c+-0x34 or 0x51 end elseif c>=0b1000010 then if c>0x42 then c,a=0b10110100-c,0b1100100 else return end else d,_=a,e[0b101][0b10][e[0b101][0b11]]c=0x124-c _(d)end elseif c<=0xea then if c>=0x71 then if c>0x71 then a=e[0b11][0b10][e[0b11][0b11]]c=a and 0b1110001 or 0b11101111 else a=e[1][0b10][e[1][0b11]]c=a and c+-0x26 or 0x2e59/c end else c,a=0x42,e[0b110][0b10][e[0b110][0b11]]a()end else a=e[0b10][0b10][e[0b10][0b11]]c=a and c+-0b10000010 or 0x42 end end end end,function(f,e)return function()local a,c,_ c=0x91 while true do if c>0b10010001 then if c<=0b11011111 then return else _=e[1][0b10][e[1][0b11]]a=_.Visible c=a and 0b1100111 or 0b11011111 end elseif c>=0b1100111 then if c<=0x67 then c,_=0xdf,task a,_=_.spawn,f:Gb{e[1],e[0b10]}a(_)else _=e[0b11][0b10][e[0b11][0b11]]a=not _ c=a and 0b10001 or 0xe2 end else return end end end end,function(f,e)return function()local a,c,_ c=0x3b repeat if c<=0b111011 then if c>0b100001 then a=e[1][0b10][e[1][0b11]]c=a and 0x7f or 0x21 else return a end else _=e[1][0b10][e[1][0b11]]c,a=c+-0b1011110,_.Visible end until false end end,function(i,h)return function()local f,b,e,c,d,a,_ c=0xec repeat if c<0xb2 then if c>=0x50 then if c>0b1100100 then d,_,b=a,a.FindFirstChild,"Interface"c,_=c+-0x3b,_(d,b)elseif c<=0x50 then c=b and c+0x6c or 0b1100110-c else a,d=h[1][0b10][h[1][0b11]],"PlayerGui"a,_=a.FindFirstChild,a a=a(_,d)_=a c=_ and c+0b11 or 0x2c end elseif c<0b100000 then c,b=c+0xa6,true elseif c<=0b100000 then c,b,d,f=0xe8,_,_.FindFirstChild,"Cursor"d=d(b,f)else d=_ c=d and c+-0b1100 or 0b11101000 end elseif c<0xd6 then if c>0b10111010 then c,d.Visible=0b11010110,b elseif c>0b10110010 then e,f=nil,h[0b10][0b10][h[0b10][0b11]]b=f~=e c=b and 0x8154/c or 0b1010000 else c,b=0b1010000,h[0b10][0b10][h[0b10][0b11]]end elseif c<0b11101100 then if c>0b11010110 then c=d and 0xa890/c or 0xd6 else b=nil h[0b10][0b10][h[0b10][0b11]]=b return end elseif c>0b11101100 then a=h[0b11][0b10][h[0b11][0b11]]_,a=a,a.Disconnect a(_)a=nil c,h[0b11][0b10][h[0b11][0b11]]=0b1100100,a else a=h[0b11][0b10][h[0b11][0b11]]c=a and 0b11110111 or 0b1100100 end until false end end,function(g,e)return function(a)local c,b,d,_ c=0b11100111 while true do if c>=0x9a then if c<=0x9a then c,_=0x47,e[0b10][0b10][e[0b10][0b11]]_()else _,b,e[0b11][0b10][e[0b11][0b11]],d=e[1][0b10][e[1][0b11]],a,a,"HitboxSize"_(d,b)_=e[0b100][0b10][e[0b100][0b11]]c=_ and 0x9a or 0b1000111 end else return end end end end,function(f,e)return function()local a,_ a=e[0b11][0b10][e[0b11][0b11]]a()_=task _,a=f:xb{e[1],e[0b100],e[0b101],e[0b10],e[0b110]},_.spawn a(_)return end end,function(i,h)return function()local f,d,_,c,e,b,a c=0b1101 while true do if c>0b1000000 then if c<=0b1011100 then if c<=0b1001100 then _,d=pcall,i:Vb{a,h[1]}_,d=_(d)b=_ c=b and 0x119-c or 0x8c-c else _=nil return _ end else e,f=d,type c,f=0b1000000,f(e)e="table"b=f==e end elseif c<0x3c then if c<=0b1001 then b=nil return b else _,a="Symbiote_AOTR_Stats.json",h[0b10][0b10][h[0b10][0b11]]a=a(_)a={[0b11]=1,[1]=a}a[0b10]=a _=not a[0b10][a[0b11]]c=_ and 0b1011100 or 0b1001100 end elseif c>0x3c then c=b and c+-0b100 or 0b1001 else return d end end end end,function(g,h)return function()local b,_,d,a b,a=h[1][0b10][h[1][0b11]],require d=b.Modules _=d.Storage _=_.Perks a=a(_)h[0b10][0b10][h[0b10][0b11]]=a return end end,function(o,m)return function()local p,b,k,i,a,d,_,e,j,h,g,l,n,f l=0b1001 repeat if l>0b1100010 then if l>=0b11010101 then if l>0xdf then h,p,f="BasePart",j,j.IsA l,f=0x34,f(p,h)elseif l>0xdd then return elseif l<=0b11010101 then j=true _[n]=j j,f=m[0b100][0b10][m[0b100][0b11]],n j=j(f)f=j l=f and 0b110111101-l or 0x34 else e,n=d(b,k)k=e l=k==nil and 0b10101111 or 0xd5 end elseif l<=0b10110001 then if l>=0xaf then if l>0b10101111 then l=j and 0xc4-l or 0x1dbb/l else b,d=m[0b101][0b10][m[0b101][0b11]],pairs d,b,k=d(b)d,b,k=o.g(d,b,k)e,n=d(b,k)k=e l=k==nil and 0b110001110-l or 0x29b3/l end else p=Instance p,f="SelectionBox",p.new f=f(p)h=Color3 h,g,p=0b11111111,0b110010,h.fromRGB i=g l,p=0b101001111-l,p(h,g,i)f.Color3=p p=0.08 f.LineThickness=p p=1 f.SurfaceTransparency=p f.Adornee=j h=m[0b10][0b10][m[0b10][0b11]]p=h.CurrentCamera f.Parent=p p=m[0b101][0b10][m[0b101][0b11]]p[n]=f end else l,j=0b101100111-l,n.Parent end elseif l<=0x30 then if l>0b101001 then if l>0b101011 then e,n=d(b,k)k=e l=k==nil and 0xdf or 0x3d else f,l,j=nil,0x30,m[0b101][0b10][m[0b101][0b11]]j[e]=f end elseif l>=0x13 then if l>0x13 then return else f,j=n,n.Destroy l=0x2b j(f)end elseif l>0b1000 then _=m[0b11][0b10][m[0b11][0b11]]a=not _ l=a and 0x29 or 0b1000 else a=m[1][0b10][m[1][0b11]]a=a()d={}b,_,d=a,d,ipairs d,b,k=d(b)d,b,k=o.g(d,b,k)e,n=d(b,k)k=e l=k==nil and 0b10101111 or 0b11011101-l end elseif l>=0x3f then if l>0b111111 then j=n l=j and 0b10110110 or 0b100010011-l else h=m[0b101][0b10][m[0b101][0b11]]p=h[n]f=not p l=f and 0x72 or 0x3663/l end elseif l<=0b110100 then l=f and 0b1110011-l or 0b11011101 else f=_[e]j=not f l=j and 0b10011111-l or 0x6d-l end until false end end,function(g,h)return function()local b,f,a,_,d f,a,d,b=true,h[1][0b10][h[1][0b11]],"Attacks","Slash"_,a=a,a.FireServer a(_,d,b,f)return end end,function(g,e)return function(a)local b,d,_,c c=0x20 while true do if c>0xb3 then return elseif c>0b100000 then c,_=0x1ae-c,e[0b10][0b10][e[0b10][0b11]]_()elseif c<=0x14 then c,_=0b11111011,e[0b100][0b10][e[0b100][0b11]]_()else e[0b11][0b10][e[0b11][0b11]],b,_,d=a,a,e[1][0b10][e[1][0b11]],"ChangeCursor"_(d,b)c=a and 0x14 or 0xb3 end end end end,function(o,m)return function()local l,k,p,b,g,n,f,i,_,d,a,j,h,e l=0b11110110 while true do if l<=0b1000100 then if l>=0x19 then if l>=0x29 then if l<=0b101001 then b=false return b else b=m[1][0b10][m[1][0b11]]d,_,b=a,a.FindFirstChild,b.Name _=_(d,b)d=not _ l=d and 0b10011 or l+0b11110 end elseif l>0x19 then b=false return b else f=true return f end elseif l>=0b1101 then if l<=0b1101 then k,b,e=d.GetDescendants,ipairs,d k=o.h(k(e))b,k,e=b(o.i(k))b,k,e=o.g(b,k,e)n,j=b(k,e)e=n l=e==nil and l+0x1b or 0b111 else d=false return d end else f,p,h=j.IsA,j,"MeshPart"f=f(p,h)l=f and 0xab or 0b11110010 end elseif l>=0b10101011 then if l<0b11110010 then p,i,g=j.Name,0b101,1 h,p=p,p.sub p=p(h,g,i)l,h=0xf2,"Blade"f=p==h elseif l>0xf2 then a,d=m[0b10][0b10][m[0b10][0b11]],"Characters"_,a=a,a.FindFirstChild a=a(_,d)_=not a l=_ and 0b1010001 or 0x44 else l=f and 0b11001 or l+-0b10010011 end elseif l>0x5f then k,n="Rig_",m[1][0b10][m[1][0b11]]e=n.Name k,d,b=k..e,_.FindFirstChild,_ d=d(b,k)b=not d l=b and 0x29 or 0x6f-l elseif l<=0x51 then _=false return _ else n,j=b(k,e)e=n l=e==nil and 0x28 or 0b111 end end end end,function(o,m)return function()local b,l,c,q,d,a,e,h,f,g,n,p,_,k,j l=0x7a repeat if l<=0b10001000 then if l>=0x5b then if l>0b1111010 then p,h=n(j,f)f=p l=f==nil and l+-0b101101 or 0b11010000 elseif l<=0x5b then n=m[1][0b10][m[1][0b11]]l=n and 0b1000 or 0xb8 else k,_,d="Unclimbable",{},m[0b10][0b10][m[0b10][0b11]]d,b=d.FindFirstChild,d d=d(b,k)e,b="Climbable",m[0b10][0b10][m[0b10][0b11]]b,k=b.FindFirstChild,b b=o.h(b(k,e))_[1]=d o.j(_,0b10,o.i(b))_,a=ipairs,_ d=a _,d,b=_(d)_,d,b=o.g(_,d,b)k,e=_(d,b)b=k l=b==nil and 0b1000 or 0xdc end elseif l>0x28 then l=g and l+-0b101 or 0x88 elseif l>0b1000 then l,m[1][0b10][m[1][0b11]]=0b1011011,h else return end elseif l<=0b11010000 then if l<=0xb8 then if l<=0xaa then n,j,f=ipairs,e.GetDescendants,e j=o.h(j(f))n,j,f=n(o.i(j))n,j,f=o.g(n,j,f)p,h=n(j,f)f=p l=f==nil and 0x5b or 0xd0 else k,e=_(d,b)b=k l=b==nil and 0xc0-l or 0xdc end else g,q,c=h.IsA,h,"BasePart"g=g(q,c)l=g and 0xff or l+-0b10100011 end elseif l>0b11011100 then c,q="Refill",h.Name l,g=0x2d,q==c else l=e and 0xaa or 0b100110111-l end until false end end,function(g,h)return function()local a,_,d,f,b d,f,b,a="Attacks",true,"Slash",h[1][0b10][h[1][0b11]]_,a=a,a.FireServer a(_,d,b,f)return end end,function(f,e)return function()local c,a,_ c=0b101100 while true do if c<=0x68 then if c<0b101100 then return elseif c>0x2c then return else _=e[0b11][0b10][e[0b11][0b11]]a=not _ c=a and 0x14 or 0x7c end elseif c<=0b1110000 then c,_=0b1101000,task _,a=f:Fb{e[1],e[0b10]},_.spawn a(_)else _=e[1][0b10][e[1][0b11]]a=_.Visible c=a and 0b1110000 or c+-0x14 end end end end,function(g,h)return function(a)local c,_,b,d c=0x33 repeat if c<=0b1111011 then if c<0b1000010 then if c<=0x27 then if c>0b10001 then b=task d,b=b.wait,0.3 d(b)d=h[0b11][0b10][h[0b11][0b11]]c=d and 0b10100010-c or 0x2184/c elseif c<=0b1010 then b,c,d=a,0x11,h[0b10][0b10][h[0b10][0b11]]d(b)else b=task d,b=b.wait,0.5 d(b)d=false h[1][0b10][h[1][0b11]]=d return end else d=h[0b11][0b10][h[0b11][0b11]]_=not d c=_ and 0b1100110 or 0b1010000 end elseif c<=0x53 then if c<0x50 then c,d=0x126-c,a.Visible elseif c>0b1010000 then b,d=g:Pb{_,h[0b101]},pcall c=0b100111 d(b)else c,_=0x1fe0/c,h[1][0b10][h[1][0b11]]end elseif c<=0x66 then c=_ and c+0x2c or c+0b10000001 else c,d=0b101010111-c,a end elseif c>0xe4 then if c>0b11110010 then _=true _,h[1][0b10][h[1][0b11]],d=h[0b100][0b10][h[0b100][0b11]],_,"Middle"_=_(d)_={[0b11]=1,[1]=_}_[0b10]=_ c=_[0b10][_[0b11]]and c+-0b10101010 or 0x27 elseif c<=0xe7 then d=a c=d and c+-0b10100101 or 0xcdbc/c else c=d and 0b1010 or c+-0b11100001 end elseif c<=0b11000101 then if c>0b10010010 then return elseif c>0b10000110 then return else c,d=c+0x6c,a.Visible end elseif c<=0b11011100 then c=d and 0x86 or c+0b10110 else _=not d c=_ and 0xaf74/c or 0b11111101 end until false end end,function(i,h)return function()local f,a,c,b,_,d c=0b1011011 repeat if c<=0x72 then if c>=0b1011011 then if c>0b1100010 then c,f=0x6e70/c,task b,f=f.wait,0b10 b(f)b=h[0b10][0b10][h[0b10][0b11]]b()elseif c>0x5b then _=h[1][0b10][h[1][0b11]]c=_ and 0x5e2c/c or c+-0x16 else c,_=0b1100010,h[0b11][0b10][h[0b11][0b11]]a=_.Visible end elseif c>0x45 then return elseif c<=0 then _,d=pcall,i:bc{h[0b11]}_,d=_(d)b=not _ c=b and c+0b1001100 or c+0x45 else b=d c=b and 0b1110100 or 0xe7 end elseif c<0b11110110 then if c>0x74 then c=b and 0x66de/c or 0xdfc8/c else c,b=0xe7,not a end elseif c<=0b11110110 then d=task _,d=d.wait,1 _(d)d=h[1][0b10][h[1][0b11]]_=not d c=_ and 0b101000010-c or 0/c else c,a=0x5ef0/c,d end until false end end,function(f,e)return function()local d,a,_ a,d=e[0b10][0b10][e[0b10][0b11]],e[1][0b10][e[1][0b11]]_,a=a,a.JSONEncode a=f.h(a(_,d))return f.i(a)end end,function(i,h)return function(a)local e,g,b,f,c,d,_ c=0xca while true do if c>=0x66 then if c>0xca then if c<=0xf4 then f={[0b11]=1,[1]=f}f[0b10]=f e=not f[0b10][f[0b11]]c=e and 0x66 or 0xa2 else e,c,f,g=b,0xf4,b.FindFirstChild,"Nape"f=f(e,g)end elseif c<0xb1 then if c>0b1100110 then g,e=i:vb{h[1]},pcall e(g)g=i:ub{f,_,h[1]}e(g)g=i:wb{h[1]}e(g)return else return end elseif c<=0xb1 then f=b c=f and 0b11111000 or c+0x43 else d=h[0b10][0b10][h[0b10][0b11]]d=d()_=not d c=_ and 0x29 or 0b1010 end elseif c>=0b111101 then if c>0b1010100 then c,_=0x207c/c,0b1010 elseif c>0x3d then _={[0b11]=1,[1]=_}_[0b10]=_ f,d,b="Hitboxes",a.FindFirstChild,a d=d(b,f)b=d c=b and 0x3d or 0xb1 else e,b,f="Hit",d.FindFirstChild,d c,b=0b10110001,b(f,e)end elseif c>0b1010 then return else d,_,b=a,a.GetAttribute,"Distance"_=_(d,b)c=_ and 0x54 or 0b1100011 end end end end,function(g,e)return function(a)local _,d,b,c c=0b1000101 while true do if c>=0x68 then if c>0x8f then if c>0b10011011 then _=true return _ else c=_ and 0x8f or c+-0b1111101 end elseif c<=0x7b then if c>0x68 then _=true return _ else d,_,b=a,a.match,"[_%s]Perk$"_=_(d,b)c=_ and 0x31f8/c or 0b1111 end else _=true return _ end elseif c>=0b1000101 then if c>0x45 then d=""c,_=0x9b,a==d else _=not a c=_ and 0x9b or 0x5b end elseif c<=0b1111 then _=false return _ else d=e[1][0b10][e[1][0b11]]_=d[a]c=_ and 0xfa or 0x86-c end end end end,function(f,e)return function()local c,a,_ c=0x41 while true do if c<0xd6 then if c<0b10110111 then if c<=0x41 then a=e[0b11][0b10][e[0b11][0b11]]c=a and 0b11011000 or 0x62 else a=true c,a,e[0b11][0b10][e[0b11][0b11]]=0b11100110,nil,a e[1][0b10][e[1][0b11]]=a end elseif c<=0b10110111 then a=e[0b110][0b10][e[0b110][0b11]]a()_=task _,a=0b11,_.wait a(_)_=e[0b101][0b10][e[0b101][0b11]]_=_()a=not _ c=a and 0x8889/c or 0xa3b3/c else a=nil _,e[1][0b10][e[1][0b11]]=task,a _,a=0.25,_.wait a(_)a=false e[0b11][0b10][e[0b11][0b11]]=a return end elseif c<0xdc then if c<=0b11010110 then _=e[0b10][0b10][e[0b10][0b11]]_=_()a=not _ c=a and 0b10111111 or 0b10110111 else return end elseif c>0b11100101 then a=e[0b100][0b10][e[0b100][0b11]]c=a and 0x1c2-c or 0xab9a/c elseif c<=0b11011100 then _=e[0b101][0b10][e[0b101][0b11]]_=_()a=not _ c=a and 0xbf or 0b110110010-c else _=e[0b10][0b10][e[0b10][0b11]]_=_()a=not _ c=a and c+-0b100110 or 0b11100110 end end end end,function(b,e)return function()local a,_,c c=0b1011110 repeat if c<0b1011110 then a=e[1][0b10][e[1][0b11]]_,a=a,a.Disconnect c=0b11100001 a(_)a=nil e[1][0b10][e[1][0b11]]=a elseif c>0x5e then return else a=e[1][0b10][e[1][0b11]]c=a and 0b110 or 0b11100001 end until false end end,function(i,h)return function()local f,d,b,e,a,g,j,_,k,l l=0b11000000 while true do if l>0xc0 then if l>0b11101100 then a=h[0b10][0b10][h[0b10][0b11]]l,_,a=0b10110110,a,a.Disconnect a(_)a=nil h[0b10][0b10][h[0b10][0b11]]=a elseif l<=0xcd then k,e=_(d,b)b=k l=b==nil and 0x1b9-l or 0x34 else return end elseif l>0xae then if l>0xb6 then a=h[0b10][0b10][h[0b10][0b11]]l=a and 0xfa or 0b10110110 else _=h[1][0b10][h[1][0b11]]a=_.Character l=a and 0xae or 0b110100010-l end elseif l>0x34 then d,b,_=a.GetDescendants,a,pairs d=i.h(d(b))_,d,b=_(i.i(d))_,d,b=i.g(_,d,b)k,e=_(d,b)b=k l=b==nil and 0xa068/l or 0b110100 elseif l<=0b111 then g=true l,e.CanCollide=0x59b/l,g else g,j,f=e.IsA,e,"BasePart"g=g(j,f)l=g and 0b111 or 0x101-l end end end end,function(b,d)return function()local a a=d[1][0b10][d[1][0b11]]a()return end end,function(f,e)return function()local _,a a,_=e[0b10][0b10][e[0b10][0b11]],e[1][0b10][e[1][0b11]]_=_.MouseButton1Up a(_)return end end,function(i,m)return function()local g,k,c,f,b,_,j,l,a,e,d l=0b1100101 repeat if l>0x89 then if l<=0xc1 then if l>0b10110001 then j,f,c=g.IsA,g,"BasePart"l,j=0x132-l,j(f,c)elseif l>0xa8 then j=k.Parent g=not j l=g and 0b10001001 or 0x18b-l else j,g=e,m[1][0b10][m[1][0b11]]g=g(j)j=g l=j and 0x169-l or 0b100011001-l end elseif l<=0b11000101 then f=m[0b10][0b10][m[0b10][0b11]]l,j=0x11b3/l,f[e]g.Size=j f,j=nil,f j[e]=f else k=_(d,b)b=k l=b==nil and 0b10110 or 0b110001011-l end elseif l<0b1000111 then if l<0x17 then return elseif l<=0x17 then k,e=_(d,b)b=k l=b==nil and l+0b110000 or 0xf18/l else f=m[0b10][0b10][m[0b10][0b11]]j=f[e]l=j and l+0b10011010 or 0b10111 end elseif l<0x71 then if l<=0x47 then _,d=pairs,m[0b10][0b10][m[0b10][0b11]]_,d,b=_(d)_,d,b=i.g(_,d,b)k=_(d,b)b=k l=b==nil and 0x16 or 0b10110001 else a=m[0b11][0b10][m[0b11][0b11]]a=a()_,d=ipairs,a _,d,b=_(d)_,d,b=i.g(_,d,b)k,e=_(d,b)b=k l=b==nil and 0b1000111 or 0xa8 end elseif l<=0x71 then l=j and l+-0x46 or 0xa27/l else g,j=m[0b10][0b10][m[0b10][0b11]],nil l,g[k]=l+0b1010001,j end until false end end,function(f,e)return function()local c,_,a c=0xe4 repeat if c<=0b11001110 then if c<=0b10000111 then a=e[0b10][0b10][e[0b10][0b11]]return a else a,c,_=pcall,0x155-c,f:jc{e[1],e[0b10]}a(_)end else _=e[0b10][0b10][e[0b10][0b11]]a=not _ c=a and 0xce or 0b10000111 end until false end end,function(b,e)return function()local _,c,a c=0xdf repeat if c>=0b1101111 then if c<=0x6f then a=e[0b10][0b10][e[0b10][0b11]]c,a,_=0x63,a.Disconnect,a a(_)a=nil e[0b10][0b10][e[0b10][0b11]]=a else a=e[0b10][0b10][e[0b10][0b11]]c=a and 0b1101111 or 0x63 end else a=false e[1][0b10][e[1][0b11]]=a return end until false end end,function(i)return function(a)local c,b,f,_,d c=0x2c while true do if c<0b1000000 then if c<0x22 then b,_,d="HumanoidRootPart",a.FindFirstChild,a _=_(d,b)d=not _ c=d and 0b1000000 or 0x82 elseif c<=0x22 then c,d=c+0x2d,a.Parent _=not d else _=not a c=_ and 0x4f or 0b100010 end elseif c<0x82 then if c<=0b1000000 then d=true return d else c=_ and 0b100110011-c or c+-0x45 end elseif c>0b10000010 then _=true return _ else f,b=true,_.Anchored d=b==f return d end end end end,function(o,m)return function(a)local l,b,k,c,d,h,f,_,n,e,j l=0b1101100 repeat if l>=0x6c then if l>0b10100101 then if l>0b10111000 then f=j[a]l=f and 0b1100010 or l+-0b1000101 else l,f=0b100011010-l,j[d]end elseif l<0b10000010 then _=m[1][0b10][m[1][0b11]]_=_()b,d=_,type d=d(b)b="table"l=d==b and 0b111 or 0b10100101 elseif l>0b10000010 then d="Rare"return d else n,j=b(k,e)e=n l=e==nil and 0b10100101 or 0b100 end elseif l>0b1010101 then l=f and 0b10110111-l or 0b10000010 elseif l<=0b111 then if l>0b100 then b=string e,d,b,k=" ",b.gsub,a,"_"d=d(b,k,e)b,k=pairs,_ b,k,e=b(k)b,k,e=o.g(b,k,e)n,j=b(k,e)e=n l=e==nil and 0b10100101 or 0b100 else h,c=j,type c=c(h)h="table"f=c==h l=f and 0x3f4/l or 0b1100010 end else return n end until false end end,function(i,h)return function()local b,_,f,a,c,d c=0b1100001 while true do if c<=0x61 then if c<=0x3f then if c<0b111101 then if c<=0b1001 then c,a=0b10011101,_ else c=_ and 0b10010011 or c+0b11011 end elseif c>0x3d then b,d=a,tostring d=d(b)b="N/A"c,_=c+0b1010100,d==b else return end elseif c>0b1011000 then _,a="Playing",h[0b111][0b10][h[0b111][0b11]]c=a==_ and 0b111101 or 0x58 else a="Playing"h[0b111][0b10][h[0b111][0b11]],_=a,os a=_.clock a=a()a,_,h[1][0b10][h[1][0b11]]=h[0b100][0b10][h[0b100][0b11]],"In Progress",a a.Status=_ _=0 a.Seconds=_ a,d=h[0b101][0b10][h[0b101][0b11]],"Difficulty"a,_=a.GetAttribute,a a=a(_,d)_=not a c=_ and c+-0x34 or 0x148-c end elseif c>0b10100000 then if c>0xb4 then b,d=a,tostring d=d(b)c,b=0x24,""_=d==b else b=h[0b10][0b10][h[0b10][0b11]]d=b.LastRound _=d.Difficulty c=_ and 0b1001 or 0xa0 end elseif c>0x9d then c,_=0b10101001-c,"N/A"elseif c<=0x93 then c=_ and 0x147-c or 0x9d else _,d,b=h[0b100][0b10][h[0b100][0b11]],tostring,a d=d(b)_.Difficulty=d d,b={},0 d.Gold=b d.Gems=b d.XP=b f={}b=f d.Items=b f={}b=f d.Rarities=b _=d _,h[0b110][0b10][h[0b110][0b11]]=h[0b11][0b10][h[0b11][0b11]],_ _()return end end end end,function(i,m)return function()local c,a,_,e,f,h,d,k,n,j,l,b l=0x19 repeat if l<0x6d then if l<0b110001 then if l>0b10001 then a=m[0b11][0b10][m[0b11][0b11]]a=a()_=not a l=_ and 0x7b or 0b10001 else k,_=math,nil b=k.huge b,d,e,k=ipairs,-b,a,a.GetChildren k=i.h(k(e))b,k,e=b(i.i(k))b,k,e=i.g(b,k,e)n,j=b(k,e)e=n l=e==nil and 0b1101101 or 0x3f end elseif l<0b111111 then l=f and 0b10100101 or 0x51 elseif l<=0x3f then f,h,c=j.IsA,"Model",j f=f(c,h)l=f and 0x2dc6/l or 0xc0f/l else n,j=b(k,e)e=n l=e==nil and 0x6d or 0x13ef/l end elseif l<0xa5 then if l<=0x6d then return _ else _=nil return _ end elseif l>=0xba then if l<=0xba then c,f=j,m[1][0b10][m[1][0b11]]l,f=0x31,f(c)else l,d,_=0x13a-l,f,j end else f,c=m[0b10][0b10][m[0b10][0b11]],j f=f(c)l=f>d and l+0b1000100 or l+-0x54 end until false end end,function(i)return function(a)local d,b,g,_,e,k,j,l l=0b10011000 while true do if l<=0x98 then if l<0b1101001 then if l<=0b1000010 then d=not _ l=d and 0b1101001 or 0b100101010-l else j=g.Name l=j==a and 0x9b or 0x5540/l end elseif l<=0x85 then if l<=0x69 then d=nil return d else d=nil return d end else _=getnilinstances l=_ and 0x42 or 0xd8 end elseif l>0b11101000 then e,g=d(b,k)k=e l=k==nil and 0b101111101-l or 0x150-l elseif l>=0b11011000 then if l>0b11011000 then d=_ d,b,k=d()d,b,k=i.g(d,b,k)e,g=d(b,k)k=e l=k==nil and 0x7888/l or l+-0b10010000 else l,_=0x11a-l,get_nil_instances end else return g end end end end,function(i,h)return function()local a,b,_,f,d,e,c c=0x39 while true do if c>=0b1110000 then if c>=0b10101111 then if c>=0xd5 then if c>0b11010101 then c,b=0x70,d[0b10][d[0b11]].Visible h[1][0b10][h[1][0b11]]=b else b,f=h[0b100][0b10][h[0b100][0b11]],true b.MouseIconEnabled=f b=h[0b101][0b10][h[0b101][0b11]]c=b and c+-0x5e or 0x9699/c end elseif c>0b10101111 then f=h[0b10][0b10][h[0b10][0b11]]e,b=i:rc{d,h[0b11],h[0b110]},f.Heartbeat f,b=b,b.Connect b=b(f,e)h[0b101][0b10][h[0b101][0b11]]=b return else d={[0b11]=1,[1]=d}d[0b10]=d b=d[0b10][d[0b11]]c=b and 0x18 or 0x189c/c end elseif c<0x77 then c=d[0b10][d[0b11]]and 0xce-c or 0x5d30/c elseif c<=0b1110111 then b=h[0b101][0b10][h[0b101][0b11]]b,f=b.Disconnect,b c=0x12c-c b(f)else b,f,d=_,"Cursor",_.FindFirstChild c,d=c+0b110101,d(b,f)end elseif c>=0x39 then if c<0b1011110 then d,a="PlayerGui",h[0b11][0b10][h[0b11][0b11]]a,_=a.FindFirstChild,a a=a(_,d)_=a c=_ and 0 or 0x63 elseif c<=0b1011110 then b=false c,d[0b10][d[0b11]].Visible=0x133-c,b else d=_ c=d and 0b1111010 or 0b10101111 end elseif c<=0b11000 then if c>0 then c,e,f=0x360/c,nil,h[1][0b10][h[1][0b11]]b=f==e else c,_,d,b=0x63,a.FindFirstChild,a,"Interface"_=_(d,b)end else c=b and 0xdd or 0x94-c end end end end,function(a,...)return a:k()(...)end,function(g,h)return function()local b,c,d,a,_,f c=0b11101000 repeat if c<=0b11001011 then if c<=0x97 then if c>0b1110000 then d,c,f,b=_.FindFirstChild,0xe5,"Skip",_ d=d(b,f)else _,d,c,b=a.FindFirstChild,a,0b100111011-c,"Interface"_=_(d,b)end else d=_ c=d and 0x97 or c+0b11010 end elseif c<=0xe5 then h[1][0b10][h[1][0b11]]=d return else d,a="PlayerGui",h[0b10][0b10][h[0b10][0b11]]_,a=a,a.FindFirstChild a=a(_,d)_=a c=_ and 0b1110000 or 0b11001011 end until false end end,function(g,h)return function()local a,_,b,f,d a,b,f,d=h[0b10][0b10][h[0b10][0b11]],"Finished",h[1][0b10][h[1][0b11]],"Functions"a,_=a.FireServer,a a(_,d,b,f)return end end,function(g)return function(a,_)local d,b a={[0b11]=1,[1]=a}a[0b10]=a _={[0b11]=1,[1]=_}_[0b10]=_ b,d=g:Jb{_,a},pcall d(b)return end end,i=(function()local function m(i,j,k)if j>k then return end return i[j],m(i,j+1,k)end return function(o)return m(o[1],1,o[0b10])end end)(),function(i,h)return function(a)local c,_,d,b,f,e c=0b11111 while true do if c<0xb8 then if c>0b111110 then f=_[a]b=f.Rarity return b elseif c<=0b11111 then _=h[1][0b10][h[1][0b11]]_=_()d,b=type,_ d=d(b)b="table"c=d==b and 0b111110 or 0b11101010 else b=string d,e,f,b=b.gsub," ","_",a d=d(b,f,e)b=_[a]c=b and 0x19ac/c or 0b11110110 end elseif c>=0b11101010 then if c>0b11101010 then b=_[d]c=b and 0b110101110-c or 0xe0dc/c else d=nil return d end else f=_[d]b=f.Rarity return b end end end end,function(o,m)return function(a,_,d,b,k,e)local n,p,h,g,f,i,j a={[0b11]=1,[1]=a}a[0b10]=a d={[0b11]=1,[1]=d}d[0b10]=d b={[0b11]=1,[1]=b}b[0b10]=b k={[0b11]=1,[1]=k}k[0b10]=k e={[0b11]=1,[1]=e}e[0b10]=e j,n=o:sb{e,a,m[0b11],b,m[1],m[0b100],k,d,m[0b101]},pcall n(j)h,g,p,f,j,n,i=b[0b10][b[0b11]],k[0b10][k[0b11]],d[0b10][d[0b11]],_,a[0b10][a[0b11]],m[0b10][0b10][m[0b10][0b11]],e[0b10][e[0b11]]n=o.h(n(j,f,p,h,g,i))return o.i(n)end end,function(f,e)return function()local a,_,d a=e[0b111][0b10][e[0b111][0b11]]a()_=task a,_=_.spawn,f:nc{e[1],e[0b100],e[0b1000],e[0b1001],e[0b110]}a(_)a,d=e[0b11][0b10][e[0b11][0b11]],"Difficulty"_,a=a,a.GetAttributeChangedSignal a=a(_,d)d,a,_=f:mc{e[0b101],e[0b10],e[0b11]},a.Connect,a a(_,d)return end end,function(g,h)return function()local b,d,a,_,c c=0x2a while true do if c>0b10111001 then if c<0b10111011 then c=_ and 0x175-c or 0xb9 elseif c>0xbb then return else b,d=a,tostring d=d(b)c,b=c+-0b10,"N/A"_=d~=b end elseif c<0xaf then if c<=0x2a then d,a="Difficulty",h[0b11][0b10][h[0b11][0b11]]_,a=a,a.GetAttribute a=a(_,d)_=a c=_ and 0b10101111 or 0b10111010 else b,_,d=a,h[1][0b10][h[1][0b11]],tostring d=d(b)_.Difficulty=d c,_=c+0x2f,h[0b10][0b10][h[0b10][0b11]]_()end elseif c<=0b10101111 then b,d=a,tostring c,d=0b10111010,d(b)b=""_=d~=b else c=_ and 0xac or 0b11011011 end end end end,function(b,e)return function()local _,a a,_=e[0b10][0b10][e[0b10][0b11]],e[1][0b10][e[1][0b11]]a(_)return end end,function(g,e)return function()local a,_,d,c c=0x38 repeat if c<=0x53 then if c<=0b111000 then a=e[1][0b10][e[1][0b11]]a=a()d=nil _=a~=d c=_ and 0x6d or 0x53 else return _ end else c,d=0x2357/c,0 _=a==d end until false end end,function(i,h)return function()local _,a,g,c,b,e,f,d c=0x7a repeat if c>=0b1111001 then if c<0xa7 then if c>0x79 then _,a=h[1][0b10][h[1][0b11]],pairs a,_,d=a(_)a,_,d=i.g(a,_,d)b,f=a(_,d)d=b c=d==nil and 0b1010000 or 0xa7 else c=e and c+-0b1000110 or 0x28 end elseif c>0b10100111 then c,e=0x549b/c,f.Parent else e=f c=e and 0xb3 or 0b1111001 end elseif c<=0x33 then if c<=0x28 then b,f=a(_,d)d=b c=d==nil and 0b1010000 or 0x1a18/c else e,c,g=f.Destroy,0x5b-c,f e(g)end else _={}a=_ h[1][0b10][h[1][0b11]]=a return end until false end end,function(f,e)return function()local a,_,c,d c=0b11010101 repeat if c>=0b11001000 then if c>0b11001000 then a=nil a={[0b11]=1,[1]=a}a[0b10]=a d,_=f:Lb{a,e[0b10]},pcall _(d)_=not a[0b10][a[0b11]]c=_ and 0xc8 or 0x46 else return end else _,d=pcall,f:Mb{a,e[1]}_(d)return end until false end end,function(g,e)return function(a)local c,_,d,b c=0x71 repeat if c>=0x42 then if c<=0x42 then _=e[0b10][0b10][e[0b10][0b11]]c=0b101011 _()else _,e[0b11][0b10][e[0b11][0b11]],b,d=e[1][0b10][e[1][0b11]],a,a,"NoClip"_(d,b)c=a and 0x34 or 0b1000010 end elseif c<=0x2b then return else _=e[0b100][0b10][e[0b100][0b11]]c=c+-0b1001 _()end until false end end,function(o,m)return function(a)local q,j,k,i,g,n,c,l,b,p,f,r,h,_,e,d l=0b111001 repeat if l>=0x84 then if l>=0xaa then if l<0xdd then if l<=0xaa then l=k and l+-0xa7 or 0x10 else b,e,k=_.FindFirstChild,"Humanoid",_ b=b(k,e)k=not b l=k and 0x16e-l or 0x8e end elseif l<=0xdd then d=m[1][0b10][m[1][0b11]]_=d.Character d=not _ l=d and 0x38 or 0x161-l else e=0 m[0b100][0b10][m[0b100][0b11]]=e return end elseif l>0b10011101 then n=m[0b100][0b10][m[0b100][0b11]]e=n+a m[0b100][0b10][m[0b100][0b11]],j,n=e,0.1,m[0b101][0b10][m[0b101][0b11]]e,n=n*j,m[0b100][0b10][m[0b100][0b11]]l=n<e and 0b110001 or 0x9d elseif l<0b10001110 then b,d,k=_,_.FindFirstChild,"HumanoidRootPart"d=d(b,k)b=not d l=b and 0b100010 or 0x6510/l elseif l<=0b10001110 then n,l,e=0,0b100111000-l,b.Health k=e<=n else n=0 m[0b100][0b10][m[0b100][0b11]],n=n,d.CFrame r,j,p,g,f,c=m[0b10][0b10][m[0b10][0b11]],n.LookVector,n.UpVector,n.Position,n.RightVector,k.Unit q=c*r q,h=CFrame,g+q q,c,r,g,i=h,f,p,q.fromMatrix,-j g=g(q,c,r,i)d.CFrame=g return end elseif l<0b110001 then if l>=0x10 then if l>0b10000 then return else k=b.MoveDirection e,n=k.Magnitude,0.1 l=e<n and 0xf4 or 0b10100111 end else return end elseif l>=0x39 then if l>0x39 then return else d=m[0b11][0b10][m[0b11][0b11]]_=not d l=_ and 0b1001100 or 0b11011101 end elseif l<=0b110001 then return else return end until false end end,function(g)return function(a)local _,d,c,b c=0b10011010 while true do if c<0x9a then if c<0b1101010 then if c>0x2e then return else c,d=0x114-c,fluxus _=d.queue_on_teleport end elseif c>=0b1101101 then if c<=0x6d then c,d,b=c+-0b100101,pcall,g:Wb{a,_}d(b)else _=fluxus c=_ and 0x15ec/c or 0b101100000-c end else c=_ and 0x150-c or 0b1111010 end elseif c>=0b10101110 then if c>=0b11100110 then if c>0xe6 then d=syn c,_=0xa068/c,d.queue_on_teleport else _={[0b11]=1,[1]=_}_[0b10]=_ c=_[0b10][_[0b11]]and 0x6d or 0b100101110-c end else c=_ and 0x480c/c or 0x7596/c end elseif c>0b10011010 then c,_=0b1101010,queue_on_teleport else a={[0b11]=1,[1]=a}a[0b10]=a _=syn c=_ and 0b11101100 or 0xae end end end end,function(i,h)return function()local e,d,f,c,_,b,a c=0x91 repeat if c>=0b1000111 then if c<0x93 then if c>0b1000111 then _=h[0b10][0b10][h[0b10][0b11]]a=not _ c=a and 0xf4 or 0b100 else return end elseif c>0x93 then return else e=Enum f=e.HumanoidStateType f,c,b,d=f.Jumping,0x47,_,_.ChangeState d(b,f)end elseif c>0b100 then c=_ and 0x93 or 0x8a-c elseif c<=1 then _,b,d=a.FindFirstChild,"Humanoid",a c,_=0b1000011,_(d,b)else _=h[1][0b10][h[1][0b11]]a=_.Character _=a c=_ and 1 or 0x47-c end until false end end,function(o,m)return function()local c,r,j,_,q,g,k,b,h,n,a,e,f,d,l,p l=0b1101011 repeat if l>0b10001111 then if l>=0xc4 then if l>=0xe9 then if l>0b11111010 then g=h.billboard l,g,q=0b110,g.Destroy,g g(q)elseif l>0b11111001 then e={}n,k,e=m[0b101][0b10][m[0b101][0b11]],e,pairs e,n,j=e(n)e,n,j=o.g(e,n,j)f=e(n,j)j=f l=j==nil and l+-0x70 or 0b100101 elseif l>0b11101001 then _,l,d,b=a.FindFirstChild,0x83,a,"HumanoidRootPart"_=_(d,b)else p=true b[f]=p g=m[0b101][0b10][m[0b101][0b11]]h=g[f]p=not h l=p and 0b10011101 or 0x7c end elseif l>=0b11100101 then if l<=0xe5 then l,q=0x1827/l,h.billboard g=q.Parent else f,p=e(n,j)j=f l=j==nil and 0xac8/l or 0xd7a/l end elseif l>0xc4 then h=p.rootPart l=h and 0b10010001 or 0x65 else q=h.highlight l,g=0b11011000-l,q.Parent end elseif l<0b10100000 then if l<=0x96 then if l>0x92 then g=h.billboard l=g and 0x862e/l or 0b10110001-l elseif l<=0x91 then l,g=0x65,p.rootPart h=g.Parent else g=math r,q,h=p.rootPart,_.Position,g.floor l,c=0xa0,r.Position g=q-c g=g.Magnitude h=h(g)c,g=" m",p.distLabel q=h..c g.Text=q end else l,p,h=0x119-l,m[0b10][0b10][m[0b10][0b11]],f p(h)end elseif l<=0xab then if l>=0b10101000 then if l>0b10101000 then g=h.highlight l,q,g=0b10010110,g,g.Destroy g(q)else f=e(n,j)j=f l=j==nil and l+-0b11110 or 0x25 end else f,p=e(n,j)j=f l=j==nil and 0xc1 or 0b101110010-l end else return end elseif l>0x37 then if l<0x83 then if l>=0b1101011 then if l<=0x6b then _=m[0b11][0b10][m[0b11][0b11]]a=not _ l=a and 0b11001 or 0b1101 else j,f=k(e,n)n=j l=n==nil and l+0b1111110 or l+-0x2c end elseif l<=0b1010000 then g,p,h="Model",f.IsA,f p=p(h,g)l=p and l+0b10011001 or 0b1111100 else l=h and 0x399a/l or 0b10100000 end elseif l>0b10001110 then n,e=m[0b101][0b10][m[0b101][0b11]],pairs e,n,j=e(n)e,n,j=o.g(e,n,j)f,p=e(n,j)j=f l=j==nil and l+0b110010 or l+0x43 elseif l>=0x8a then if l<=0b10001010 then e,n=ipairs,k e,n,j=e(n)e,n,j=o.g(e,n,j)f,p=e(n,j)j=f l=j==nil and 0b10010110-l or 0b1111 else l,g=l+0b11010,table q,g,h=f,k,g.insert h(g,q)end else d=m[0b100][0b10][m[0b100][0b11]]d=d()k={}b=k l=d and 0x1c25/l or 0xfa end elseif l<=0x14 then if l>=0b1101 then if l>0b1111 then l=g and 0b10101011 or l+0x82 elseif l<=0b1101 then _=m[1][0b10][m[1][0b11]]a=_.Character _=a l=_ and 0b11111001 or 0x90-l else g=m[0b101][0b10][m[0b101][0b11]]h=g[p]g=h.highlight l=g and 0xc4 or 0b10100 end elseif l>0b110 then l=_ and l+0x83 or 0b11001101-l else q,l,g=nil,0b11100110,m[0b101][0b10][m[0b101][0b11]]g[p]=q end elseif l>0b100101 then k,e,n=pairs,d.GetChildren,d e=o.h(e(n))k,e,n=k(o.i(e))k,e,n=o.g(k,e,n)j,f=k(e,n)n=j l=n==nil and 0b11111010 or l+0x19 elseif l>0b11011 then g=b[f]h=not g l=h and 0b10001110 or 0xa8 elseif l<=0x19 then return else l=g and 0b11111110 or 0b10100010/l end until false end end,function(i,h)return function(a)local e,_,d,l,g,k,j,b l=0x83 repeat if l>0x7f then if l<0xd8 then if l<=0b10000011 then _,d=pcall,i:wc{h[1]}_(d)_=a l=_ and 0b10111111 or 0b1000111 else _,b,d=a.FindFirstChild,"Interact",a _=_(d,b)l=_ and 0b1000111 or 0b100010111-l end elseif l<0xe2 then return elseif l<=0b11100010 then l=0xbeb0/l else l,b=0b1100010,_[0b10][_[0b11]].AbsoluteSize end elseif l<=0x58 then if l>0x47 then b,k,_,l,d="GuiButton",true,a.FindFirstChildWhichIsA,0x1868/l,a _=_(d,b,k)elseif l>0b111110 then _={[0b11]=1,[1]=_}_[0b10]=_ l=_[0b10][_[0b11]]and 0b111 or l+0x91 elseif l>0b111 then g,l,k,j=_[0b10][_[0b11]].AbsoluteSize,0xe2,_[0b10][_[0b11]].AbsolutePosition,0b10 e=g/j b=k+e b={[0b11]=1,[1]=b}b[0b10]=b e,k=i:uc{b,h[1]},pcall k(e)else d=firesignal d={[0b11]=1,[1]=d}d[0b10]=d l=d[0b10][d[0b11]]and 0b10000110-l or 0x5f end elseif l<0x62 then b=_[0b10][_[0b11]].AbsolutePosition l=b and 0xfb or 0x245e/l elseif l>0x62 then k,b=i:tc{_,d},pcall b(k)k=i:vc{_,d}b(k)k=i:sc{_,d}b(k)l,k=0x2f21/l,i:xc{_,d}b(k)else l=b and 0x3e or 0b11100010 end until false end end,function(g,h)return function()local a,b,d,f,_ d,a,f,b="Attacks",h[1][0b10][h[1][0b11]],false,"Slash"a,_=a.FireServer,a a(_,d,b,f)return end end,function(i,h)return function()local b,f,e,c,_,a,d c=0b10101111 repeat if c<=0b10001000 then if c>0b1111101 then f,e,b=d[0b10][d[0b11]],"Visible",d[0b10][d[0b11]].GetPropertyChangedSignal b=b(f,e)b,e,f=b.Connect,i:oc{h[1],h[0b100],d,h[0b101],h[0b10]},b b(f,e)return elseif c<=0b111101 then if c>0b11101 then return else e,f,d,b=0b111100,"Rewards",_.WaitForChild,_ c,d=0b11001110,d(b,f,e)end else b,f,_,c,d="Interface",0x3c,a.WaitForChild,0b11000010,a _=_(d,b,f)end elseif c<0b11000010 then d,a,b="PlayerGui",h[0b11][0b10][h[0b11][0b11]],0b111100 a,_=a.WaitForChild,a a=a(_,d,b)_=a c=_ and 0b1111101 or 0xc2 elseif c>0b11000010 then d={[0b11]=1,[1]=d}d[0b10]=d b=not d[0b10][d[0b11]]c=b and 0b111101 or c+-0x46 else d=_ c=d and c+-0xa5 or 0x190-c end until false end end,function(f,e)return function()local c,_,a,d c=0x29 repeat if c<=0b101001 then if c>0b100001 then a=e[0b11][0b10][e[0b11][0b11]]c=a and 0b101100 or 0b100001 else _=e[1][0b10][e[1][0b11]]d,a=f:Sb{e[0b100],e[0b10]},_.JumpRequest _,a=a,a.Connect a=a(_,d)e[0b11][0b10][e[0b11][0b11]]=a return end else c,a=c+-0b1011,e[0b11][0b10][e[0b11][0b11]]a,_=a.Disconnect,a a(_)end until false end end,function(g,h)return function()local a,b,_,d,c c=0xb3 while true do if c>0b10101101 then if c>0xb3 then return elseif c>0xae then a=h[0b11][0b10][h[0b11][0b11]]c=a and 0b101100 or 0x82 else d=task _,d=d.wait,0.25 _(d)_=false h[0b11][0b10][h[0b11][0b11]]=_ return end elseif c<=0x82 then if c<0b101100 then b=os d=b.clock d=d()_,d=d-a,1.8 c=_<d and 0x17a7/c or 0b10101110 elseif c>0b101100 then _=h[1][0b10][h[1][0b11]]_=_()a=not _ c=a and 0xf5 or 0x4c2c/c else return end elseif c>0b10010110 then d=task _,d=d.wait,0.1 _(d)d=h[0b10][0b10][h[0b10][0b11]]d=d()_=not d c=_ and c+1 or c+-0b10001010 else a=true _,h[0b11][0b10][h[0b11][0b11]]=task,a _,a=0.05,_.wait a(_)a=h[0b100][0b10][h[0b100][0b11]]a()_=os a=_.clock c,a=0b100011,a()end end end end,function(g,e)return function(a)local c,_,b,d c=0x56 while true do if c>=0b1001000 then if c<=0b1001000 then return else e[0b11][0b10][e[0b11][0b11]],b,_,d=a,a,e[1][0b10][e[1][0b11]],"ExpandNapeHitbox"_(d,b)_=not a c=_ and 0x23 or 0x2f end elseif c<=0b100011 then _=e[0b100][0b10][e[0b100][0b11]]c=0x9d8/c _()else c,_=c+0b11001,e[0b10][0b10][e[0b10][0b11]]_()end end end end,function(g,e)return function(a)local b,_,d,c c=0x7f repeat if c>0x50 then e[0b11][0b10][e[0b11][0b11]],d,b,_=a,"AutoRefill",a,e[1][0b10][e[1][0b11]]_(d,b)_=not a c=_ and 0b100100 or 0x50 elseif c<=0x24 then c,_=0xb40/c,nil e[0b10][0b10][e[0b10][0b11]]=_ else return end until false end end,function(f,e)return function()local a,_,c,d c=0x77 repeat if c>0x77 then _=e[1][0b10][e[1][0b11]]d,a=f:Kb{e[0b10]},_.Stepped a,_=a.Connect,a a=a(_,d)e[0b11][0b10][e[0b11][0b11]]=a return elseif c<=0x61 then return else a=e[0b11][0b10][e[0b11][0b11]]c=a and 0x61 or 0b11111111 end until false end end,function(o,m)return function()local d,a,k,l,q,j,f,_,c,n,p,h,r,b,e,g l=0xce repeat if l<=0x7f then if l>0x49 then if l>=0x66 then if l<=0x74 then if l>=0b1110000 then if l>0b1110011 then l,k,e=0b10011100,m[0b101][0b10][m[0b101][0b11]],m[0b10001][0b10][m[0b10001][0b11]]k(e)elseif l<0b1110001 then l,d=0x8c,false elseif l<=0x71 then l=n and 0x81 or 0x5766/l else n=m[0b10000][0b10][m[0x10][0b11]]e=not n l=e and 0x2f2b/l or 0b10110101 end elseif l<0b1101010 then if l<=0b1100110 then q=m[0b110][0b10][m[0b110][0b11]]q=q()g=not q l=g and 0b11101011 or 0b1010111 else l,e=l+0x1f,m[0b1110][0b10][m[0b1110][0b11]]e=e()m[0b10001][0b10][m[0x11][0b11]]=e end elseif l>0b1101010 then l,k=0b11010001,not d else q=table g,c,q=q.insert,{},k c.nape=h c.titan=p l=0x402e/l g(q,c)end elseif l>0b1111010 then if l>0x7d then f=m[0b1000][0b10][m[0b1000][0b11]]l=f and 0b1111100 or 0b10110010 elseif l<=0x7c then h=0b1000 h,l,p=#k,0xb2,e+h f=p<=h else b=m[0b11][0b10][m[0b11][0b11]]l=b and 0x92 or 0x9c4/l end elseif l<=0b1111001 then if l<0b1110110 then k=task b,k=k.wait,0.2 l=0b11110101-l b(k)elseif l<=0b1110110 then k=m[0b1001][0b10][m[0b1001][0b11]]l=k and 0xe9 or 0b10111000 else b=m[0b10010][0b10][m[0b10010][0b11]]l=b and 0xf99/l or 0b10111110-l end else l=b and 0x1296/l or 0x142-l end elseif l>=0x59 then if l<0x5e then if l<=0b1011100 then if l<0x5b then k=m[1][0b10][m[1][0b11]]l,b=0x579c/l,not k elseif l>0x5b then n,e,j=k,k.FindFirstChild,"HumanoidRootPart"l,e=0x51f0/l,e(n,j)else m[0x11][0b10][m[0b10001][0b11]],n=k,m[0b10000][0b10][m[0x10][0b11]]e=not n l=e and 0x48df/l or 0b100100001-l end else k=m[0b10000][0b10][m[0b10000][0b11]]b=not k l=b and 0x4164/l or 0xc7 end elseif l>0b1100011 then k=m[0b1010][0b10][m[0b1010][0b11]]k=k()l=k and l+-0x2f or l+0x53 elseif l<=0x62 then if l>0b1011110 then h,g=m[0b100][0b10][m[0b100][0b11]],p h=h(g)l=h and 0x8a or 0b10011011 else l=b and 0b10110011 or 0x105-l end else k=m[0x18][0b10][m[0x18][0b11]]l,k=0x4b69/l,k()end elseif l>=0b1010011 then if l<=0x56 then if l>0x54 then l,k,e=0x1f94/l,m[0b100][0b10][m[0b100][0b11]],m[0b10001][0b10][m[0x11][0b11]]k=k(e)b=not k elseif l<=0x53 then b=m[0b10100][0b10][m[0x14][0b11]]l,b=l+-0b1111,b()else l,b,k=l+-0b101111,a[0b10][a[0b11]].Disconnect,a[0b10][a[0b11]]b(k)end else q=k[f]g=q.nape g={[0b11]=1,[1]=g}g[0b10]=g q=g[0b10][g[0b11]]l=q and 0x1e or 0b10111010 end elseif l<=0b1010001 then if l<=0x4b then l,e=l+0b1010111,false k.PlatformStand=e else l=e and 0b10111111 or l+0b1001011 end else l=k and 0b10000110 or 0x1b end elseif l<0b100111 then if l>0b10011 then if l>0x1f then if l>=0x24 then if l>0x24 then k=m[0b10101][0b10][m[0b10101][0b11]]b=k.Character k=b l=k and 0x1c54/l or 0b10111101 else k=task l,b,k=0b111110,k.spawn,m[0x16][0b10][m[0x16][0b11]]b(k)end else b=m[0x13][0b10][m[0x13][0b11]]b=b()e={}n,e,k=b,ipairs,e e,n,j=e(n)e,n,j=o.g(e,n,j)f,p=e(n,j)j=f l=j==nil and 0x91 or l+0x41 end elseif l>=0b11110 then if l>0x1e then e=m[0x10][0b10][m[0x10][0b11]]k=not e l=k and 0b11 or 0x11 else l,q=0b10111010,g[0b10][g[0b11]].Parent end elseif l<=0x14 then l=b and 0x398/l or 0b1110 else l=k and l+0b11110 or 0b10011010 end elseif l<0b1101 then if l<0b101 then if l<=1 then l=a[0b10][a[0b11]]and 0b1010100 or 0x25/l else e=m[0b10101][0b10][m[0b10101][0b11]]k=e.Character e=k l=e and 0x5c or 0xe4 end elseif l<=0b101 then k=m[1][0b10][m[1][0b11]]l=k and 0x32 or 0b10011010 else l=k and l+0x6b or 0x9c end elseif l>=0b10001 then if l<0x12 then e,k=m[0x11][0b10][m[0x11][0b11]],m[0b1111][0b10][m[0b1111][0b11]]k=k(e)e=k l=e and 0xe7 or 0x51 elseif l>0x12 then l=k and 0b1100101 or 0xda8/l else p=task f,p=p.wait,m[0b11001][0b10][m[0b11001][0b11]]l=0xda4/l f(p)end elseif l>0b1101 then k=m[0b110][0b10][m[0b110][0b11]]k=k()b=not k l=b and 0b11101000-l or 0x87-l else e=m[1][0b10][m[1][0b11]]l,k=0x5f-l,not e end elseif l<=0x39 then if l<=0x32 then if l<=0x2e then if l>0b101010 then b=m[0b1010][0b10][m[0b1010][0b11]]b=b()l=b and 0xec-l or 0x284/l elseif l>0x27 then n=task e,l,n=n.wait,0b10110110-l,0.2 e(n)else b=m[0b1110][0b10][m[0b1110][0b11]]b=b()l,m[0x11][0b10][m[0b10001][0b11]]=0x1e78/l,b end elseif l<=0x30 then n=task n,e=0.3,n.wait l=0x1a40/l e(n)else l,e=0b110111-l,task e,k=0.1,e.wait k(e)end elseif l>=0x36 then if l<=0b110110 then e=task l,e,k=0b1110110,m[0b1100][0b10][m[0b1100][0b11]],e.spawn k(e)else e=task l,e,k=l+-0x34,m[0b10110][0b10][m[0x16][0b11]],e.spawn k(e)end elseif l>0x33 then k=nil m[0b10001][0b10][m[0b10001][0b11]],k=k,m[0b1000][0b10][m[0b1000][0b11]]l=k and 0x6c or 0x2b45/l else l,k=0xc5a/l,task b,k=k.wait,0.1 b(k)end elseif l<=0x44 then if l<=0b111110 then if l>=0b111101 then if l>0x3d then b=m[1][0b10][m[1][0b11]]l=b and 0b110011 or 0x7d else e=nil e,m[0b10001][0b10][m[0x11][0b11]]=m[0b1000][0b10][m[0b1000][0b11]],e l=e and 0b11010100 or 0x30 end else e=task k,e=e.wait,0.2 k(e)k=m[0b1101][0b10][m[0b1101][0b11]]l=k and 0x63 or 0b11000011 end else l=b and l+-0x20 or 0x7d end elseif l>=0b1000110 then if l<=0x46 then l=k and 0x90 or 0b11000111 else l=k and 0b111100 or 0x27ec/l end else k=m[0x11][0b10][m[0x11][0b11]]b=not k l=b and 0b1111010 or 0x8f end elseif l<=0b10111110 then if l<=0x9b then if l>=0x8f then if l>0b10010011 then if l<=0x9a then if l<=0b10011001 then f=f+h l=(h>0 and f>p or h<=0 and f<p or h~=h)and l+0b1010010 or 0xff-l else k=m[0b11][0b10][m[0b11][0b11]]l=k and 0xea or 0b10011 end else f,p=e(n,j)j=f l=j==nil and l+-0b1010 or 0b1100010 end elseif l<=0b10010001 then if l>0x90 then e,n=#k,0 l=e==n and 0x3d or 0b100000100-l elseif l<=0b10001111 then k,e=m[0b100][0b10][m[0b100][0b11]],m[0b10001][0b10][m[0x11][0b11]]k=k(e)l,b=0x109-l,not k else n,e=m[0b10001][0b10][m[0x11][0b11]],m[0b10][0b10][m[0b10][0b11]]e=e(n)l=e and 0b11010101 or 0x157-l end elseif l>0b10010010 then k=task b,l,k=k.wait,0b10001100,0.2 b(k)else l,k=0b10100,m[0b1001][0b10][m[0b1001][0b11]]b=not k end elseif l>0b10000110 then if l>0x8a then b=m[0b1011][0b10][m[0b1011][0b11]]l=b and 0b11000000 or l+-0b10001011 elseif l<=0b10001000 then e,j,n=1,0b1000,#k l=(n~=n or(j>0 and e>n or(j<=0 or j~=j)and e<n))and 0x2a or 0xbb else g,h=p,m[0b1111][0b10][m[0b1111][0b11]]h=h(g)l=h and 0xf4-l or 0x125-l end elseif l>0b10000011 then if l<=0x85 then l=b and 0b11011110-l or 0b11111100 else k=m[0b10100][0b10][m[0x14][0b11]]l,k=0xe22/l,k()end elseif l>=0x81 then if l>0x81 then l,n.CFrame=l+0b1000011,j else f,j=k,m[0b10][0b10][m[0b10][0b11]]j=j(f)l=j and 0b10000011 or 0b11000110 end else b=m[0b1001][0b10][m[0b1001][0b11]]l=b and 0b1110101 or 0b1110 end elseif l<=0b10110100 then if l<=0xaf then if l>0b10100010 then if l<=0b10100111 then k=m[0b110][0b10][m[0b110][0b11]]k=k()b=not k l=b and 0x5fe5/l or 0b100000100-l else p,f=o:dc{m[0x17]},pcall f(p)q,f=math,e g,r=q.min,0b1000 r,c=1,e+r c,q=#k,c-r g=g(q,c)h,p=1,g l=(p~=p or(h>0 and f>p or(h<=0 or h~=h)and f<p))and 0xeb or l+-0x49 end elseif l>0xa1 then e=nil m[0b10001][0b10][m[0b10001][0b11]]=e return elseif l<=0b10011100 then k=m[0b1011][0b10][m[0b1011][0b11]]l=k and 0xdc or 0b1001001 else l,e.CFrame=0b10110010-l,n end elseif l<0b10110011 then l=f and 0b11000100-l or 0xc2 elseif l>0xb3 then k=m[0x15][0b10][m[0b10101][0b11]]b=k.Character k=b l=k and 0xf2 or l+-0b1101110 else k=task l,k,b=0x61e4/l,0.3,k.wait b(k)end elseif l>=0xba then if l<0b10111101 then if l<=0b10111010 then l=q and l+0x32 or 0b11111000 else p=m[0b110][0b10][m[0b110][0b11]]p=p()f=not p l=f and 0b11100101-l or 0xaf end elseif l<=0xbd then l=k and 0x375f/l or 0b10100010 else k=task b,l,k=k.spawn,0x80,m[0b1100][0b10][m[0b1100][0b11]]b(k)end elseif l>0b10110110 then e=m[0b110][0b10][m[0b110][0b11]]e=e()k=not e l=k and l+-0b11100 or 0xaa58/l elseif l<=0b10110101 then l,e=0x88,nil m[0x11][0b10][m[0b10001][0b11]]=e else l,k=0b1001,m[0b110][0b10][m[0b110][0b11]]k=k()end elseif l>0b11010101 then if l<0xea then if l<=0b11100001 then if l<0xdc then if l>0xda then j,n=m[0x11][0b10][m[0b10001][0b11]],m[0b10][0b10][m[0b10][0b11]]n=n(j)l=n and l+-0x3a or 0xe8b/l else k=task b,l,k=k.wait,l+-0x4e,0.2 b(k)end elseif l<=0xdc then l,e=0x125-l,m[0x12][0b10][m[0x12][0b11]]k=not e else n,j,f=e.FindFirstChild,e,"HumanoidRootPart"l,n=0x152-l,n(j,f)end elseif l>=0b11100111 then if l>0b11100111 then e=task l,e,k=0x15f-l,0.2,e.wait k(e)else e=m[0b110][0b10][m[0b110][0b11]]l,e=0b1010001,e()end else l=e and 0b11011011 or 0xf24/l end elseif l>0b11101101 then if l>=0xf8 then if l<=0b11111000 then l=0x191-l else l=b and 0b1010011 or 0x140-l end else l,n,k,e=0x46,"HumanoidRootPart",b.FindFirstChild,b k=k(e,n)end elseif l>=0xec then if l<=0xec then c,q=o:ec{g,m[0x17]},pcall l=0xe4a0/l q(c)else n,e=m[0x11][0b10][m[0x11][0b11]],m[0b100][0b10][m[0b100][0b11]]e=e(n)k=not e l=k and 0b110101 or 0x1f end elseif l<=0b11101010 then e=m[0b1001][0b10][m[0b1001][0b11]]l,k=0b10011,not e else p,f=o:fc{m[0b10111]},pcall f(p)p=m[0b110][0b10][m[0b110][0b11]]p=p()f=not p l=f and 0x2a or 0b1111111 end elseif l<0xc8 then if l>0xc3 then if l<=0xc6 then if l>0xc4 then n=task l,e,n=0x70,n.wait,m[0b11001][0b10][m[0x19][0b11]]e(n)else n,l,e,k="Humanoid",0x181-l,b,b.FindFirstChild k=k(e,n)end else b,k=m[0b1111][0b10][m[0b1111][0b11]],m[0b10001][0b10][m[0x11][0b11]]b=b(k)k=b l=k and 0xb6 or 0x6ff/l end elseif l>=0xc2 then if l<=0xc2 then e=e+j l=(j>0 and e>n or j<=0 and e<n or j~=j)and 0xec-l or l+-0b111 else l=k and l+-0xb6 or l+-0b1110001 end elseif l>0b10111111 then b=m[0b1101][0b10][m[0b1101][0b11]]l=b and 0x9b40/l or 0b101000101-l else l,e,n=0x9c,m[0b101][0b10][m[0b101][0b11]],m[0b10001][0b10][m[0b10001][0b11]]e(n)end elseif l<0xd1 then if l>0xce then l,b=0x85,m[0x18][0b10][m[0x18][0b11]]b=b()elseif l>=0xcd then if l>0xcd then a=nil a={[0b11]=1,[1]=a}a[0b10]=a _=nil _={[0b11]=1,[1]=_}_[0b10]=_ b=m[0b111][0b10][m[0b111][0b11]]k,d=o:gc{a,m[1],m[0b100],m[0x15],m[0b1001],m[0x11],m[0b1011],m[0x10],_,m[0b10]},b.Heartbeat b,l,d=d,0b10001100,d.Connect d=d(b,k)a[0b10][a[0b11]],d=d,true else n=m[0b10101][0b10][m[0x15][0b11]]e=n.Character n=e l=n and l+0x14 or l+-0x5c end else k=m[0x11][0b10][m[0x11][0b11]]b=not k l=b and l+-0b1101010 or 0b1010110 end elseif l>0b11010100 then l,k.CFrame=l+-0b1110,e elseif l>0b11010010 then n=task l,n,e=0b10001100,m[0x19][0b10][m[0b11001][0b11]],n.wait e(n)elseif l>0xd1 then k=m[0b1110][0b10][m[0b1110][0b11]]k=k()l=k and 0x4aa6/l or 0b11000110 else l=k and 0b11010010 or l+-0b1100001 end until false end end,function(o,m)return function(a)local g,h,q,p,c,l,e,d,b,k,j,_,f,n l=0b1100 repeat if l<0b10001000 then if l>=0x42 then if l<=0x52 then if l<=0b1001010 then if l>0x42 then n,j=b(k,e)e=n l=e==nil and 0x2956/l or 0x83-l else l=p and 0x52 or 0b1001010 end else g=m[0b10][0b10][m[0b10][0b11]]h=g[j]p=not h l=p and 0x2d7c/l or 0x88 end else n=b(k,e)e=n l=e==nil and 0xe1 or 0x89 end elseif l>=0x39 then if l>0x39 then d=m[1][0b10][m[1][0b11]]d=d()k,b=d,ipairs b,k,e=b(k)b,k,e=o.g(b,k,e)n,j=b(k,e)e=n l=e==nil and 0x8f or 0b111001 else p,f=j,m[0b100][0b10][m[0b100][0b11]]f=f(p)p=f l=p and l+0b1011011 or 0xeb2/l end elseif l<=0b1100 then _=a l=_ and 0x3a or 0xcc else g=Vector3 g,h,q,c=_,g.new,_,_ h=h(g,q,c)l,f.Size=0b1100111-l,h end elseif l<=0b10010100 then if l<0x8e then if l>0x88 then p=n.Parent f=not p l=f and 0xe9 or 0x62 else h=math p,g=h.max,f.Size q,h=f.Size,g.X g,q=q.Y,f.Size q=q.Z p=p(h,g,q)g=math g,h=p-_,g.abs h=h(g)g=0.01 l=h>g and 0x1d or 0b1001010 end elseif l>=0b10001111 then if l<=0x8f then b,k=pairs,m[0b10][0b10][m[0b10][0b11]]b,k,e=b(k)b,k,e=o.g(b,k,e)n=b(k,e)e=n l=e==nil and 0b11100001 or 0x89 else p,g,h=f.IsA,"BasePart",f l,p=0b11010110-l,p(h,g)end else p,h=m[0b10][0b10][m[0b10][0b11]],f.Size l,p[j]=0b100010110-l,h end elseif l<=0xe1 then if l<=0xcc then l,_=l+-0b10010010,m[0b11][0b10][m[0b11][0b11]]else return end else p,f=nil,m[0b10][0b10][m[0b10][0b11]]l,f[n]=0b1100010,p end until false end end,Ac=function(o,_,d,...)local n,a,b,h,e,g,p,j,q,k,l,f l=0x75 repeat if l>=0xaa then if l>=0xcd then if l<=0b11011000 then if l>=0b11010011 then if l<=0xd3 then q=0x18761 g,q=q*k,0x74bf h=g+q p,h=h%b,1 f=p+h j,p=_[f],k+h l,f=0b101100100-l,a[p]a[j]=f else l=n~=n and 0xbd or 0xb208/l end else l=n~=n and 0x68 or 0b10101010 end else k=o.h(k(e,o.i(n)))return o.i(k)end elseif l<0b10111101 then l=n<=0 and l+-0x42 or 0x17d-l elseif l>0xbd then l=n>0 and l+-0x9c or 0b11001101 else k,l,n,e=a[d],0xa1af/l,o.h(...),a end elseif l>0x75 then if l<0b10010001 then l=k>e and l+0b1000011 or 0xa4 elseif l>0x91 then l=n<=0 and 0x56 or 0b11011000 else k=k+n l=n>0 and 0x7a or 0xa4 end elseif l>=0b1101000 then if l>0x68 then b,k,j,a=#_,0,1,o n,e=j,b-j l=e~=e and 0b10111101 or 0xc7 else l=k<e and 0x125-l or 0xd3 end elseif l<=0x2b then l=k>e and 0b10111101 or 0xcd else l=k<e and 0x3f7e/l or 0xd8 end until false end,function(g,e)return function()local d,_,a,c c=0x6e while true do if c<=0b1100011 then if c>0b111001 then if c<=0b1000111 then c,_=0b11011,task d,a,_=g:pc{e[0b100]},_.delay,0.6 a(_,d)else c=a and 0x4662/c or 0xa71/c end elseif c<=0x1b then if c>1 then return else a,_=e[1][0b10][e[1][0b11]],"Playing"c=a==_ and 0b1000111/c or 0x1c-c end else d,_="Ended",e[1][0b10][e[1][0b11]]a=_==d c=a and 0x24bd/c or 0b1100011 end elseif c<0xa5 then _=e[0b11][0b10][e[0b11][0b11]]a=_.Visible c=a and 1 or 0b111001 elseif c>0xa5 then a=e[0b10][0b10][e[0b10][0b11]]c=0x1332/c a()else c,_=0x108-c,e[0b101][0b10][e[0b101][0b11]]a=not _ end end end end,function(i,h)return function()local g,b,d,l,k,j,e,_,a l=0x7b while true do if l<0b1111011 then k=nil return k elseif l<=0x7b then _=h[1][0b10][h[1][0b11]]a=_.PlayerGui j=a.Interface g=j.HUD e=g.Main k=e.Top b=k["7"]d=b.Blades _=d.Sets d,e=_.Text,"^(%d+)%s*/"b,k=d.match,d b=b(k,e)l=b and 0b10010010 or 0b11011 else e,k=b,tonumber k=i.h(k(e))return i.i(k)end end end end,function(g,e)return function(a)local _,b,d e[0b10][0b10][e[0b10][0b11]],b,_,d=a,a,e[1][0b10][e[1][0b11]],"WalkSpeedAmount"_(d,b)return end end,function(i,h)return function()local b,f,e,_,a,d,g b,d,f,a,e="Register","Hitboxes",h[1][0b10][h[1][0b11]],h[0b10][0b10][h[0b10][0b11]],0x15f90 a,g,_=a.FireServer,e,a a(_,d,b,f,e,g)return end end,function(e,f,...)local h={...}local d=select("#",...)for i=1,d do e[f+i-1]=h[i]end end,function(g,e)return function()local _,c,a,d c=0b10101000 repeat if c>=0b10101000 then if c<=0b10101000 then a,_=pcall,g:Qb{e[0b10],e[1]}a,_=a(_)c=a and 0b10110011 or 0b1010010 else return _ end else d=false return d end until false end end,function(i,m)return function(a,_)local g,e,j,c,b,l,k,d,f l=0x42 repeat if l>0b1000010 then if l>0x73 then b=0 l,d=0b10111111-l,_<=b else b=math d,b=b.floor,a/_ d=d(b)k=math b,k,g=k.max,0,math g,e=0b101,g.floor g=d/g e=e(g)g=0b101 e=e*g b=b(k,e)e=0b101 k,g=b+e,string j,f,e,g=m[1][0b10][m[1][0b11]],b,g.format,"%s - %s"j=j(f)c,f=k,m[1][0b10][m[1][0b11]]f=i.h(f(c))e=i.h(e(g,j,i.i(f)))return i.i(e)end elseif l<=0x2c then if l<=0b11101 then d="00:00"return d else l=d and 0b11101 or 0x13c4/l end else d=not _ l=d and 0x2c or 0b10010011 end until false end end,function(o)return function(a)local b,g,d,q,e,n,f,l,h,_,c,j,p,k l=0x26 repeat if l<0b10001000 then if l<=0b101000 then if l>=0b100110 then if l<=0x26 then d=math k,_=d,d.huge b=k.huge k,b,d,e=a.GetDescendants,ipairs,-b,a k=o.h(k(e))b,k,e=b(o.i(k))b,k,e=o.g(b,k,e)n,j=b(k,e)e=n l=e==nil and 0x49 or 0x95 else l=p<_ and 0x2f8/l or 0b10011100 end else l,_=l+0x89,p end elseif l>0b110000 then e=math k=e.huge b=-k l=d==b and 0xd5 or l+-0x19 else b=d-_ return b end elseif l<0x95 then if l<=0b10001000 then l,d=0xb0-l,f else h=j.Position p,q=h.Y,j.Size q,g=0b10,q.Y h=g/q g,f=j.Position,p+h c,h=j.Size,g.Y q,c=c.Y,0b10 g=q/c p=h-g l=f>d and 0b10001000 or 0b101000 end elseif l<0x9c then p,h,f=j,"BasePart",j.IsA f=f(p,h)l=f and 0x8f or 0x9c elseif l>0b10011100 then b=0 return b else n,j=b(k,e)e=n l=e==nil and 0x2c7c/l or 0x5acc/l end until false end end,function(g,e)return function(a,_)local d,b d=e[0b10][0b10][e[0b10][0b11]]d[a]=_ b,d=e[0b10][0b10][e[0b10][0b11]],e[1][0b10][e[1][0b11]]d(b)return end end,function(g,h)return function()local d,f,c,_,a,b c=0x1f repeat if c<0x9c then if c>0x1f then if c<=0b1100101 then _,a=false,h[1][0b10][h[1][0b11]]c,a.Visible=0b1111110,_ else return end elseif c>=0x1a then if c<=0b11010 then c,d=0x15,h[1][0b10][h[1][0b11]]_=d.Parent a=not _ else _=h[0b11][0b10][h[0b11][0b11]]a=not _ c=a and 0xe5 or 0xe7 end elseif c>0b1100 then c=a and c+-0b1001 or 0b11011101-c else a,d=h[0b10][0b10][h[0b10][0b11]],"PlayerGui"a,_=a.FindFirstChild,a a=a(_,d)_=a c=_ and 0b10011100 or c+0xe8 end elseif c>0b11100111 then if c>0b11101100 then d=_ c=d and 0b11101100 or c+-0b1010 elseif c>0b11101010 then d,b,c,f=_.FindFirstChild,_,0xea,"Cursor"d=d(b,f)else c,h[1][0b10][h[1][0b11]]=0xc8,d end elseif c>=0xe5 then if c<=0b11100101 then return else _=h[1][0b10][h[1][0b11]]a=not _ c=a and c+-0xd2 or 0x1a end elseif c>0b10011100 then a=h[1][0b10][h[1][0b11]]c=a and 0b1100101 or 0x7e else c,_,d,b=0b11110100,a.FindFirstChild,a,"Interface"_=_(d,b)end until false end end,function(b,e)return function()local a,_ _,a=e[1][0b10][e[1][0b11]],e[0b10][0b10][e[0b10][0b11]]a(_)return end end,function(f,e)return function()local _,a _,a=e[1][0b10][e[1][0b11]],e[0b10][0b10][e[0b10][0b11]]_=_.MouseButton1Down a(_)return end end,function(g,e)return function(a)local _,b,d,c c=0b10100 repeat if c>0x25 then return elseif c>0x14 then c,_=0b1100001,nil e[0b10][0b10][e[0b10][0b11]]=_ else e[0b11][0b10][e[0b11][0b11]],_,d,b=a,e[1][0b10][e[1][0b11]],"HitAll",a _(d,b)c=a and 0x25 or 0b1100001 end until false end end,function(i,h)return function()local d,_,a,b,f,e,c c=0x56 while true do if c>0x68 then if c>0b11001011 then if c<=0b11101100 then if c>=0xe1 then if c>0b11100001 then return else a=h[1][0b10][h[1][0b11]]a,_=a.Disconnect,a a(_)_=h[0b100][0b10][h[0b100][0b11]]a=_.Character _=a c=_ and c+-0xad or 0x3a end elseif c<=0b11001100 then c,b,f=0x9e,_.Health,0 d=b<=f else return end elseif c>0xf3 then d,_,b=a,a.FindFirstChild,"Humanoid"_=_(d,b)d=not _ c=d and 0x9d62/c or 0xcc else c=b and 0x21 or c+-0xdf end elseif c<0x9e then if c>=0x7b then if c>0b1111011 then _=h[0b100][0b10][h[0b100][0b11]]a=_.Character _=not a c=_ and 0xec or 0b11111111 else return end else d[0b10][d[0b11]].CFrame,h[0b1001][0b10][h[0b1001][0b11]]=b,b f,e=pcall,i:hc{d}c=c+0b1100010 f(e)end elseif c>=0b10111010 then if c<=0xba then c,b=0x1740/c,h[0b101][0b10][h[0b101][0b11]]else f,b=h[0b110][0b10][h[0b110][0b11]],h[0b11][0b10][h[0b11][0b11]]c,b=0xc0b1/c,b(f)end elseif c<=0x9e then c=d and 0b1110 or 0b10100100 else d,f,b=a.FindFirstChild,"HumanoidRootPart",a d=d(b,f)d={[0b11]=1,[1]=d}d[0b10]=d b=not d[0b10][d[0b11]]c=b and c+-0b101001 or 0x42a0/c end elseif c<=0b100110 then if c<=0x20 then if c<=0x14 then if c<=0b1110 then if c<=0b1010 then d[0b10][d[0b11]].CFrame,h[0b1001][0b10][h[0b1001][0b11]]=b,b f,e=pcall,i:ic{d}c=c+0xce f(e)else return end else b=h[0b10][0b10][h[0b10][0b11]]c=b and c+0b1100 or 0b10111010 end elseif c<=0x19 then a=h[0b1000][0b10][h[0b1000][0b11]]c=a and 0x23 or 0xd61/c else c=b and c+0b110001 or 0b11011000 end elseif c<0x23 then f,b=h[0b110][0b10][h[0b110][0b11]],h[0b1010][0b10][h[0b1010][0b11]]b=b(f)c=b and 0x97-c or 0x1bd8/c elseif c<=0x23 then a=nil h[0b1001][0b10][h[0b1001][0b11]]=a return else c,d=0x57,false _.PlatformStand=d end elseif c<=0b1010010 then if c>=0x51 then if c<=0x51 then b=h[0b1001][0b10][h[0b1001][0b11]]c=b and c+-0b1000111 or 0x52 else c,b=0b1010,d[0b10][d[0b11]].CFrame end elseif c>0x34 then c=_ and 0b100110 or 0b1010111 else b,d,_="Humanoid",a,a.FindFirstChild c,_=0x3a,_(d,b)end elseif c<0x57 then _=h[0b111][0b10][h[0b111][0b11]]a=not _ c=a and 0xe1 or 0x19 elseif c<=0x57 then return else b=true _.PlatformStand=b b=h[0b110][0b10][h[0b110][0b11]]c=b and 0x5278/c or 0b101011011-c end end end end,function(o,m)return function()local k,g,x,B,p,A,y,h,n,f,z,_,c,s,t,j,v,r,e,w,a,u,b,q,i,l w=0b111111 repeat if w>=0b1111111 then if w>=0b10110100 then if w>0xd6 then if w<=0xde then if w>=0b11011101 then if w>0xdd then y,w,j=b.FastestSeconds,0x9e,0 e=y>j else i=i(s)A=o.h(A(q,c,r,i))p[1]=h o.j(p,0b10,o.i(A))u,p=p,j.Secret w=p and 0x10f-w or 0x626a/w end elseif w<=0xd7 then u=k y=y(j,u)j=b.RarityCounts w=j and 0b1000111 or w+-0b1110100 else w,k=0x5087/w,table e,k,b="  None",B,k.insert b(k,e)end elseif w>0xe0 then w,i=w+-0b1000,0 else r=r(i)s,i=j.Mythic,m[1][0b10][m[1][0b11]]w=s and 0xc160/w or 0b100101011-w end elseif w<0xc7 then if w<=0b10111011 then if w<0xb9 then w=x and 0b100100001-w or 0b100010001-w elseif w<=0xb9 then t=#t _=_(t)l,_,z=table,"Rarity Breakdown:\n  ",v.._ g,l,t="\n  ",u,l.concat t=t(l,g)v=_..t h[1],h[0b10],h[0b11],h[0b100],h[0b101],h[0b110],h[0b111],h[0b1000],h[0b1001],h[0b1010]=A,q,c,r,i,s,n,f,z,v h,q,p=m[0b10][0b10][m[0b10][0b11]],table,h q,c,A=p,"\n",q.concat A=A(q,c)h.Text=A return else w=e and 0b1111110 or 0b10011101 end else p=table u,p,h=p.insert,B,"  "h=h..j w=w+-0xa5 u(p,h)end elseif w>=0xd3 then if w>0xd3 then r,q,c,h=k,"Missions Completed: ",m[1][0b10][m[1][0b11]],{}c=c(r)A,c=q..c,"Fastest Time: "q,r=c..e,"Average Time: "i,n,s,c="Titans Killed: ",b.TitansKilled,m[1][0b10][m[1][0b11]],r..y w=n and w+-0x68 or 0x6f else w,j=w+0b100,0 end elseif w<=0xc7 then w,r=w+-0b10101001,0 else c=c(r)i,r=j.Legendary,m[1][0b10][m[1][0b11]]w=i and 0x1a8-w or 0xb540/w end elseif w>0x9d then if w>0xab then if w<=0b10101110 then u=u(p)u,p,y,h="Damage Dealt: ",m[1][0b10][m[1][0b11]],j..u,a.DamageDealt w=h and 0x10fe/w or 0x70 else z=z(v)n,_,v,z=f..z,b.XP,m[1][0b10][m[1][0b11]],"XP: "w=_ and w+-0b10101100 or 0x87 end elseif w<0xa7 then if w<=0x9e then w=e and 0b10100101 or 0x736a/w else e,y=m[0b110][0b10][m[0b110][0b11]],b.FastestSeconds w,e=0x7887/w,e(y)end elseif w<=0xa7 then w,p=0x7182/w,0 else w,v=0b10110010,0 end elseif w<0b10000110 then if w<0x80 then w,i=0x1dc4/w,0 elseif w<=0b10000000 then f=f(z)v,s,z,f=b.Gems,n..f,m[1][0b10][m[1][0b11]],"Gems: "w=v and 0b10110010 or 0b10101011 else q=q(c)r,c=j.Uncommon,m[1][0b10][m[1][0b11]]w=r and 0xf3c/w or w+0b1000101 end elseif w<=0x8b then if w<0b10000111 then e=b.FastestSeconds w=e and 0x164-w or 0x52b4/w elseif w<=0x87 then w,_=0x32a/w,0 else w,f=0b1111011,0 end else w,e=0x7e,"00:00"end elseif w<0x4a then if w<0b11110 then if w<=0x19 then if w>0b1100 then p=p(h)p,h,j,A="Gold: ",m[1][0b10][m[1][0b11]],u..p,a.Gold h=h(A)q,h,A,u=a.Gems,"Gems: ",m[1][0b10][m[1][0b11]],p..h A=A(q)A,q,p,c="XP: ",m[1][0b10][m[1][0b11]],h..A,a.XP q=q(c)h,q,i,r=A..q,"Drops (",x,tostring r=r(i)i="):"c=r..i A=q..c b[1],b[0b10],b[0b11],b[0b100],b[0b101],b[0b110],b[0b111],b[0b1000]=k,e,y,j,u,p,h,A B,b=b,0 w=x>b and 0b100001-w or 0b11011001 elseif w<=0b1000 then if w<=0b110 then v=v(_)_,f,t,v=tostring,z..v,b.Items,"Total Drops: "w=t and w+0xb3 or 0x1a else k,b=a.Items,ipairs b,k,e=b(k)b,k,e=o.g(b,k,e)y,j=b(k,e)e=y w=e==nil and 0b1100111-w or 0xc9-w end else w,B=0xb4,a.Items x=#B end elseif w>0x1a then y,j=b(k,e)e=y w=e==nil and 0b1011111 or 0b11000001 else w,l=0b10111001,{}t=l end elseif w<0b110010 then if w<=0x27 then if w>0x1e then w,k=0xad-w,0 else c=c(r)i,r=j.Rare,m[1][0b10][m[1][0b11]]w=i and 0x708/w or 0b10011101-w end else w,r=0xf3-w,0 end elseif w>=0x3f then if w<=0b111111 then a,B=m[0b111][0b10][m[0b111][0b11]],string b,e,x,B=m[1][0b10][m[1][0b11]],m[0b100][0b10][m[0b100][0b11]],B.format,"Prestige: %s\nLevel: %s\nGems: %s\nGold: %s"k=e.Player k=k.Prestige b=b(k)y,k=e,m[1][0b10][m[1][0b11]]e=y.Player e=e.Level k=k(e)j,e=y,m[1][0b10][m[1][0b11]]y=j.Player y=y.Gems e=e(y)y,u=m[1][0b10][m[1][0b11]],j j=u.Player j=j.Gold y=y(j)x=x(B,b,k,e,y)a.Text=x B,a=string,m[0b1000][0b10][m[0b1000][0b11]]x,B,k=B.format,"Status: %s\nTime: %s\nDifficulty: %s",m[0b1001][0b10][m[0b1001][0b11]]k,b,e=m[0b110][0b10][m[0b110][0b11]],k.Status,m[0b1001][0b10][m[0b1001][0b11]]e=e.Seconds k=k(e)e=m[0b1001][0b10][m[0b1001][0b11]]e=e.Difficulty x=x(B,b,k,e)a.Text=x x=u a=x.LastRound x=a.Items w=x and 0b1100 or 0b10110100 else A,p=string,{}c,h,q,A=j.Common,A.format,m[1][0b10][m[1][0b11]],"Common: %s | Uncommon: %s | Rare: %s"w=c and w+0x3b or 0x4a end elseif w>0x32 then r=r(i)h=h(A,q,c,r)q=string A,q,r,c=q.format,"Epic: %s | Legendary: %s | Mythic: %s",j.Epic,m[1][0b10][m[1][0b11]]w=r and 0xc8 or 0b101011 else h=0 w=p>h and 0b1100001 or 0b11010110 end elseif w>0b1101101 then if w<0x72 then if w>=0b1101111 then if w>0b1101111 then w,h=0x19,0 else w,n=0xdd-w,0 end else s=s(n)f,r,s,n=b.DamageDealt,i..s,"Damage Dealt: ",m[1][0b10][m[1][0b11]]w=f and 0b1111011 or 0x3bba/w end elseif w>=0x7b then if w<=0x7b then n=n(f)n,i,z,f="Gold: ",s..n,b.Gold,m[1][0b10][m[1][0b11]]w=z and 0x80 or 0b1011001 else j,y=b.TotalSeconds,m[0b101][0b10][m[0b101][0b11]]w=j and 0b11010111 or 0xd3 end else w,p=0b110010,0 end elseif w<=0x5f then if w>=0x59 then if w<0b1011101 then w,z=0b10000000,0 elseif w<=0x5d then w,x=0x6d,0 else e,b=table,m[0b11][0b10][m[0b11][0b11]]e,k,y=B,e.concat,"\n"k=k(e,y)b.Text=k k=m[0b100][0b10][m[0b100][0b11]]b=k.Session k=b.MissionsCompleted w=k and 0b10000110 or 0x27 end elseif w>0b1001010 then w,s=w+0x92,0 else w,c=0x2594/w,0 end elseif w<0b1100011 then h=table p,q,h=h.insert,string,u c,r,q,A=m[1][0b10][m[1][0b11]],j.Secret,"Secret: %s",q.format w,c=0xd6,c(r)A=o.h(A(q,c))p(h,o.i(A))elseif w>0x63 then y,j,b,e=tostring,a.TimeTaken,{},"Time Taken: "y=y(j)k,u,j,y=e..y,a.Difficulty,tostring,"Difficulty: "j=j(u)j,u,p,e="Titans Killed: ",m[1][0b10][m[1][0b11]],a.TitansKilled,y..j w=p and w+0b1000001 or w+0b111010 else u={}w,j=w+-0x1c,u end until false end end,function(g,e)return function(a)local _,b,c,d c=0b10010001 repeat if c<=0x92 then if c<0b10010001 then c,_=0xf3-c,e[0b10][0b10][e[0b10][0b11]]_()elseif c>0x91 then return else b,d,_,e[0b11][0b10][e[0b11][0b11]]=a,"AutoRetry",e[1][0b10][e[1][0b11]],a _(d,b)c=a and 0xc5 or 0b1100001 end else _=e[0b100][0b10][e[0b100][0b11]]c=0x157-c _()end until false end end,function(i,m)return function()local a,g,j,_,f,k,c,b,e,d _=Instance _,a="Frame",_.new a=a(_)d=UDim2 k,d,b,_=0,1,-0b1000,d.new e=k _=_(d,b,k,e)a.Size=_ b=Enum d=b.AutomaticSize _=d.Y a.AutomaticSize=_ d=Color3 d,b,_,k=0b11000,0x16,d.fromRGB,0x22 _=_(d,b,k)a.BackgroundColor3=_ _=0.2 a.BackgroundTransparency=_ _=0 a.BorderSizePixel=_ _=m[1][0b10][m[1][0b11]]a.Parent=_ d=Instance _,d=d.new,"UICorner"_=_(d)b=UDim b,k,d=0,0b110,b.new d=d(b,k)_.CornerRadius=d _.Parent=a b=Instance d,b=b.new,"UIStroke"d=d(b)k=Color3 k,b,g,e=0x30,k.fromRGB,0x46,0x28 b=b(k,e,g)d.Color=b b=1 d.Thickness=b d.Parent=a k=Instance k,b="UIPadding",k.new b=b(k)e=UDim k,g,e=e.new,0b1010,0 k=k(e,g)b.PaddingTop=k e=UDim k,g,e=e.new,0b1010,0 k=k(e,g)b.PaddingBottom=k e=UDim g,e,k=0b1110,0,e.new k=k(e,g)b.PaddingLeft=k e=UDim k,g,e=e.new,0b1110,0 k=k(e,g)b.PaddingRight=k b.Parent=a e=Instance k,e=e.new,"TextLabel"k=k(e)g=UDim2 e,g,j=g.new,1,0 f,c=j,j e=e(g,j,f,c)k.Size=e j=Enum g=j.AutomaticSize e=g.Y k.AutomaticSize=e e=1 k.BackgroundTransparency=e g=Color3 f,g,e,j=0xf0,0b11100001,g.fromRGB,0b11011100 e=e(g,j,f)k.TextColor3=e j=Enum g=j.Font e=g.RobotoMono k.Font=e e=0b1101 k.TextSize=e g=j.TextXAlignment e=g.Left k.TextXAlignment=e g=j.TextYAlignment e=g.Top k.TextYAlignment=e e=true k.TextWrapped=e k.Parent=a g,e=k,a return e,g end end,function(Pa)return function(...)local Wa,I,Na,ib,O,Rb,Q,qa,Jb,eb,u,ic,Gb,lb,gb,vc,y,r,fa,cc,yc,kc,wc,ha,ca,G,Bc,ma,ra,jc,Kb,Ma,tc,v,Mb,sa,Sa,Ac,W,N,Ub,fc,sb,Bb,X,mc,Ob,e,yb,ja,_c,kb,xc,hc,na,_,g,zb,db,f,V,Ha,M,pb,Qb,Y,qc,Ka,C,Sb,da,Wb,U,b,pc,tb,E,ya,ga,pa,Fa,J,s,L,jb,Ja,Va,Xa,j,Ea,Ya,_a,cb,ec,Ca,ab,T,z,q,h,m,ob,Vb,n,hb,wa,vb,Ia,Yb,nb,ub,Ta,wb,ac,oa,R,oc,_b,Ba,ea,Hb,Ab,i,B,A,K,aa,Xb,l,fb,nc,xa,Ib,Aa,ua,ia,o,Db,sc,w,la,P,Pb,dc,Fb,Cb,F,Qa,qb,va,c,Ua,za,zc,ka,x,a,bc,S,ba,uc,ta,p,t,bb,Da,d,D,Oa,rb,Nb,Lb,Tb,xb,k,lc,rc,gc,Ga,Ra,mb,H _b=0b10000 repeat if _b<0x6c then if _b>=0x3c then if _b>=0b1010101 then if _b>0b1100011 then if _b<=0b1101000 then if _b>=0b1100111 then if _b<=0b1100111 then ma=T.LastRound _b,ma=0xaf-_b,ma.DamageDealt else t=t(ma)_b=t and 0b10101011 or 0xbd-_b end elseif _b>0x64 then ma=T.LastRound _b,ma=0b1000000,ma.Gold else t,Gb,ma,v=tonumber,{},T.Player,{}_b=ma and 0b100 or 0b11101010-_b end elseif _b>0b1101001 then _b,t=0b10001,1 else _b,ma=0b10011011,T.Session ma=ma.TotalSeconds end elseif _b>0b1011011 then if _b>=0x61 then if _b<=0b1100001 then _b,t=0b100111111-_b,0 else ma=T.Session _b,ma=_b+-0b1100,ma.MissionsCompleted end else _b,ma=0b110,"N/A"end elseif _b<=0x59 then if _b>=0b1010111 then if _b>0b1010111 then S,D,mb=game,loadstring,"https://gist.githubusercontent.com/ssssssssss21/09b303c5a1cf601bda1370252c65712a/raw/d7c50c43db2b33c1f7516a10317ff642f77c89a6/UITest.luau"S,jc=S.HttpGet,S S=Pa.h(S(jc,mb))D=D(Pa.i(S))D=D()mb,S="Workspace",game S,jc=S.GetService,S S=S(jc,mb)S={[0b11]=1,[1]=S}S[0b10]=S jc,Wb=game,"RunService"jc,mb=jc.GetService,jc jc=jc(mb,Wb)jc={[0b11]=1,[1]=jc}jc[0b10]=jc mb,f=game,"UserInputService"Wb,mb=mb,mb.GetService mb=mb(Wb,f)mb={[0b11]=1,[1]=mb}mb[0b10]=mb Nb,Wb="ReplicatedStorage",game Wb,f=Wb.GetService,Wb Wb=Wb(f,Nb)Wb={[0b11]=1,[1]=Wb}Wb[0b10]=Wb f,kc=game,"VirtualInputManager"Nb,f=f,f.GetService f=f(Nb,kc)f={[0b11]=1,[1]=f}f[0b10]=f Nb=false Nb={[0b11]=1,[1]=Nb}Nb[0b10]=Nb kc=false kc={[0b11]=1,[1]=kc}kc[0b10]=kc da=nil da={[0b11]=1,[1]=da}da[0b10]=da hc=nil hc={[0b11]=1,[1]=hc}hc[0b10]=hc db=false db={[0b11]=1,[1]=db}db[0b10]=db bb=false bb={[0b11]=1,[1]=bb}bb[0b10]=bb d=0b10100 d={[0b11]=1,[1]=d}d[0b10]=d Ea=false Ea={[0b11]=1,[1]=Ea}Ea[0b10]=Ea Y={}Pb=Y Pb={[0b11]=1,[1]=Pb}Pb[0b10]=Pb u={}Y=u Y={[0b11]=1,[1]=Y}Y[0b10]=Y u=false u={[0b11]=1,[1]=u}u[0b10]=u ic=false ic={[0b11]=1,[1]=ic}ic[0b10]=ic Na=false Na={[0b11]=1,[1]=Na}Na[0b10]=Na gc=1 gc={[0b11]=1,[1]=gc}gc[0b10]=gc qb=nil qb={[0b11]=1,[1]=qb}qb[0b10]=qb fb=false fb={[0b11]=1,[1]=fb}fb[0b10]=fb Qb=1 Qb={[0b11]=1,[1]=Qb}Qb[0b10]=Qb p=1 p={[0b11]=1,[1]=p}p[0b10]=p lb=nil lb={[0b11]=1,[1]=lb}lb[0b10]=lb hb=0 hb={[0b11]=1,[1]=hb}hb[0b10]=hb J=false J={[0b11]=1,[1]=J}J[0b10]=J G=nil G={[0b11]=1,[1]=G}G[0b10]=G za=false za={[0b11]=1,[1]=za}za[0b10]=za sc=nil sc={[0b11]=1,[1]=sc}sc[0b10]=sc C=false C={[0b11]=1,[1]=C}C[0b10]=C Ia=false Ia={[0b11]=1,[1]=Ia}Ia[0b10]=Ia ub=nil ub={[0b11]=1,[1]=ub}ub[0b10]=ub A=false A={[0b11]=1,[1]=A}A[0b10]=A qa=nil qa={[0b11]=1,[1]=qa}qa[0b10]=qa X=nil X={[0b11]=1,[1]=X}X[0b10]=X fa=false fa={[0b11]=1,[1]=fa}fa[0b10]=fa Ja=nil Ja={[0b11]=1,[1]=Ja}Ja[0b10]=Ja qc=false qc={[0b11]=1,[1]=qc}qc[0b10]=qc Bc=nil Bc={[0b11]=1,[1]=Bc}Bc[0b10]=Bc wa=false wa={[0b11]=1,[1]=wa}wa[0b10]=wa U=false U={[0b11]=1,[1]=U}U[0b10]=U fc=false fc={[0b11]=1,[1]=fc}fc[0b10]=fc r=1 r={[0b11]=1,[1]=r}r[0b10]=r Tb=false Tb={[0b11]=1,[1]=Tb}Tb[0b10]=Tb wc=0 wc={[0b11]=1,[1]=wc}wc[0b10]=wc ya,cb,Ya=Wb[0b10][Wb[0b11]].WaitForChild,"Assets",Wb[0b10][Wb[0b11]]ya=ya(Ya,cb)Ya,cb,ya=ya,"Remotes",ya.WaitForChild ya=ya(Ya,cb)ya,cb,Ya=ya.WaitForChild,"POST",ya ya=ya(Ya,cb)ya={[0b11]=1,[1]=ya}ya[0b10]=ya mc,Ya,cb="Assets",Wb[0b10][Wb[0b11]].WaitForChild,Wb[0b10][Wb[0b11]]Ya=Ya(cb,mc)cb,Ya,mc=Ya,Ya.WaitForChild,"Remotes"Ya=Ya(cb,mc)Ya,cb,mc=Ya.WaitForChild,Ya,"GET"Ya=Ya(cb,mc)Ya={[0b11]=1,[1]=Ya}Ya[0b10]=Ya cb={[0b11]=1,[1]=cb}cb[0b10]=cb cb[0b10][cb[0b11]]=Pa:Na{S,eb}mc={[0b11]=1,[1]=mc}mc[0b10]=mc mc[0b10][mc[0b11]]=Pa:Qa{Ya,cb}zc={[0b11]=1,[1]=zc}zc[0b10]=zc zc[0b10][zc[0b11]]=Pa:ba{ya,S}Hb={[0b11]=1,[1]=Hb}Hb[0b10]=Hb Hb[0b10][Hb[0b11]]=Pa:ya{Ya}l={[0b11]=1,[1]=l}l[0b10]=l l[0b10][l[0b11]]=Pa:O{eb}rc={[0b11]=1,[1]=rc}rc[0b10]=rc rc[0b10][rc[0b11]]=Pa:ka{S,eb}ta={[0b11]=1,[1]=ta}ta[0b10]=ta ta[0b10][ta[0b11]]=Pa:N{l}b={[0b11]=1,[1]=b}b[0b10]=b b[0b10][b[0b11]]=Pa:la{ub,rc,ta}q={[0b11]=1,[1]=q}q[0b10]=q q[0b10][q[0b11]]=Pa:R{cb,rc,ic,mc}h={[0b11]=1,[1]=h}h[0b10]=h h[0b10][h[0b11]]=Pa:Y{ub,rc,Ia,C,ta,zc}sb={[0b11]=1,[1]=sb}sb[0b10]=sb sb[0b10][sb[0b11]]=Pa:Ca{Ia,rc,ta,u,cb,C,ic}ja={[0b11]=1,[1]=ja}ja[0b10]=ja ja[0b10][ja[0b11]]=Pa:z{ya,sb}tc={[0b11]=1,[1]=tc}tc[0b10]=tc tc[0b10][tc[0b11]]=Pa:aa{jc,eb,hc}Kb={[0b11]=1,[1]=Kb}Kb[0b10]=Kb Kb[0b10][Kb[0b11]]=Pa:C{eb,hc}P={[0b11]=1,[1]=P}P[0b10]=P P[0b10][P[0b11]]=Pa:pa{jc,Na,qb,eb,gc}Xb={[0b11]=1,[1]=Xb}Xb[0b10]=Xb Xb[0b10][Xb[0b11]]=Pa:ga{qb}i={[0b11]=1,[1]=i}i[0b10]=i i[0b10][i[0b11]]=Pa:ib{hb,Qb,p,jc,eb,fb,lb}o={[0b11]=1,[1]=o}o[0b10]=o o[0b10][o[0b11]]=Pa:Ya{hb,lb}ob={[0b11]=1,[1]=ob}ob[0b10]=ob ob[0b10][ob[0b11]]=Pa:u{mb,eb,G,S,J}va={[0b11]=1,[1]=va}va[0b10]=va va[0b10][va[0b11]]=Pa:_b{G}F={[0b11]=1,[1]=F}F[0b10]=F F[0b10][F[0b11]]=Pa:ra{mb,za,sc,eb}W={[0b11]=1,[1]=W}W[0b10]=W W[0b10][W[0b11]]=Pa:La{sc}N={[0b11]=1,[1]=N}N[0b10]=N N[0b10][N[0b11]]=Pa:bb{X,jc,eb,mb,qa,A}Jb={[0b11]=1,[1]=Jb}Jb[0b10]=Jb Jb[0b10][Jb[0b11]]=Pa:Ma{eb,X,qa}g={[0b11]=1,[1]=g}g[0b10]=g g[0b10][g[0b11]]=Pa:G{Hb,fa}e={[0b11]=1,[1]=e}e[0b10]=e e[0b10][e[0b11]]=Pa:ma{Ja}Db={[0b11]=1,[1]=Db}Db[0b10]=Db Db[0b10][Db[0b11]]=Pa:Da{g,Ja,e,fa,eb}vc={[0b11]=1,[1]=vc}vc[0b10]=vc vc[0b10][vc[0b11]]=Pa:o()Vb={[0b11]=1,[1]=Vb}Vb[0b10]=Vb Vb[0b10][Vb[0b11]]=Pa:eb{f}ga={[0b11]=1,[1]=ga}ga[0b10]=ga ga[0b10][ga[0b11]]=Pa:ea{wa,Vb,qc,vc,ya}Ha={[0b11]=1,[1]=Ha}Ha[0b10]=Ha Ha[0b10][Ha[0b11]]=Pa:ja{wa,Bc}pc={[0b11]=1,[1]=pc}pc[0b10]=pc pc[0b10][pc[0b11]]=Pa:B{ga,Bc,Ha,wa,eb,qc}pa={[0b11]=1,[1]=pa}pa[0b10]=pa pa[0b10][pa[0b11]]=Pa:r{S}ec={[0b11]=1,[1]=ec}ec[0b10]=ec ec[0b10][ec[0b11]]=Pa:cb{pa}dc={[0b11]=1,[1]=dc}dc[0b10]=dc dc[0b10][dc[0b11]]=Pa:oa()Bb={[0b11]=1,[1]=Bb}Bb[0b10]=Bb Bb[0b10][Bb[0b11]]=Pa:F()tb={[0b11]=1,[1]=tb}tb[0b10]=tb tb[0b10][tb[0b11]]=Pa:U{Bb,pa}Ca={[0b11]=1,[1]=Ca}Ca[0b10]=Ca Ca[0b10][Ca[0b11]]=Pa:ua{ec,Pb,d,dc}z={[0b11]=1,[1]=z}z[0b10]=z z[0b10][z[0b11]]=Pa:H{dc,Pb,ec}ha={[0b11]=1,[1]=ha}ha[0b10]=ha ha[0b10][ha[0b11]]=Pa:Fa()w={[0b11]=1,[1]=w}w[0b10]=w w[0b10][w[0b11]]=Pa:qa{ec,S,Ea,dc,Y}c={[0b11]=1,[1]=c}c[0b10]=c c[0b10][c[0b11]],Ra,aa=Pa:Pa{Y},Pa:L{Nb,Ea,bb,d,Ca,w},jc[0b10][jc[0b11]].Heartbeat m,aa=aa,aa.Connect aa(m,Ra)aa={[0b11]=1,[1]=aa}aa[0b10]=aa aa[0b10][aa[0b11]]=Pa:Ka{dc,ha,wc}m={[0b11]=1,[1]=m}m[0b10]=m m[0b10][m[0b11]]=Pa:m()Ra={[0b11]=1,[1]=Ra}Ra[0b10]=Ra Ra[0b10][Ra[0b11]]=Pa:Aa{tb,m,pa}jb={[0b11]=1,[1]=jb}jb[0b10]=jb jb[0b10][jb[0b11]],Cb=Pa:Ha{ic,aa,C,tb,ja,sb,jc,fc,Ia,b,Nb,h,u,Ra,dc,U,da,Tb,ec,rc,eb,q,ya,cb,r},task Ga,Cb=Cb.spawn,Pa:J{Nb,cb,q,ic,Ia,rc,u}Ga(Cb)Cb=task Cb,Ga=Pa:sa{ub,b,C,Nb,Ia,h},Cb.spawn Ga(Cb)Cb={}Ga=Cb Ga={[0b11]=1,[1]=Ga}Ga[0b10]=Ga Cb={[0b11]=1,[1]=Cb}Cb[0b10]=Cb Cb[0b10][Cb[0b11]]=Pa:s{Ga}xa={[0b11]=1,[1]=xa}xa[0b10]=xa n,xa[0b10][xa[0b11]]=jc[0b10][jc[0b11]].Heartbeat,Pa:K{S,Ga}kb,ka,n=Pa:va{eb,xa,db,pa,Ga},n,n.Connect n(ka,kb)kb,uc={}," Symbiote "kb.Title=uc s=UDim2 uc,s,H=s.new,0,0x244 T,O=s,0x1b8 uc=uc(s,H,T,O)kb.Size=uc ka,n=D,D.CreateWindow n=n(ka,kb)ka,kb,uc=n.CreateTab,n,"Player"ka=ka(kb,uc)uc,s,kb=n,"Auto Farm",n.CreateTab kb=kb(uc,s)s,uc,H=n,n.CreateTab,"Various"uc=uc(s,H)T,s,H="Stats",n.CreateTab,n s=s(H,T)H=Pa:za{oa,Ma}T=H T=T()_b=T and 0b1100100 or 0xd6 else t=t(ma)_b=t and 0x2a24/_b or 0x125-_b end else _b,t=0xab,0 end else _b,t=0b11101111,0 end elseif _b>=0x4c then if _b>=0x50 then if _b>0x52 then t=t(ma)_b=t and 0xef or 0x5b elseif _b>0x50 then ma=T.Player _b,ma=0x1c,ma.Gems else _b,t=0x45b0/_b,0 end elseif _b>0b1001110 then v.DamageDealt=t ma,t=T.LastRound,tonumber _b=ma and 0xb5-_b or _b+-0b1111 elseif _b>0x4c then _b,t=_b+0x54,0 else _b,t=0xc2c/_b,0 end elseif _b<=0x48 then if _b<0x42 then if _b<=0b111100 then _b,t=_b+0b10110110,0 else t=t(ma)_b=t and 0x33 or 0b11000110 end elseif _b<=0x42 then x,_b,ma=0,0b1110,{}ma.Common=x ma.Uncommon=x ma.Rare=x ma.Epic=x ma.Legendary=x ma.Mythic=x ma.Secret=x t=ma else t=t(ma)_b=t and 0b10010111-_b or _b+0x85 end elseif _b<=0b1001001 then _b,t=0x1041/_b,0 else v.TitansKilled=t ma,t=T.LastRound,tonumber _b=ma and 0x67 or 0x14d0/_b end elseif _b<0x1c then if _b>=0b1111 then if _b>0b10010 then if _b<=0x15 then v.Gems=t ma,t=T.Player,tonumber _b=ma and 0xa1 or 0x36-_b else t=t(ma)_b=t and 0x6f0/_b or 0xd2 end elseif _b<=0b10001 then if _b>=0b10000 then if _b<=0b10000 then eb,oa="HttpService",game oa,lc=oa.GetService,oa oa=oa(lc,eb)oa={[0b11]=1,[1]=oa}oa[0b10]=oa lc,na=game,"Players"lc,eb=lc.GetService,lc lc=lc(eb,na)eb=lc.LocalPlayer eb={[0b11]=1,[1]=eb}eb[0b10]=eb k,j,I="SymbioteSettings_",game,tostring j=j.PlaceId I=I(j)j=".json"Ma=I..j na=k..Ma na={[0b11]=1,[1]=na}na[0b10]=na Ma,I={},false Ma.NoClip=I Ma.WalkSpeed=I I=1 Ma.WalkSpeedAmount=I I=false Ma.LaggyRun=I I=1 Ma.LaggyRunDistance=I Ma.LaggyRunDelay=I I=false Ma.CtrlClickTP=I Ma.InfiniteJump=I Ma.AutoFarm=I I=0 Ma.DistanceToTitan=I I=false Ma.AutoReload=I Ma.ExpandNapeHitbox=I I=0b10100 Ma.HitboxSize=I I=false Ma.VisualizeHitbox=I Ma.TitanESP=I Ma.AutoRefill=I Ma.ChangeCursor=I Ma.AutoExecute=I Ma.AutoRetry=I Ma.AutoSkipCutscenes=I Ma.KillWithoutTP=I Ma.DelayToKill=I I=1 Ma.DelayToKillAmount=I I=false Ma.HitAll=I k=Ma k={[0b11]=1,[1]=k}k[0b10]=k Ma={[0b11]=1,[1]=Ma}Ma[0b10]=Ma Ma[0b10][Ma[0b11]]=Pa:ab()I={[0b11]=1,[1]=I}I[0b10]=I I[0b10][I[0b11]]=Pa:P()j={[0b11]=1,[1]=j}j[0b10]=j Fa,j[0b10][j[0b11]]=Pa:q{na,oa,Ma},Pa:Ba()xc={[0b11]=1,[1]=xc}xc[0b10]=xc xc[0b10][xc[0b11]],ia=Pa:E{I,na,oa},Fa ia=ia()ia={[0b11]=1,[1]=ia}ia[0b10]=ia Lb={[0b11]=1,[1]=Lb}Lb[0b10]=Lb Lb[0b10][Lb[0b11]]=Pa:Ea{k,ia}ca={[0b11]=1,[1]=ca}ca[0b10]=ca ca[0b10][ca[0b11]],D,S=Pa:xa{xc,ia},Lb[0b10][Lb[0b11]],"AutoExecute"D=D(S)_b=D and 0b1101101 or 0x59 else v.Level=t ma,t=T.Player,tonumber _b=ma and 0x572/_b or _b+0b1011 end else _b=ma and 0x15-_b or 0b1101100-_b end else _b=t and _b+0xa6 or 0xd0 end elseif _b>0b1010 then if _b>0b1101 then v.RarityCounts=t Da=v Gb.Session=Da O=Gb O={[0b11]=1,[1]=O}O[0b10]=O Gb={[0b11]=1,[1]=Gb}Gb[0b10]=Gb Gb[0b10][Gb[0b11]],v,t=Pa:Ga{oa,I,O},{},"In Progress"v.Status=t t=0 v.Seconds=t t="N/A"v.Difficulty=t Da=v Da={[0b11]=1,[1]=Da}Da[0b10]=Da t,ma={},0 t.Gold=ma t.Gems=ma t.XP=ma x={}ma=x t.Items=ma x={}ma=x t.Rarities=ma v=t v={[0b11]=1,[1]=v}v[0b10]=v ma,x={},true ma.Common_Perk=x ma.Uncommon_Perk=x ma.Rare_Perk=x ma.Epic_Perk=x ma.Legendary_Perk=x ma.Mythic_Perk=x ma["Common Perk"]=x ma["Uncommon Perk"]=x ma["Rare Perk"]=x ma["Epic Perk"]=x ma["Legendary Perk"]=x ma["Mythic Perk"]=x t=ma t={[0b11]=1,[1]=t}t[0b10]=t ma={[0b11]=1,[1]=ma}ma[0b10]=ma ma[0b10][ma[0b11]],x=Pa:db{t},"Playing"x={[0b11]=1,[1]=x}x[0b10]=x Yb=false Yb={[0b11]=1,[1]=Yb}Yb[0b10]=Yb a=os vb=a.clock vb=vb()vb={[0b11]=1,[1]=vb}vb[0b10]=vb a={[0b11]=1,[1]=a}a[0b10]=a a[0b10][a[0b11]]=Pa:Ia()Ab={[0b11]=1,[1]=Ab}Ab[0b10]=Ab Ab[0b10][Ab[0b11]]=Pa:Ra()nc={[0b11]=1,[1]=nc}nc[0b10]=nc nc[0b10][nc[0b11]],Mb=Pa:y{Ab},nil Mb={[0b11]=1,[1]=Mb}Mb[0b10]=Mb ba=nil ba={[0b11]=1,[1]=ba}ba[0b10]=ba la=nil la={[0b11]=1,[1]=la}la[0b10]=la Ib={[0b11]=1,[1]=Ib}Ib[0b10]=Ib Ib[0b10][Ib[0b11]]=Pa:t{Wb,Mb}ib={[0b11]=1,[1]=ib}ib[0b10]=ib ib[0b10][ib[0b11]]=Pa:da{Wb,ba}Rb={[0b11]=1,[1]=Rb}Rb[0b10]=Rb Rb[0b10][Rb[0b11]]=Pa:Ja{Wb,la}yb={[0b11]=1,[1]=yb}yb[0b10]=yb yb[0b10][yb[0b11]]=Pa:fb{Ib}ra={[0b11]=1,[1]=ra}ra[0b10]=ra cc,gb,Ta,ra[0b10][ra[0b11]]=s,s.AddLabel,"PLAYER STATS:",Pa:Q{ib}gb=gb(cc,Ta)Ta=gb.Row cc=Ta.Parent cc={[0b11]=1,[1]=cc}cc[0b10]=cc Ta=Pa:p{cc}L=Ta L,Ub=L()Ub={[0b11]=1,[1]=Ub}Ub[0b10]=Ub ab,Sa,sa=s,s.AddLabel,"MISSION STATS (LIVE):"Sa(ab,sa)Sa=Ta Sa,ab=Sa()ab={[0b11]=1,[1]=ab}ab[0b10]=ab Oa,E,sa=s,"LAST ROUND STATS:",s.AddLabel sa(Oa,E)sa=Ta sa,Oa=sa()Oa={[0b11]=1,[1]=Oa}Oa[0b10]=Oa zb,E,Ob="TOTAL SESSION STATS:",s.AddLabel,s E(Ob,zb)E=Ta E,Ob=E()Ob={[0b11]=1,[1]=Ob}Ob[0b10]=Ob zb={[0b11]=1,[1]=zb}zb[0b10]=zb zb[0b10][zb[0b11]]=Pa:ha{a,Ob,Oa,O,nc,Ab,Ub,ab,Da}Fb={[0b11]=1,[1]=Fb}Fb[0b10]=Fb Fb[0b10][Fb[0b11]]=Pa:hb{O,zb,eb,Ya,Gb}nb={[0b11]=1,[1]=nb}nb[0b10]=nb nb[0b10][nb[0b11]]=Pa:ca{Yb,ma,Ab,Da,ib,eb,x,S,O,Gb,v,zb,yb,ra,Rb,Ya}y={[0b11]=1,[1]=y}y[0b10]=y y[0b10][y[0b11]]=Pa:gb{vb,O,zb,Da,S,v,x}wb={[0b11]=1,[1]=wb}wb[0b10]=wb wb[0b10][wb[0b11]]=Pa:v{v,ma,Wb,nb,yb,x,ra}_c={[0b11]=1,[1]=_c}_c[0b10]=_c rb,_c[0b10][_c[0b11]],K,_,ac=s,Pa:Ta{x,zb,S,Yb,Da,nb,wb,eb,y},Pa:n{Gb,zb,O},s.AddButton,"Reset Session Stats"_(rb,ac,K)_,K,rb,ac=s.AddButton,Pa:Xa{Fb},s,"Refresh Stats"_(rb,ac,K)rb=task _,rb=rb.spawn,Pa:wa{_c,nb,vb,x,y,Da,Fb,S,O,zb,eb,Yb}_(rb)K,rb,_,ac=Pa:W{ca,Kb,kc,tc},ka,ka.AddToggle,"NoClip"_=_(rb,ac,K)_={[0b11]=1,[1]=_}_[0b10]=_ B,ac,K,rb=Pa:w{ca,Xb,Na,P},ka,"Walk Speed",ka.AddToggle rb=rb(ac,K,B)rb={[0b11]=1,[1]=rb}rb[0b10]=rb Wa,B,Va,pb,xb="WalkSpeedAmount","Walk Speed Amount",Lb[0b10][Lb[0b11]],0b101,1 Va=Va(Wa)K,ac,Wa=ka,ka.AddSlider,Pa:Ua{ca,gc}ac=ac(K,B,xb,pb,Va,Wa)ac={[0b11]=1,[1]=ac}ac[0b10]=ac xb,B,K,pb="Laggy Run",ka,ka.AddToggle,Pa:jb{ca,o,fb,i}K=K(B,xb,pb)K={[0b11]=1,[1]=K}K[0b10]=K Wa,Ba,bc,pb,Va=0b1010,Lb[0b10][Lb[0b11]],"LaggyRunDistance","Laggy Run Distance",1 Ba=Ba(bc)xb,B,bc=ka,ka.AddSlider,Pa:D{ca,Qb}B=B(xb,pb,Va,Wa,Ba,bc)B={[0b11]=1,[1]=B}B[0b10]=B bc,Ba,Wa,_a,Va=Lb[0b10][Lb[0b11]],0b1010,1,"LaggyRunDelay","Laggy Run Delay"bc=bc(_a)xb,_a,pb=ka.AddSlider,Pa:kb{ca,p},ka xb=xb(pb,Va,Wa,Ba,bc,_a)xb={[0b11]=1,[1]=xb}xb[0b10]=xb pb,Wa,Ba,Va=ka.AddToggle,"CTRL + Click to TP",Pa:M{ca,va,J,ob},ka pb=pb(Va,Wa,Ba)pb={[0b11]=1,[1]=pb}pb[0b10]=pb bc,Wa,Va,Ba=Pa:Wa{ca,W,za,F},ka,ka.AddToggle,"Infinite Jump"Va=Va(Wa,Ba,bc)Va={[0b11]=1,[1]=Va}Va[0b10]=Va Ba,bc,_a,Wa=kb,"Auto Farm",Pa:Va{Nb,Ca,da,bb,d,jb,ca},kb.AddToggle Wa=Wa(Ba,bc,_a)Wa={[0b11]=1,[1]=Wa}Wa[0b10]=Wa _a,ea,bc,Ba="Hit All",Pa:S{ca,da,Tb},kb,kb.AddToggle Ba=Ba(bc,_a,ea)Ba={[0b11]=1,[1]=Ba}Ba[0b10]=Ba Ac,R,Sb,ea,Qa=0,0b110010,Lb[0b10][Lb[0b11]],"Distance to Titan","DistanceToTitan"Sb=Sb(Qa)_a,bc,Qa=kb,kb.AddSlider,Pa:I{ca,wc}bc=bc(_a,ea,Ac,R,Sb,Qa)bc={[0b11]=1,[1]=bc}bc[0b10]=bc _a,Ac,R,ea=kb.AddToggle,"Auto Reload",Pa:na{ca,u},kb _a=_a(ea,Ac,R)_a={[0b11]=1,[1]=_a}_a[0b10]=_a Ac,Sb,ea,R=kb,Pa:Sa{ca,U},kb.AddToggle,"Kill Without TP"ea=ea(Ac,R,Sb)ea={[0b11]=1,[1]=ea}ea[0b10]=ea Qa,Ac,Sb,R=Pa:T{ca,fc},kb.AddToggle,"Delay To Kill",kb Ac=Ac(R,Sb,Qa)Ac={[0b11]=1,[1]=Ac}Ac[0b10]=Ac Q,oc,V,Aa,Qa="DelayToKillAmount",0x12c,0,Lb[0b10][Lb[0b11]],"Delay(s)"Aa=Aa(Q)R,Sb,Q=kb.AddSlider,kb,Pa:x{ca,r}R=R(Sb,Qa,V,oc,Aa,Q)R={[0b11]=1,[1]=R}R[0b10]=R Sb,oc,V,Qa=kb.AddToggle,Pa:V{ca,Ca,bb,z},"Expand Nape Hitbox",kb Sb=Sb(Qa,V,oc)Sb={[0b11]=1,[1]=Sb}Sb[0b10]=Sb yc,oc,Ka,Q,Aa="HitboxSize","Hitbox Size",Lb[0b10][Lb[0b11]],0b1100100,0b10100 Ka=Ka(yc)yc,Qa,V=Pa:X{ca,Ca,d,bb},kb.AddSlider,kb Qa=Qa(V,oc,Aa,Q,Ka,yc)Qa={[0b11]=1,[1]=Qa}Qa[0b10]=Qa oc,Aa,Q,V=kb,"Visualize Hitbox",Pa:lb{ca,c,Ea},kb.AddToggle V=V(oc,Aa,Q)V={[0b11]=1,[1]=V}V[0b10]=V Q,Ka,Aa,oc="Titan ESP",Pa:A{ca,Cb,db},uc,uc.AddToggle oc=oc(Aa,Q,Ka)oc={[0b11]=1,[1]=oc}oc[0b10]=oc Q,Ka,Aa,yc=uc,"Auto Refill",uc.AddToggle,Pa:ta{ca,ub,C}Aa=Aa(Q,Ka,yc)Aa={[0b11]=1,[1]=Aa}Aa[0b10]=Aa yc,Ka,M,Q="Change Cursor",uc,Pa:fa{ca,Jb,A,N},uc.AddToggle Q=Q(Ka,yc,M)Q={[0b11]=1,[1]=Q}Q[0b10]=Q Ka,yc,ua,M=uc.AddToggle,uc,Pa:Oa{j,ca},"Auto Execute"Ka=Ka(yc,M,ua)Ka={[0b11]=1,[1]=Ka}Ka[0b10]=Ka yc,Ua,ua,M=uc.AddToggle,Pa:ia{ca,e,fa,Db},"Auto Retry",uc yc=yc(M,ua,Ua)yc={[0b11]=1,[1]=yc}yc[0b10]=yc M,Xa,Ua,ua=uc.AddToggle,Pa:l{ca,Ha,qc,pc},"Auto Skip Cutscenes",uc M=M(ua,Ua,Xa)M={[0b11]=1,[1]=M}M[0b10]=M ua=Pa:_a{Nb,qc,Ea,Qb,oc,yc,gc,Ka,d,fb,wc,Db,_,U,J,_a,r,Wa,xb,C,p,rb,F,A,pc,Tb,fa,Sb,kc,V,za,Va,jb,i,ac,M,bb,N,ob,Ba,Lb,Qa,Aa,P,R,Na,Ca,K,db,ea,u,Q,tc,pb,Ac,bc,fc,B}Ua=ua Ua()return else v.TotalSeconds=t ma,t=T.Session,tonumber _b=ma and 0x3b or 0xf3 end elseif _b<0b111 then if _b>0b100 then t=t(ma)v.Difficulty=t t,ma=tonumber,T.LastRound _b=ma and 0xa0 or 0x18 else _b,ma=0b10000110,T.Player ma=ma.Prestige end elseif _b<=0b111 then _b,t=0b1101,0 else t=t(ma)_b=t and 0b10001 or 0x42e/_b end elseif _b>0b101111 then if _b>=0b110110 then if _b<0x39 then _b,ma=0x1986/_b,T.Session t=ma.Items elseif _b<=0b111001 then v.XP=t t=T.Session _b=t and _b+0b1101100 or 0b11100101 else _b,ma=0b11110011,T.Session ma=ma.FastestSeconds end elseif _b>0x32 then v.Gold=t t,ma=tonumber,T.LastRound _b=ma and _b+0xb4 or 0x86-_b else v.Gold=t Da=v Gb.Player=Da t,v,ma=tostring,{},T.LastRound _b=ma and 0xcb or 0b10000000 end elseif _b<=0x26 then if _b>0b100011 then ma=T.LastRound _b,ma=_b+-0b10111,ma.Difficulty elseif _b>=0x21 then if _b>0b100001 then _b,ma=0b10000111,T.Session ma=ma.TitansKilled else t=t(ma)_b=t and 0b110010 or 0x15c9/_b end else t=t(ma)_b=t and _b+-0b111 or 0xbd0/_b end elseif _b<0b101010 then v.XP=t t=T.LastRound _b=t and 0b11100110 or 0x2a elseif _b<=0x2a then _b=t and 0xe3 or _b+0b1000111 else t=t(ma)_b=t and 0x29 or _b+0b11101 end elseif _b<0b10101011 then if _b<0x86 then if _b<0x79 then if _b>=0x71 then if _b>0x72 then _b,t=0xf7,0 elseif _b<=0b1110001 then _b=t and 0b11100000-_b or 0b11110101 else _b,ma=_b+0x55,T.Session ma=ma.Gold end elseif _b<0x6d then _b,t=0x15,0 elseif _b>0x6d then v.Items=t Da=v Gb.LastRound=Da t,ma,v=tonumber,T.Session,{}_b=ma and 0x63 or 0xc6-_b else S,D="    task.wait(3)\n    loadstring(game:HttpGet(\"https://raw.githubusercontent.com/ssssssssss21/Symbiote/refs/heads/main/test.lua\"))()\n",j[0b10][j[0b11]]_b=0x25e5/_b D(S)end elseif _b<=0x7c then if _b>0b1111011 then v.MissionsCompleted=t ma,t=T.Session,tonumber _b=ma and _b+-0b10011 or _b+0x1f elseif _b<=0b1111010 then if _b<=0x79 then _b=t and 0b1111110 or 0x42a5/_b else t=t(ma)_b=t and _b+-0x41 or 0xc3-_b end else _b,ma=_b+-1,T.Session ma=ma.XP end elseif _b>0b1111110 then _b=ma and 0x170-_b or 0x5400/_b else v.Items=t t=T.Session _b=t and 0x97 or 0x90-_b end elseif _b<=0b10011111 then if _b<0x95 then if _b<0b10000111 then t=t(ma)_b=t and 0b11011110 or 0b1100001 elseif _b>0b10000111 then _b,ma=_b+-0b1111,{}t=ma else t=t(ma)_b=t and 0b10100010 or 0x2922/_b end elseif _b<0b10011011 then if _b>0x95 then x,ma=T.Session,type x=x.RarityCounts ma=ma(x)_b,x=0xa9-_b,"table"t=ma==x else _b,ma=0b1010,T.Player ma=ma.Level end elseif _b<=0x9b then t=t(ma)_b=t and _b+-0x8e or 0b111 else _b,ma=0x68,T.Session ma=ma.Gems end elseif _b<=0b10100101 then if _b<0b10100010 then if _b<=0b10100000 then ma=T.LastRound _b,ma=0x18,ma.TitansKilled else ma=T.Player _b,ma=0b100001,ma.Gold end elseif _b>0xa2 then ma,x=type,T.Session x=x.Items _b,ma=_b+0b1000000,ma(x)x="table"t=ma==x else v.TitansKilled=t ma,t=T.Session,tonumber _b=ma and 0xfe or 0b10111011 end elseif _b<=0xa8 then _b,ma=0b110011000-_b,"00:00"else _b,t=0b110010,0 end elseif _b>=0xde then if _b>=0xef then if _b>0xf3 then if _b>0xf7 then ma=T.Session _b,ma=_b+-0b1000011,ma.DamageDealt elseif _b<=0xf5 then ma={}_b,t=0b1101111,ma else v.Gold=t t,ma=tonumber,T.Session _b=ma and 0x9f or _b+-0b10001111 end elseif _b<0xf2 then if _b<=0xef then v.Gems=t t,ma=tonumber,T.LastRound _b=ma and _b+-0b10111 or _b+-0b11000000 else t=t(ma)v.TimeTaken=t ma,t=T.LastRound,tostring _b=ma and 0x23a0/_b or 0b1111 end elseif _b<=0b11110010 then v.DamageDealt=t ma,t=T.Session,tonumber _b=ma and 0b101100100-_b or 0b11000111 else t=t(ma)_b=t and 0b111010010-_b or 0b1010000 end elseif _b>=0xe5 then if _b>=0b11100110 then if _b>0b11100110 then ma=T.LastRound _b,ma=0b1010011,ma.Gems else ma,x=type,T.LastRound _b,x=0b101010,x.Items ma=ma(x)x="table"t=ma==x end else _b=t and _b+-0b10101111 or 0x6c3d/_b end elseif _b<0xdf then v.Prestige=t t,ma=tonumber,T.Player _b=ma and 0x95 or 0b1010 elseif _b<=0xdf then v.FastestSeconds=t t,ma=tonumber,T.Session _b=ma and 0b100011 or 0x87 else ma=T.LastRound _b,t=0x6433/_b,ma.Items end elseif _b>=0xcd then if _b>=0b11010010 then if _b<0b11010110 then _b,t=0x4a,0 elseif _b>0xd6 then _b,ma=0b101111,T.LastRound ma=ma.XP else _b,O=_b+-0x72,{}T=O end elseif _b>0xce then _b=t and 0xde-_b or _b+-0x8e elseif _b>0xcd then _b,t=0b1111100,0 else _b,t=0x4f,0 end elseif _b<=0b11000110 then if _b>=0xbb then if _b<=0b10111011 then t=t(ma)_b=t and 0b110101101-_b or 0x3c else _b,t=0b110011,0 end elseif _b>0b10101011 then _b,ma=0xd0,T.Session t=ma.RarityCounts else v.Gems=t ma,t=T.Session,tonumber _b=ma and 0x5229/_b or 0x7a end elseif _b<=0b11000111 then t=t(ma)_b=t and 0b110111110-_b or 0x78 else ma=T.LastRound _b,ma=0b10000000,ma.TimeTaken end until false end end,function(g,e)return function(a)local _,b,d d,_,b,e[0b10][0b10][e[0b10][0b11]]="DelayToKillAmount",e[1][0b10][e[1][0b11]],a,a _(d,b)return end end,function(g,h)return function()local b,a,d,f,_ b,d,a,f="Reload","Attacks",h[0b10][0b10][h[0b10][0b11]],h[1][0b10][h[1][0b11]]_,a=a,a.FireServer a(_,d,b,f)return end end,function(g,h)return function()local b,a,_,f,d,c c=0xc4 while true do if c>0x7c then if c>0b10100010 then _,a=g:cc{h[0b11],h[1]},pcall a,_=a(_)d=a c=d and 0b1000110 or 0x7c else f,b,d=_,"Symbiote_AOTR_Stats.json",h[0b10][0b10][h[0b10][0b11]]c=0x1b36/c d(b,f)end elseif c>=0b1000110 then if c<=0b1000110 then c,d=0b1111100,_ else c=d and 0xa2 or c+-0x51 end else return end end end end,function(g,e)return function()local a,d,b,_ d,a,b="PlayerGui",e[1][0b10][e[1][0b11]],0b111100 _,a=a,a.WaitForChild a=a(_,d,b)b,d,_,a=0x3c,"Interface",a,a.WaitForChild a=a(_,d,b)d,b,a,_="Rewards",0b111100,a.WaitForChild,a a=a(_,d,b)e[0b10][0b10][e[0b10][0b11]]=a return end end,function(g,e)return function(a)local b,_,d e[0b10][0b10][e[0b10][0b11]],b,_,d=a,a,e[1][0b10][e[1][0b11]],"DelayToKill"_(d,b)return end end,function(b,e)return function()local a,_ _,a=b:Ub{e[1]},pcall a(_)return end end,function(i,h)return function()local k,a,b,g,_,c,d,e c=0b11111000 repeat if c>0xa6 then if c>0xd9 then if c<0b11111000 then e=b.__SymbioteSetupHooked c,k=0b100010100-c,not e elseif c<=0xf8 then a,b,d=h[0b111][0b10][h[0b111][0b11]],0b1010,"Modules"a,_=a.WaitForChild,a a=a(_,d,b)_=a c=_ and 0x74 or 0xcd else return end elseif c>0xcd then if c>0xd7 then return else k=true b.__SymbioteHooked=k k=b.Create k={[0b11]=1,[1]=k}k[0b10]=k c,e=0b1100100,i:qb{h[1],k,h[0b100],h[0b101],h[0b10]}b.Create=e end elseif c<0b11000111 then c=k and 0xd7 or c+-0b1011001 elseif c<=0b11000111 then k=true b.__SymbioteSetupHooked=k k=b.Setup k={[0b11]=1,[1]=k}k[0b10]=k c,e=0xc572/c,i:rb{h[0b110],h[0b11],k}b.Setup=e else d=_ c=d and 0b1001011 or 0x41 end elseif c>0b1100100 then if c<=0b10100001 then if c>0b10001011 then e,g=type,b.Create e=e(g)g="function"k=e==g c=k and 0x6866/c or 0b10111101 elseif c>0x74 then return else k,d,b,_=0b1010,a,"User Interface",a.WaitForChild c,_=0xcd,_(d,b,k)end else c,e=0b10111101,b.__SymbioteHooked k=not e end elseif c>0x4a then if c<=0x4b then k,d,c,b,e="Rewards",_.WaitForChild,0x130b/c,_,0b1010 d=d(b,k,e)else g,e=b.Setup,type e=e(g)g="function"k=e==g c=k and 0xda or 0b111010 end elseif c>=0b1000001 then if c>0x41 then b,k=require,d b=b(k)k,e=type,b k=k(e)e="table"c=k~=e and 0x282e/c or 0xa1 else b=not d c=b and 0b11011001 or 0x12ca/c end else c=k and 0b100000001-c or 0xfe end until false end end,function(f,e)return function()local d,_,a d,a=e[1][0b10][e[1][0b11]],e[0b10][0b10][e[0b10][0b11]]a,_=a.JSONDecode,a a=f.h(a(_,d))return f.i(a)end end,function(g,e)return function(a)local b,d,_,c c=0xc6 while true do if c>0b10000011 then _,e[0b11][0b10][e[0b11][0b11]],b,d=e[1][0b10][e[1][0b11]],a,a,"TitanESP"_(d,b)_=not a c=_ and 0x5d or 0x83 elseif c<=0b1011101 then _=e[0b10][0b10][e[0b10][0b11]]c=0x2f97/c _()else return end end end end,function(i)return function(a)local k,b,c,d,_,j,e,g c=0x16 repeat if c>=0x4d then if c<=0x4d then b=i.h(b(k))_=_(d,i.i(b))b=math d,b=b.floor,0b111100 b=_/b d=d(b)k=0x3c e,b=string,_%k g,j,k,e=d,b,e.format,"%02d:%02d"k=i.h(k(e,g,j))return i.i(k)else c,k=0b1001101,0 end else d=math k,d,_=math,0,d.max k,e,b=tonumber,a,k.floor k=k(e)c=k and 0x4d or 0x80 end until false end end,function(f,e)return function()local c,a,d,_ c=0x1c repeat if c>0x33 then _=e[1][0b10][e[1][0b11]]d,a=f:Rb{e[0b100],e[0b101],e[0b10]},_.Heartbeat _,a=a,a.Connect a=a(_,d)e[0b11][0b10][e[0b11][0b11]]=a return elseif c<=0x1c then a=e[0b11][0b10][e[0b11][0b11]]c=a and 0x33 or 0x4d else c,a=0x4d,e[0b11][0b10][e[0b11][0b11]]_,a=a,a.Disconnect a(_)end until false end end,function(i,m)return function(a)local k,b,c,d,n,j,h,e,_,l,f l=0b1101000 repeat if l<0x68 then if l<=0x1a then k=nil return k else e,j=b.Position,Vector3 n,f,j=j.new,0b11,0 c=j n=n(j,f,c)n,k=CFrame,e+n f,e=Vector3,n.new j,c,f=f.new,_,0 h=f j=j(f,c,h)n,j=k+j,k e=i.h(e(n,j))return i.i(e)end elseif l<=0b10000110 then if l<=0x68 then d,b=0b10,m[0b11][0b10][m[0b11][0b11]]b,_,d=a,d+b,m[1][0b10][m[1][0b11]]d=d(b)b=not d l=b and 0b10000110 or 0xa6 else b,e,k=a.FindFirstChild,"HumanoidRootPart",a b=b(k,e)k=not b l=k and 0xd9c/l or 0b1000001 end else b,k=m[0b10][0b10][m[0b10][0b11]],d b=b(k)n=Vector3 j,n,e=_,0,n.new f=n e=e(n,j,f)n,k=CFrame,b+e e,n,j=n.new,k,b e=i.h(e(n,j))return i.i(e)end until false end end,function(o,m)return function()local d,f,l,_,j,p,q,a,h,c,b,e,n,k,g l=0b11010100 while true do if l>=0xa9 then if l>=0xc9 then if l>0b11010100 then b=d.MoveDirection k,e=b.Magnitude,0.1 l=k<e and 0b10000111 or 0xabbe/l elseif l>=0xd0 then if l>0b11010000 then _=m[0b11][0b10][m[0b11][0b11]]a=not _ l=a and 0xa6 or 0b101 else k,l,e=d.Health,0b10000,0 b=k<=e end else return end elseif l<=0xb2 then if l>0xa9 then k=_.CFrame n,g,p,q,e,j=k.RightVector,b.Unit,k.Position,m[0b10][0b10][m[0b10][0b11]],k.LookVector,k.UpVector h=g*q f,h=p+h,CFrame g,q,p,c,h=n,j,h.fromMatrix,-e,f p=p(h,g,q,c)_.CFrame=p return else return end else b,d,k=a,a.FindFirstChild,"Humanoid"d=d(b,k)b=not d l=b and 0b11000100-l or l+0x1c end elseif l<=0b10000111 then if l<=0b101011 then if l>=0x10 then if l>0x10 then return else l=b and 0x3b-l or l+0xe7 end else _=m[1][0b10][m[1][0b11]]a=_.Character _=not a l=_ and 0b10101001 or 0xa3 end else return end elseif l>0xa3 then return else _,b,d=a.FindFirstChild,"HumanoidRootPart",a _=_(d,b)d=not _ l=d and 0b11001001 or 0b10110100 end end end end,function(f,e)return function()local _,d,c,a c=0b10101000 repeat if c>=0xa8 then if c<=0b10101000 then a=e[0b111][0b10][e[0b111][0b11]]c=a and 0x20 or 0xfc else a=0 _,e[1][0b10][e[1][0b11]]=e[0b100][0b10][e[0b100][0b11]],a a,d=_.Heartbeat,f:zc{e[0b101],e[0b10],e[0b110],e[1],e[0b11]}a,_=a.Connect,a a=a(_,d)e[0b111][0b10][e[0b111][0b11]]=a return end else c,a=c+0xdc,e[0b111][0b10][e[0b111][0b11]]a,_=a.Disconnect,a a(_)end until false end end,function(b,e)return function()local a,_ a,_=pcall,b:pb{e[0b111],e[1],e[0b100],e[0b101],e[0b10],e[0b110],e[0b11]}a(_)return end end,function(g,e)return function()local a,b,_,d b,d,a="Get","S_Rewards",e[1][0b10][e[1][0b11]]a,_=a.InvokeServer,a a=g.h(a(_,d,b))return g.i(a)end end,function(b,e)return function()local a,c,_ c=0b10101111 while true do if c<0b10101111 then a=0 e[1][0b10][e[1][0b11]]=a return elseif c>0xaf then a=e[0b10][0b10][e[0b10][0b11]]_,a=a,a.Disconnect a(_)c,a=0b1100110,nil e[0b10][0b10][e[0b10][0b11]]=a else a=e[0b10][0b10][e[0b10][0b11]]c=a and 0xd5 or 0x66 end end end end,function(f,e)return function()local _,a,c c=0x5a while true do if c>0b1011010 then return elseif c>0b11001 then _=e[0b10][0b10][e[0b10][0b11]]_=_()a=not _ c=a and 0xcf or 0x19 else _,a=f:lc{e[1]},pcall a(_)return end end end end,function(f,e)return function()local _,a,c c=0b11101000 while true do if c<0xdb then a,_=pcall,f:nb{e[1],e[0b10]}c=c+0b110100 a(_)elseif c<=0b11011011 then a=e[0b10][0b10][e[0b10][0b11]]return a else _=e[0b10][0b10][e[0b10][0b11]]a=not _ c=a and 0xa7 or 0xdb end end end end,function(g,e)return function(a)local _,d,c c=0b11001110 repeat if c>=0xce then if c>0xce then d=e[1][0b10][e[1][0b11]]_=d[a]return _ else d=e[0b10][0b10][e[0b10][0b11]]d,_=nil,d[a]c=_~=d and 0b1001101 or 0b11011000 end else d=e[0b10][0b10][e[0b10][0b11]]_=d[a]return _ end until false end end,h=function(...)return{[1]={...},[0b10]=select("#",...)}end,function(f,e)return function()local a,_,c c=0x54 while true do if c<=0x54 then if c>0b101011 then _=e[0b10][0b10][e[0b10][0b11]]a=not _ c=a and 0x2b or 0xbf else a,c,_=pcall,0xea-c,f:Ob{e[1],e[0b10]}a(_)end else a=e[0b10][0b10][e[0b10][0b11]]return a end end end end,function(g,e)return function(a)local d,b,c,_ c=0xd1 repeat if c>0xd1 then return elseif c>0xab then e[0b11][0b10][e[0b11][0b11]],_,d,b=a,e[1][0b10][e[1][0b11]],"LaggyRun",a _(d,b)c=a and 0x4e or 0xab elseif c<=0x4e then c,_=0x4d64/c,e[0b100][0b10][e[0b100][0b11]]_()else _=e[0b10][0b10][e[0b10][0b11]]c=0xfe _()end until false end end,function(g,e)return function(a)local c,b,_,d c=0xc4 repeat if c>0b10000000 then _,d,b=e[0b111][0b10][e[0b111][0b11]],"AutoFarm",a _(d,b)c=a and 0x19 or 0x80 elseif c>0b11011 then _=false e[1][0b10][e[1][0b11]],_=_,nil c,e[0b11][0b10][e[0b11][0b11]]=0b11011,_ elseif c>0b11001 then return else _=true _,e[0b100][0b10][e[0b100][0b11]],e[1][0b10][e[1][0b11]]=0b1100100,_,_ d,e[0b101][0b10][e[0b101][0b11]],_=0b1100100,_,e[0b10][0b10][e[0b10][0b11]]_(d)c,d=c+0b10,task d,_=e[0b110][0b10][e[0b110][0b11]],d.spawn _(d)end until false end end,function(b,e)return function()local a,_ a,_=e[0b10][0b10][e[0b10][0b11]],e[1][0b10][e[1][0b11]]a(_)return end end,function(g,h)return function()local a,d,f,_,b d,b,a,f="Functions","Retry",h[1][0b10][h[1][0b11]],"Add"a,_=a.InvokeServer,a a(_,d,b,f)return end end,function(b,d)return function()local a a=d[1][0b10][d[1][0b11]]a()return end end,function(g,e)return function()local _,d,b,a d,a,b="S_Rewards",e[1][0b10][e[1][0b11]],"Get"a,_=a.InvokeServer,a a=g.h(a(_,d,b))return g.i(a)end end,function(f,e)return function()local a,_,d a,d=e[0b10][0b10][e[0b10][0b11]],e[1][0b10][e[1][0b11]]_,a=a,a.JSONEncode a=f.h(a(_,d))return f.i(a)end end,function(f,e)return function()local a,_,d a,d=e[0b10][0b10][e[0b10][0b11]],e[1][0b10][e[1][0b11]]a,_=a.JSONDecode,a a=f.h(a(_,d))return f.i(a)end end,function(f,e)return function()local _,a _,a=e[1][0b10][e[1][0b11]],e[0b10][0b10][e[0b10][0b11]]_=_.Activated a(_)return end end,function(o,m)return function()local f,q,k,c,l,g,n,a,_,j,b,h,d,p,e l=0b11011101 while true do if l>=0x77 then if l>=0b11000110 then if l<=0b11011101 then if l>0xcf then if l<=0xdb then if l>=0xd6 then if l<=0xd6 then h=m[1][0b10][m[1][0b11]]p=h.Player l,f=0b101100,p.Prestige else l,c=0b10010100,m[1][0b10][m[1][0b11]]q=c.Player q.Gems=g a=true end else b.Prestige=k l,a=l+-0b10011000,true end else b,a=game,false b,d=14916516914,b.PlaceId _=d==b l=_ and 0x82 or 0x1b end elseif l<=0xcb then if l>=0xca then if l>0b11001010 then d=m[0b10][0b10][m[0b10][0b11]]d()return else f=m[1][0b10][m[1][0b11]]j,f,p=f.Player,tonumber,n.Progression p=p.Level f=f(p)l=f and 0x5d1c/l or 0b111 end else k=m[1][0b10][m[1][0b11]]k,b,e=tonumber,k.Player,d k=k(e)l=k and 0xd4 or 0b101110101-l end elseif l<=0b11001101 then j.Gold=f l,a=0x4b,true else h=p l=h and 0b11101101 or 0x3d74/l end elseif l>=0b11110010 then if l>0b11110111 then f=n.Progression j,f=f.Prestige,nil l=j~=f and 0b1000001 or 0xaf58/l elseif l<=0b11110100 then if l<=0b11110010 then h,l,q,g=f.IsA,0b11101,"TextLabel",f h=h(g,q)else l=j and 0x46 or 0xdc2c/l end else e,k=o:yc{m[0b100]},pcall k,e,n=k(e)j=k l=j and 0x7f or 0x7992/l end elseif l>0xea then q,g,h="TextLabel",p,p.IsA l,h=0b1001100,h(g,q)elseif l>0xe7 then k.Prestige=e l,a=0b11110111,true elseif l>0xe4 then l=j and l+-0b10001101 or 0b101111011-l else l,h=0x1b1-l,m[1][0b10][m[1][0b11]]p=h.Player f=p.Gold end elseif l<=0x94 then if l<=0b10000010 then if l<=0x7e then if l>=0b1111010 then if l<=0x7a then k.Level=e l,a=0x89,true else l=j and 0b111101 or l+0x16 end else l,j,e,n=0b10001010-l,"Interface",k.FindFirstChild,k e=e(n,j)end elseif l>0b1111111 then d,k=m[0b11][0b10][m[0b11][0b11]],"Prestige"b,d=d,d.GetAttribute d=d(b,k)b=nil l=d~=b and 0b11000110 or 0b111100 else f,p=type,n l,f=0b1111110,f(p)p="table"j=f==p end elseif l<=0x8b then if l>0b10001001 then k=m[1][0b10][m[1][0b11]]b,e,k=k.Player,d,tonumber k=k(e)l=k and 0b10101100 or 0b1010 elseif l<=0x88 then l=j and l+0x1f or 0b10010100 else k,n=m[0b11][0b10][m[0b11][0b11]],"PlayerGui"k,e=k.FindFirstChild,k k=k(e,n)e=k l=e and 0b1110111 or 0xa2b/l end else l=a and 0b110110 or 0xcb end elseif l>0xb2 then if l<=0b11000001 then if l>0b10110101 then h=m[1][0b10][m[1][0b11]]l,p=0x133-l,h.Player f=p.Gems else f=n.Progression j,f=f.Level,nil l=j~=f and 0b101111111-l or l+-0b1001000 end else c,h,q="",f.Text,","g,h=h,h.gsub h=h(g,q,c)q,h,c,g="%s",h.gsub,"",h h=h(g,q,c)g,q=tonumber,h g=g(q)l=g and 0x37e4/l or 0b11001111 end elseif l>=0b10101100 then if l<=0b10101111 then if l<=0xac then l,b.Level=0b10110010,k a=true else l,n=0xd4,m[1][0b10][m[1][0b11]]e=n.Player k=e.Prestige end else b,e=m[0b11][0b10][m[0b11][0b11]],"Prestige"b,k=b.GetAttribute,b b=b(k,e)k=nil l=b~=k and 0b100100 or 0xabbe/l end elseif l>0b10100000 then f=n.Currency j,f=f.Gold,nil l=j~=f and 0x41e3/l or 0b1001011 else f=m[1][0b10][m[1][0b11]]p,f,j=n.Currency,tonumber,f.Player p=p.Gems f=f(p)l=f and 0b1110010 or 0xc1 end elseif l>=0x3d then if l>=0x54 then if l>=0b1100101 then if l>=0b1110000 then if l<=0b1110010 then if l>0b1110000 then j.Gems=f l,a=0x94,true else p,f=n.Currency,type l,f=0b10001000,f(p)p="table"j=f==p end else l,j.Level=0x6d,f a=true end elseif l>0x65 then j=n.Currency l=j and 0b1110000 or 0x88 else f=m[1][0b10][m[1][0b11]]j,f,p=f.Player,tonumber,n.Currency p=p.Gold f=f(p)l=f and 0b100110010-l or 0b101001001-l end elseif l>0x60 then l,j=0x58aa/l,m[1][0b10][m[1][0b11]]n=j.Player e=n.Prestige elseif l>0b1011010 then h=f l=h and l+0b10010010 or 0b11101 elseif l>0b1010100 then f=n.Main j,h=f.Currencies,"Gold"p,f=j,j.FindFirstChild f=f(p,h)l=f and 0b1100 or 0x54 else g,h,p="Gems",j,j.FindFirstChild p=p(h,g)l=p and l+-0b1001111 or 0b1100000 end elseif l<0b1001001 then if l<=0x42 then if l<=0x41 then if l<=0b111101 then j=n.Progression l=j and 0b110001 or 0b1001111 else f=m[1][0b10][m[1][0b11]]j,f,p=f.Player,tonumber,n.Progression p=p.Prestige f=f(p)l=f and 0b101100 or 0b11010110 end else c,q,h="",",",p.Text h,g=h.gsub,h h=h(g,q,c)h,g,q,c=h.gsub,h,"%s",""h=h(g,q,c)g,q=tonumber,h g=g(q)l=g and 0b11011011 or 0b10010100 end else p,j="Currencies",n.Main j,f=j.FindFirstChild,j l,j=0x3f2a/l,j(f,p)end elseif l<0x4c then if l<=0x49 then c=m[1][0b10][m[1][0b11]]q=c.Player q.Gold=g l,a=l+0x86,true else f=n.Currency j,f=f.Gems,nil l=j~=f and 0x2ee0/l or 0x2b5c/l end elseif l<=0b1001100 then l=h and l+-0b1010 or 0b11100000-l else l=j and 0xf8 or 0b1101101 end elseif l>=0b11011 then if l>=0x2c then if l>0b110001 then if l<=0x36 then l,d=0b11001011,m[0b101][0b10][m[0b101][0b11]]d()else e,b="Level",m[0b11][0b10][m[0b11][0b11]]b,k=b.GetAttribute,b b=b(k,e)k=nil l=b~=k and 0b100101 or 0b10001001 end elseif l>=0b110000 then if l>0x30 then p,f=n.Progression,type l,f=0b10000000-l,f(p)p="table"j=f==p else n,f,l,j=e.FindFirstChild,"Topbar",0b1110,e n=n(j,f)end else l,j.Prestige=0b10110101,f a=true end elseif l<=0b100100 then if l>0x1d then e=m[1][0b10][m[1][0b11]]e,k,n=tonumber,e.Player,b e=e(n)l=e and 0b100001110-l or 0x61 elseif l>0b11011 then l=h and 0b11000100 or 0xcf else k,d="Level",m[0b11][0b10][m[0b11][0b11]]b,d=d,d.GetAttribute d=d(b,k)b=nil l=d~=b and 0x8b or l+0b10010111 end else e=m[1][0b10][m[1][0b11]]e,k,n=tonumber,e.Player,b e=e(n)l=e and 0x7a or 0b1000 end elseif l>=0b1010 then if l<=0b1110 then if l<=0b1100 then if l>0b1010 then f,h=j.Gold,"Amount"f,l,p=f.FindFirstChild,l+0b1001000,f f=f(p,h)else l,n=0x6b8/l,m[1][0b10][m[1][0b11]]e=n.Player k=e.Level end else j=n l=j and 0b11 or l+0b11100110 end else n=e l=n and 0x30 or 0b1110 end elseif l>=0b111 then if l>0b111 then j=m[1][0b10][m[1][0b11]]n=j.Player l,e=0b1111010,n.Level else h=m[1][0b10][m[1][0b11]]l,p=0x7d-l,h.Player f=p.Level end elseif l<=0b11 then f,j,p=n,n.FindFirstChild,"Main"l,j=0x2dc/l,j(f,p)else p,g=j.Gems,"Amount"h,p=p,p.FindFirstChild l,p=0x60,p(h,g)end end end end,function(g,e)return function(a)local _,b,d _,e[0b10][0b10][e[0b10][0b11]],b,d=e[1][0b10][e[1][0b11]],a,a,"LaggyRunDelay"_(d,b)return end end,function(i,m)return function()local a,d,g,k,c,j,_,b,f,e,l l=0xa6 repeat if l<=0b11010010 then if l<=0xba then if l<0xa6 then e,g=d(b,k)k=e l=k==nil and 0x9d8/l or 0xbe8/l elseif l>0xa6 then f=table l,c,j,f=0b1100,g,f.insert,a j(f,c)else _={}a,_=_,m[1][0b10][m[1][0b11]]_=_()d=not _ l=d and 0xe6 or 0b11111111 end else return a end elseif l<0b11111110 then return a elseif l<=0xfe then f,c,j=g,"Model",g.IsA j=j(f,c)l=j and 0xb88c/l or 0b100001010-l else k,b,d=_,_.GetChildren,ipairs b=i.h(b(k))d,b,k=d(i.i(b))d,b,k=i.g(d,b,k)e,g=d(b,k)k=e l=k==nil and 0xd2 or 0xfd02/l end until false end end,function(o,m)return function()local k,l,j,h,f,d,a,_,b,p,n,g,e l=0b1011110 repeat if l>0b10010010 then if l>=0xd1 then if l>0b11101011 then if l<0xf2 then if l<=0b11101101 then d,l,_=m[0b111][0b10][m[0b111][0b11]],0b110100,0 d()else l,b=l+-0b1110100,"N/A"end elseif l>=0b11110011 then if l>0b11110011 then e=m[0b1001][0b10][m[0b1001][0b11]]k=e.LastRound b=k.Difficulty l=b and 0x7a or 0b11101110 else l=e and 0b10000011 or 0x3801/l end else p=m[0b110][0b10][m[0b110][0b11]]p,f="N/A",p.Difficulty j=f==p l=j and 0b100011111-l or 0b111001011-l end elseif l<=0b11100010 then if l>0xda then k,l,n,e=b.FindFirstChild,0b101000111-l,"Rewards",b k=k(e,n)elseif l>0b11011001 then j,n="In Progress",m[0b110][0b10][m[0b110][0b11]]n.Status=j f=math f,h,j=0,math,f.max g,p=os,h.floor h=g.clock h=h()g=m[0b11][0b10][m[0b11][0b11]]h=h-g p=o.h(p(h))j=j(f,o.i(p))n.Seconds=j f,n="Difficulty",m[0b1000][0b10][m[0b1000][0b11]]j,n=n,n.GetAttribute n=n(j,f)j=n l=j and 0b10000100 or 0x670a/l elseif l>0xd1 then l=j and 0b10100101 or 0b10 else l=n and 0x2a or 0x163-l end elseif l<=0b11101010 then l=b and 0x82b6/l or 0x81 else l,h,j=0b10010010,m[0b1001][0b10][m[0b1001][0b11]],m[0b110][0b10][m[0b110][0b11]]p=h.LastRound f=p.Difficulty j.Difficulty=f end elseif l>=0b10111011 then if l>=0b11000110 then if l<=0xca then if l>0b11000110 then e,k=d,tostring l,k=0b11101010,k(e)e=""b=k==e else b,l,d="In Lobby",0x92,m[0b110][0b10][m[0b110][0b11]]d.Status=b b=0 d.Seconds=b b="N/A"d.Difficulty=b end else j=m[0b1100][0b10][m[0b1100][0b11]]l,n=0xea0/l,not j end elseif l>0b10111011 then l,n=0b10010010,m[0b101][0b10][m[0b101][0b11]]n()else l,e=l+0b111000,k.Visible end elseif l>=0xa8 then if l>=0xac then if l>0b10101100 then d=m[0b1010][0b10][m[0b1010][0b11]]l=l+-0b1111010 d()else l,p,f=0b11011,n,tostring f=f(p)p="N/A"j=f~=p end else d="Lobby"l,m[0b100][0b10][m[0b100][0b11]]=0xdc-l,d end elseif l>0x9f then h=m[0b1001][0b10][m[0b1001][0b11]]p=h.LastRound l,p,f=0b10,"N/A",p.Difficulty j=f~=p else d="Playing"d,m[0b100][0b10][m[0b100][0b11]],k=m[0b1000][0b10][m[0b1000][0b11]],d,"Difficulty"d,b=d.GetAttribute,d d=d(b,k)b=not d l=b and 0x189-l or 0b11001010 end elseif l<0b1011110 then if l>0x2d then if l>0x3b then if l<=0x45 then p,j,f=n,m[0b110][0b10][m[0b110][0b11]],tostring f=f(p)l,j.Difficulty=0x275a/l,f else j,n="Playing",m[0b100][0b10][m[0b100][0b11]]l=n==j and l+0b10001110 or 0b10010010 end elseif l<=0x3a then if l<=0x34 then b=task b,d=0.5,b.wait d(b)d=0.5 _=_+d l=a and l+0b10010010 or 0x7b else k,e,l,b=d,"Interface",l+-0b11110,d.FindFirstChild b=b(k,e)end else f,j="Ended",m[0b100][0b10][m[0b100][0b11]]n=j==f l=n and 0b11010000 or 0b10010 end elseif l<0x1c then if l>=0x12 then if l>0b10010 then l=j and 0x747/l or 0b100001101-l else l=n and 0xcf-l or 0b1001100 end else l=j and 0x1d6/l or 0b10010100-l end elseif l>=0x2a then if l<=0x2a then l,j=0x17f4/l,task f,n,j=o:Tb{m[0b10]},j.delay,0.6 n(j,f)else l,p=0b100000110-l,m[0b1001][0b10][m[0b1001][0b11]]f=p.LastRound j=f.Difficulty end else k=b l=k and 0xe2 or 0x81-l end elseif l>0x7b then if l>0b10000100 then if l<=0x8f then l=b and 0b11111101 or 0b1101111 else d=0b1111 l=_>=d and 0x872a/l or 0b10101110 end elseif l>=0b10000011 then if l>0b10000011 then p,f=n,tostring f=f(p)p=""l,j=l+-0b1011,f~=p else f,j="Playing",m[0b100][0b10][m[0b100][0b11]]n=j==f l=n and 0x3ce5/l or 0b101010100-l end else e,k=d,tostring l,k=0b10001111,k(e)e="N/A"b=k==e end elseif l>=0b1110111 then if l>=0x7a then if l>0x7a then d,k=m[0b1011][0b10][m[0b1011][0b11]],"PlayerGui"b,d=d,d.FindFirstChild d=d(b,k)b=d l=b and 0b111010 or 0xd74/l else l,d=0b1101111,b end elseif l<=0b1110111 then l,j=0x6127/l,m[0b1100][0b10][m[0b1100][0b11]]n=not j else l=j and 0b100100101-l or 0b11011 end elseif l<=0b1100101 then if l>0x5e then e=k l=e and 0xbb or l+0x8e else _=task a,_=_.wait,0.3 a(_)a=m[0b111][0b10][m[0b111][0b11]]a()a=m[1][0b10][m[1][0b11]]a()d=game d,_=14916516914,d.PlaceId _,a=0,_==d d=not a l=d and 0b10011111 or 0b10101000 end else e,b,k=d,m[0b110][0b10][m[0b110][0b11]],tostring l,k=0x34,k(e)b.Difficulty=k end until false end end,function(f,e)return function()local c,a,d,_ c=0xa5 repeat if c<=0x66 then if c<=0b11010 then return else _=e[1][0b10][e[1][0b11]]d,a=f:ob{e[1],e[0b100],e[0b101],e[0b10]},_.InputBegan a,_=a.Connect,a a=a(_,d)e[0b11][0b10][e[0b11][0b11]]=a return end else a=e[0b11][0b10][e[0b11][0b11]]c=a and 0x1a or 0x66 end until false end end,function(i)return function(a)local b,_,f,d,c c=1 while true do if c<=0x9e then if c<=0b1010011 then if c>=0b1001000 then if c>0x48 then c=b and 0x4f1c/c or 0b10011110 else c,f=0b1010011,""b=d~=f end else a={[0b11]=1,[1]=a}a[0b10]=a d,_=i:qc{a},pcall _,d=_(d)b=_ c=b and 0xb4 or 0xaa end else b=nil return b end elseif c>0b10110100 then return d elseif c>0b10101010 then c,b=0x7788/c,d else c=b and 0x48 or 0x53 end end end end,function(b,e)return function()local a,_ a,_=e[0b10][0b10][e[0b10][0b11]],e[1][0b10][e[1][0b11]]a(_)return end end,function(f,e)return function()local _,a _=e[1][0b10][e[1][0b11]]a=_.Visible return a end end,function(o,m)return function()local e,a,c,d,q,r,j,l,n,b,_,f,p,h,g,k l=0b11010011 while true do if l>=0x95 then if l<=0xd3 then if l<=0b11010001 then if l>0xbd then d=false return d elseif l>=0b10110111 then if l>0xb7 then n,e=k,ipairs e,n,j=e(n)e,n,j=o.g(e,n,j)f,p=e(n,j)j=f l=j==nil and 0b1000001 or l+0x1a else g,r,c=p.Name,0b101,1 g,q=g.sub,g g=g(q,c,r)l,q=0b110100110-l,"Blade"h=g==q end else q,h,g="MeshPart",p.IsA,p h=h(g,q)l=h and 0xb7 or 0b11101111 end elseif l<=0xd2 then n,e=0,#k l=e==n and 0x43 or 0xbd else d,a="Characters",m[0b10][0b10][m[0b10][0b11]]_,a=a,a.FindFirstChild a=a(_,d)_=not a l=_ and 0b11110111 or 0b100111 end elseif l<0xef then if l>0b11010101 then q,g,h="Broken",p,p.GetAttribute h=h(g,q)g=not h l=g and 0xd5 or 0x70 else g=false return g end elseif l>0xef then _=false return _ else l=h and 0x66 or 0b1111011 end elseif l<=0b1100100 then if l>=0b1000001 then if l<=0x43 then if l<=0b1000001 then e=true return e else e=true return e end else e,b=m[1][0b10][m[1][0b11]],"Rig_"k=e.Name d=b..k k,e,b=_,d,_.FindFirstChild b=b(k,e)k=not b l=k and l+0b1000 or 0x3b end elseif l>0b100111 then e={}n,k,e,j=b.GetDescendants,e,ipairs,b n=o.h(n(j))e,n,j=e(o.i(n))e,n,j=o.g(e,n,j)f,p=e(n,j)j=f l=j==nil and 0x10d-l or l+0b1011010 else b=m[1][0b10][m[1][0b11]]d,b,_=a,b.Name,a.FindFirstChild _=_(d,b)d=not _ l=d and 0xd1 or 0x8b-l end elseif l<=0x70 then if l<=0x6c then if l<=0x66 then l,g=0b1111011,table g,h,q=k,g.insert,p h(g,q)else k=false return k end else f,p=e(n,j)j=f l=j==nil and l+-0b101111 or 0xd7 end else f,p=e(n,j)j=f l=j==nil and l+0b1010111 or 0x95 end end end end,function(g,e)return function(a)local _,d,c,b c=0x40 repeat if c>=0xc9 then if c<=0b11001001 then c,_=0b111000100-c,e[0b10][0b10][e[0b10][0b11]]_()else return end elseif c<=0x40 then d,_,e[0b11][0b10][e[0b11][0b11]],b="InfiniteJump",e[1][0b10][e[1][0b11]],a,a _(d,b)c=a and 0x5d or 0xc9 else c,_=0x5b2f/c,e[0b100][0b10][e[0b100][0b11]]_()end until false end end,function(f,e)return function()local _,d,a a,d=e[1][0b10][e[1][0b11]],"Titans"a,_=a.FindFirstChild,a a=f.h(a(_,d))return f.i(a)end end,function(g,e)return function()local _,d,b,a b,d,a=0b111100,"PlayerGui",e[1][0b10][e[1][0b11]]_,a=a,a.WaitForChild a=a(_,d,b)a,b,_,d=a.WaitForChild,0x3c,a,"Interface"a=a(_,d,b)_,b,d,a=a,0b111100,"Skip",a.WaitForChild a=a(_,d,b)e[0b10][0b10][e[0b10][0b11]]=a return end end,function(b,e)return function()local a,c,_ c=0x3f while true do if c<=0xa0 then if c>0b111111 then return else a=e[1][0b10][e[1][0b11]]c=a and 0b11101110 or 0b10100000 end else a=e[1][0b10][e[1][0b11]]_,a=a,a.Disconnect a(_)a=nil c,e[1][0b10][e[1][0b11]]=0x94c0/c,a end end end end,function(g,e)return function(a)local d,_,b e[0b10][0b10][e[0b10][0b11]],d,b,_=a,"AutoReload",a,e[1][0b10][e[1][0b11]]_(d,b)return end end,function(i,h)return function()local a,b,d,j,_,e,g,k a,b=h[0b10][0b10][h[0b10][0b11]],h[1][0b10][h[1][0b11]]d,k=b.X,b g,k,b,e=game,0,k.Y,true j,_,a=k,a,a.SendMouseButtonEvent a(_,d,b,k,e,g,j)_=task a,_=_.wait,0.05 a(_)a,b=h[0b10][0b10][h[0b10][0b11]],h[1][0b10][h[1][0b11]]d,k=b.X,b b,k,e=k.Y,0,false a,j,_=a.SendMouseButtonEvent,k,a a(_,d,b,k,e,g,j)return end end,function(g,e)return function()local a,d,b,_,c c=0b11101101 repeat if c<0xae then if c<=0b1000010 then if c<=0x18 then c,_=0b1111111,syn a=_.write_file else c,a=0b11100101,writefile end else c=a and 0b11100101 or 0x20be/c end elseif c>0b11100101 then a=syn c=a and 0x18 or 0b1111111 elseif c>=0xc2 then if c<=0xc2 then return else c=a and 0b10101110 or 0xc2 end else c,b,_,d=0b11000010,e[1][0b10][e[1][0b11]],a,e[0b10][0b10][e[0b10][0b11]]_(d,b)end until false end end,function(b,e)return function()local a,c c=0xee while true do if c>0x85 then if c>=0xe1 then if c<=0b11101001 then if c>=0xe6 then if c<=0b11100110 then c,a=c+-0x26,e[0b10][0b10][e[0b10][0b11]]a=a()else c,a=c+-0b1000,e[1][0b10][e[1][0b11]]end else c=a and 0b110111001-c or 0x3138/c end else a=e[0b111][0b10][e[0b111][0b11]]c=a and 0xe1 or 0xe9 end elseif c<0xc2 then if c>0b10111101 then c=a and c+-0b111011 or c+-0b1001110 else a=false return a end elseif c>0xc2 then a=false return a else c=a and 0xe6 or 0xc0 end elseif c>=0b1001001 then if c>=0b1100011 then if c<0x72 then c,a=0b1001001,e[0b101][0b10][e[0b101][0b11]]a=a()elseif c<=0b1110010 then a=true return a else a=false return a end elseif c<=0b1001001 then c=a and c+-0b1000011 or 0b10100011-c else c=a and 0xbd or c+-0b111101 end elseif c<0x1d then if c>0b110 then a=e[0b11][0b10][e[0b11][0b11]]c,a=c+0b10111000,a()else c,a=c+0b1010100,e[0b10][0b10][e[0b10][0b11]]a=a()end elseif c<=0x1d then a=e[0b110][0b10][e[0b110][0b11]]c=a and 0b1010 or c+0xa5 else a=e[0b100][0b10][e[0b100][0b11]]c=a and 0x15a8/c or 0b1001001 end end end end,function(g,h)return function()local b,_,a,d a,b=require,h[1][0b10][h[1][0b11]]d=b.Modules _=d.Storage _=_.Values a=a(_)h[0b10][0b10][h[0b10][0b11]]=a return end end,function(g,e)return function(a)local c,b,d,_ c=0b1000010 repeat if c<0b111001 then if c<=0b111 then c,_=0b100001,e[0b100][0b10][e[0b100][0b11]]_()else return end elseif c<=0b111001 then c,_=c+-0x18,e[0b10][0b10][e[0b10][0b11]]_()else b,e[0b11][0b10][e[0b11][0b11]],d,_=a,a,"WalkSpeed",e[1][0b10][e[1][0b11]]_(d,b)c=a and 0b111 or 0b111001 end until false end end,(function()local q,i,s=type,getmetatable,pairs return function(u,v,w)if q(u)~="function"then local p=i(u)if p~=nil and p.__iter~=nil then return p.__iter(u)elseif(p and p.__call)==nil and q(u)=="table"then return s(u)end end return u,v,w end end)(),function(g,e)return function(a)local _,d,b b,e[0b10][0b10][e[0b10][0b11]],_,d=a,a,e[1][0b10][e[1][0b11]],"DistanceToTitan"_(d,b)return end end,function(i,h)return function()local f,b,e,a,d,_ a,d,b=h[0b11][0b10][h[0b11][0b11]],{},0 d.MissionsCompleted=b d.TotalSeconds=b d.FastestSeconds=b d.TitansKilled=b d.DamageDealt=b d.Gold=b d.Gems=b d.XP=b f={}b=f d.Items=b f,e={},0 f.Common=e f.Uncommon=e f.Rare=e f.Epic=e f.Legendary=e f.Mythic=e f.Secret=e b=f d.RarityCounts=b _=d a.Session=_ a=h[1][0b10][h[1][0b11]]a()a=h[0b10][0b10][h[0b10][0b11]]a()return end end,function(g,e)return function(a)local _,d,b d,_,e[0b10][0b10][e[0b10][0b11]],b="KillWithoutTP",e[1][0b10][e[1][0b11]],a,a _(d,b)return end end,function(f,e)return function()local a,d,c,_ c=0x85 while true do if c>=0x50 then if c<=0x8a then if c>0b10000101 then c=a and 0x102c/c or c+-0x86 elseif c>0b1010000 then a=syn c=a and 0b11000100 or 0x50 else c=a and c+0b111010 or 0xf00/c end else _=syn c,a=0b1010000,_.read_file end elseif c<0b11110 then _=nil return _ elseif c>0x1e then c,a=0x8a,readfile else _,d=a,e[1][0b10][e[1][0b11]]_=f.h(_(d))return f.i(_)end end end end,function(g,e)return function(a)local c,d,b,_ c=0x8c while true do if c<=0xb9 then if c>0x8c then c,_=0x37,e[0b100][0b10][e[0b100][0b11]]_()elseif c<=0x37 then return else e[0b11][0b10][e[0b11][0b11]],b,_,d=a,a,e[1][0b10][e[1][0b11]],"CtrlClickTP"_(d,b)c=a and 0xb9 or 0b11001000 end else _=e[0b10][0b10][e[0b10][0b11]]c=c+-0b10010001 _()end end end end,function(o,m)return function(a,_)local k,d,g,p,h,r,b,f,i,q,e,t,l,c,j l=0x80 repeat if l>0b1110100 then if l<=0xab then if l>=0x88 then if l>=0b10010000 then if l>0x90 then l=_ and 0xc8-l or 0x86 else t,b=Enum,m[1][0b10][m[1][0b11]]l,e=0b10001000,t.KeyCode b,e,k=b.IsKeyDown,e.RightControl,b b=b(k,e)end else d=not b l=d and 0b1110100 or 0b10010 end elseif l<=0x80 then b=m[0b11][0b10][m[0b11][0b11]]d=not b l=d and 0xb7 or 0b10101011 else d,e=a.UserInputType,Enum k=e.UserInputType b=k.MouseButton1 l=d~=b and l+-0b10101 or 0x157-l end elseif l<0b10111111 then return elseif l<=0xbf then k=not b l=k and 0x11c-l or 0b100100110-l else b,t=m[1][0b10][m[1][0b11]],Enum e=t.KeyCode k,b,e=b,b.IsKeyDown,e.LeftControl b=b(k,e)l=b and 0b10001000 or 0x7590/l end elseif l<=0x5d then if l<0x39 then if l>0b10010 then return else b=m[0b100][0b10][m[0b100][0b11]]d=b.Character b=d l=b and 0b10000101-l or 0xbf end elseif l<=0x56 then if l>0x39 then p,q=f.Position,CFrame c,g=Vector3,q.new r,c,q=0b11,0,c.new i=c l,q=0x1326/l,q(c,r,i)q=p+q g=g(q)i,c=b.CFrame,b.CFrame r=i.Position q=c-r h=g*q b.CFrame=h else return end else return end elseif l>=0x73 then if l>0x73 then return else b,k,e=d.FindFirstChild,d,"HumanoidRootPart"l,b=0b10111111,b(k,e)end elseif l>0x67 then return else e=m[0b10][0b10][m[0b10][0b11]]e,k=m[1][0b10][m[1][0b11]],e.CurrentCamera e,t=e.GetMouseLocation,e e=e(t)p,j,t,f=e.Y,k,k.ViewportPointToRay,e.X t=t(j,f,p)f=RaycastParams j=f.new j=j()h=Enum p=h.RaycastFilterType f=p.Exclude j.FilterType=f h,p=d,{}p[1]=h f=p j.FilterDescendantsInstances=f q,h,c,f=t.Direction,t.Origin,0x1388,m[0b10][0b10][m[0b10][0b11]]q,f,g,p=j,f.Raycast,q*c,f f=f(p,h,g,q)l=f and 0b1010110 or 0b111001 end until false end end,function(g,e)return function()local _,a,c,d c=0b1011110 while true do if c>0b10101101 then if c>0b11000101 then _,a=nil,e[1][0b10][e[1][0b11]]c=a==_ and 0xa399/c or 0xad elseif c<=0b11000001 then _=os a=_.clock a=a()e[1][0b10][e[1][0b11]],a=a,false return a else a=e[0b10][0b10][e[0b10][0b11]]a=a()return a end elseif c>=0x5e then if c>0b1011110 then d=os _=d.clock _=_()d=e[1][0b10][e[1][0b11]]a,_=_-d,0b10 c=a<_ and 0x27 or c+0x18 else _=e[0b11][0b10][e[0b11][0b11]]_=_()a=not _ c=a and 0b10101 or 0b11011001 end elseif c>0x15 then a=false return a else a=nil e[1][0b10][e[1][0b11]],a=a,false return a end end end end,function(f,e)return function()local _,a a=e[0b11][0b10][e[0b11][0b11]]a()_=task a,_=_.spawn,f:Xb{e[1],e[0b100],e[0b101],e[0b10]}a(_)return end end}):Ac({"g","l","cc","Sb","Ga","u","sa","Ab","Uc","ka","Ea","n","q","db","eb","T","Fb","ga","X","Pb","m","jb","qc","ca","_b","nc","pb","Qb","J","za","Q","rc","Cb","ob","ac","tb","R","A","r","G","qa","Ta","vc","Xa","Da","K","H","ta","pa","La","s","fa","Gb","gc","Hb","O","_a","ja","Ha","Rb","uc","Oa","Lb","Pa","ia","xc","Fa","lb","fb","oc","v","Ca","Ob","yb","W","k","kb","Na","lc","Aa","Ua","Ya","w","oa","Yb","Ba","Mb","wa","Bb","zb","bb","j","t","I","D","z","va","_c","ab","Tb","Ma","Db","y","da","Sa","xb","Y","fc","ya","bc","U","B","P","xa","Va","M","E","C","ra","Vb","Wa","ub","nb","qb","Wb","Ub","la","hc","sc","V","Ra","Eb","tc","dc","mc","S","yc","Kb","ic","Ja","aa","Ka","na","sb","kc","N","ha","mb","Ia","rb","F","ua","ib","Jb","pc","vb","ba","p","hb","Xb","wb","gb","Ib","Nb","jc","ma","ea","zc","x","cb","wc","L","o","ec","Qa"},"Uc",...)
+local function ApplyNapeHitbox(overrideSize)
+    local size = overrideSize or NapeHitboxSize
+    local titans = GetAllTitans()
+    for _, titan in ipairs(titans) do
+        local nape = GetNapePart(titan)
+        if nape and nape:IsA("BasePart") then
+            if not OriginalNapeSizes[titan] then
+                OriginalNapeSizes[titan] = nape.Size
+            end
+            local current = math.max(nape.Size.X, nape.Size.Y, nape.Size.Z)
+            if math.abs(current - size) > 0.01 then
+                nape.Size = Vector3.new(size, size, size)
+            end
+        end
+    end
+    for titan in pairs(OriginalNapeSizes) do
+        if not titan.Parent then
+            OriginalNapeSizes[titan] = nil
+        end
+    end
+end
+
+local function RestoreNapeHitbox()
+    local titans = GetAllTitans()
+    for _, titan in ipairs(titans) do
+        local nape = GetNapePart(titan)
+        if nape and nape:IsA("BasePart") then
+            if OriginalNapeSizes[titan] then
+                nape.Size = OriginalNapeSizes[titan]
+                OriginalNapeSizes[titan] = nil
+            end
+        end
+    end
+    for titan in pairs(OriginalNapeSizes) do
+        if not titan.Parent then OriginalNapeSizes[titan] = nil end
+    end
+end
+
+local function GetNapeTopPosition(nape)
+    local halfExtent = math.max(nape.Size.X, nape.Size.Y, nape.Size.Z) / 2
+    local napeUp = nape.CFrame.UpVector
+    local napeRight = nape.CFrame.RightVector
+    local napeLook = nape.CFrame.LookVector
+    local topCenter = nape.Position + napeUp * halfExtent
+    local corner1 = topCenter + napeRight * halfExtent + napeLook * halfExtent
+    local corner2 = topCenter + napeRight * halfExtent - napeLook * halfExtent
+    local corner3 = topCenter - napeRight * halfExtent + napeLook * halfExtent
+    local corner4 = topCenter - napeRight * halfExtent - napeLook * halfExtent
+    local highest = corner1
+    if corner2.Y > highest.Y then highest = corner2 end
+    if corner3.Y > highest.Y then highest = corner3 end
+    if corner4.Y > highest.Y then highest = corner4 end
+    return highest
+end
+
+local function CreateOrUpdateVisuals()
+    if not VisualizeHitboxEnabled then return end
+    local titans = GetAllTitans()
+    local activeTitans = {}
+    for _, titan in ipairs(titans) do
+        activeTitans[titan] = true
+        local nape = GetNapePart(titan)
+        if nape and nape:IsA("BasePart") then
+            if not HitboxVisuals[titan] then
+                local sel = Instance.new("SelectionBox")
+                sel.Color3 = Color3.fromRGB(255, 50, 50)
+                sel.LineThickness = 0.08
+                sel.SurfaceTransparency = 1
+                sel.Adornee = nape
+                sel.Parent = Workspace.CurrentCamera
+                HitboxVisuals[titan] = sel
+            end
+        end
+    end
+    for titan, sel in pairs(HitboxVisuals) do
+        if not activeTitans[titan] then
+            if sel and sel.Parent then sel:Destroy() end
+            HitboxVisuals[titan] = nil
+        end
+    end
+end
+
+local function RemoveAllVisuals()
+    for titan, sel in pairs(HitboxVisuals) do
+        if sel and sel.Parent then sel:Destroy() end
+    end
+    HitboxVisuals = {}
+end
+
+RunService.Heartbeat:Connect(function()
+    if ExpandNapeHitboxEnabled then
+        local targetSize = AutoFarmEnabled and 100 or NapeHitboxSize
+        ApplyNapeHitbox(targetSize)
+    end
+    if VisualizeHitboxEnabled then CreateOrUpdateVisuals() end
+end)
+
+local FarmAboveOffset = 2
+
+local function GetFarmCFrame(titan)
+    local nape = GetNapePart(titan)
+    if not nape then
+        local hrp = titan:FindFirstChild("HumanoidRootPart")
+        if not hrp then return nil end
+        local topPos = hrp.Position + Vector3.new(0, 3, 0)
+        return CFrame.new(topPos + Vector3.new(0, FarmAboveOffset + DistanceToTitanAmount, 0), topPos)
+    end
+    if IsUsingSpears() then
+        local look = nape.CFrame.LookVector
+        local dist = 85 + DistanceToTitanAmount
+        local targetPos = nape.Position + Vector3.new(0, 55, 0) - (look * dist)
+        return CFrame.lookAt(targetPos, nape.Position)
+    else
+        local totalOffset = FarmAboveOffset + DistanceToTitanAmount
+        local topCorner = GetNapeTopPosition(nape)
+        local targetPos = topCorner + Vector3.new(0, totalOffset, 0)
+        return CFrame.new(targetPos, topCorner)
+    end
+end
+
+local function GetTitanHeight(model)
+    local minY = math.huge
+    local maxY = -math.huge
+    for _, part in ipairs(model:GetDescendants()) do
+        if part:IsA("BasePart") then
+            local top = part.Position.Y + part.Size.Y / 2
+            local bot = part.Position.Y - part.Size.Y / 2
+            if top > maxY then maxY = top end
+            if bot < minY then minY = bot end
+        end
+    end
+    if maxY == -math.huge then return 0 end
+    return maxY - minY
+end
+
+local function FindBestTitan(exclude)
+    local folder = GetTitansFolder()
+    if not folder then return nil end
+    local best = nil
+    local bestHeight = -math.huge
+    for _, model in ipairs(folder:GetChildren()) do
+        if model:IsA("Model") and model ~= exclude and IsTitanValid(model) then
+            local height = GetTitanHeight(model)
+            if height > bestHeight then
+                bestHeight = height
+                best = model
+            end
+        end
+    end
+    return best
+end
+
+local function FindBestSpearTarget(exclude)
+    local folder = GetTitansFolder()
+    if not folder then return nil end
+    local candidates = {}
+    for _, model in ipairs(folder:GetChildren()) do
+        if model:IsA("Model") and model ~= exclude and IsTitanValid(model) and GetNapePart(model) then
+            table.insert(candidates, model)
+        end
+    end
+    if #candidates == 0 then return nil end
+    if #candidates == 1 then return candidates[1] end
+
+    local bestTarget = candidates[1]
+    local bestScore = -1
+    for _, c1 in ipairs(candidates) do
+        local nape1 = GetNapePart(c1)
+        local pos1 = nape1 and nape1.Position
+        if pos1 then
+            local score = 0
+            for _, c2 in ipairs(candidates) do
+                local nape2 = GetNapePart(c2)
+                if nape2 and (nape2.Position - pos1).Magnitude <= 135 then
+                    score = score + 1
+                end
+            end
+            if score > bestScore then
+                bestScore = score
+                bestTarget = c1
+            end
+        end
+    end
+    return bestTarget
+end
+
+local function IsTowerUnbuilt(towerModel)
+    if not towerModel or not towerModel.Parent then return false end
+    local watchTower = towerModel:FindFirstChild("Watch_Tower")
+    if not watchTower then return false end
+    if watchTower:FindFirstChild("H") then return false end
+    local circle = towerModel:FindFirstChild("Circle")
+    if not circle then return false end
+    local beam1 = circle:FindFirstChild("Beam1")
+    if not beam1 or not beam1:IsA("BasePart") then return false end
+    return true
+end
+
+local function ExpandTowerHitbox(towerModel)
+    local circle = towerModel and towerModel:FindFirstChild("Circle")
+    local hitbox = circle and circle:FindFirstChild("Hitbox")
+    if hitbox and hitbox:IsA("BasePart") then
+        pcall(function()
+            hitbox.Size = Vector3.new(1984, 1984, 1984)
+        end)
+    end
+end
+
+local LastTowerScanTime = 0
+
+local function FindNextTower()
+    for _, child in ipairs(Workspace:GetChildren()) do
+        if child:IsA("Model") and child.Name:find("WatchTower") then
+            ExpandTowerHitbox(child)
+            if IsTowerUnbuilt(child) then
+                return child
+            end
+        end
+    end
+    local mapFolder = Workspace:FindFirstChild("Map") or Workspace:FindFirstChild("Unclimbable")
+    if mapFolder then
+        for _, child in ipairs(mapFolder:GetChildren()) do
+            if child:IsA("Model") and child.Name:find("WatchTower") then
+                ExpandTowerHitbox(child)
+                if IsTowerUnbuilt(child) then
+                    return child
+                end
+            end
+        end
+    end
+    local now = os.clock()
+    if now - LastTowerScanTime > 1 then
+        LastTowerScanTime = now
+        for _, child in ipairs(Workspace:GetDescendants()) do
+            if child:IsA("Model") and child.Name:find("WatchTower") then
+                ExpandTowerHitbox(child)
+                if IsTowerUnbuilt(child) then
+                    return child
+                end
+            end
+        end
+    end
+    return nil
+end
+
+local function UpdateHoverStabilizer()
+    local shouldRun = (AutoFarmEnabled and not KillWithoutTPEnabled) or AutoCreateTowersEnabled
+    if not shouldRun then
+        if HoverConnection then
+            HoverConnection:Disconnect()
+            HoverConnection = nil
+        end
+        LastHoverCFrame = nil
+        local char = LocalPlayer.Character
+        local hum = char and char:FindFirstChild("Humanoid")
+        if hum then hum.PlatformStand = false end
+        return
+    end
+
+    if HoverConnection then return end
+
+    HoverConnection = RunService.Heartbeat:Connect(function()
+        local active = (AutoFarmEnabled and not KillWithoutTPEnabled) or AutoCreateTowersEnabled
+        if not active then
+            if HoverConnection then
+                HoverConnection:Disconnect()
+                HoverConnection = nil
+            end
+            LastHoverCFrame = nil
+            local char = LocalPlayer.Character
+            local hum = char and char:FindFirstChild("Humanoid")
+            if hum then hum.PlatformStand = false end
+            return
+        end
+
+        if IsRetrievingCrates then return end
+
+        local char = LocalPlayer.Character
+        if not char then return end
+        local hum = char:FindFirstChild("Humanoid")
+        if not hum or hum.Health <= 0 then return end
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+
+        local targetCF = nil
+
+        if AutoCreateTowersEnabled then
+            if CurrentTowerTarget and not IsTowerUnbuilt(CurrentTowerTarget) then
+                CurrentTowerTarget = nil
+            end
+            if not CurrentTowerTarget then
+                CurrentTowerTarget = FindNextTower()
+                if CurrentTowerTarget then
+                    ExpandTowerHitbox(CurrentTowerTarget)
+                end
+            end
+            if CurrentTowerTarget and IsTowerUnbuilt(CurrentTowerTarget) then
+                ExpandTowerHitbox(CurrentTowerTarget)
+                local circle = CurrentTowerTarget:FindFirstChild("Circle")
+                local beam1 = circle and circle:FindFirstChild("Beam1")
+                if beam1 and beam1:IsA("BasePart") then
+                    targetCF = beam1.CFrame + Vector3.new(0, 200, 0)
+                end
+            end
+        end
+
+        if not targetCF and AutoFarmEnabled and not KillWithoutTPEnabled then
+            if CurrentTarget and IsTitanValid(CurrentTarget) then
+                targetCF = GetFarmCFrame(CurrentTarget)
+            else
+                targetCF = LastHoverCFrame or hrp.CFrame
+            end
+        end
+
+        if targetCF then
+            hum.PlatformStand = true
+            LastHoverCFrame = targetCF
+            hrp.CFrame = targetCF
+            pcall(function()
+                hrp.AssemblyLinearVelocity = Vector3.zero
+                hrp.AssemblyAngularVelocity = Vector3.zero
+            end)
+        elseif not AutoFarmEnabled and not CurrentTowerTarget then
+            hum.PlatformStand = false
+        end
+    end)
+end
+
+Workspace.DescendantAdded:Connect(function(desc)
+    if desc:IsA("Model") and desc.Name:find("WatchTower") then
+        task.delay(0.2, function()
+            ExpandTowerHitbox(desc)
+        end)
+        task.delay(1, function()
+            ExpandTowerHitbox(desc)
+        end)
+    elseif desc.Name == "Hitbox" and desc.Parent and desc.Parent.Name == "Circle" and desc.Parent.Parent and desc.Parent.Parent.Name:find("WatchTower") then
+        pcall(function()
+            desc.Size = Vector3.new(1984, 1984, 1984)
+        end)
+    end
+end)
+
+local VisitedCrateCooldowns = {}
+
+local function RetrieveSupplyCrates()
+    if not AutoRetrieveSupplyCratesEnabled then return end
+    local unclimbable = Workspace:FindFirstChild("Unclimbable")
+    if not unclimbable then return end
+
+    local now = tick()
+    for obj in pairs(VisitedCrateCooldowns) do
+        if not obj.Parent or now > (VisitedCrateCooldowns[obj] or 0) then
+            VisitedCrateCooldowns[obj] = nil
+        end
+    end
+
+    local thunderSpearModels = {}
+    for _, child in ipairs(unclimbable:GetChildren()) do
+        if child:IsA("Model") and child.Name:find("ThunderSpear") then
+            if not VisitedCrateCooldowns[child] or now > VisitedCrateCooldowns[child] then
+                table.insert(thunderSpearModels, child)
+            end
+        end
+    end
+
+    if #thunderSpearModels == 0 then return end
+
+    local char = LocalPlayer.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+
+    IsRetrievingCrates = true
+
+    for _, tsModel in ipairs(thunderSpearModels) do
+        if not AutoRetrieveSupplyCratesEnabled then break end
+        VisitedCrateCooldowns[tsModel] = tick() + 4
+        local hitbox = tsModel:FindFirstChild("Hitbox") or tsModel:FindFirstChild("Hitbox", true)
+        if hitbox and hitbox:IsA("BasePart") then
+            pcall(function()
+                hitbox.Size = Vector3.new(1984, 1984, 1984)
+            end)
+            hrp.CFrame = hitbox.CFrame
+            pcall(function()
+                hrp.AssemblyLinearVelocity = Vector3.zero
+                hrp.AssemblyAngularVelocity = Vector3.zero
+            end)
+            task.wait(0.2)
+        elseif tsModel.PrimaryPart then
+            hrp.CFrame = tsModel.PrimaryPart.CFrame
+            task.wait(0.2)
+        end
+    end
+
+    if AutoRetrieveSupplyCratesEnabled then
+        local suppliesCircle = unclimbable:FindFirstChild("Supplies_Circle")
+        if suppliesCircle then
+            local hitbox = suppliesCircle:FindFirstChild("Hitbox") or suppliesCircle:FindFirstChild("Hitbox", true)
+            if hitbox and hitbox:IsA("BasePart") then
+                pcall(function()
+                    hitbox.Size = Vector3.new(1984, 1984, 1984)
+                end)
+                hrp.CFrame = hitbox.CFrame
+                pcall(function()
+                    hrp.AssemblyLinearVelocity = Vector3.zero
+                    hrp.AssemblyAngularVelocity = Vector3.zero
+                end)
+                task.wait(0.2)
+            elseif suppliesCircle.PrimaryPart then
+                hrp.CFrame = suppliesCircle.PrimaryPart.CFrame
+                task.wait(0.2)
+            end
+        end
+    end
+
+    IsRetrievingCrates = false
+end
+
+local function StartRetrieveSupplyCratesLoop()
+    if AutoRetrieveSupplyCratesThread then return end
+    AutoRetrieveSupplyCratesThread = task.spawn(function()
+        while AutoRetrieveSupplyCratesEnabled do
+            RetrieveSupplyCrates()
+            task.wait(0.5)
+        end
+        AutoRetrieveSupplyCratesThread = nil
+    end)
+end
+
+local function BindUnclimbable(folder)
+    if not folder then return end
+    folder.ChildAdded:Connect(function(child)
+        if AutoRetrieveSupplyCratesEnabled and child:IsA("Model") and child.Name:find("ThunderSpear") then
+            task.delay(0.1, RetrieveSupplyCrates)
+        end
+    end)
+end
+
+do
+    local initialUnclimbable = Workspace:FindFirstChild("Unclimbable")
+    if initialUnclimbable then
+        BindUnclimbable(initialUnclimbable)
+    end
+    Workspace.ChildAdded:Connect(function(child)
+        if child.Name == "Unclimbable" then
+            BindUnclimbable(child)
+        end
+    end)
+end
+
+local function FarmLoop()
+    UpdateHoverStabilizer()
+
+    local isFirstTitan = true
+
+    while AutoFarmEnabled do
+        if not AutoFarmEnabled then break end
+
+        if AutoReloadEnabled and not IsReloading then
+            if IsUsingSpears() and GetSpearsEmpty() then
+                PerformReload()
+            elseif IsUsingBlades() and GetBladesBroken() then
+                PerformReload()
+            end
+        end
+
+        if not AutoFarmEnabled then break end
+
+        if AutoRefillEnabled and not IsRefilling and IsUsingBlades() then
+            if NeedsRefill() then
+                task.spawn(RefillUntilFull)
+                while IsRefilling do task.wait(0.2) end
+            end
+        end
+
+        if not AutoFarmEnabled then break end
+        if not CanAttack() then task.wait(0.1); continue end
+
+        if HitAllEnabled then
+            local allTitans = GetAllTitans()
+            local validEntries = {}
+            for _, titan in ipairs(allTitans) do
+                if IsTitanValid(titan) then
+                    local nape = GetNapePart(titan)
+                    if nape then
+                        table.insert(validEntries, { nape = nape, titan = titan })
+                    end
+                end
+            end
+
+            if #validEntries == 0 then
+                CurrentTarget = nil
+                task.wait(0.2)
+                continue
+            end
+
+            local batchSize = 8
+            if IsUsingSpears() then
+                for i = 1, #validEntries, batchSize do
+                    if not CanAttack() or not AutoFarmEnabled or not HitAllEnabled then break end
+                    if AutoReloadEnabled and not IsReloading and GetSpearsEmpty() then
+                        PerformReload()
+                        if GetSpearsEmpty() then break end
+                    end
+
+                    local batch = {}
+                    for j = i, math.min(i + batchSize - 1, #validEntries) do
+                        local entry = validEntries[j]
+                        if entry.titan and IsTitanValid(entry.titan) and entry.nape and entry.nape.Parent then
+                            table.insert(batch, entry)
+                        end
+                    end
+                    if #batch == 0 then continue end
+
+                    CurrentTarget = batch[1].titan
+                    local char = LocalPlayer.Character
+                    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+
+                    if not KillWithoutTPEnabled and hrp and CurrentTarget then
+                        local farmCF = GetFarmCFrame(CurrentTarget)
+                        if farmCF then
+                            hrp.CFrame = farmCF
+                            LastHoverCFrame = farmCF
+                            hrp.AssemblyLinearVelocity = Vector3.zero
+                            hrp.AssemblyAngularVelocity = Vector3.zero
+                        end
+                    end
+
+                    local napeBatch = {}
+                    for _, entry in ipairs(batch) do
+                        table.insert(napeBatch, entry.nape)
+                    end
+
+                    local fired = SendSpearAttack(napeBatch)
+                    if fired then
+                        local waitTime = DelayToKillEnabled and math.max(DelayToKillAmount, 0.15) or 0.15
+                        task.wait(waitTime)
+                    else
+                        task.wait(0.08)
+                    end
+                end
+                task.wait(0.1)
+            elseif IsUsingBlades() then
+                if not KillWithoutTPEnabled then
+                    CurrentTarget = FindBestTitan()
+                    local char = LocalPlayer.Character
+                    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                    if hrp and CurrentTarget then
+                        local farmCF = GetFarmCFrame(CurrentTarget)
+                        if farmCF then
+                            hrp.CFrame = farmCF
+                            LastHoverCFrame = farmCF
+                            hrp.AssemblyLinearVelocity = Vector3.zero
+                            hrp.AssemblyAngularVelocity = Vector3.zero
+                        end
+                    end
+                else
+                    CurrentTarget = nil
+                end
+
+                for i = 1, #validEntries, batchSize do
+                    if not CanAttack() or not AutoFarmEnabled or not HitAllEnabled then break end
+                    pcall(function() RemotePOST:FireServer("Attacks", "Slash", true) end)
+                    for j = i, math.min(i + batchSize - 1, #validEntries) do
+                        if not CanAttack() then break end
+                        local entryNape = validEntries[j].nape
+                        if entryNape and entryNape.Parent then
+                            pcall(function()
+                                RemotePOST:FireServer("Hitboxes", "Register", entryNape, 9e4, 9e4)
+                            end)
+                        end
+                    end
+                    task.wait(0.02)
+                    pcall(function() RemotePOST:FireServer("Attacks", "Slash", false) end)
+
+                    if DelayToKillEnabled and i + batchSize <= #validEntries then
+                        task.wait(DelayToKillAmount)
+                    else
+                        task.wait(0.1)
+                    end
+                end
+                task.wait(0.15)
+            end
+            continue
+        end
+
+        if not CurrentTarget or not IsTitanValid(CurrentTarget) then
+            CurrentTarget = IsUsingSpears() and FindBestSpearTarget() or FindBestTitan()
+        end
+        if not CurrentTarget or not IsTitanValid(CurrentTarget) then
+            task.wait(0.2)
+            continue
+        end
+
+        if not CanAttack() then task.wait(0.1); continue end
+
+        local char = LocalPlayer.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+
+        if not KillWithoutTPEnabled and not IsRetrievingCrates and (not AutoCreateTowersEnabled or not CurrentTowerTarget) then
+            if hrp then
+                local farmCF = GetFarmCFrame(CurrentTarget)
+                if farmCF then
+                    hrp.CFrame = farmCF
+                    LastHoverCFrame = farmCF
+                    hrp.AssemblyLinearVelocity = Vector3.zero
+                    hrp.AssemblyAngularVelocity = Vector3.zero
+                end
+            end
+        end
+
+        if not AutoFarmEnabled then break end
+
+        if IsUsingSpears() then
+            local nape = GetNapePart(CurrentTarget)
+            if nape and CanAttack() then
+                SendSpearAttack(CurrentTarget)
+            end
+
+            local waitStart = os.clock()
+            local maxWait = DelayToKillEnabled and math.max(DelayToKillAmount, 0.4) or 0.45
+            while AutoFarmEnabled and not HitAllEnabled and (os.clock() - waitStart < maxWait) do
+                task.wait(0.04)
+                if not IsTitanValid(CurrentTarget) then break end
+                if not KillWithoutTPEnabled and not IsRetrievingCrates and (not AutoCreateTowersEnabled or not CurrentTowerTarget) then
+                    local c = LocalPlayer.Character
+                    local h = c and c:FindFirstChild("HumanoidRootPart")
+                    if h and CurrentTarget and IsTitanValid(CurrentTarget) then
+                        local farmCF = GetFarmCFrame(CurrentTarget)
+                        if farmCF then
+                            h.CFrame = farmCF
+                            LastHoverCFrame = farmCF
+                            h.AssemblyLinearVelocity = Vector3.zero
+                            h.AssemblyAngularVelocity = Vector3.zero
+                        end
+                    end
+                end
+            end
+
+            if not AutoFarmEnabled then break end
+
+            if not IsTitanValid(CurrentTarget) then
+                local deadTarget = CurrentTarget
+                local nextTarget = FindBestSpearTarget(deadTarget)
+                if nextTarget then
+                    CurrentTarget = nextTarget
+                    if not KillWithoutTPEnabled and not IsRetrievingCrates and (not AutoCreateTowersEnabled or not CurrentTowerTarget) then
+                        local c = LocalPlayer.Character
+                        local h = c and c:FindFirstChild("HumanoidRootPart")
+                        if h then
+                            local nextCF = GetFarmCFrame(nextTarget)
+                            if nextCF then
+                                h.CFrame = nextCF
+                                LastHoverCFrame = nextCF
+                                h.AssemblyLinearVelocity = Vector3.zero
+                                h.AssemblyAngularVelocity = Vector3.zero
+                            end
+                        end
+                    end
+                else
+                    CurrentTarget = nil
+                end
+
+                if DelayToKillEnabled and not isFirstTitan then
+                    task.wait(DelayToKillAmount)
+                end
+                isFirstTitan = false
+            end
+        else
+            while AutoFarmEnabled and not HitAllEnabled do
+                task.wait(0.2)
+                if not AutoFarmEnabled then break end
+
+                if AutoReloadEnabled and not IsReloading and IsUsingBlades() and GetBladesBroken() then
+                    PerformReload()
+                end
+
+                if AutoRefillEnabled and not IsRefilling and IsUsingBlades() and NeedsRefill() then
+                    task.spawn(RefillUntilFull)
+                    while IsRefilling do task.wait(0.2) end
+                end
+                if not AutoFarmEnabled then break end
+                if not CanAttack() then continue end
+
+                if not IsTitanValid(CurrentTarget) then
+                    local deadTarget = CurrentTarget
+                    local nextTarget = FindBestTitan(deadTarget)
+                    if nextTarget then
+                        CurrentTarget = nextTarget
+                        if not KillWithoutTPEnabled and not IsRetrievingCrates and (not AutoCreateTowersEnabled or not CurrentTowerTarget) then
+                            local c = LocalPlayer.Character
+                            local h = c and c:FindFirstChild("HumanoidRootPart")
+                            if h then
+                                local farmCF = GetFarmCFrame(nextTarget)
+                                if farmCF then
+                                    h.CFrame = farmCF
+                                    LastHoverCFrame = farmCF
+                                    h.AssemblyLinearVelocity = Vector3.zero
+                                    h.AssemblyAngularVelocity = Vector3.zero
+                                end
+                            end
+                        end
+                    else
+                        CurrentTarget = nil
+                    end
+
+                    if DelayToKillEnabled and not isFirstTitan then
+                        task.wait(DelayToKillAmount)
+                    end
+                    isFirstTitan = false
+
+                    break
+                end
+
+                if not KillWithoutTPEnabled and not IsRetrievingCrates and (not AutoCreateTowersEnabled or not CurrentTowerTarget) then
+                    local c = LocalPlayer.Character
+                    local h = c and c:FindFirstChild("HumanoidRootPart")
+                    if h then
+                        local farmCF = GetFarmCFrame(CurrentTarget)
+                        if farmCF then
+                            h.CFrame = farmCF
+                            LastHoverCFrame = farmCF
+                            h.AssemblyLinearVelocity = Vector3.zero
+                            h.AssemblyAngularVelocity = Vector3.zero
+                        end
+                    end
+                end
+
+                local napeNow = GetNapePart(CurrentTarget)
+                if napeNow and CanAttack() then
+                    pcall(function() SendSlashAttack(CurrentTarget) end)
+                end
+            end
+        end
+    end
+
+    UpdateHoverStabilizer()
+    CurrentTarget = nil
+end
+
+task.spawn(function()
+    while true do
+        task.wait(0.2)
+        if not AutoReloadEnabled then continue end
+        if AutoFarmEnabled then continue end
+        if IsReloading or IsRefilling then continue end
+        if IsUsingSpears() then
+            if GetSpearsEmpty() then
+                PerformReload()
+            end
+        elseif IsUsingBlades() then
+            if GetBladesBroken() then
+                PerformReload()
+            end
+        end
+    end
+end)
+
+task.spawn(function()
+    while true do
+        task.wait(0.5)
+        if not AutoRefillEnabled or not IsUsingBlades() then
+            SetsWentEmptyAt = nil
+            continue
+        end
+        if AutoFarmEnabled then continue end
+        if IsRefilling then continue end
+        if NeedsRefill() then
+            task.spawn(RefillUntilFull)
+        end
+    end
+end)
+
+local TitanESPObjects = {}
+
+local function RemoveAllTitanESP()
+    for _, obj in pairs(TitanESPObjects) do
+        if obj.highlight and obj.highlight.Parent then obj.highlight:Destroy() end
+        if obj.billboard and obj.billboard.Parent then obj.billboard:Destroy() end
+    end
+    TitanESPObjects = {}
+end
+
+local function CreateTitanESP(model)
+    if TitanESPObjects[model] then return end
+    local rootPart = model:FindFirstChild("HumanoidRootPart")
+        or model:FindFirstChildWhichIsA("BasePart") or model.PrimaryPart
+    if not rootPart then return end
+    local highlight = Instance.new("SelectionBox")
+    highlight.Color3 = Color3.fromRGB(120, 80, 255)
+    highlight.LineThickness = 0.07
+    highlight.SurfaceTransparency = 0.85
+    highlight.SurfaceColor3 = Color3.fromRGB(120, 80, 255)
+    highlight.Adornee = model
+    highlight.Parent = Workspace.CurrentCamera
+    local billboard = Instance.new("BillboardGui")
+    billboard.AlwaysOnTop = true
+    billboard.Size = UDim2.new(0, 160, 0, 50)
+    billboard.StudsOffset = Vector3.new(0, 4, 0)
+    billboard.Adornee = rootPart
+    billboard.Parent = Workspace.CurrentCamera
+    local nameLabel = Instance.new("TextLabel")
+    nameLabel.Size = UDim2.new(1, 0, 0.52, 0)
+    nameLabel.BackgroundTransparency = 1
+    nameLabel.TextColor3 = Color3.fromRGB(200, 170, 255)
+    nameLabel.TextStrokeTransparency = 0.35
+    nameLabel.TextStrokeColor3 = Color3.fromRGB(20, 5, 50)
+    nameLabel.Font = Enum.Font.GothamBold
+    nameLabel.TextSize = 14
+    nameLabel.Text = "Titan"
+    nameLabel.Parent = billboard
+    local distLabel = Instance.new("TextLabel")
+    distLabel.Size = UDim2.new(1, 0, 0.48, 0)
+    distLabel.Position = UDim2.new(0, 0, 0.52, 0)
+    distLabel.BackgroundTransparency = 1
+    distLabel.TextColor3 = Color3.fromRGB(255, 220, 100)
+    distLabel.TextStrokeTransparency = 0.35
+    distLabel.TextStrokeColor3 = Color3.fromRGB(20, 5, 50)
+    distLabel.Font = Enum.Font.GothamBold
+    distLabel.TextSize = 13
+    distLabel.Text = "-- m"
+    distLabel.Parent = billboard
+    TitanESPObjects[model] = {
+        highlight = highlight,
+        billboard = billboard,
+        distLabel = distLabel,
+        rootPart = rootPart,
+        lastDist = nil,
+    }
+end
+
+RunService.Heartbeat:Connect(function()
+    if not TitanESPEnabled then return end
+    local character = LocalPlayer.Character
+    local charHRP = character and character:FindFirstChild("HumanoidRootPart")
+    local titansFolder = GetTitansFolder()
+    local activeModels = {}
+    if titansFolder then
+        for _, model in pairs(titansFolder:GetChildren()) do
+            if model:IsA("Model") then
+                activeModels[model] = true
+                if not TitanESPObjects[model] then CreateTitanESP(model) end
+            end
+        end
+    end
+    local toRemove = {}
+    for model in pairs(TitanESPObjects) do
+        if not activeModels[model] then table.insert(toRemove, model) end
+    end
+    for _, model in ipairs(toRemove) do
+        local obj = TitanESPObjects[model]
+        if obj.highlight and obj.highlight.Parent then obj.highlight:Destroy() end
+        if obj.billboard and obj.billboard.Parent then obj.billboard:Destroy() end
+        TitanESPObjects[model] = nil
+    end
+    if charHRP then
+        for _, entry in pairs(TitanESPObjects) do
+            if entry.rootPart and entry.rootPart.Parent then
+                local dist = math.floor((charHRP.Position - entry.rootPart.Position).Magnitude)
+                if entry.lastDist ~= dist then
+                    entry.lastDist = dist
+                    entry.distLabel.Text = dist .. " m"
+                end
+            end
+        end
+    end
+end)
+
+local Window = Library:CreateWindow({
+    Title = " Symbiote ",
+    Size = UDim2.new(0, 580, 0, 440),
+})
+
+local PlayerTab = Window:CreateTab("Player")
+local AutoFarmTab = Window:CreateTab("Auto Farm")
+local VariousTab = Window:CreateTab("Various")
+local StatsTab = Window:CreateTab("Stats")
+
+local StatsFile = "Symbiote_AOTR_Stats.json"
+
+local function LoadStatsJson()
+    local raw = ReadFileContent(StatsFile)
+    if not raw then return nil end
+    local ok, data = pcall(function()
+        return HttpService:JSONDecode(raw)
+    end)
+    if ok and type(data) == "table" then
+        return data
+    end
+    return nil
+end
+
+local StatsData
+do
+    local LoadedData = LoadStatsJson() or {}
+    StatsData = {
+        Player = {
+            Prestige = tonumber(LoadedData.Player and LoadedData.Player.Prestige) or 0,
+            Level = tonumber(LoadedData.Player and LoadedData.Player.Level) or 1,
+            Gems = tonumber(LoadedData.Player and LoadedData.Player.Gems) or 0,
+            Gold = tonumber(LoadedData.Player and LoadedData.Player.Gold) or 0,
+        },
+        LastRound = {
+            TimeTaken = tostring(LoadedData.LastRound and LoadedData.LastRound.TimeTaken or "00:00"),
+            Difficulty = tostring(LoadedData.LastRound and LoadedData.LastRound.Difficulty or "N/A"),
+            TitansKilled = tonumber(LoadedData.LastRound and LoadedData.LastRound.TitansKilled) or 0,
+            DamageDealt = tonumber(LoadedData.LastRound and LoadedData.LastRound.DamageDealt) or 0,
+            Gold = tonumber(LoadedData.LastRound and LoadedData.LastRound.Gold) or 0,
+            Gems = tonumber(LoadedData.LastRound and LoadedData.LastRound.Gems) or 0,
+            XP = tonumber(LoadedData.LastRound and LoadedData.LastRound.XP) or 0,
+            Items = (LoadedData.LastRound and type(LoadedData.LastRound.Items) == "table") and LoadedData.LastRound.Items or {},
+        },
+        Session = {
+            MissionsCompleted = tonumber(LoadedData.Session and LoadedData.Session.MissionsCompleted) or 0,
+            TotalSeconds = tonumber(LoadedData.Session and LoadedData.Session.TotalSeconds) or 0,
+            FastestSeconds = tonumber(LoadedData.Session and LoadedData.Session.FastestSeconds) or 0,
+            TitansKilled = tonumber(LoadedData.Session and LoadedData.Session.TitansKilled) or 0,
+            DamageDealt = tonumber(LoadedData.Session and LoadedData.Session.DamageDealt) or 0,
+            Gold = tonumber(LoadedData.Session and LoadedData.Session.Gold) or 0,
+            Gems = tonumber(LoadedData.Session and LoadedData.Session.Gems) or 0,
+            XP = tonumber(LoadedData.Session and LoadedData.Session.XP) or 0,
+            Items = (LoadedData.Session and type(LoadedData.Session.Items) == "table") and LoadedData.Session.Items or {},
+            RarityCounts = (LoadedData.Session and type(LoadedData.Session.RarityCounts) == "table") and LoadedData.Session.RarityCounts or {
+                Common = 0,
+                Uncommon = 0,
+                Rare = 0,
+                Epic = 0,
+                Legendary = 0,
+                Mythic = 0,
+                Secret = 0,
+            },
+        },
+    }
+end
+
+local function SaveStatsJson()
+    local ok, enc = pcall(function()
+        return HttpService:JSONEncode(StatsData)
+    end)
+    if ok and enc then
+        WriteFileContent(StatsFile, enc)
+    end
+end
+
+local LiveRoundData = {
+    Status = "In Progress",
+    Seconds = 0,
+    Difficulty = "N/A",
+}
+
+local PendingRoundDrops = {
+    Gold = 0,
+    Gems = 0,
+    XP = 0,
+    Items = {},
+    Rarities = {},
+}
+
+local IgnoredDropNames = {
+    ["Common_Perk"] = true,
+    ["Uncommon_Perk"] = true,
+    ["Rare_Perk"] = true,
+    ["Epic_Perk"] = true,
+    ["Legendary_Perk"] = true,
+    ["Mythic_Perk"] = true,
+    ["Common Perk"] = true,
+    ["Uncommon Perk"] = true,
+    ["Rare Perk"] = true,
+    ["Epic Perk"] = true,
+    ["Legendary Perk"] = true,
+    ["Mythic Perk"] = true,
+}
+
+local function IsIgnoredDrop(name)
+    if not name or name == "" then return true end
+    if IgnoredDropNames[name] then return true end
+    if name:match("[_%s]Perk$") then return true end
+    return false
+end
+
+local RoundState = "Playing"
+local FinalizeDebounce = false
+local RoundStartTime = os.clock()
+
+local function FormatNumber(num)
+    if not num then return "0" end
+    local n = math.floor(tonumber(num) or 0)
+    local formatted = tostring(n):reverse():gsub("(%d%d%d)", "%1,"):reverse()
+    if formatted:sub(1, 1) == "," then
+        formatted = formatted:sub(2)
+    end
+    return formatted
+end
+
+local function FormatSeconds(sec)
+    local total = math.max(0, math.floor(tonumber(sec) or 0))
+    local m = math.floor(total / 60)
+    local s = total % 60
+    return string.format("%02d:%02d", m, s)
+end
+
+local function FormatAverageTime(totalSec, count)
+    if not count or count <= 0 then return "00:00" end
+    local avg = math.floor(totalSec / count)
+    local low = math.max(0, math.floor(avg / 5) * 5)
+    local high = low + 5
+    return string.format("%s - %s", FormatSeconds(low), FormatSeconds(high))
+end
+
+local CachedModules = {}
+
+local function GetPerksModule()
+    if not CachedModules.Perks then
+        pcall(function()
+            CachedModules.Perks = require(ReplicatedStorage.Modules.Storage.Perks)
+        end)
+    end
+    return CachedModules.Perks
+end
+
+local function GetItemsModule()
+    if not CachedModules.Items then
+        pcall(function()
+            CachedModules.Items = require(ReplicatedStorage.Modules.Storage.Items)
+        end)
+    end
+    return CachedModules.Items
+end
+
+local function GetValuesModule()
+    if not CachedModules.Values then
+        pcall(function()
+            CachedModules.Values = require(ReplicatedStorage.Modules.Storage.Values)
+        end)
+    end
+    return CachedModules.Values
+end
+
+local function GetPerkRarity(perkName)
+    local perksMod = GetPerksModule()
+    if type(perksMod) == "table" then
+        local cleaned = string.gsub(perkName, "_", " ")
+        for rarity, list in pairs(perksMod) do
+            if type(list) == "table" and (list[perkName] or list[cleaned]) then
+                return rarity
+            end
+        end
+    end
+    return "Rare"
+end
+
+local function GetItemRarity(itemName)
+    local itemsMod = GetItemsModule()
+    if type(itemsMod) == "table" then
+        local cleaned = string.gsub(itemName, "_", " ")
+        if itemsMod[itemName] then return itemsMod[itemName].Rarity end
+        if itemsMod[cleaned] then return itemsMod[cleaned].Rarity end
+    end
+    return nil
+end
+
+local StatsLabels = {}
+do
+    local dummySectionRef = StatsTab:AddLabel("PLAYER STATS:")
+    local statsPage = dummySectionRef.Row.Parent
+
+    local function CreateStatsCard()
+        local container = Instance.new("Frame")
+        container.Size = UDim2.new(1, -8, 0, 0)
+        container.AutomaticSize = Enum.AutomaticSize.Y
+        container.BackgroundColor3 = Color3.fromRGB(24, 22, 34)
+        container.BackgroundTransparency = 0.2
+        container.BorderSizePixel = 0
+        container.Parent = statsPage
+
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0, 6)
+        corner.Parent = container
+
+        local stroke = Instance.new("UIStroke")
+        stroke.Color = Color3.fromRGB(48, 40, 70)
+        stroke.Thickness = 1
+        stroke.Parent = container
+
+        local padding = Instance.new("UIPadding")
+        padding.PaddingTop = UDim.new(0, 10)
+        padding.PaddingBottom = UDim.new(0, 10)
+        padding.PaddingLeft = UDim.new(0, 14)
+        padding.PaddingRight = UDim.new(0, 14)
+        padding.Parent = container
+
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, 0, 0, 0)
+        label.AutomaticSize = Enum.AutomaticSize.Y
+        label.BackgroundTransparency = 1
+        label.TextColor3 = Color3.fromRGB(225, 220, 240)
+        label.Font = Enum.Font.RobotoMono
+        label.TextSize = 13
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.TextYAlignment = Enum.TextYAlignment.Top
+        label.TextWrapped = true
+        label.Parent = container
+
+        return label
+    end
+
+    StatsLabels.Player = CreateStatsCard()
+    StatsTab:AddLabel("MISSION STATS (LIVE):")
+    StatsLabels.LiveMission = CreateStatsCard()
+    StatsTab:AddLabel("LAST ROUND STATS:")
+    StatsLabels.LastRound = CreateStatsCard()
+    StatsTab:AddLabel("TOTAL SESSION STATS:")
+    StatsLabels.Session = CreateStatsCard()
+end
+
+local function UpdateStatsUI()
+    StatsLabels.Player.Text = string.format(
+        "Prestige: %s\nLevel: %s\nGems: %s\nGold: %s",
+        FormatNumber(StatsData.Player.Prestige),
+        FormatNumber(StatsData.Player.Level),
+        FormatNumber(StatsData.Player.Gems),
+        FormatNumber(StatsData.Player.Gold)
+    )
+
+    StatsLabels.LiveMission.Text = string.format(
+        "Status: %s\nTime: %s\nDifficulty: %s",
+        LiveRoundData.Status,
+        FormatSeconds(LiveRoundData.Seconds),
+        LiveRoundData.Difficulty
+    )
+
+    local lastRound = StatsData.LastRound
+    local lastRoundDropCount = (lastRound.Items and #lastRound.Items) or 0
+    local lastRoundLines = {
+        "Time Taken: " .. tostring(lastRound.TimeTaken),
+        "Difficulty: " .. tostring(lastRound.Difficulty),
+        "Titans Killed: " .. FormatNumber(lastRound.TitansKilled or 0),
+        "Damage Dealt: " .. FormatNumber(lastRound.DamageDealt or 0),
+        "Gold: " .. FormatNumber(lastRound.Gold),
+        "Gems: " .. FormatNumber(lastRound.Gems),
+        "XP: " .. FormatNumber(lastRound.XP),
+        "Drops (" .. tostring(lastRoundDropCount) .. "):",
+    }
+    if lastRoundDropCount > 0 then
+        for _, itm in ipairs(lastRound.Items) do
+            table.insert(lastRoundLines, "  " .. itm)
+        end
+    else
+        table.insert(lastRoundLines, "  None")
+    end
+    StatsLabels.LastRound.Text = table.concat(lastRoundLines, "\n")
+
+    local sess = StatsData.Session
+    local count = sess.MissionsCompleted or 0
+    local fastestStr = (sess.FastestSeconds and sess.FastestSeconds > 0)
+        and FormatSeconds(sess.FastestSeconds)
+        or "00:00"
+    local avgStr = FormatAverageTime(sess.TotalSeconds or 0, count)
+
+    local rc = sess.RarityCounts or {}
+    local rarityLines = {
+        string.format("Common: %s | Uncommon: %s | Rare: %s",
+            FormatNumber(rc.Common or 0),
+            FormatNumber(rc.Uncommon or 0),
+            FormatNumber(rc.Rare or 0)
+        ),
+        string.format("Epic: %s | Legendary: %s | Mythic: %s",
+            FormatNumber(rc.Epic or 0),
+            FormatNumber(rc.Legendary or 0),
+            FormatNumber(rc.Mythic or 0)
+        ),
+    }
+    if (rc.Secret or 0) > 0 then
+        table.insert(rarityLines, string.format("Secret: %s", FormatNumber(rc.Secret)))
+    end
+
+    local sessionLines = {
+        "Missions Completed: " .. FormatNumber(count),
+        "Fastest Time: " .. fastestStr,
+        "Average Time: " .. avgStr,
+        "Titans Killed: " .. FormatNumber(sess.TitansKilled or 0),
+        "Damage Dealt: " .. FormatNumber(sess.DamageDealt or 0),
+        "Gold: " .. FormatNumber(sess.Gold or 0),
+        "Gems: " .. FormatNumber(sess.Gems or 0),
+        "XP: " .. FormatNumber(sess.XP or 0),
+        "Total Drops: " .. tostring(#(sess.Items or {})),
+        "Rarity Breakdown:\n  " .. table.concat(rarityLines, "\n  "),
+    }
+    StatsLabels.Session.Text = table.concat(sessionLines, "\n")
+end
+
+local function FetchPlayerStats()
+    local updated = false
+    local isMainMenu = (game.PlaceId == 14916516914)
+
+    if isMainMenu then
+        local pAttr = LocalPlayer:GetAttribute("Prestige")
+        if pAttr ~= nil then
+            StatsData.Player.Prestige = tonumber(pAttr) or StatsData.Player.Prestige
+            updated = true
+        end
+
+        local lAttr = LocalPlayer:GetAttribute("Level")
+        if lAttr ~= nil then
+            StatsData.Player.Level = tonumber(lAttr) or StatsData.Player.Level
+            updated = true
+        end
+
+        local pg = LocalPlayer:FindFirstChild("PlayerGui")
+        local iface = pg and pg:FindFirstChild("Interface")
+        local topbar = iface and iface:FindFirstChild("Topbar")
+        if topbar and topbar:FindFirstChild("Main") and topbar.Main:FindFirstChild("Currencies") then
+            local curr = topbar.Main.Currencies
+            local goldNode = curr:FindFirstChild("Gold") and curr.Gold:FindFirstChild("Amount")
+            local gemsNode = curr:FindFirstChild("Gems") and curr.Gems:FindFirstChild("Amount")
+            if goldNode and goldNode:IsA("TextLabel") then
+                local rawGold = goldNode.Text:gsub(",", ""):gsub("%s", "")
+                local nGold = tonumber(rawGold)
+                if nGold then
+                    StatsData.Player.Gold = nGold
+                    updated = true
+                end
+            end
+            if gemsNode and gemsNode:IsA("TextLabel") then
+                local rawGems = gemsNode.Text:gsub(",", ""):gsub("%s", "")
+                local nGems = tonumber(rawGems)
+                if nGems then
+                    StatsData.Player.Gems = nGems
+                    updated = true
+                end
+            end
+        end
+    else
+        local lAttr = LocalPlayer:GetAttribute("Level")
+        if lAttr ~= nil then
+            StatsData.Player.Level = tonumber(lAttr) or StatsData.Player.Level
+            updated = true
+        end
+
+        local pAttr = LocalPlayer:GetAttribute("Prestige")
+        if pAttr ~= nil then
+            StatsData.Player.Prestige = tonumber(pAttr) or StatsData.Player.Prestige
+            updated = true
+        end
+
+        local ok, _, playerProfileData = pcall(function()
+            return RemoteGET:InvokeServer("S_Rewards", "Get")
+        end)
+        if ok and type(playerProfileData) == "table" then
+            if playerProfileData.Progression and type(playerProfileData.Progression) == "table" then
+                if playerProfileData.Progression.Prestige ~= nil then
+                    StatsData.Player.Prestige = tonumber(playerProfileData.Progression.Prestige) or StatsData.Player.Prestige
+                    updated = true
+                end
+                if playerProfileData.Progression.Level ~= nil then
+                    StatsData.Player.Level = tonumber(playerProfileData.Progression.Level) or StatsData.Player.Level
+                    updated = true
+                end
+            end
+            if playerProfileData.Currency and type(playerProfileData.Currency) == "table" then
+                if playerProfileData.Currency.Gold ~= nil then
+                    StatsData.Player.Gold = tonumber(playerProfileData.Currency.Gold) or StatsData.Player.Gold
+                    updated = true
+                end
+                if playerProfileData.Currency.Gems ~= nil then
+                    StatsData.Player.Gems = tonumber(playerProfileData.Currency.Gems) or StatsData.Player.Gems
+                    updated = true
+                end
+            end
+        end
+    end
+
+    if updated then
+        SaveStatsJson()
+    end
+
+    UpdateStatsUI()
+end
+
+local function FinalizeRound()
+    if RoundState == "Ended" or FinalizeDebounce then return end
+    FinalizeDebounce = true
+    RoundState = "Ended"
+
+    task.wait(0.6)
+
+    LiveRoundData.Status = "Completed"
+
+    local finSec = tonumber(Workspace:GetAttribute("Seconds"))
+    if not finSec or finSec <= 0 then
+        finSec = math.max(1, LiveRoundData.Seconds)
+    end
+
+    local finDiff = Workspace:GetAttribute("Difficulty")
+    if not finDiff or tostring(finDiff) == "" or tostring(finDiff) == "N/A" then
+        if LiveRoundData.Difficulty and LiveRoundData.Difficulty ~= "N/A" then
+            finDiff = LiveRoundData.Difficulty
+        elseif StatsData.LastRound.Difficulty and StatsData.LastRound.Difficulty ~= "N/A" then
+            finDiff = StatsData.LastRound.Difficulty
+        else
+            finDiff = "Easy"
+        end
+    end
+    finDiff = tostring(finDiff)
+
+    local roundKills = 0
+    local roundDamage = 0
+
+    local pg = LocalPlayer:FindFirstChild("PlayerGui")
+    local iface = pg and pg:FindFirstChild("Interface")
+    local rewGui = iface and iface:FindFirstChild("Rewards")
+    local itemsFolder = nil
+    if rewGui and rewGui:FindFirstChild("Main") and rewGui.Main:FindFirstChild("Info") then
+        local infoMain = rewGui.Main.Info.Main
+        local statsFolder = infoMain:FindFirstChild("Stats")
+        if statsFolder then
+            local timeNode = statsFolder:FindFirstChild("Time_Taken") and statsFolder.Time_Taken:FindFirstChild("Amount")
+            if timeNode and timeNode:IsA("TextLabel") and timeNode.Text ~= "" and timeNode.Text ~= "00:00" then
+                local minStr, secStr = string.match(timeNode.Text, "(%d+):(%d+)")
+                if minStr and secStr then
+                    local parsedSec = (tonumber(minStr) or 0) * 60 + (tonumber(secStr) or 0)
+                    if parsedSec > 0 then
+                        finSec = parsedSec
+                    end
+                end
+            end
+            local killsNode = statsFolder:FindFirstChild("Kills") and statsFolder.Kills:FindFirstChild("Amount")
+            if killsNode and killsNode:IsA("TextLabel") then
+                local rawK = killsNode.Text:gsub(",", ""):gsub("%s", "")
+                roundKills = tonumber(rawK) or 0
+            end
+            local dmgNode = statsFolder:FindFirstChild("Damage") and statsFolder.Damage:FindFirstChild("Amount")
+            if dmgNode and dmgNode:IsA("TextLabel") then
+                local rawD = dmgNode.Text:gsub(",", ""):gsub("%s", "")
+                roundDamage = tonumber(rawD) or 0
+            end
+        end
+
+        itemsFolder = infoMain:FindFirstChild("Items")
+    end
+
+    local roundGold = PendingRoundDrops.Gold
+    local roundGems = PendingRoundDrops.Gems
+    local roundXP = PendingRoundDrops.XP
+    local roundItems = {}
+    local roundRarities = {}
+
+    local okRem, roundRewardsData, playerProfileData = pcall(function()
+        return RemoteGET:InvokeServer("S_Rewards", "Get")
+    end)
+    local gotServerDrops = false
+    if okRem and type(roundRewardsData) == "table" then
+        if roundRewardsData.Seconds and tonumber(roundRewardsData.Seconds) and tonumber(roundRewardsData.Seconds) > 0 then
+            finSec = tonumber(roundRewardsData.Seconds)
+        end
+        if roundRewardsData.Stats and type(roundRewardsData.Stats) == "table" then
+            if tonumber(roundRewardsData.Stats.Kills) and tonumber(roundRewardsData.Stats.Kills) > roundKills then
+                roundKills = tonumber(roundRewardsData.Stats.Kills)
+            end
+            if tonumber(roundRewardsData.Stats.Damage) and tonumber(roundRewardsData.Stats.Damage) > roundDamage then
+                roundDamage = tonumber(roundRewardsData.Stats.Damage)
+            end
+        end
+        local obt = roundRewardsData.Obtained
+        if type(obt) == "table" then
+            local g = tonumber(obt.Gold) or 0
+            local gm = tonumber(obt.Gems) or 0
+            local x = tonumber(obt.XP) or 0
+            if g > 0 then roundGold = g end
+            if gm > 0 then roundGems = gm end
+            if x > 0 then roundXP = x end
+
+            if type(obt.Perks) == "table" then
+                for _, pName in ipairs(obt.Perks) do
+                    if not IsIgnoredDrop(pName) then
+                        local r = GetPerkRarity(pName) or "Common"
+                        local clean = string.gsub(pName, "_", " ") .. " (" .. r .. ")"
+                        table.insert(roundItems, clean)
+                        table.insert(roundRarities, r)
+                    end
+                end
+            end
+            if type(obt.Drops) == "table" then
+                for _, dName in ipairs(obt.Drops) do
+                    if not IsIgnoredDrop(dName) then
+                        local r = GetItemRarity(dName) or "Common"
+                        local clean = string.gsub(dName, "_", " ") .. " (" .. r .. ")"
+                        table.insert(roundItems, clean)
+                        table.insert(roundRarities, r)
+                    end
+                end
+            end
+            if type(obt.Chests) == "table" then
+                for _, cName in ipairs(obt.Chests) do
+                    if not IsIgnoredDrop(cName) then
+                        local r = GetItemRarity(cName) or "Rare"
+                        local clean = string.gsub(cName, "_", " ") .. " (" .. r .. ")"
+                        table.insert(roundItems, clean)
+                        table.insert(roundRarities, r)
+                    end
+                end
+            end
+            gotServerDrops = true
+        end
+    end
+
+    if (not gotServerDrops or #roundItems == 0) and #PendingRoundDrops.Items > 0 then
+        roundItems = table.clone(PendingRoundDrops.Items)
+        roundRarities = table.clone(PendingRoundDrops.Rarities)
+        if PendingRoundDrops.Gold > 0 then roundGold = PendingRoundDrops.Gold end
+        if PendingRoundDrops.Gems > 0 then roundGems = PendingRoundDrops.Gems end
+        if PendingRoundDrops.XP > 0 then roundXP = PendingRoundDrops.XP end
+    elseif (not gotServerDrops or #roundItems == 0) and itemsFolder then
+        for _, child in ipairs(itemsFolder:GetChildren()) do
+            if child:IsA("Frame") and child:FindFirstChild("Main") and child.Main:FindFirstChild("Inner") then
+                local inner = child.Main.Inner
+                local qNode = inner:FindFirstChild("Quantity")
+                local qText = qNode and qNode.Text or ""
+                local rawQty = qText:gsub(",", ""):gsub("%+", ""):gsub("%s", "")
+                local nQty = tonumber(rawQty) or 1
+                local rFrame = inner:FindFirstChild("Rarity")
+                local rColor = rFrame and rFrame.BackgroundColor3
+                local matchedRarity = "Common"
+                local valMod = GetValuesModule()
+                if valMod and valMod.Colours then
+                    for rName, cVal in pairs(valMod.Colours) do
+                        if rColor and math.abs(rColor.R - cVal.R) < 0.05 and math.abs(rColor.G - cVal.G) < 0.05 and math.abs(rColor.B - cVal.B) < 0.05 then
+                            matchedRarity = rName
+                            break
+                        end
+                    end
+                end
+                local icon = inner:FindFirstChild("Icon")
+                local img = icon and icon.Image or ""
+                local itemName = nil
+                local itemMod = GetItemsModule()
+                if itemMod then
+                    for iName, iData in pairs(itemMod) do
+                        if iData.Image and tostring(iData.Image) ~= "" and img:find(tostring(iData.Image)) then
+                            itemName = iName
+                            break
+                        end
+                    end
+                end
+                if itemName and not IsIgnoredDrop(itemName) then
+                    if itemName == "Gold" and roundGold == 0 then
+                        roundGold = nQty
+                    elseif itemName == "Gems" and roundGems == 0 then
+                        roundGems = nQty
+                    elseif itemName == "XP" and roundXP == 0 then
+                        roundXP = nQty
+                    else
+                        local clean = string.gsub(itemName, "_", " ") .. " (" .. matchedRarity .. ")"
+                        table.insert(roundItems, clean)
+                        table.insert(roundRarities, matchedRarity)
+                    end
+                end
+            end
+        end
+    end
+
+    local lastRound = StatsData.LastRound
+    lastRound.TimeTaken = FormatSeconds(finSec)
+    lastRound.Difficulty = finDiff
+    lastRound.TitansKilled = roundKills
+    lastRound.DamageDealt = roundDamage
+    lastRound.Gold = roundGold
+    lastRound.Gems = roundGems
+    lastRound.XP = roundXP
+    lastRound.Items = table.clone(roundItems)
+
+    local sess = StatsData.Session
+    sess.MissionsCompleted = (sess.MissionsCompleted or 0) + 1
+    sess.TotalSeconds = (sess.TotalSeconds or 0) + finSec
+    if finSec > 0 then
+        if not sess.FastestSeconds or sess.FastestSeconds == 0 or finSec < sess.FastestSeconds then
+            sess.FastestSeconds = finSec
+        end
+    end
+    sess.TitansKilled = (sess.TitansKilled or 0) + roundKills
+    sess.DamageDealt = (sess.DamageDealt or 0) + roundDamage
+    sess.Gold = (sess.Gold or 0) + roundGold
+    sess.Gems = (sess.Gems or 0) + roundGems
+    sess.XP = (sess.XP or 0) + roundXP
+    sess.Items = sess.Items or {}
+    for _, itm in ipairs(roundItems) do
+        table.insert(sess.Items, itm)
+    end
+    sess.RarityCounts = sess.RarityCounts or {}
+    for _, r in ipairs(roundRarities) do
+        sess.RarityCounts[r] = (sess.RarityCounts[r] or 0) + 1
+    end
+
+    if okRem and type(playerProfileData) == "table" then
+        if playerProfileData.Progression and type(playerProfileData.Progression) == "table" then
+            if playerProfileData.Progression.Prestige ~= nil then
+                StatsData.Player.Prestige = tonumber(playerProfileData.Progression.Prestige) or StatsData.Player.Prestige
+            end
+            if playerProfileData.Progression.Level ~= nil then
+                StatsData.Player.Level = tonumber(playerProfileData.Progression.Level) or StatsData.Player.Level
+            end
+        end
+        if playerProfileData.Currency and type(playerProfileData.Currency) == "table" then
+            if playerProfileData.Currency.Gold ~= nil then
+                StatsData.Player.Gold = tonumber(playerProfileData.Currency.Gold) or StatsData.Player.Gold
+            end
+            if playerProfileData.Currency.Gems ~= nil then
+                StatsData.Player.Gems = tonumber(playerProfileData.Currency.Gems) or StatsData.Player.Gems
+            end
+        end
+    end
+
+    SaveStatsJson()
+    UpdateStatsUI()
+
+    FinalizeDebounce = false
+end
+
+local function StartNewRound()
+    if RoundState == "Playing" then return end
+    RoundState = "Playing"
+    RoundStartTime = os.clock()
+
+    LiveRoundData.Status = "In Progress"
+    LiveRoundData.Seconds = 0
+
+    local liveDiff = Workspace:GetAttribute("Difficulty")
+    if not liveDiff or tostring(liveDiff) == "" or tostring(liveDiff) == "N/A" then
+        liveDiff = StatsData.LastRound.Difficulty or "N/A"
+    end
+    LiveRoundData.Difficulty = tostring(liveDiff)
+
+    PendingRoundDrops = {
+        Gold = 0,
+        Gems = 0,
+        XP = 0,
+        Items = {},
+        Rarities = {},
+    }
+
+    UpdateStatsUI()
+end
+
+local function HookRewardsModule()
+    pcall(function()
+        local rewMod = ReplicatedStorage:WaitForChild("Modules", 10)
+        local uiMod = rewMod and rewMod:WaitForChild("User Interface", 10)
+        local rewardsMod = uiMod and uiMod:WaitForChild("Rewards", 10)
+        if not rewardsMod then return end
+        local rObj = require(rewardsMod)
+        if type(rObj) ~= "table" then return end
+
+        if type(rObj.Create) == "function" and not rObj.__SymbioteHooked then
+            rObj.__SymbioteHooked = true
+            local origCreate = rObj.Create
+            rObj.Create = function(self, uiTarget, kind, itemKey, amountText, displayNameOverride)
+                pcall(function()
+                    local rawQty = tostring(amountText or ""):gsub(",", ""):gsub("%+", ""):gsub("%s", "")
+                    local nQty = tonumber(rawQty) or 1
+                    local rawName = tostring((displayNameOverride and displayNameOverride ~= "") and displayNameOverride or itemKey or "")
+
+                    if kind == 1 or itemKey == "Gold" or rawName == "Gold" then
+                        PendingRoundDrops.Gold = PendingRoundDrops.Gold + nQty
+                    elseif itemKey == "Gems" or rawName == "Gems" then
+                        PendingRoundDrops.Gems = PendingRoundDrops.Gems + nQty
+                    elseif itemKey == "XP" or rawName == "XP" then
+                        PendingRoundDrops.XP = PendingRoundDrops.XP + nQty
+                    elseif not IsIgnoredDrop(rawName) then
+                        local r = GetPerkRarity(rawName) or GetItemRarity(rawName)
+                        if not r and type(self) == "table" and self.Modules and self.Modules.Items and self.Modules.Items[itemKey] then
+                            r = self.Modules.Items[itemKey].Rarity
+                        end
+                        r = r or "Common"
+                        local cleanName = string.gsub(rawName, "_", " ")
+                        local entryText = cleanName .. " (" .. r .. ")"
+                        table.insert(PendingRoundDrops.Items, entryText)
+                        table.insert(PendingRoundDrops.Rarities, r)
+                    end
+                end)
+                return origCreate(self, uiTarget, kind, itemKey, amountText, displayNameOverride)
+            end
+        end
+
+        if type(rObj.Setup) == "function" and not rObj.__SymbioteSetupHooked then
+            rObj.__SymbioteSetupHooked = true
+            local origSetup = rObj.Setup
+            rObj.Setup = function(self, payload)
+                local ret = origSetup(self, payload)
+                if RoundState == "Playing" then
+                    task.defer(function()
+                        FinalizeRound()
+                    end)
+                end
+                return ret
+            end
+        end
+    end)
+end
+
+local function HookMissionTracker()
+    HookRewardsModule()
+
+    task.spawn(function()
+        local pg = LocalPlayer:WaitForChild("PlayerGui", 60)
+        local iface = pg and pg:WaitForChild("Interface", 60)
+        local rewards = iface and iface:WaitForChild("Rewards", 60)
+        if not rewards then return end
+
+        rewards:GetPropertyChangedSignal("Visible"):Connect(function()
+            if rewards.Visible then
+                if RoundState == "Playing" then
+                    task.delay(0.6, function()
+                        FinalizeRound()
+                    end)
+                end
+            else
+                if RoundState == "Ended" and not FinalizeDebounce then
+                    StartNewRound()
+                end
+            end
+        end)
+    end)
+
+    Workspace:GetAttributeChangedSignal("Difficulty"):Connect(function()
+        local d = Workspace:GetAttribute("Difficulty")
+        if d and tostring(d) ~= "" and tostring(d) ~= "N/A" then
+            LiveRoundData.Difficulty = tostring(d)
+            UpdateStatsUI()
+        end
+    end)
+end
+
+StatsTab:AddButton("Reset Session Stats", function()
+    StatsData.Session = {
+        MissionsCompleted = 0,
+        TotalSeconds = 0,
+        FastestSeconds = 0,
+        TitansKilled = 0,
+        DamageDealt = 0,
+        Gold = 0,
+        Gems = 0,
+        XP = 0,
+        Items = {},
+        RarityCounts = {
+            Common = 0,
+            Uncommon = 0,
+            Rare = 0,
+            Epic = 0,
+            Legendary = 0,
+            Mythic = 0,
+            Secret = 0,
+        },
+    }
+    SaveStatsJson()
+    UpdateStatsUI()
+end)
+
+StatsTab:AddButton("Refresh Stats", function()
+    FetchPlayerStats()
+end)
+
+task.spawn(function()
+    task.wait(0.3)
+    FetchPlayerStats()
+    HookMissionTracker()
+
+    local isMainMenu = (game.PlaceId == 14916516914)
+    local refreshTimer = 0
+
+    if not isMainMenu then
+        RoundState = "Playing"
+        local liveDiff = Workspace:GetAttribute("Difficulty")
+        if not liveDiff or tostring(liveDiff) == "" or tostring(liveDiff) == "N/A" then
+            liveDiff = StatsData.LastRound.Difficulty or "N/A"
+        end
+        LiveRoundData.Difficulty = tostring(liveDiff)
+    else
+        RoundState = "Lobby"
+    end
+
+    while true do
+        task.wait(0.5)
+        refreshTimer = refreshTimer + 0.5
+
+        if isMainMenu then
+            LiveRoundData.Status = "In Lobby"
+            LiveRoundData.Seconds = 0
+            LiveRoundData.Difficulty = "N/A"
+        else
+            local pg = LocalPlayer:FindFirstChild("PlayerGui")
+            local iface = pg and pg:FindFirstChild("Interface")
+            local rew = iface and iface:FindFirstChild("Rewards")
+            local rewardsVisible = rew and rew.Visible
+
+            if rewardsVisible then
+                if RoundState == "Playing" and not FinalizeDebounce then
+                    task.delay(0.6, function()
+                        FinalizeRound()
+                    end)
+                end
+            else
+                if RoundState == "Ended" and not FinalizeDebounce then
+                    StartNewRound()
+                elseif RoundState == "Playing" then
+                    LiveRoundData.Status = "In Progress"
+                    LiveRoundData.Seconds = math.max(0, math.floor(os.clock() - RoundStartTime))
+
+                    local liveDiff = Workspace:GetAttribute("Difficulty")
+                    if liveDiff and tostring(liveDiff) ~= "" and tostring(liveDiff) ~= "N/A" then
+                        LiveRoundData.Difficulty = tostring(liveDiff)
+                    elseif LiveRoundData.Difficulty == "N/A" and StatsData.LastRound.Difficulty and StatsData.LastRound.Difficulty ~= "N/A" then
+                        LiveRoundData.Difficulty = StatsData.LastRound.Difficulty
+                    end
+                end
+            end
+        end
+
+        if refreshTimer >= 15 then
+            refreshTimer = 0
+            FetchPlayerStats()
+        else
+            UpdateStatsUI()
+        end
+    end
+end)
+
+UI.NoClip = PlayerTab:AddToggle("NoClip", function(state)
+    NoClipEnabled = state
+    SetSetting("NoClip", state)
+    if state then EnableNoClip() else DisableNoClip() end
+end)
+
+UI.WalkSpeed = PlayerTab:AddToggle("Walk Speed", function(state)
+    WalkSpeedEnabled = state
+    SetSetting("WalkSpeed", state)
+    if state then EnableWalkSpeed() else DisableWalkSpeed() end
+end)
+UI.WalkSpeedSlider = PlayerTab:AddSlider("Walk Speed Amount", 1, 5, GetSetting("WalkSpeedAmount"), function(v)
+    WalkSpeedSmoothing = v
+    SetSetting("WalkSpeedAmount", v)
+end)
+
+UI.LaggyRun = PlayerTab:AddToggle("Laggy Run", function(state)
+    LaggyRunEnabled = state
+    SetSetting("LaggyRun", state)
+    if state then EnableLaggyRun() else DisableLaggyRun() end
+end)
+UI.LaggyRunDistSlider = PlayerTab:AddSlider("Laggy Run Distance", 1, 10, GetSetting("LaggyRunDistance"), function(v)
+    LaggyRunDistance = v
+    SetSetting("LaggyRunDistance", v)
+end)
+UI.LaggyRunDelaySlider = PlayerTab:AddSlider("Laggy Run Delay", 1, 10, GetSetting("LaggyRunDelay"), function(v)
+    LaggyRunDelay = v
+    SetSetting("LaggyRunDelay", v)
+end)
+
+UI.CtrlClickTP = PlayerTab:AddToggle("CTRL + Click to TP", function(state)
+    CtrlClickTPEnabled = state
+    SetSetting("CtrlClickTP", state)
+    if state then EnableCtrlClickTP() else DisableCtrlClickTP() end
+end)
+
+UI.InfiniteJump = PlayerTab:AddToggle("Infinite Jump", function(state)
+    InfiniteJumpEnabled = state
+    SetSetting("InfiniteJump", state)
+    if state then EnableInfiniteJump() else DisableInfiniteJump() end
+end)
+
+UI.AutoFarm = AutoFarmTab:AddToggle("Auto Farm", function(state)
+    SetSetting("AutoFarm", state)
+    if state then
+        AutoFarmEnabled = true
+        ExpandNapeHitboxEnabled = true
+        NapeHitboxSize = 100
+        ApplyNapeHitbox(100)
+        task.spawn(FarmLoop)
+    else
+        AutoFarmEnabled = false
+        CurrentTarget = nil
+        UpdateHoverStabilizer()
+    end
+end)
+
+UI.HitAll = AutoFarmTab:AddToggle("Hit All", function(state)
+    HitAllEnabled = state
+    SetSetting("HitAll", state)
+    if state then
+        CurrentTarget = nil
+    end
+end)
+
+UI.DistanceToTitanSlider = AutoFarmTab:AddSlider("Distance to Titan", 0, 50, GetSetting("DistanceToTitan"), function(v)
+    DistanceToTitanAmount = v
+    SetSetting("DistanceToTitan", v)
+end)
+
+UI.AutoReload = AutoFarmTab:AddToggle("Auto Reload", function(state)
+    AutoReloadEnabled = state
+    SetSetting("AutoReload", state)
+end)
+
+UI.KillWithoutTP = AutoFarmTab:AddToggle("Kill Without TP", function(state)
+    KillWithoutTPEnabled = state
+    SetSetting("KillWithoutTP", state)
+    UpdateHoverStabilizer()
+end)
+
+UI.DelayToKill = AutoFarmTab:AddToggle("Delay To Kill", function(state)
+    DelayToKillEnabled = state
+    SetSetting("DelayToKill", state)
+end)
+UI.DelayToKillSlider = AutoFarmTab:AddSlider("Delay(s)", 0, 300, GetSetting("DelayToKillAmount"), function(v)
+    DelayToKillAmount = v
+    SetSetting("DelayToKillAmount", v)
+end)
+
+UI.ExpandNapeHitbox = AutoFarmTab:AddToggle("Expand Nape Hitbox", function(state)
+    ExpandNapeHitboxEnabled = state
+    SetSetting("ExpandNapeHitbox", state)
+    if not state then RestoreNapeHitbox() else ApplyNapeHitbox() end
+end)
+
+UI.HitboxSizeSlider = AutoFarmTab:AddSlider("Hitbox Size", 20, 100, GetSetting("HitboxSize"), function(v)
+    NapeHitboxSize = v
+    SetSetting("HitboxSize", v)
+    if ExpandNapeHitboxEnabled then ApplyNapeHitbox() end
+end)
+
+UI.VisualizeHitbox = AutoFarmTab:AddToggle("Visualize Hitbox", function(state)
+    VisualizeHitboxEnabled = state
+    SetSetting("VisualizeHitbox", state)
+    if not state then RemoveAllVisuals() end
+end)
+
+VariousTab:AddLabel("VARIOUS")
+
+UI.TitanESP = VariousTab:AddToggle("Titan ESP", function(state)
+    TitanESPEnabled = state
+    SetSetting("TitanESP", state)
+    if not state then RemoveAllTitanESP() end
+end)
+
+UI.ChangeCursor = VariousTab:AddToggle("Change Cursor", function(state)
+    ChangeCursorEnabled = state
+    SetSetting("ChangeCursor", state)
+    if state then EnableChangeCursor() else DisableChangeCursor() end
+end)
+
+UI.AutoRefill = VariousTab:AddToggle("Auto Refill", function(state)
+    AutoRefillEnabled = state
+    SetSetting("AutoRefill", state)
+    if not state then SetsWentEmptyAt = nil end
+end)
+
+UI.AutoRetry = VariousTab:AddToggle("Auto Retry", function(state)
+    AutoRetryEnabled = state
+    SetSetting("AutoRetry", state)
+    if state then EnableAutoRetry() else DisableAutoRetry() end
+end)
+
+UI.AutoExecute = VariousTab:AddToggle("Auto Execute", function(state)
+    SetSetting("AutoExecute", state)
+    if state then
+        QueueOnTeleport(AutoExecuteScript)
+    else
+        QueueOnTeleport("")
+    end
+end)
+
+UI.AutoSkipCutscenes = VariousTab:AddToggle("Auto Skip Cutscenes", function(state)
+    AutoSkipCutscenesEnabled = state
+    SetSetting("AutoSkipCutscenes", state)
+    if state then EnableAutoSkipCutscenes() else DisableAutoSkipCutscenes() end
+end)
+
+local FamilyData = {
+    AllFamilies = {},
+    TierMap = {},
+    TiersList = { "Common", "Rare", "Epic", "Legendary", "Mythic" }
+}
+do
+    pcall(function()
+        local famMod = require(ReplicatedStorage.Modules.Storage.Families)
+        for tier, list in pairs(famMod) do
+            if type(list) == "table" then
+                for name in pairs(list) do
+                    table.insert(FamilyData.AllFamilies, name)
+                    FamilyData.TierMap[name] = tier
+                end
+            end
+        end
+        table.sort(FamilyData.AllFamilies)
+    end)
+    if #FamilyData.AllFamilies == 0 then
+        FamilyData.AllFamilies = {
+            "Ackerman", "Arlert", "Azumabito", "Boyega", "Bozado", "Braun", "Braus",
+            "Finger", "Fritz", "Galliard", "Grice", "Helos", "Hume", "Iglehaut",
+            "Inocenio", "Kirstein", "Kruger", "Ksaver", "Leonhart", "Munsell",
+            "Pikale", "Ral", "Reeves", "Reiss", "Shiki", "Smith", "Springer",
+            "Tybur", "Yeager", "Zoe"
+        }
+        local staticTiers = {
+            Legendary = { "Yeager", "Ackerman", "Reiss" },
+            Common = { "Reeves", "Blouse", "Inocenio", "Munsell", "Boyega", "Ral", "Bozado", "Pikale", "Hume", "Iglehaut" },
+            Epic = { "Galliard", "Zoe", "Leonhart", "Tybur", "Ksaver", "Braun", "Finger", "Arlert" },
+            Secret = { "Shiki" },
+            Mythic = { "Helos", "Fritz" },
+            Rare = { "Braus", "Kruger", "Azumabito", "Smith", "Grice", "Springer", "Kirstein" }
+        }
+        for tier, list in pairs(staticTiers) do
+            for _, name in ipairs(list) do
+                FamilyData.TierMap[name] = tier
+            end
+        end
+    end
+end
+
+local function ShowFamilyFoundNotification(familyName, tier)
+    local targetContainer = nil
+    pcall(function()
+        local coreGui = game:GetService("CoreGui")
+        local test = Instance.new("Folder", coreGui)
+        test:Destroy()
+        targetContainer = coreGui
+    end)
+    if not targetContainer then
+        targetContainer = LocalPlayer:FindFirstChildOfClass("PlayerGui") or LocalPlayer:WaitForChild("PlayerGui", 3)
+    end
+    if not targetContainer then return end
+
+    local oldNotify = targetContainer:FindFirstChild("Symbiote_FamilyFoundNotify")
+    if oldNotify then
+        oldNotify:Destroy()
+    end
+
+    local sg = Instance.new("ScreenGui")
+    sg.Name = "Symbiote_FamilyFoundNotify"
+    sg.ResetOnSpawn = false
+    sg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    sg.Parent = targetContainer
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 280, 0, 52)
+    frame.Position = UDim2.new(0.5, 0, 0.88, 0)
+    frame.AnchorPoint = Vector2.new(0.5, 0.5)
+    frame.BackgroundColor3 = Color3.fromRGB(24, 22, 34)
+    frame.BackgroundTransparency = 1
+    frame.BorderSizePixel = 0
+    frame.Parent = sg
+
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Color3.fromRGB(140, 60, 255)
+    stroke.Thickness = 1.5
+    stroke.Transparency = 1
+    stroke.Parent = frame
+
+    local glowBar = Instance.new("Frame")
+    glowBar.Size = UDim2.new(0, 4, 0.65, 0)
+    glowBar.Position = UDim2.new(0, 8, 0.5, 0)
+    glowBar.AnchorPoint = Vector2.new(0, 0.5)
+    glowBar.BackgroundColor3 = Color3.fromRGB(80, 220, 150)
+    glowBar.BackgroundTransparency = 1
+    glowBar.BorderSizePixel = 0
+    glowBar.Parent = frame
+
+    local title = Instance.new("TextLabel")
+    title.Text = "Family found!"
+    title.Size = UDim2.new(1, -26, 0, 20)
+    title.Position = UDim2.new(0, 22, 0, 7)
+    title.BackgroundTransparency = 1
+    title.TextColor3 = Color3.fromRGB(80, 220, 150)
+    title.TextTransparency = 1
+    title.Font = Enum.Font.GothamBold
+    title.TextSize = 14
+    title.TextXAlignment = Enum.TextXAlignment.Left
+    title.Parent = frame
+
+    local sub = Instance.new("TextLabel")
+    sub.Text = string.format("%s (%s)", tostring(familyName), tostring(tier))
+    sub.Size = UDim2.new(1, -26, 0, 18)
+    sub.Position = UDim2.new(0, 22, 0, 27)
+    sub.BackgroundTransparency = 1
+    sub.TextColor3 = Color3.fromRGB(245, 240, 255)
+    sub.TextTransparency = 1
+    sub.Font = Enum.Font.GothamMedium
+    sub.TextSize = 12
+    sub.TextXAlignment = Enum.TextXAlignment.Left
+    sub.Parent = frame
+
+    local TweenService = game:GetService("TweenService")
+    local twIn = TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+    TweenService:Create(frame, twIn, {Position = UDim2.new(0.5, 0, 0.84, 0), BackgroundTransparency = 0.1}):Play()
+    TweenService:Create(stroke, twIn, {Transparency = 0}):Play()
+    TweenService:Create(glowBar, twIn, {BackgroundTransparency = 0}):Play()
+    TweenService:Create(title, twIn, {TextTransparency = 0}):Play()
+    TweenService:Create(sub, twIn, {TextTransparency = 0}):Play()
+
+    task.delay(5, function()
+        if not sg or not sg.Parent then return end
+        local twOut = TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
+        local t1 = TweenService:Create(frame, twOut, {Position = UDim2.new(0.5, 0, 0.88, 0), BackgroundTransparency = 1})
+        TweenService:Create(stroke, twOut, {Transparency = 1}):Play()
+        TweenService:Create(glowBar, twOut, {BackgroundTransparency = 1}):Play()
+        TweenService:Create(title, twOut, {TextTransparency = 1}):Play()
+        TweenService:Create(sub, twOut, {TextTransparency = 1}):Play()
+        t1:Play()
+        t1.Completed:Connect(function()
+            if sg and sg.Parent then
+                sg:Destroy()
+            end
+        end)
+    end)
+end
+
+local function IsFamilyMatch(list, value)
+    if type(list) ~= "table" or not value then return false end
+    if list[value] == true then return true end
+    for k, v in pairs(list) do
+        if v == value or (k == value and v == true) then
+            return true
+        end
+    end
+    return false
+end
+
+local function StartFamilySpinLoop()
+    if AutoFamilySpinThread then return end
+    AutoFamilySpinThread = task.spawn(function()
+        while AutoFamilySpinEnabled do
+            local ok, spins, extra, rolledFamily, pity = pcall(function()
+                return RemoteGET:InvokeServer("Family", "Roll")
+            end)
+
+            if ok and type(rolledFamily) == "string" and rolledFamily ~= "" then
+                local rolledTier = FamilyData.TierMap[rolledFamily] or "Common"
+                local totalSpins = (tonumber(spins) or 0) + (tonumber(extra) or 0)
+
+                local getActorsFn = (getactors or (syn and syn.getactors))
+                local runOnActorFn = (run_on_actor or (syn and syn.run_on_actor))
+
+                if getActorsFn and runOnActorFn then
+                    pcall(function()
+                        local actor = getActorsFn()[1]
+                        if actor then
+                            actor:SetAttribute("Symbiote_RollSync", HttpService:JSONEncode({
+                                Spins = spins,
+                                Extra = extra,
+                                Family = rolledFamily,
+                                Pity = pity
+                            }))
+                            runOnActorFn(actor, [[
+                                local act = getactors()[1]
+                                local raw = act:GetAttribute("Symbiote_RollSync")
+                                if not raw then return end
+                                local http = game:GetService("HttpService")
+                                local sync = http:JSONDecode(raw)
+                                local host = nil
+                                for _, v in ipairs(getgc(true)) do
+                                    if type(v) == "table" and rawget(v, "Cache") and rawget(v, "Modules") and rawget(v, "Services") then
+                                        host = v
+                                        break
+                                    end
+                                end
+                                if host and host.Cache and host.Cache.Data then
+                                    local d = host.Cache.Data
+                                    d.Spins = tonumber(sync.Spins) or d.Spins
+                                    d.Extra = tonumber(sync.Extra) or d.Extra
+                                    local slot = d.Slots and d.Current_Slot and d.Slots[d.Current_Slot]
+                                    if slot and slot.Avatar then
+                                        slot.Avatar.Family = sync.Family
+                                        slot.Avatar.Pity = tonumber(sync.Pity) or slot.Avatar.Pity
+                                    end
+                                    local pgui = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
+                                    local cust = pgui and pgui:FindFirstChild("Interface") and pgui.Interface:FindFirstChild("Customisation")
+                                    local famUI = cust and cust:FindFirstChild("Family")
+                                    local custMod = host.Modules and host.Modules.Customisation
+                                    if custMod and custMod.Family_Details and famUI then
+                                        pcall(function()
+                                            custMod.Family_Details(host, famUI, true, false)
+                                        end)
+                                    end
+                                end
+                            ]])
+                        end
+                    end)
+                end
+
+                pcall(function()
+                    local pg = LocalPlayer:FindFirstChild("PlayerGui")
+                    local cust = pg and pg:FindFirstChild("Interface") and pg.Interface:FindFirstChild("Customisation")
+                    local famUI = cust and cust:FindFirstChild("Family")
+                    if famUI then
+                        local famTitle = famUI:FindFirstChild("Family") and famUI.Family:FindFirstChild("Title")
+                        if famTitle and famTitle:IsA("TextLabel") then
+                            famTitle.Text = string.upper(rolledFamily) .. " (" .. rolledTier .. ")"
+                        end
+                        local rollBtn = famUI:FindFirstChild("Buttons_2") and famUI.Buttons_2:FindFirstChild("Roll")
+                        local rollTitle = rollBtn and rollBtn:FindFirstChild("Title")
+                        if rollTitle and rollTitle:IsA("TextLabel") then
+                            rollTitle.Text = "ROLL (" .. tostring(totalSpins) .. ")"
+                        end
+                        local pityLabel = famUI:FindFirstChild("Pity")
+                        if pityLabel and pityLabel:IsA("TextLabel") and pity then
+                            pityLabel.Text = "EPIC+ PITY: " .. tostring(pity) .. "/400"
+                        end
+                    end
+                end)
+
+                if IsFamilyMatch(FamiliesToStop, rolledFamily) or IsFamilyMatch(FamilyTiersToStop, rolledTier) then
+                    AutoFamilySpinEnabled = false
+                    if UI.AutoFamilySpin then
+                        UI.AutoFamilySpin:SetState(false)
+                    end
+                    ShowFamilyFoundNotification(rolledFamily, rolledTier)
+                    break
+                end
+
+                if totalSpins <= 0 then
+                    AutoFamilySpinEnabled = false
+                    if UI.AutoFamilySpin then
+                        UI.AutoFamilySpin:SetState(false)
+                    end
+                    break
+                end
+
+                task.wait(0.1)
+            else
+                task.wait(0.25)
+            end
+        end
+        AutoFamilySpinThread = nil
+    end)
+end
+
+VariousTab:AddLabel("AUTO FAMILY ROLL")
+
+UI.AutoFamilySpin = VariousTab:AddToggle("Auto Family Spin", function(state)
+    AutoFamilySpinEnabled = state
+    SetSetting("AutoFamilySpin", state)
+    if state then
+        StartFamilySpinLoop()
+    end
+end)
+
+
+
+UI.FamiliesDropdown = VariousTab:AddDropdown("Families To Stop", FamilyData.AllFamilies, function(selected)
+    FamiliesToStop = selected or {}
+    SetSetting("FamiliesToStop", FamiliesToStop)
+end)
+
+UI.FamilyTiersDropdown = VariousTab:AddDropdown("Family Tiers To Stop", FamilyData.TiersList, function(selected)
+    FamilyTiersToStop = selected or {}
+    SetSetting("FamilyTiersToStop", FamilyTiersToStop)
+end)
+
+local PerkData = {
+    AllPerks = {},
+    RarityMap = {},
+    TiersList = { "Common", "Rare", "Epic", "Legendary", "Mythic" }
+}
+do
+    pcall(function()
+        local perksMod = require(ReplicatedStorage.Modules.Storage.Perks)
+        for tier, list in pairs(perksMod) do
+            if type(list) == "table" then
+                for name in pairs(list) do
+                    table.insert(PerkData.AllPerks, name)
+                    PerkData.RarityMap[name] = tier
+                end
+            end
+        end
+        table.sort(PerkData.AllPerks)
+    end)
+    if #PerkData.AllPerks == 0 then
+        PerkData.AllPerks = {
+            "Adaptation", "Adrenaline", "Aegis", "Art of War", "Black Flash", "Blessed", "Butcher", "Carnifex",
+            "Courage Catalyst", "Cripple", "Critical Hunter", "Enduring", "Enhanced Metabolism", "Everlasting Flame",
+            "Eviscerate", "Exhumation", "Experimental Shells", "First Aid", "Flame Rhapsody", "Flawed Release",
+            "Focus", "Font of Inspiration", "Font of Vitality", "Forceful", "Fortitude", "Founder's Blessing",
+            "Fully Stocked", "Gear Beginner", "Gear Expert", "Gear Intermediate", "Gear Master", "Hardy",
+            "Heavenly Restriction", "Heightened Vitality", "Hollow", "Immortal", "Indefatigable", "Invincible",
+            "Kengo", "Lightweight", "Lucky", "Luminous", "Mangle", "Maximum Firepower", "Mighty",
+            "Munitions Expert", "Munitions Master", "Mutilate", "Peerless Commander", "Peerless Constitution",
+            "Peerless Focus", "Peerless Strength", "Perfect Form", "Perfect Soul", "Protection", "Reckless Abandon",
+            "Resilient", "Robust", "Safeguard", "Sanctified", "Siphoning", "Sixth Sense", "Solo",
+            "Soulfeed", "Speedy", "Stalwart Durability", "Tatsujin", "Tough", "Trauma Battery", "Tyrant's Stare",
+            "Unbreakable", "Unyielding", "Unparalleled Strength", "Unwavering Belief", "Warchief", "Warrior",
+            "Wind Rhapsody"
+        }
+        local staticTiers = {
+            Common = { "Cripple", "Enduring", "Enhanced Metabolism", "First Aid", "Fortitude", "Gear Beginner", "Hollow", "Lucky", "Mighty" },
+            Rare = { "Blessed", "Critical Hunter", "Experimental Shells", "Forceful", "Fully Stocked", "Gear Intermediate", "Heightened Vitality", "Lightweight", "Mangle", "Protection", "Tough", "Unyielding" },
+            Epic = { "Adrenaline", "Butcher", "Flawed Release", "Focus", "Gear Expert", "Hardy", "Luminous", "Munitions Expert", "Mutilate", "Peerless Strength", "Reckless Abandon", "Resilient", "Safeguard", "Siphoning", "Solo", "Speedy", "Stalwart Durability", "Trauma Battery", "Unbreakable", "Warrior" },
+            Legendary = { "Aegis", "Carnifex", "Courage Catalyst", "Eviscerate", "Exhumation", "Flame Rhapsody", "Font of Vitality", "Gear Master", "Indefatigable", "Invincible", "Munitions Master", "Peerless Commander", "Peerless Constitution", "Peerless Focus", "Perfect Form", "Perfect Soul", "Robust", "Sanctified", "Sixth Sense", "Tyrant's Stare", "Unparalleled Strength", "Warchief", "Wind Rhapsody" },
+            Mythic = { "Adaptation", "Art of War", "Black Flash", "Everlasting Flame", "Explosive Fortune", "Font of Inspiration", "Founder's Blessing", "Heavenly Restriction", "Immortal", "Kengo", "Maximum Firepower", "Soulfeed", "Tatsujin", "Unwavering Belief" }
+        }
+        for tier, list in pairs(staticTiers) do
+            for _, name in ipairs(list) do
+                PerkData.RarityMap[name] = tier
+            end
+        end
+    end
+end
+
+local function SellMatchingPerks()
+    if not AutoSellPerksEnabled then return end
+
+    local function isMatch(name, rarity)
+        if not name then return false end
+        local r = rarity or PerkData.RarityMap[name] or "Common"
+        if PerkTiersToSell[r] == true then
+            return true
+        end
+        if SpecificPerksToSell[name] == true then
+            return true
+        end
+        return false
+    end
+
+    local didActorScan = false
+    local deletedLookup = {}
+    local getActorsFn = (getactors or (syn and syn.getactors))
+    local runOnActorFn = (run_on_actor or (syn and syn.run_on_actor))
+
+    if getActorsFn and runOnActorFn then
+        pcall(function()
+            local actors = getActorsFn()
+            local actor = actors and actors[1]
+            if actor then
+                actor:SetAttribute("Symbiote_PerkFilter", HttpService:JSONEncode({
+                    Tiers = PerkTiersToSell,
+                    Specific = SpecificPerksToSell
+                }))
+                runOnActorFn(actor, [[
+                    local rs = game:GetService("ReplicatedStorage")
+                    local remoteGET = rs:WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("GET")
+                    local perksMod = require(rs.Modules.Storage.Perks)
+                    local rarityMap = {}
+                    for r, list in pairs(perksMod) do
+                        if type(list) == "table" then
+                            for name in pairs(list) do
+                                rarityMap[name] = r
+                            end
+                        end
+                    end
+
+                    local hostObj = nil
+                    for _, v in ipairs(getgc(true)) do
+                        if type(v) == "table" and rawget(v, "Cache") and rawget(v, "Modules") then
+                            hostObj = v
+                            break
+                        end
+                    end
+
+                    local actor = getactors()[1]
+                    if hostObj and hostObj.Cache and hostObj.Cache.Data then
+                        local data = hostObj.Cache.Data
+                        local currentSlot = data.Current_Slot or 1
+                        local slotData = data.Slots and data.Slots[currentSlot]
+                        if slotData and slotData.Perks and slotData.Perks.Storage then
+                            local equippedIds = {}
+                            for _, eqId in pairs(slotData.Perks.Equipped or {}) do
+                                if eqId and eqId ~= "" then
+                                    equippedIds[eqId] = true
+                                end
+                            end
+
+                            local rawFilter = actor:GetAttribute("Symbiote_PerkFilter")
+                            local http = game:GetService("HttpService")
+                            local filter = rawFilter and http:JSONDecode(rawFilter) or { Tiers = {}, Specific = {} }
+
+                            local batch = {}
+                            local deletedList = {}
+                            for id, info in pairs(slotData.Perks.Storage) do
+                                local name = info.Name
+                                local rarity = rarityMap[name] or "Common"
+                                local match = (filter.Tiers[rarity] == true) or (filter.Specific[name] == true)
+                                if match and not equippedIds[id] then
+                                    table.insert(batch, tostring(id))
+                                    table.insert(deletedList, tostring(id))
+                                    if #batch >= 25 then
+                                        local res = remoteGET:InvokeServer("S_Equipment", "Delete", "Perk", batch)
+                                        if type(res) == "table" then
+                                            hostObj.Cache.Data = res
+                                            data = res
+                                            slotData = data.Slots and data.Slots[currentSlot]
+                                        end
+                                        batch = {}
+                                    end
+                                end
+                            end
+                            if #batch > 0 then
+                                local res = remoteGET:InvokeServer("S_Equipment", "Delete", "Perk", batch)
+                                if type(res) == "table" then
+                                    hostObj.Cache.Data = res
+                                end
+                            end
+                            actor:SetAttribute("Symbiote_PerkDeleted", http:JSONEncode(deletedList))
+                        end
+                    end
+                ]])
+                didActorScan = true
+                local rawDeleted = actor:GetAttribute("Symbiote_PerkDeleted")
+                if rawDeleted then
+                    local list = HttpService:JSONDecode(rawDeleted)
+                    if type(list) == "table" then
+                        for _, id in ipairs(list) do
+                            deletedLookup[id] = true
+                        end
+                    end
+                end
+            end
+        end)
+    end
+
+    local pg = LocalPlayer:FindFirstChild("PlayerGui")
+    local iface = pg and pg:FindFirstChild("Interface")
+    local equip = iface and iface:FindFirstChild("Equipment")
+    local perkList = equip and equip:FindFirstChild("Perk_List")
+    local holder = perkList and perkList:FindFirstChild("Holder")
+    local itemsFolder = holder and holder:FindFirstChild("Items")
+    if itemsFolder then
+        local fallbackIds = {}
+        local fallbackFrames = {}
+        for _, child in ipairs(itemsFolder:GetChildren()) do
+            if child:IsA("GuiObject") and child.Name ~= "Grid" then
+                local id = child:GetAttribute("ID")
+                local name = child:GetAttribute("Tag") or child.Name
+                local rarity = child:GetAttribute("Rarity") or PerkData.RarityMap[name] or "Common"
+                if id then
+                    local idStr = tostring(id)
+                    if deletedLookup[idStr] then
+                        child:Destroy()
+                    elseif not didActorScan and isMatch(name, rarity) then
+                        table.insert(fallbackIds, idStr)
+                        table.insert(fallbackFrames, child)
+                    end
+                end
+            end
+        end
+        if #fallbackIds > 0 then
+            local batch = {}
+            for i, id in ipairs(fallbackIds) do
+                table.insert(batch, id)
+                if #batch >= 25 or i == #fallbackIds then
+                    pcall(function()
+                        RemoteGET:InvokeServer("S_Equipment", "Delete", "Perk", batch)
+                    end)
+                    batch = {}
+                end
+            end
+            for _, frame in ipairs(fallbackFrames) do
+                if frame and frame.Parent then
+                    frame:Destroy()
+                end
+            end
+        end
+    end
+end
+
+local function StartAutoSellPerksLoop()
+    if AutoSellPerksThread then return end
+    AutoSellPerksThread = task.spawn(function()
+        while AutoSellPerksEnabled do
+            SellMatchingPerks()
+            task.wait(1.5)
+        end
+        AutoSellPerksThread = nil
+    end)
+end
+
+VariousTab:AddLabel("AUTO SELL PERKS")
+
+UI.AutoSellPerks = VariousTab:AddToggle("Auto Sell Selected Tier Perks", function(state)
+    AutoSellPerksEnabled = state
+    SetSetting("AutoSellPerks", state)
+    if state then
+        SellMatchingPerks()
+        StartAutoSellPerksLoop()
+    end
+end)
+
+UI.PerkTiersDropdown = VariousTab:AddDropdown("Perk Tiers To Sell", PerkData.TiersList, function(selected)
+    PerkTiersToSell = selected or {}
+    SetSetting("PerkTiersToSell", PerkTiersToSell)
+    if AutoSellPerksEnabled then
+        SellMatchingPerks()
+    end
+end)
+
+UI.SpecificPerksDropdown = VariousTab:AddDropdown("Select Perks To Sell", PerkData.AllPerks, function(selected)
+    SpecificPerksToSell = selected or {}
+    SetSetting("SpecificPerksToSell", SpecificPerksToSell)
+    if AutoSellPerksEnabled then
+        SellMatchingPerks()
+    end
+end)
+
+VariousTab:AddLabel("THUNDER SPEARS")
+
+UI.AutoCreateTowers = VariousTab:AddToggle("Auto Create Towers(Outskirts)", function(state)
+    AutoCreateTowersEnabled = state
+    SetSetting("AutoCreateTowers", state)
+    if state then
+        FindNextTower()
+        UpdateHoverStabilizer()
+    else
+        CurrentTowerTarget = nil
+        UpdateHoverStabilizer()
+    end
+end)
+
+UI.AutoRetrieveSupplyCrates = VariousTab:AddToggle("Auto Retrieve Supply Crates(Forest)", function(state)
+    AutoRetrieveSupplyCratesEnabled = state
+    SetSetting("AutoRetrieveSupplyCrates", state)
+    if state then
+        StartRetrieveSupplyCratesLoop()
+        task.spawn(RetrieveSupplyCrates)
+    else
+        IsRetrievingCrates = false
+    end
+end)
+
+task.spawn(function()
+    while true do
+        local pg = LocalPlayer:FindFirstChild("PlayerGui")
+        local iface = pg and pg:FindFirstChild("Interface")
+        local equip = iface and iface:FindFirstChild("Equipment")
+        local perkList = equip and equip:FindFirstChild("Perk_List")
+        local holder = perkList and perkList:FindFirstChild("Holder")
+        local itemsFolder = holder and holder:FindFirstChild("Items")
+        if itemsFolder then
+            itemsFolder.ChildAdded:Connect(function(child)
+                if not AutoSellPerksEnabled then return end
+                task.delay(0.1, function()
+                    if not AutoSellPerksEnabled then return end
+                    if child and child:IsA("GuiObject") and child.Name ~= "Grid" then
+                        local name = child:GetAttribute("Tag") or child.Name
+                        local rarity = child:GetAttribute("Rarity") or PerkData.RarityMap[name] or "Common"
+                        local id = child:GetAttribute("ID")
+                        local match = (PerkTiersToSell[rarity] == true) or (SpecificPerksToSell[name] == true)
+                        if id and match then
+                            pcall(function()
+                                RemoteGET:InvokeServer("S_Equipment", "Delete", "Perk", { tostring(id) })
+                            end)
+                            if child and child.Parent then
+                                child:Destroy()
+                            end
+                        end
+                    end
+                end)
+            end)
+            break
+        end
+        task.wait(1)
+    end
+end)
+
+local function ApplySavedSettings()
+    WalkSpeedSmoothing = GetSetting("WalkSpeedAmount")
+    LaggyRunDistance = GetSetting("LaggyRunDistance")
+    LaggyRunDelay = GetSetting("LaggyRunDelay")
+    NapeHitboxSize = GetSetting("HitboxSize")
+    DelayToKillAmount = GetSetting("DelayToKillAmount")
+    DistanceToTitanAmount = GetSetting("DistanceToTitan")
+
+    task.wait(0.3)
+
+    if GetSetting("NoClip") then
+        NoClipEnabled = true
+        EnableNoClip()
+        if UI.NoClip then UI.NoClip:SetState(true) end
+    end
+
+    if GetSetting("WalkSpeed") then
+        WalkSpeedEnabled = true
+        EnableWalkSpeed()
+        if UI.WalkSpeed then UI.WalkSpeed:SetState(true) end
+    end
+
+    if UI.WalkSpeedSlider then UI.WalkSpeedSlider:SetValue(GetSetting("WalkSpeedAmount")) end
+
+    if GetSetting("LaggyRun") then
+        LaggyRunEnabled = true
+        EnableLaggyRun()
+        if UI.LaggyRun then UI.LaggyRun:SetState(true) end
+    end
+
+    if UI.LaggyRunDistSlider then UI.LaggyRunDistSlider:SetValue(GetSetting("LaggyRunDistance")) end
+    if UI.LaggyRunDelaySlider then UI.LaggyRunDelaySlider:SetValue(GetSetting("LaggyRunDelay")) end
+
+    if GetSetting("CtrlClickTP") then
+        CtrlClickTPEnabled = true
+        EnableCtrlClickTP()
+        if UI.CtrlClickTP then UI.CtrlClickTP:SetState(true) end
+    end
+
+    if GetSetting("InfiniteJump") then
+        InfiniteJumpEnabled = true
+        EnableInfiniteJump()
+        if UI.InfiniteJump then UI.InfiniteJump:SetState(true) end
+    end
+
+    if GetSetting("AutoReload") then
+        AutoReloadEnabled = true
+        if UI.AutoReload then UI.AutoReload:SetState(true) end
+    end
+
+    if GetSetting("KillWithoutTP") then
+        KillWithoutTPEnabled = true
+        if UI.KillWithoutTP then UI.KillWithoutTP:SetState(true) end
+    end
+
+    if GetSetting("DelayToKill") then
+        DelayToKillEnabled = true
+        if UI.DelayToKill then UI.DelayToKill:SetState(true) end
+    end
+
+    if UI.DelayToKillSlider then UI.DelayToKillSlider:SetValue(GetSetting("DelayToKillAmount")) end
+    if UI.DistanceToTitanSlider then UI.DistanceToTitanSlider:SetValue(GetSetting("DistanceToTitan")) end
+
+    if GetSetting("HitAll") then
+        HitAllEnabled = true
+        if UI.HitAll then UI.HitAll:SetState(true) end
+    end
+
+    if GetSetting("ExpandNapeHitbox") then
+        ExpandNapeHitboxEnabled = true
+        ApplyNapeHitbox()
+        if UI.ExpandNapeHitbox then UI.ExpandNapeHitbox:SetState(true) end
+    end
+
+    if UI.HitboxSizeSlider then UI.HitboxSizeSlider:SetValue(GetSetting("HitboxSize")) end
+
+    if GetSetting("VisualizeHitbox") then
+        VisualizeHitboxEnabled = true
+        if UI.VisualizeHitbox then UI.VisualizeHitbox:SetState(true) end
+    end
+
+    if GetSetting("TitanESP") then
+        TitanESPEnabled = true
+        if UI.TitanESP then UI.TitanESP:SetState(true) end
+    end
+
+    if GetSetting("AutoRefill") then
+        AutoRefillEnabled = true
+        if UI.AutoRefill then UI.AutoRefill:SetState(true) end
+    end
+
+    if GetSetting("ChangeCursor") then
+        ChangeCursorEnabled = true
+        EnableChangeCursor()
+        if UI.ChangeCursor then UI.ChangeCursor:SetState(true) end
+    end
+
+    if GetSetting("AutoExecute") then
+        if UI.AutoExecute then UI.AutoExecute:SetState(true) end
+    end
+
+    if GetSetting("AutoRetry") then
+        AutoRetryEnabled = true
+        EnableAutoRetry()
+        if UI.AutoRetry then UI.AutoRetry:SetState(true) end
+    end
+
+    if GetSetting("AutoSkipCutscenes") then
+        AutoSkipCutscenesEnabled = true
+        EnableAutoSkipCutscenes()
+        if UI.AutoSkipCutscenes then UI.AutoSkipCutscenes:SetState(true) end
+    end
+
+    local savedFamilies = GetSetting("FamiliesToStop")
+    if type(savedFamilies) == "table" and UI.FamiliesDropdown then
+        FamiliesToStop = savedFamilies
+        UI.FamiliesDropdown:SetSelected(savedFamilies)
+    end
+
+    local savedTiers = GetSetting("FamilyTiersToStop")
+    if type(savedTiers) == "table" and UI.FamilyTiersDropdown then
+        FamilyTiersToStop = savedTiers
+        UI.FamilyTiersDropdown:SetSelected(savedTiers)
+    end
+
+    if GetSetting("AutoFamilySpin") then
+        AutoFamilySpinEnabled = true
+        if UI.AutoFamilySpin then UI.AutoFamilySpin:SetState(true) end
+        StartFamilySpinLoop()
+    end
+
+    local savedPerkTiers = GetSetting("PerkTiersToSell")
+    if type(savedPerkTiers) == "table" and UI.PerkTiersDropdown then
+        PerkTiersToSell = savedPerkTiers
+        UI.PerkTiersDropdown:SetSelected(savedPerkTiers)
+    end
+
+    local savedSpecificPerks = GetSetting("SpecificPerksToSell")
+    if type(savedSpecificPerks) == "table" and UI.SpecificPerksDropdown then
+        SpecificPerksToSell = savedSpecificPerks
+        UI.SpecificPerksDropdown:SetSelected(savedSpecificPerks)
+    end
+
+    if GetSetting("AutoSellPerks") then
+        AutoSellPerksEnabled = true
+        if UI.AutoSellPerks then UI.AutoSellPerks:SetState(true) end
+        SellMatchingPerks()
+        StartAutoSellPerksLoop()
+    end
+
+    if GetSetting("AutoCreateTowers") then
+        AutoCreateTowersEnabled = true
+        if UI.AutoCreateTowers then UI.AutoCreateTowers:SetState(true) end
+        FindNextTower()
+        UpdateHoverStabilizer()
+    end
+
+    if GetSetting("AutoRetrieveSupplyCrates") then
+        AutoRetrieveSupplyCratesEnabled = true
+        if UI.AutoRetrieveSupplyCrates then UI.AutoRetrieveSupplyCrates:SetState(true) end
+        StartRetrieveSupplyCratesLoop()
+        task.spawn(RetrieveSupplyCrates)
+    end
+
+    if GetSetting("AutoFarm") then
+        AutoFarmEnabled = true
+        ExpandNapeHitboxEnabled = true
+        NapeHitboxSize = 100
+        ApplyNapeHitbox(100)
+        task.spawn(FarmLoop)
+        if UI.AutoFarm then UI.AutoFarm:SetState(true) end
+        if UI.ExpandNapeHitbox then UI.ExpandNapeHitbox:SetState(true) end
+    end
+end
+
+ApplySavedSettings()
