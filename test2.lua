@@ -1,4 +1,3702 @@
 
 
 
-return({function(c,a)return function()local g,e,h,f,d h=c.Ta[0x41c2]or c:Va(3044326039,3044325802,0x41c2)repeat if h<0b11101101 then e,g=c.La[-0x77b6]or c:Na(c.sa"L>Cs5<)SF2u3F)~Q4dH>1%$bwR>+-4%cWc%P5",c.sa"eLmfiGs=kvn3m&WV=M",-0x77b6),c._[c.Ta[0x17c7]or c:Wa(c.sa"pYHg%*sGlB<GaSD",c.sa"?2C-rw88",0x17c7)]g(e)e=a[1][0b11][a[1][1]]g=e[c.La[-0x39c8]or c:Na(c.sa"x{8*Y",c.sa"@9q",-0x39c8)]g={[1]=0b10,[0b10]=g}h,g[0b11]=0xb5d8/h,g f=c.La[0x18f1]or c:Na(c.sa"sX%(j<&#(LSC^?nW6|Q67U*1-",c.sa"w>X-2_kf`aFX{",0x18f1)e[c.Ta[0xd05]or c:Wa(c.sa"!XoZ7",c.sa"mPY",0xd05)]=f d=a[0b10][0b11][a[0b10][1]]f=d[c.La[-0x4ce3]or c:Na(c.sa"5-=MgAPX`",c.sa"ctt?",-0x4ce3)]e[c.Ha[0xd83]or c:Ia(c.sa"L8yPmj(VYJ!2S",c.sa"&9Vp06#",0xd83)]=f f,e=d[c.Ha[0x16b9]or c:Ia(c.sa"fWL&Wuauw",c.sa"=gQL",0x16b9)],a[0b11][0b11][a[0b11][1]]e[c.Ta[-0x6b6d]or c:Wa(c.sa"n}4)_ss",c.sa"*bo",-0x6b6d)]=f f=c._[c.La[0x39d9]or c:Na(c.sa"NhVG#",c.sa"M?C",0x39d9)]e,f,d=f[c.Ta[-0x2d21]or c:Wa(c.sa"(P7zT%m",c.sa"wFC",-0x2d21)],0b10,c:fa{a[0b11],g,a[0b10],a[1]}e(f,d)elseif h<=0b11101101 then g=c._[c.Ta[0x17c7]or c:Wa(c.sa"y|MsarNX|o8(h23",c.sa"&ewE3$*T",0x17c7)]h=g and(c.La[0x3274]or c:Qa(0x5cac394b,0x5cac39f3,0x3274))or(c.Ta[0x386c]or c:Va(0x55faa8c4,0x55faa7c7,0x386c))else return end until false end end,function(c,a)return function()local e,b e,b=c:da{a[1],a[0b10],a[0b11]},c._[c.Ta[-0x6edd]or c:Wa(c.sa"s`I=2wg",c.sa"+K>",-0x6edd)]b(e)return end end,bit32.band,function(c,a)return function()local k,d,h,r,s,m,t,i,b,j,l,e,p,f,n,x,w,u,_,q,g,v h=c.La[0xb1a]or c:Sa(0b10011,0b1010,0xb1a)repeat if h>=0b1110100 then if h<=0b10111000 then if h<=0b10001101 then if h<0x82 then if h<0x7d then if h<=0b1110100 then h=i and(c.La[0x2560]or c:Qa(0x769909bf,0x76990981,0x2560))or 0x70d4/h else h,x=c.La[0x3742]or c:Qa(0x2dd77069,0x2dd7702f,0x3742),d end elseif h>0x7d then v=c.Ha[-0x77c4]or c:Ia(c.sa"cIl~Y=(TM",c.sa"!iNI",-0x77c4)v={[1]=0b10,[0b10]=v}v[0b11]=v b,l=c._[c.La[-0x2f5c]or c:Na(c.sa"ecx=*VE",c.sa"ybS",-0x2f5c)],c:T{v}b(l)b,j,q=a[0b110][0b11][a[0b110][1]],a[0b11][0b11][a[0b11][1]],c.Ha[-0x4508]or c:Ia(c.sa"q^*}{ndGaMc83",c.sa"^%L^Siv",-0x4508)j,l={},j..q j[c.Ha[-0x3060]or c:Ia(c.sa"uAsa",c.sa"#Q",-0x3060)]=m j[c.La[-0x64a]or c:Na(c.sa"j!2}5a-{",c.sa"!8`i",-0x64a)]=u j[c.La[-0x4230]or c:Na(c.sa"MH~6}NCVmV",c.sa"osf4X",-0x4230)]=v[0b11][v[1]]x=a[0b111][0b11][a[0b111][1]]x,_=x.GetPlatform,x x=x(_)q=x[c.Ha[0x999]or c:Ia(c.sa"fUBdg",c.sa"%FX",0x999)]j[c.La[-0x7594]or c:Na(c.sa"Mt!rQP=27h",c.sa"*3uC+",-0x7594)]=q q=c._[c.Ha[-0x4dec]or c:Ia(c.sa"WK|xK^Yt$%Xh|NN^5`Zb",c.sa"QAwPK|9deF",-0x4dec)]h=q and 0x5fbf/h or(c.La[-0x4421]or c:Ma(0b1100000,-0x4421))else n,_,x=a[0b1101][0b11][a[0b1101][1]],c.Ha[0x38ba]or c:Ia(c.sa"77T50n=F1mN=T~U-!D}u41RT+ekuq-8l?4vW@~E",c.sa"1rOzt#X2~8US9qNA8AD",0x38ba),a[0b1111][0b11][a[0b1111][1]]n=n[c.Ha[0x4bd1]or c:Ia(c.sa"(_Q31<N",c.sa"FO~",0x4bd1)]x(_,n)x,_=a[1][0b11][a[1][1]],true x[c.La[-0x39c1]or c:Na(c.sa"Ya$v$Hwy",c.sa"Zb2#",-0x39c1)]=_ _=c.Ha[0x529c]or c:Ia(c.sa"BJ{)X2=&<E",c.sa"gsq!l",0x529c)x[c.Ha[0x304e]or c:Ia(c.sa")>ZmM",c.sa"FoF",0x304e)]=_ w,x,d,_={},a[0b1000][0b11][a[0b1000][1]],a[0b1101][0b11][a[0b1101][1]],a[1][0b11][a[1][1]]i=d[c.La[-0x12ed]or c:Na(c.sa"YxMa~`R)",c.sa"nwKg",-0x12ed)]w[c.La[-0x7ee5]or c:Na(c.sa"bZaP6Oxk`cSZ)YcN5^Ar",c.sa"UJ<A(I7<pP",-0x7ee5)]=i w,n=0.1,w x(_,n,w)return end elseif h<=0b10001000 then if h>0x85 then h=x and(c.La[-0x53eb]or c:Qa(0x62d1cf8a,0x62d1cff7,-0x53eb))or h+-0b110010 elseif h>0b10000010 then e,r=w,c._[c.Ha[-0x4d92]or c:Ia(c.sa"1%Yes1BZ6~",c.sa"ni%eJ",-0x4d92)]h=e and(c.La[-0x4de7]or c:Sa(0x32,1,-0x4de7))or(c.Ha[0x3963]or c:Pa(0x5891378,0x5893b6e,0x3963))else j[c.Ha[-0x10fa]or c:Ia(c.sa"8wl)j3k2q4",c.sa"5s7eq",-0x10fa)]=q b,l=b(l,j)j=not b h=j and 0b100111010-h or 0x489e/h end else e=e(p)d,r=r..e,a[0b1101][0b11][a[0b1101][1]]r=r[c.La[0x1de0]or c:Na(c.sa"xWtdyj{",c.sa"w*3",0x1de0)]i(d,r)i,d=a[1][0b11][a[1][1]],true i[c.La[-0x39c1]or c:Na(c.sa"Y$7W}H#z",c.sa"UqLM",-0x39c1)]=d d=c.Ha[0x529c]or c:Ia(c.sa"-4lCh_Yz=u",c.sa"9Tj|@",0x529c)i[c.La[-0x39c8]or c:Na(c.sa"FM<P;",c.sa"=X(",-0x39c8)]=d g,d,i,e=a[0b1101][0b11][a[0b1101][1]],a[1][0b11][a[1][1]],a[0b1000][0b11][a[0b1000][1]],{}p=g[c.La[-0x12ed]or c:Na(c.sa"IpsAS=pq",c.sa"R)%;",-0x12ed)]e[c.La[-0x7ee5]or c:Na(c.sa"lpS0P3B}4KxEOp70@&AM",c.sa"P^GtSU_X4;",-0x7ee5)]=p e,r=0.1,e i(d,r,e)return end elseif h<0b10110010 then if h<0b10100000 then q,j=b,a[0b1011][0b11][a[0b1011][1]]j=j(q)j={[1]=0b10,[0b10]=j}j[0b11]=j q=not j[0b11][j[1]]h=q and(c.Ha[0x433e]or c:Ka(0xf4,0x433e))or(c.La[0x4ed1]or c:Qa(0x305c8a5c,0x305c8a4f,0x4ed1))elseif h<=0xa0 then p,g,e,f=c.Ha[-0x451d]or c:Ia(c.sa"W(2%x<LV?orLDY5QZ}Js^P?^~vY+le9R",c.sa"2AuG~OG|@+1jSc9",-0x451d),c._[c.Ha[-0x4d92]or c:Ia(c.sa"iEj`=k7*53",c.sa"HDdt%",-0x4d92)],r,d g=g(f)h,p=h+-0x90,p..g e(p)else h,u=c.Ha[0x306]or c:Ja(0x71,0x5e,0x306),"0"end elseif h>0xb4 then _,n,j,x=c._[c.Ha[-0x4d92]or c:Ia(c.sa"4cb;b3*1XD",c.sa"NF}v-",-0x4d92)],l,a[0b1111][0b11][a[0b1111][1]],c.Ha[-0x63b6]or c:Ia(c.sa"=lc1;o@6i--^#Vp+=*y5N00",c.sa"uzf@a`>vOjqy",-0x63b6)_=_(n)q,x=x.._,a[0b1101][0b11][a[0b1101][1]]x=x[c.La[0x1de0]or c:Na(c.sa"|0&2c$N",c.sa"Te<",0x1de0)]j(q,x)q,j=true,a[1][0b11][a[1][1]]j[c.La[-0x39c1]or c:Na(c.sa";dXJ!V_*",c.sa"1r?w",-0x39c1)]=q q=c.Ha[0x529c]or c:Ia(c.sa"VWf!*OQn(;",c.sa"f9K00",0x529c)j[c.Ha[0x304e]or c:Ia(c.sa"<?zYj",c.sa"m9Y",0x304e)]=q _,q,j,w={},a[1][0b11][a[1][1]],a[0b1000][0b11][a[0b1000][1]],a[0b1101][0b11][a[0b1101][1]]n=w[c.La[-0x12ed]or c:Na(c.sa"IC;h#bkP",c.sa"r5bq",-0x12ed)]_[c.La[-0x7ee5]or c:Na(c.sa"M`d>-jtT97YhYI=g%t3|",c.sa"^n!coNE8GG",-0x7ee5)]=n x,_=_,0.1 j(q,x,_)return elseif h<=0b10110011 then if h>0b10110010 then h=r and(c.La[-0x2c80]or c:Qa(4141026038,4141026045,-0x2c80))or h+-0b10101010 else q,x=a[0b10][0b11][a[0b10][1]],m q(x)_,x,q=a[0b1101][0b11][a[0b1101][1]],c.La[0x5b82]or c:Na(c.sa"ecmJ4Th>J&rIw7Texe0QizC%j)md-gw3oXy<wX",c.sa"Ys(tQ<JyG*Hl;qgK&vh",0x5b82),a[0b1111][0b11][a[0b1111][1]]_=_[c.Ha[0x16b9]or c:Ia(c.sa")i>VdC(iW",c.sa"y+Vc",0x16b9)]q(x,_)q,x=a[1][0b11][a[1][1]],c.Ha[0x307d]or c:Ia(c.sa"q8$>kGk_Ic`*Z",c.sa"TGexM?f",0x307d)q[c.La[-0x39c8]or c:Na(c.sa"%>3Z(",c.sa"nV0",-0x39c8)]=x n,i,x,q={},a[0b1101][0b11][a[0b1101][1]],a[1][0b11][a[1][1]],a[0b1000][0b11][a[0b1000][1]]w=i[c.La[0x71fe]or c:Na(c.sa"NNH+*VE",c.sa"8xH",0x71fe)]n[c.Ha[0x4ad2]or c:Ia(c.sa"{xi3@Rt?kA(l(d8T@cQc",c.sa"r@VhL)6`PD",0x4ad2)]=w _,n=n,0.2 q(x,_,n)x=c._[c.Ha[-0x14c5]or c:Ia(c.sa"Y_My(",c.sa"(HH",-0x14c5)]q,x=x[c.La[-0x2e2b]or c:Na(c.sa"1)LX~7y",c.sa">~;",-0x2e2b)],c:S{a[0b1110],a[0b101],a[0b1101],j}q(x)x=c._[c.La[0x39d9]or c:Na(c.sa"8&4cX",c.sa"E^h",0x39d9)]x,q=0.5,x[c.La[0x2232]or c:Na(c.sa")ym7?",c.sa"tD*",0x2232)]q(x)q=j[0b11][j[1]][c.Ha[-0x417e]or c:Ia(c.sa"k6KiRP)7",c.sa"H8tY",-0x417e)]q={[1]=0b10,[0b10]=q}q[0b11]=q n,_=q[0b11][q[1]],c._[c.La[-0x5369]or c:Na(c.sa"GVV6=",c.sa"mqq",-0x5369)]_=_(n)n=c.Ha[-0x6781]or c:Ia(c.sa">|pHndie",c.sa"o)n(",-0x6781)x=_~=n h=x and(c.La[0x2362]or c:Ma(0x88,0x2362))or h+0b100001 end else h=u and 0x594c/h or h+-0b1100 end elseif h<=0b11101101 then if h<0b11010111 then if h<=0b11000001 then if h>0b10111110 then h,q=h+-0b1100001,c._[c.Ha[-0x4dec]or c:Ia(c.sa"gPqC_P?~e8kAcbqQHOe>",c.sa"&=vC}V6XY=",-0x4dec)]q=q()else k=a[0b100][0b11][a[0b100][1]]u,m=c.Ha[0x5c2f]or c:Ia(c.sa"2tv6+iynJU?;D8}",c.sa"Fr#S7XI2",0x5c2f),k[c.La[-0x39c8]or c:Na(c.sa"e2Y+;",c.sa"?kE",-0x39c8)]k,m=m,m.match m=m(k,u)k=""h=m==k and(c.La[0x6c85]or c:Qa(3170663809,3170663785,0x6c85))or(c.La[0xded]or c:Ma(0b101001,0xded))end else _=""h,x=0x7018/h,q[0b11][q[1]]==_ end elseif h>0xe8 then q,x,_=a[0b1111][0b11][a[0b1111][1]],c._[c.Ha[-0x4d92]or c:Ia(c.sa"HZ@t_Ff&BV",c.sa"t14PT",-0x4d92)],j[0b11][j[1]][c.La[-0x6f6b]or c:Na(c.sa"lCaB@y2J",c.sa"s@32",-0x6f6b)]h=_ and(c.Ha[-0x55e3]or c:Ja(0x20,0x50,-0x55e3))or h+-0b11011001 elseif h>0xd9 then v,u,k=a[0b1101][0b11][a[0b1101][1]],c.La[0x19d3]or c:Na(c.sa"9hlPj+<C*<#AtS(&iUGP-NVv7",c.sa"9ILmj7{A%8{Z;",0x19d3),a[0b1111][0b11][a[0b1111][1]]v=v[c.La[0x1de0]or c:Na(c.sa")ji@M;s",c.sa"Pml",0x1de0)]k(u,v)return elseif h>0b11010111 then h,e=0x10b-h,d else h,r=0x177-h,c._[c.La[-0x750]or c:Na(c.sa"l4Fa1mH",c.sa"5#j",-0x750)]end elseif h<=0b11111001 then if h<=0xf4 then if h>=0b11110001 then if h<=0xf1 then h,r=c.La[-0b101100100]or c:Qa(3816652789,3816652614,-0b101100100),c._[c.La[0x73fe]or c:Na(c.sa"Iget>$HOOydd0@V",c.sa"thA&J>`M",0x73fe)]else d,n,q,i,w,_=0b110010,b.sub,a[0b1111][0b11][a[0b1111][1]],1,b,c.Ha[0x3669]or c:Ia(c.sa"eA{qPfan`4*Hfr^Y|_^VVuS",c.sa"q*!{mpdLSnHU",0x3669)n=n(w,i,d)_,x=a[0b1101][0b11][a[0b1101][1]],_..n _=_[c.La[0x1de0]or c:Na(c.sa"5@aQLB>",c.sa"7FP",0x1de0)]q(x,_)x,q=true,a[1][0b11][a[1][1]]q[c.La[-0x39c1]or c:Na(c.sa"zm80on_U",c.sa"IPLx",-0x39c1)]=x x=c.Ha[0x529c]or c:Ia(c.sa"3E)>fBjHRe",c.sa"NjZ;7",0x529c)q[c.Ha[0x304e]or c:Ia(c.sa"R3msY",c.sa"MgR",0x304e)]=x n,i,x,q={},a[0b1101][0b11][a[0b1101][1]],a[1][0b11][a[1][1]],a[0b1000][0b11][a[0b1000][1]]w=i[c.La[-0x12ed]or c:Na(c.sa"Rlg;1vN8",c.sa"M%)w",-0x12ed)]n[c.La[-0x7ee5]or c:Na(c.sa"3=*Ar6pzflAQ!!TACl4d",c.sa"%cK2s68>{e",-0x7ee5)]=w _,n=n,0.1 q(x,_,n)return end else n=j[0b11][j[1]][c.La[-0x2948]or c:Na(c.sa"BI`SQF+AHTb~6",c.sa"R3BP|P5",-0x2948)]n,_=0,#n h,x=0x120-h,_>n end else d,i=c:W{q},c._[c.La[-0x2f5c]or c:Na(c.sa"v*DuduK",c.sa"g2M",-0x2f5c)]i,d=i(d)r=i h=r and 0b101011110-h or 0x386a/h end elseif h>0b11111010 then g,e,d,i=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"%?R-!ss",c.sa"Oqc",-0x4d3a)],{},a[0b1001][0b11][a[0b1001][1]],a[0b1000][0b11][a[0b1000][1]]p,f,g=g[c.La[0x20d3]or c:Na(c.sa"xU-=",c.sa")&",0x20d3)],0b111001100,0 s=g t=s p=p(g,f,s,t)e[c.La[-0x762d]or c:Na(c.sa"qKJ!x",c.sa";qd",-0x762d)]=p r,e=e,0.25 i(d,r,e)d,e,p=a[0b1010][0b11][a[0b1010][1]],{},1 e[c.La[0xdfd]or c:Na(c.sa")tQJ-&I5Tr2&P%(nT1!`5M(b1p>z",c.sa"4Z>zh7ICR0>-d)",0xdfd)]=p e,r=0.25,e i(d,r,e)d=c._[c.Ha[-0x14c5]or c:Ia(c.sa"AG8?0",c.sa")oT",-0x14c5)]i,d=d[c.La[0x2232]or c:Na(c.sa"vc#;>",c.sa"rNs",0x2232)],0.28 i(d)i=a[0b1100][0b11][a[0b1100][1]]d,i=i,i.Destroy i(d)d=c._[c.Ha[-0x14c5]or c:Ia(c.sa"Vmf6o",c.sa"TNV",-0x14c5)]d,i=c:V{a[0x10],a[0b110],a[0b11],j,a[0b101]},d[c.La[-0x2e2b]or c:Na(c.sa"#*fs9+W",c.sa"|Fr",-0x2e2b)]i(d)i,d=c._[c.La[-0x2f5c]or c:Na(c.sa"_ipB4>i",c.sa"4Tk",-0x2f5c)],x i,d=i(d)r=not i h=r and 0b100111101-h or h+-0xee else n,_,w=c.Ha[-0x537]or c:Ia(c.sa"o1<R4lZOPXPnK<!`?Re~wwap*yi1K}miGA",c.sa"lJf-QD%vFV_TN9u*8",-0x537),a[0b1111][0b11][a[0b1111][1]],a[0b1101][0b11][a[0b1101][1]]w=w[c.La[0x1de0]or c:Na(c.sa"lH{fNr2",c.sa"me&",0x1de0)]_(n,w)n,_=true,a[1][0b11][a[1][1]]_[c.Ha[0x1b84]or c:Ia(c.sa"S4g9OU9t",c.sa"*DDq",0x1b84)]=n n=c.La[0x1582]or c:Na(c.sa"pq{APil4K}",c.sa"ug3A?",0x1582)_[c.La[-0x39c8]or c:Na(c.sa"mq)u+",c.sa"BEt",-0x39c8)]=n _,r,i,n=a[0b1000][0b11][a[0b1000][1]],a[0b1101][0b11][a[0b1101][1]],{},a[1][0b11][a[1][1]]d=r[c.Ha[-0x788]or c:Ia(c.sa"A{ey>6`}",c.sa")_Y?",-0x788)]i[c.Ha[0x4ad2]or c:Ia(c.sa"iY3G3XA`ZkrXb_sY!0yY",c.sa"#lm3#kDx@z",0x4ad2)]=d w,i=i,0.1 _(n,w,i)return end elseif h>0b111010 then if h>0x56 then if h<0x65 then if h>0x60 then n,x,_,w=c._[c.Ha[0x3108]or c:Ia(c.sa"tYN)wum",c.sa"0^9",0x3108)],nil,nil,c:U{q}n,w=n(w)i=n h=i and(c.La[-0x7d11]or c:Ma(0x4a,-0x7d11))or(c.Ha[0x5f2f]or c:Oa(4235481449,0x869d5b0,4094337462,0x5f2f))elseif h<=0x5d then h,p=c.Ha[0x2e2c]or c:Pa(2597585326,2597595344,0x2e2c),c.La[0x4c04]or c:Na(c.sa"<@{=c*Jrj1&-`iA`+21h)B",c.sa"f7c7X^9Pfr",0x4c04)else h=q and(c.Ha[-0b11110101]or c:Ja(0b10000000,0x82,-0xf5))or 0x6e-h end elseif h<=0b1100111 then if h>0x65 then u=k h=u and(c.La[-0x28c0]or c:Qa(0x5534be0d,0x5534be0a,-0x28c0))or 0b100011011-h else e,p=c._[c.La[-0x5369]or c:Na(c.sa"@c{K4",c.sa"d4&",-0x5369)],d e=e(p)p=c.La[0x6685]or c:Na(c.sa"Z}*F@ed~&%",c.sa"%;ka!",0x6685)h,r=h+-0x2b,e==p end else x=x(_)_=a[0b1101][0b11][a[0b1101][1]]_=_[c.La[0x1de0]or c:Na(c.sa"pDL&~r~",c.sa"SlR",0x1de0)]q(x,_)x,q=true,a[1][0b11][a[1][1]]q[c.La[-0x39c1]or c:Na(c.sa"OH2D>Ug`",c.sa"k0=T",-0x39c1)]=x x=c.Ha[0x529c]or c:Ia(c.sa"I%je#5N2sQ",c.sa"UmOT|",0x529c)q[c.Ha[0x304e]or c:Ia(c.sa"%O&SD",c.sa"K%W",0x304e)]=x q,i,x,n=a[0b1000][0b11][a[0b1000][1]],a[0b1101][0b11][a[0b1101][1]],a[1][0b11][a[1][1]],{}w=i[c.Ha[-0x788]or c:Ia(c.sa"^t2+-xit",c.sa"LD#h",-0x788)]n[c.La[-0x7ee5]or c:Na(c.sa"{g`{)%q>+k(Vbh^$1q58",c.sa"K{{Wnw;1`q",-0x7ee5)]=w n,_=0.1,n q(x,_,n)return end elseif h<0b1001000 then if h<0x3f then h,x=0x10f4/h,w elseif h>0b111111 then i,q[0b11][q[1]]=not x,nil h=i and(c.La[0x4d0e]or c:Ma(0x1b,0x4d0e))or(c.Ha[0x713e]or c:Ja(0x28,0xde,0x713e))else e,p=c._[c.La[-0x601d]or c:Na(c.sa"5*P*p4iE",c.sa"c41}",-0x601d)],c._[c.La[0x73fe]or c:Na(c.sa"NeTGk6M9z<;O!E7",c.sa"6<~~)YC8",0x73fe)]e=e(p)p=c.La[0x6685]or c:Na(c.sa"G42y>Bk~ep",c.sa"4t<+f",0x6685)r=e==p h=r and 0b100110000-h or(c.Ha[-0x1d88]or c:Ja(0b10,0b10110001,-0x1d88))end elseif h<=0b1001100 then if h>0b1001010 then h,r=c.La[-0x2c80]or c:Sa(0b1011,1,-0x2c80),c._[c.Ha[-0x4d6d]or c:Ia(c.sa"OQ}w#",c.sa"$UF",-0x4d6d)]elseif h<=0b1001000 then h,e=c.Ha[-0x5825]or c:Ka(0b10,-0x5825),c.La[-0x2901]or c:Na(c.sa"v9r1(02^AN#GSJDH3%M8u*m",c.sa"t<^hsX;atS@&",-0x2901)else r,d=w,c._[c.Ha[-0x5951]or c:Ia(c.sa"-yPcl",c.sa"WUB",-0x5951)]d=d(r)h,r=0b10111110-h,c.Ha[-0x5136]or c:Ia(c.sa"0)f?-5S`SO",c.sa"`@8gH",-0x5136)i=d==r end else n,_=j[0b11][j[1]][c.Ha[0x5804]or c:Ia(c.sa"yMzESbEUKrJaG",c.sa"7FA*E*8",0x5804)],c._[c.Ha[-0x5951]or c:Ia(c.sa"JuW#i",c.sa"S4j",-0x5951)]_=_(n)n=c.La[0x5c18]or c:Na(c.sa"UckFV+O7",c.sa"$+Rs",0x5c18)x=_==n h=x and(c.La[0x6e4b]or c:Ma(0xf0,0x6e4b))or(c.Ha[-0x44cd]or c:Ja(0x30,0b10000,-0x44cd))end elseif h>=0x13 then if h<=0x2c then if h>0x1b then if h<=0x29 then k,u=a[1][0b11][a[1][1]],false k[c.Ha[0x1b84]or c:Ia(c.sa"Npw45VJZ",c.sa"PZtO",0x1b84)]=u u=c.La[0x64f6]or c:Na(c.sa"NAHGn#5Z{4lQfKA",c.sa"PNEw0iV*",0x64f6)k[c.Ha[0x304e]or c:Ia(c.sa"kczyU",c.sa"@5B",0x304e)]=u k,j,b,u=a[0b1000][0b11][a[0b1000][1]],a[0b1101][0b11][a[0b1101][1]],{},a[1][0b11][a[1][1]]l=j[c.Ha[-0x7269]or c:Ia(c.sa"nPg>UaI8aTa&-",c.sa"9smXh*Z",-0x7269)]b[c.La[-0x7ee5]or c:Na(c.sa"NT9>ztTp;kWToTbrzqza",c.sa"B$Y?Yj-bH`",-0x7ee5)]=l v,b=b,0.1 k(u,v,b)k,v,u=a[0b1111][0b11][a[0b1111][1]],j,c.La[0x4fe]or c:Na(c.sa"1g*wJZR9i{Cb`B$X6<fgYX",c.sa"NkEDSEwb1}",0x4fe)v=v[c.Ha[-0x4c52]or c:Ia(c.sa"IYx^aXPN*",c.sa"^CN8",-0x4c52)]k(u,v)k=a[0b101][0b11][a[0b101][1]]h=k and(c.La[-0x3f42]or c:Qa(0x2bc8f2b,0x2bc8f4c,-0x3f42))or 0x70c/h else u=a[0x10][0b11][a[0x10][1]]h,k=c.La[-0x3f42]or c:Ma(0b1100111,-0x3f42),u[c.Ha[0x6d1]or c:Ia(c.sa"UP3ADUP3`D^;cj",c.sa"GK@+s5&",0x6d1)]end elseif h<=0x14 then if h>0x13 then h,_=h+0x5c,c.Ha[-0x7ed8]or c:Ia(c.sa"8cj{kw>n1~<i08",c.sa"+pjw#Qv",-0x7ed8)else x=j[0b11][j[1]][c.Ha[0xbc5]or c:Ia(c.sa"Cnyg$I3Fh",c.sa"Y+Y0",0xbc5)]q=not x h=q and(c.Ha[0x78f6]or c:Ja(0xcc,0xa1,0x78f6))or(c.La[-0x730e]or c:Ra(3845032017,4095036468,0xee6c351,-0x730e))end else i,e,r,p=a[0b1111][0b11][a[0b1111][1]],c._[c.La[0x48ad]or c:Na(c.sa"Ju#cuJ2!^Q",c.sa"tms}z",0x48ad)],c.Ha[-0x42ec]or c:Ia(c.sa"B<jWhHQ&w;tHwD5>%mky-^&WL!*@*",c.sa"O{dXjqP|>ouY_#",-0x42ec),_ h=p and h+0b1110010 or(c.La[-0x154c]or c:Sa(0b1011101,1,-0x154c))end elseif h>0b110010 then h=r and(c.Ha[0x9cd]or c:Ja(0x28,0x53,0x9cd))or h+0b1001011 elseif h<=0b110000 then h=x and(c.Ha[0x3685]or c:Oa(4092466258,0x6e8dac4,3976557571,0x3685))or(c.La[0x674]or c:Qa(2597940632,2597940731,0x674))else h=e and(c.La[-0x7148]or c:Sa(1,0b10,-0x7148))or(c.Ha[0x424c]or c:Pa(3045196562,3045206843,0x424c))end elseif h<=0b1001 then if h<=0b111 then if h>0b100 then v,u=k[c.Ha[-0x2126]or c:Ia(c.sa"0(br;P5%",c.sa"n*>(",-0x2126)],c._[c.La[0x48ad]or c:Na(c.sa"D|Tz}EpT?@",c.sa"gcuoL",0x48ad)]h,u=h+0b10101101,u(v)elseif h<=0b10 then r=r(e)h,_=c.Ha[0x2076]or c:Ja(0,0x46,0x2076),r else n=j[0b11][j[1]][c.Ha[0x5804]or c:Ia(c.sa"58$!9HxbaIu{8",c.sa"QrOUsV*",0x5804)]n,_=0x40,#n x=_==n _=not x h=_ and(c.Ha[0x1ad9]or c:Ja(0xd2,0b111010,0x1ad9))or(c.Ha[0x61be]or c:Ja(0b1100000,0b11,0x61be))end else e,p=c._[c.Ha[0x1ae]or c:Ia(c.sa"32X5fedh",c.sa"ff9W",0b110101110)],c._[c.Ha[-0x4d6d]or c:Ia(c.sa"d3t<x",c.sa"8x8",-0x4d6d)]e=e(p)p=c.Ha[-0x5136]or c:Ia(c.sa"qg3vju}JTh",c.sa"_<$kB",-0x5136)r=e==p h=r and 0b1010101-h or(c.Ha[-0x716a]or c:Ka(0b1011,-0x716a))end elseif h<=0b1110 then if h>0b1011 then h,q=c.La[-0xedf]or c:Ra(0x6875b5c2,0x6ab55ec4,0x23fa984,-0xedf),c.La[-0x427a]or c:Na(c.sa"JGp!SxL^P",c.sa"7uRk",-0x427a)else h=r and h+0x95 or h+0xcc end else return end until false end end,function(a,b,c,d)a.La[d]=b+(0b10*a.a(a.a(c,b),a.a(4294967295,b))+(-0b10*c+-a.b(a.b(b,b),a.a(4294967295,b))+(a.a(a.a(0xffff,b),a.a(c,0xffff))*a.b(a.a(0xffff,c),a.a(0xffff,b))+a.a(a.a(0xffff,b),a.d(a.a(c,0xffff)))*a.a(a.a(c,0xffff),a.d(a.a(b,0xffff)))-a.a(b,0xffff)*a.a(c,0xffff))+0b10*a.c(a.d(c),a.d(b))+a.d(a.b(b,b))))+-a.b(a.c(4294967295,4294967295),a.d(c))return a.La[d]end,function(c,a)return function()local e,f,b f,b=c.Ha[0x125b]or c:Ia(c.sa"(Jql-lGZ|B)9Nppa+$?gPsHW",c.sa"rzS49{2}Q~g8",0x125b),c._[c.Ta[-0x1409]or c:Wa(c.sa"Jcc%c",c.sa"Tju",-0x1409)]e,b=b,b.GetService b=b(e,f)e,b=b,b.GetClientId b=b(e)a[1][0b11][a[1][1]]=b return end end,function(a,b,c,d)a.Ta[d]=-c+a.c(a.b(4294967295,b),a.c(b,4294967295))+(a.a(a.a(b,0xffff),a.a(0xffff,b))*a.b(a.a(b,0xffff),a.a(b,0xffff))+a.a(a.a(0xffff,b),a.d(a.a(b,0xffff)))*a.a(a.a(b,0xffff),a.d(a.a(0xffff,b)))-a.a(0xffff,b)*a.a(b,0xffff))return a.Ta[d]end,function(a,...)a.qa,a.oa,a.sa=a:qa(),a:oa(),a:sa()return a:k()(...)end,bit32.bnot,function(c,a)return function(m,k)local d,l,q,f,b,_,n,i,j,p,h,o,g h=c.Ta[0x34ca]or c:Xa(0b1001,0b111,0b11011100,0x34ca)while true do if h>=0xa9 then if h<=0b11001011 then if h<=0xbc then if h<0b10111010 then if h<=0b10101001 then o,q=nil,b[0b11][b[1]]return q,o else i=""h,g=0x1481/h,o[0b11][o[1]]~=i end elseif h>0b10111010 then h=j and(c.Ta[0x2a69]or c:Ua(0b10101001,0x2a69))or h+-0xac else h=q and h+0b1001 or 0b101110110-h end elseif h>=0xc8 then if h>0xc8 then h=d and(c.Ta[-0x4802]or c:Va(2716435183,2716435165,-0x4802))or 0x193-h else h=n and 0b110101010-h or(c.La[-0x1fc5]or c:Ma(0x7f,-0x1fc5))end else q,o=c._[c.La[-0x2f5c]or c:Na(c.sa"ifWr>mH",c.sa"3Hk",-0x2f5c)],c:ka{a[0b11],b}q,o=q(o)_=q h=_ and 0x4614/h or(c.Ha[-0x42ff]or c:Ja(0x74,0x87,-0x42ff))end elseif h<0xdc then if h>0b11010000 then h,j=h+-0b10111,true else return b[0b11][b[1]],l end elseif h>0xe2 then h=_ and 0b111001010-h or(c.Ha[0x747f]or c:Pa(2782034387,2782023910,0x747f))elseif h<=0b11011100 then l,f,j=1,m,0b100 p,b=f.sub,f p=p(b,l,j)b=c.Ha[-0x339f]or c:Ia(c.sa"x0|b<",c.sa"@81",-0x339f)h=p==b and(c.La[-0x67d1]or c:Qa(2256856452,2256856554,-0x67d1))or(c.Ha[0x6949]or c:Ka(0b10101000,0x6949))else g=c.Ta[-0xd26]or c:Wa(c.sa"#`q`|<$oW3C|rzBtm}EpqA3-)H&Hk@Qh-$J<$c}",c.sa"u8dq|mPIg8TP5Kw#e@w",-0xd26)i,g,a[1][0b11][a[1][1]]=nil,o[0b11][o[1]],g return g,i end elseif h<=0b1100101 then if h<0b11101 then if h>=0b10010 then if h>0b10010 then h,d=c.Ta[0x775a]or c:Ya(0b11001011,1,0x775a),i else h,n=c.Ha[-0x497a]or c:Pa(0x5e33fba4,0x5e33d32d,-0x497a),true end else o,q=c.Ta[0x4a12]or c:Wa(c.sa"Xn)=7#Gy}`BY9@a^4RYMn=@k",c.sa"01K&`x0_(KPy",0x4a12),a[1][0b11][a[1][1]]h=q==o and(c.Ha[-0x7930]or c:Ja(0b100001,0b1100100,-0x7930))or(c.Ta[-0x6746]or c:Ua(0b11010000,-0x6746))end elseif h>=0x5c then if h<=0b1011100 then h,_=h+0b10011011,o else o=c.Ta[-0xd26]or c:Wa(c.sa"8Du=PQHg4Iw~ep}5QD!IK0UMy!6Y%LgS-=0jk^H",c.sa"aS%wvBC|zU#Pr>2dF;y",-0xd26)o,q=a[0b10][0b11][a[0b10][1]],o..f n,_=k,q o,_=o(_,n)o={[1]=0b10,[0b10]=o}o[0b11]=o g,n=o[0b11][o[1]],false h=g and(c.Ha[-0x23df]or c:Ja(0b10110000,0b101,-0x23df))or 0b10000010-h end else h=g and 0x10a7/h or h+0b10101011 end elseif h>=0b10001011 then if h>=0b10010011 then if h<=0x93 then i,g=c:ja{a[0b11],o},c._[c.La[-0x2f5c]or c:Na(c.sa"*8s*3%K",c.sa"W2X",-0x2f5c)]g,i=g(i)d=g h=d and 0xc0f/h or(c.La[0x4d9e]or c:Ma(0xcb,0x4d9e))else b=a[1][0b11][a[1][1]]b,p=a[0b10][0b11][a[0b10][1]],b..f l,j=p,k b,l=b(l,j)b={[1]=0b10,[0b10]=b}b[0b11]=b j,q=false,b[0b11][b[1]]h=q and(c.Ta[-0x4c99]or c:Ya(1,0x8b,-0x4c99))or h+0b10010 end else o=""h,q=0x145-h,b[0b11][b[1]]~=o end elseif h>0b1101110 then h=c.La[-0x3a3d]or c:Sa(1,0b11010000,-0x3a3d)else p,j,l,h,b=f.gsub,"",c.Ha[-0x3ec9]or c:Ia(c.sa"Hw(@99QDmpOqSO&sjor",c.sa"@`h}TxnpS",-0x3ec9),c.La[0x3ba4]or c:Ra(2617931112,4291875969,0x63c65ec1,0x3ba4),f p=p(b,l,j)f=p end end end end,function(c,a)return function(m,k)local l,n,d,h,b,o,f,_,e,j h=c.Ta[0x4d87]or c:Va(0x1859d0e4,0x1859d023,0x4d87)repeat if h<0b10100110 then if h>0x5b then if h>0b10010001 then if h<0b10011010 then e=nil return j,e elseif h<=0x9a then j=b[c.Ta[0x514f]or c:Wa(c.sa"59ulY",c.sa"O@;",0x514f)]h=j and(c.Ta[-0x5515]or c:Va(0xf731746,0xf731730,-0x5515))or 0x74b4/h else l=b[c.Ha[-0x206f]or c:Ia(c.sa"Y{<#~YfS&g?|T",c.sa"9*d~FKL",-0x206f)]h=l and(c.Ha[-0x1aa1]or c:Ja(0b10111001,0xcb,-0x1aa1))or 0x3c00/h end elseif h>=0b1111011 then if h>0b10000110 then l=b[c.La[-0x2788]or c:Na(c.sa"IZxu=BN=$?&NB",c.sa"R;q(LY5",-0x2788)]h=l and(c.La[-0x154c]or c:Qa(2840245507,2840245598,-0x154c))or(c.La[-0x2a88]or c:Sa(0xfc,1,-0x2a88))elseif h<=0x7b then h,j=0x4626/h,""else h,j=c.Ta[0x7132]or c:Va(3578793237,3578793146,0x7132),b[c.La[-0x11da]or c:Na(c.sa"TgqMB",c.sa"r8x",-0x11da)]end elseif h>0x5d then h,l=c.Ha[-0x1aa1]or c:Ja(0b1110010,0b10011011,-0x1aa1),b[c.La[0x24a3]or c:Na(c.sa"5O=2+cC`",c.sa"#sgy",0x24a3)]else h=l and(c.Ha[-0x34f1]or c:Ja(0b11000000,0x18,-0x34f1))or(c.Ha[-0x4cec]or c:Oa(3453564354,0xe2af993,3215897215,-0x4cec))end elseif h>=0x27 then if h>=0b1000100 then if h>0x50 then h=j and(c.La[0x7a69]or c:Ra(3044547496,4168338161,0x42fbafe3,0x7a69))or 0x5f-h elseif h<=0x44 then n,o,j,_=l,c.La[-0x7df7]or c:Na(c.sa"zkm=20QaMn5CRPQ",c.sa"q+eG=)b{",-0x7df7),nil,c._[c.La[0x48ad]or c:Na(c.sa"Rc7lOQ(*Q8",c.sa"Z<q-o",0x48ad)]_=_(n)e=o.._ return j,e else j,l=b,c._[c.La[-0x5369]or c:Na(c.sa"p*p1|",c.sa"L)8",-0x5369)]l=l(j)j=c.Ha[0x4fe0]or c:Ia(c.sa"j)Rzvp8",c.sa";`#",0x4fe0)h=l==j and(c.La[-0x5458]or c:Ma(0xa0,-0x5458))or(c.Ha[0x2031]or c:Oa(3329616873,0x62c0924,3226040204,0x2031))end elseif h<=0x27 then h,l=c.La[-0xb90]or c:Sa(0xd8,1,-0xb90),0xc8 else l,o,e,_=nil,c._[c.Ha[-0x4d92]or c:Ia(c.sa"pj{NvrdtWZ",c.sa"rDrnK",-0x4d92)],c.Ha[-0x1a48]or c:Ia(c.sa"p6!*e(vbLwthe?",c.sa"jo`t#)&",-0x1a48),b o=o(_)j=e..o return l,j end elseif h>0x16 then d=a[0b11][0b11][a[0b11][1]]h=d and 0x1299/h or h+-0b10010 elseif h<=0b101 then if h>0b100 then b,d=c:ea{a[1],m,f},c._[c.La[-0x2f5c]or c:Na(c.sa"!Mf13-2",c.sa"*|7",-0x2f5c)]d,b=d(b)l=not d h=l and(c.La[0x14aa]or c:Qa(2291471922,2291472004,0x14aa))or 0x2d5/h else h,j=c.Ta[0x1f30]or c:Va(3934881077,3934880911,0x1f30),""end else h=j and(c.La[-0x346b]or c:Qa(0x3c941652,0x3c9416c0,-0x346b))or 0xa92/h end elseif h<0xcb then if h>=0xb6 then if h<=0b10111111 then if h>=0xb9 then if h>0xb9 then l,j=c._[c.La[-0x5369]or c:Na(c.sa"yF$NS",c.sa"JI?",-0x5369)],b l=l(j)j=c.La[0x5c18]or c:Na(c.sa";6RA_TAc",c.sa"`ZSX",0x5c18)h=l==j and 0b101101001-h or(c.Ha[0x49f9]or c:Ja(0x10,0b1000000,0x49f9))else j,n,_,o=nil,l,c._[c.Ha[-0x4d92]or c:Ia(c.sa"7)2yY9z!`;",c.sa"KUXSj",-0x4d92)],c.Ha[-0x3aab]or c:Ia(c.sa"!~M|;p*`Q|(GRUL",c.sa"ZvI+@sfz",-0x3aab)_=_(n)e=o.._ return j,e end else _,e,o,l=b,c.La[-0x61da]or c:Na(c.sa"Ao#kL>@Mx6iit=",c.sa"v&QbMXa",-0x61da),c._[c.Ha[-0x4d92]or c:Ia(c.sa"QXfl4R2f!O",c.sa"GdOT2",-0x4d92)],nil o=o(_)j=e..o return l,j end elseif h>0b11000001 then h,j=h+-0xac,b[c.Ha[0x51d3]or c:Ia(c.sa"h&YZe",c.sa"SLy",0x51d3)]else m={[1]=0b10,[0b10]=m}m[0b11]=m b,d=c.La[0x338b]or c:Na(c.sa"NvYVt@bxR8LAJ(&^W`PF",c.sa")Jm3_tf<*2",0x338b),{}d[c.Ha[0x1fd1]or c:Ia(c.sa"06jn>wGB6adM=;_",c.sa"W6)PFQbP",0x1fd1)]=b f=d f={[1]=0b10,[0b10]=f}f[0b11]=f h=k and(c.Ha[0x1baa]or c:Ja(0x68,0xef,0x1baa))or(c.La[-0x4d47]or c:Qa(3896868590,3896868601,-0x4d47))end elseif h>0b10110000 then l,e,n,_=nil,c.Ha[0x2aab]or c:Ia(c.sa"l{Lm8Ek_xcB-A`FO>OT",c.sa"O$cLtm2k%",0x2aab),b,c._[c.La[-0x5369]or c:Na(c.sa"i@T4f",c.sa"!v6",-0x5369)]_=_(n)n=")"o=_..n j=e..o return l,j elseif h<=0xaa then if h>0xa6 then l,j=b,nil return l,j else e=nil return j,e end else h,l=0b110010011-h,b[c.Ha[0x757f]or c:Ia(c.sa";TMO-7L@",c.sa"=3}w",0x757f)]end elseif h>0b11100111 then if h<0xfb then if h>0xe8 then l,d=k,a[1][0b11][a[1][1]]d,b=d.JSONEncode,d d=d(b,l)h,l,b=0x106-h,d,a[0b10][0b11][a[0b10][1]]b=b(l)f[0b11][f[1]][c.La[-0x3db0]or c:Na(c.sa"d63*oSkdE4MF",c.sa"DvZ4$",-0x3db0)]=b else h,l=0b110110011-h,0xc8 end elseif h>0b11111011 then h,l=c.La[-0x154c]or c:Sa(0b11111,0b11,-0x154c),b[c.La[0x24a3]or c:Na(c.sa"H3&H}2`c",c.sa"SbRn",0x24a3)]else h=l and 0xde91/h or(c.La[-0x4bf]or c:Ma(0xb0,-0x4bf))end elseif h<=0xd8 then if h<0xcf then j=0b110010000 h=l>=j and(c.Ta[0x695c]or c:Va(0x3100e30e,0x3100e2ca,0x695c))or(c.La[0x584b]or c:Ma(0b10011010,0x584b))elseif h>0xcf then j=0x190 h=l>=j and(c.Ha[-0x230e]or c:Ja(0xb1,0b10101001,-0x230e))or 0b110111111-h else d,l,b=c._[c.La[-0x2f5c]or c:Na(c.sa"nGJ{ng#",c.sa"Zs`",-0x2f5c)],{},a[0b11][0b11][a[0b11][1]]l[c.Ha[0x7e1e]or c:Ia(c.sa"hM~U",c.sa"(*",0x7e1e)]=m[0b11][m[1]]j=c.Ha[-0x10ea]or c:Ia(c.sa"C@MP",c.sa"Zv",-0x10ea)l[c.Ha[0x5b96]or c:Ia(c.sa"Ds-6-eu)",c.sa"?Ga}",0x5b96)]=j l[c.Ha[0x4bc7]or c:Ia(c.sa"LjEmo{yup",c.sa"Oq&V",0x4bc7)]=f[0b11][f[1]]d,b=d(b,l)l=not d h=l and(c.Ha[0x42a9]or c:Ja(0b1010,0b110010,0x42a9))or(c.La[-0x4344]or c:Sa(0xbf,1,-0x4344))end elseif h>0xe3 then j=b[c.La[-0xd8c]or c:Na(c.sa"{p;KP",c.sa"gue",-0xd8c)]h=j and h+-0b10001100 or(c.Ta[0x3a55]or c:Ua(0b10000110,0x3a55))else h=l and(c.La[0x4d9e]or c:Ra(0x6639d3c0,2379528187,0x279ae4f0,0x4d9e))or 0b111001011-h end until false end end,function(c,a)return function()local b,e e=c._[c.Ha[0x7968]or c:Ia(c.sa"uU+c*zg6@1",c.sa"lAb*4",0x7968)]e,b=a[1][0b11][a[1][1]],e[c.Ha[-0x6d07]or c:Ia(c.sa"+TSX|3eUm;&NtZ",c.sa"L$5`xyZ",-0x6d07)]b=c.h(b(e))return c.i(b)end end,function(c)local e,g,d,f d=string g,d,e=d.char,bit32,d.byte f=d.bxor g={[1]=0b10,[0b10]=g}g[0b11]=g e={[1]=0b10,[0b10]=e}e[0b11]=e f={[1]=0b10,[0b10]=f}f[0b11]=f d=c:pa{g,f,e}return d end,function(c,a)return function()local d,i,b,f,_,g g,d,_,i=a[0b100][0b11][a[0b100][1]],{},a[0b11][0b11][a[0b11][1]],a[0b10][0b11][a[0b10][1]]b=_[c.Ta[0x6f62]or c:Wa(c.sa"4#s9G%W(",c.sa"Po)I",0x6f62)]d[c.La[-0x1f62]or c:Na(c.sa"Kll*%4g",c.sa"mwW",-0x1f62)]=b f,d=d,0.15 g(i,f,d)i,b,d=a[1][0b11][a[1][1]],_[c.Ha[0x51d1]or c:Ia(c.sa"SaW;M>q2fyV9(-J",c.sa"A&RI81`7",0x51d1)],{}d[c.Ta[0x2763]or c:Wa(c.sa"`4Nt{oq(aE)fBF?mYuxi",c.sa"yKwE?`tr`!",0x2763)]=b d,f=0.15,d g(i,f,d)return end end,{},function(c,a)return function()local d,g,e,_,f _=c.La[0x20bb]or c:Ra(0x2a7ac138,3960111885,3247423808,0x20bb)repeat if _<0b10110100 then e={[1]=0b10,[0b10]=e}e[0b11]=e e[0b11][e[1]],f=c:ba{a[0b10],a[0b11],g},c._[c.La[-0x2f5c]or c:Na(c.sa"R$)hON&",c.sa"0ww",-0x2f5c)]d=c:aa{e}f(d)d=c:_a{a[1],a[0b101],e}f(d)return elseif _<=0xb4 then return else e=a[0b100][0b11][a[0b100][1]]g=e[c.La[-0x568]or c:Na(c.sa"+Gn|}DjCOJzOX10#{",c.sa"c0=FF0;v",-0x568)]g={[1]=0b10,[0b10]=g}g[0b11]=g e=not g[0b11][g[1]]_=e and(c.Ta[0x545]or c:Ua(0b10110100,0x545))or(c.Ha[0x218c]or c:Ja(0b1000000,0b1100010,0x218c))end until false end end,function(c,a)return function()local f,e,b f,b=a[1][0b11][a[1][1]],c._[c.Ta[-0x1409]or c:Wa(c.sa"bK7~}",c.sa"6uJ",-0x1409)]e,b=b,b.BindToClose b(e,f)return end end,i=(function()local function m(i,j,k)if j>k then return end return i[j],m(i,j+1,k)end return function(o)return m(o[1],1,o[0b10])end end)(),function(e,f,...)local h={...}local d=select("#",...)for i=1,d do e[f+i-1]=h[i]end end,function(a,b,c,d)a.Ha[d]=a.qa(b,c)return a.Ha[d]end,function(a,b,c,d,e)a.Ha[e]=a.b(a.a(0xffff,a.c(c,0x7a8f)),a.a(0xffff,d))*a.a(a.a(0xffff,d),a.a(a.c(c,0x7a8f),0xffff))+a.a(a.a(0xffff,d),a.d(a.a(0xffff,a.c(c,0x7a8f))))*a.a(a.a(a.c(c,0x7a8f),0xffff),a.d(a.a(0xffff,d)))-a.a(0xffff,d)*a.a(0xffff,a.c(c,0x7a8f))+(-d+(a.d(a.a(4294967295,b))+a.a(a.d(b),a.c(c,0x7a8f))*-0b10+-a.d(a.c(b,a.c(c,0x7a8f)))+b))return a.Ha[e]end,function(c,a)return function(g)local e,b,h,l,f,k,j,d h=0x16 while true do if h<=0b10100110 then if h<=0x9d then if h>=0b1010011 then if h<=0x53 then e=0b101 j=e-k l,h,j=-j,0xa6,1 l=l-j else f,b="~",0b101 d,f,b=f,f.rep,b-k h,f=0x166-h,f(d,b)g=g..f end else d,f=0b101,#g k,f=f%d,0 h=k>f and 0x9d or 0xc9 end else h=l and h+0x38 or 0b10111011 end elseif h>0b11001001 then d,f=f,f.sub f=c.h(f(d,b,l))return c.i(f)elseif h>0b10111011 then f,b,d,l=a[0b100][0b11][a[0b100][1]],".....",g,c:ua{a[0b10],a[0b11],a[1]}f=f(d,b,l)b,l=1,0 l=k>l h=l and 0x53 or 0x8256/h else h,l=h+0b100011,-1 end end end end,function(c)return function(...)local n,a,b,K,U,X,w,u,la,E,i,D,g,_a,V,L,S,r,m,ka,ia,h,q,R,P,G,v,k,_,Y,ja,I,C,A,e,x,ma,H,y,f,ca,W,Q,o,j,F,O,fa,J,l,T,s,aa,ga,B,p,N,z,ba,d,da,ha,ea B=c.La[0xc76]or c:Ma(0x72,0xc76)while true do if B>=0b10010011 then if B<0xb3 then if B<=0b10101011 then if B>=0b10011010 then if B<=0x9a then b,j=c._[c.Ha[0x13fc]or c:Ia(c.sa"kx`pf",c.sa"F!l",0x13fc)],c.Ha[-0x3d4e]or c:Ia(c.sa"WB@CFQsrkWMIbAGZQ^u0",c.sa"UKfiS4Nh}0",-0x3d4e)ba,b=b,b.GetService b=b(ba,j)b={[1]=0b10,[0b10]=b}b[0b11]=b q,ba=c.Ha[-0x37a1]or c:Ia(c.sa"e-%fQ5>gXIiXu_",c.sa"LE|%FHv",-0x37a1),c._[c.Ha[0x13fc]or c:Ia(c.sa")fe9r",c.sa"cCr",0x13fc)]ba,j=ba.GetService,ba ba=ba(j,q)ba={[1]=0b10,[0b10]=ba}ba[0b11]=ba j,x=c._[c.Ha[0x13fc]or c:Ia(c.sa"SR_&)",c.sa"MLz",0x13fc)],c.Ha[0x26a8]or c:Ia(c.sa"QWdClJ+F8",c.sa"+IkT",0x26a8)j,q=j.GetService,j j=j(q,x)j={[1]=0b10,[0b10]=j}j[0b11]=j x,ja=c._[c.Ha[0b110101110]or c:Ia(c.sa"m<x7^9bf",c.sa"26F5",0b110101110)],c._[c.Ha[-0x7c4b]or c:Ia(c.sa"G}XQ{)x0t",c.sa"&#*=",-0x7c4b)]x=x(ja)ja=c.Ha[-0x5136]or c:Ia(c.sa"GOcr4AhB{*",c.sa"I33tj",-0x5136)q=x==ja B=q and B+0b1000010 or B+-0b1010010 else B,q=0xf5d/B,nil end elseif B>0x93 then ja,x=c._[c.Ha[-0x4f75]or c:Ia(c.sa"#dVz9Y?=",c.sa"=^3K",-0x4f75)],c._[c.La[-0x601d]or c:Na(c.sa"M}EOpXx9",c.sa"u?I5",-0x601d)]ja=ja[c.La[0x3ca7]or c:Na(c.sa"ihXyDeRYf",c.sa"1{nA",0x3ca7)]x=x(ja)ja=c.Ha[-0x5136]or c:Ia(c.sa"y*AD=uPV<!",c.sa"QJ_QH",-0x5136)B,q=c.La[0x2b7b]or c:Qa(0x586bfba6,0x586bfb59,0x2b7b),x==ja else x,ja=c._[c.Ha[0x1ae]or c:Ia(c.sa"B`Yg5Jv{",c.sa"TT)Q",0x1ae)],c._[c.Ha[-0x76d0]or c:Ia(c.sa"D<L)",c.sa"SO",-0x76d0)]B,ja=0x65a3/B,ja[c.Ha[-0x7c4b]or c:Ia(c.sa"39d2@t}qV",c.sa"L(6*",-0x7c4b)]x=x(ja)ja=c.La[0x6685]or c:Na(c.sa"yxr*KuEFW(",c.sa"hK8ux",0x6685)q=x==ja end elseif B>0b10101110 then B=q and(c.La[-0x740]or c:Qa(3776560312,3776560296,-0x740))or(c.La[-0x164]or c:Qa(0xaa0b8d4,0xaa0b867,-0x164))else B,F[0b11][F[1]]=c.Ha[0x618b]or c:Ja(0,0x9a,0x618b),u[0b11][u[1]][c.Ha[0x6d1]or c:Ia(c.sa"O1;5T_g22cOa62",c.sa"n=+!(1^",0x6d1)]end elseif B<0b11100011 then if B>=0b10111100 then if B>0b10111100 then B,q=c.Ha[0x424c]or c:Ja(0x48,0b1000,0x424c),c._[c.Ha[-0x7c4b]or c:Ia(c.sa"#+x<4n>WA",c.sa"ME<k",-0x7c4b)]else ma,s=c:m{N,F},c._[c.La[-0x2f5c]or c:Na(c.sa"NElfcQ~",c.sa"dpH",-0x2f5c)]B=B+-0b1001110 s(ma)end else B=q and 0b10111000-B or B+0b1000001 end elseif B<0b11110100 then if B<=0xe3 then q=c._[c.Ha[-0x76d0]or c:Ia(c.sa"DI+u",c.sa"S^",-0x76d0)]B=q and(c.Ha[-0x52c7]or c:Ka(0x93,-0x52c7))or(c.La[-0x53f6]or c:Ma(0xb1,-0x53f6))else B=q and(c.Ha[-0x1d88]or c:Ja(0b10001,0b10100011,-0x1d88))or 0x1c9-B end elseif B>0b11110100 then B=q and(c.Ha[-0x67f3]or c:Pa(0x31653dd9,0x3165146d,-0x67f3))or(c.La[-0x1d09]or c:Ma(0b101,-0x1d09))else q=c._[c.La[0x4fbe]or c:Na(c.sa"(ij)a0TB",c.sa"Vsx|",0x4fbe)]B=q and(c.Ha[0x4e6c]or c:Oa(2903950631,0x733b5b4e,0x39dba2cd,0x4e6c))or(c.Ha[0x6478]or c:Pa(3389936005,3389946231,0x6478))end elseif B<0b1001000 then if B<=0b10111 then if B>0x14 then q={[1]=0b10,[0b10]=q}q[0b11]=q x={[1]=0b10,[0b10]=x}x[0b11]=x x[0b11][x[1]]=c:E()ja={[1]=0b10,[0b10]=ja}ja[0b11]=ja ja[0b11][ja[1]]=c:q{ba,x,q}n={[1]=0b10,[0b10]=n}n[0b11]=n n[0b11][n[1]]=c:M{m,ja,ba}H={[1]=0b10,[0b10]=H}H[0b11]=H H[0b11][H[1]]=c:O{ba}i={[1]=0b10,[0b10]=i}i[0b11]=i i[0b11][i[1]]=c:K{ba}Q={[1]=0b10,[0b10]=Q}Q[0b11]=Q la,N,D,Q[0b11][Q[1]]=c:J{H},c._[c.Ha[-0x4a0c]or c:Ia(c.sa"(kkTsH@g",c.sa"h((b",-0x4a0c)],{},c:x{i}A,ma,N,s=N[c.Ha[0x3c47]or c:Ia(c.sa"#-8xazS!a",c.sa"pX{I",0x3c47)],0b1110,0b1000,0b110 A=A(N,s,ma)D[c.La[0x3ea8]or c:Na(c.sa"UY?ZWmTr)O=9K",c.sa"@rd{T8~",0x3ea8)]=A N=c._[c.La[0x155e]or c:Na(c.sa"rODli)Pe",c.sa"v8Lt",0x155e)]s,A,N,ma=0b1011,N[c.La[0x1bb7]or c:Na(c.sa"*^ztFu~Yp",c.sa"6yv`",0x1bb7)],0b1110,0b11000 A=A(N,s,ma)D[c.La[-0x6d4d]or c:Na(c.sa"P3wVp|B!n",c.sa"^PV0",-0x6d4d)]=A N=c._[c.Ha[-0x4a0c]or c:Ia(c.sa"^1B`0ra}",c.sa"an!K",-0x4a0c)]ma,N,s,A=0x24,0b10110,0b10010,N[c.La[0x1bb7]or c:Na(c.sa"U?pX11x-W",c.sa"3Rea",0x1bb7)]A=A(N,s,ma)D[c.La[0x71a8]or c:Na(c.sa"R|FqzfdpYa1Z;>C",c.sa"XW$EMaRd",0x71a8)]=A N=c._[c.La[0x155e]or c:Na(c.sa"BxAV<e&z",c.sa")eL6",0x155e)]A,s,ma,N=N[c.Ha[0x3c47]or c:Ia(c.sa"V`M>SL}^C",c.sa"E*1p",0x3c47)],0b11010,0b110100,0b100000 A=A(N,s,ma)D[c.La[-0x3f4e]or c:Na(c.sa"BN!1&xw;i43|qac",c.sa"+1M>(ZEy",-0x3f4e)]=A N=c._[c.Ha[-0x4a0c]or c:Ia(c.sa"{R@uK7SR",c.sa";$*%",-0x4a0c)]A,s,N,ma=N[c.La[0x1bb7]or c:Na(c.sa"L}xNjM;c%",c.sa"T@@k",0x1bb7)],0x3c,0x8c,0xff A=A(N,s,ma)D[c.La[-0x12ed]or c:Na(c.sa"K0(|XOv?",c.sa"zaoD",-0x12ed)]=A N=c._[c.La[0x155e]or c:Na(c.sa"kV#^^R6P",c.sa"4kpt",0x155e)]s,ma,A,N=0x64,0b11111111,N[c.Ha[0x3c47]or c:Ia(c.sa"#a7JDcI4p",c.sa"qa>p",0x3c47)],0xaa A=A(N,s,ma)D[c.La[-0x6b5]or c:Na(c.sa"d^p8*0swz0&vyg>",c.sa"bZii&TRi",-0x6b5)]=A N=c._[c.La[0x155e]or c:Na(c.sa"ruLkQ>%#",c.sa"@R{W",0x155e)]s,A,N,ma=0b100011,N[c.La[0x1bb7]or c:Na(c.sa"*u^l@<rw?",c.sa"U$?#",0x1bb7)],0b1011010,0b10110100 A=A(N,s,ma)D[c.Ha[-0x7269]or c:Ia(c.sa"x>TftnvZj)l%D",c.sa"^ybGm`v",-0x7269)]=A N=c._[c.Ha[-0x4a0c]or c:Ia(c.sa"*1OjFril",c.sa"y3~~",-0x4a0c)]N,ma,s,A=0b110111,0b1101110,0x19,N[c.Ha[0x3c47]or c:Ia(c.sa"3@1?s2YDy",c.sa"K2>S",0x3c47)]A=A(N,s,ma)D[c.Ha[0x829]or c:Ia(c.sa"AE!uYFtBfAGX",c.sa"4J*W6",0x829)]=A N=c._[c.Ha[-0x4a0c]or c:Ia(c.sa"=GfE9#f$",c.sa"zqh3",-0x4a0c)]N,ma,A,s=0b101000,0x41,N[c.La[0x1bb7]or c:Na(c.sa"(g+XPC@1y",c.sa"V0yF",0x1bb7)],0b11110 A=A(N,s,ma)D[c.La[-0x7de8]or c:Na(c.sa"RRLXd3ta",c.sa"FK!n",-0x7de8)]=A N=c._[c.La[0x155e]or c:Na(c.sa"+%9AAGdu",c.sa"4?&*",0x155e)]s,ma,N,A=0x2a,0b1011010,0x37,N[c.Ha[0x3c47]or c:Ia(c.sa"EW~;z<WdL",c.sa"6}Cz",0x3c47)]A=A(N,s,ma)D[c.Ha[-0x15fa]or c:Ia(c.sa"${Y!1!umfFWzYN",c.sa"rviI(hy",-0x15fa)]=A N=c._[c.La[0x155e]or c:Na(c.sa"c%4vGfDZ",c.sa"Jn}m",0x155e)]ma,A,s,N=0xff,N[c.La[0x1bb7]or c:Na(c.sa"E!k2g`FaT",c.sa"J*!I",0x1bb7)],0b11110000,0xf5 A=A(N,s,ma)D[c.La[-0x39c8]or c:Na(c.sa"+dcOz",c.sa"SdR",-0x39c8)]=A N=c._[c.La[0x155e]or c:Na(c.sa"7Zvk62&@",c.sa"pL$d",0x155e)]s,A,ma,N=0b10101010,N[c.Ha[0x3c47]or c:Ia(c.sa"uYWeAUmlA",c.sa"Sq;e",0x3c47)],0b11001000,0xb4 A=A(N,s,ma)D[c.Ha[-0x6f33]or c:Ia(c.sa"nGg!OCI_z",c.sa"a&^r",-0x6f33)]=A N=c._[c.Ha[-0x4a0c]or c:Ia(c.sa"=HF?`!Zr",c.sa"1+b+",-0x4a0c)]ma,N,s,A=0x96,0x78,0x6e,N[c.Ha[0x3c47]or c:Ia(c.sa"+6Al8C4>F",c.sa"#CN;",0x3c47)]A=A(N,s,ma)D[c.Ha[-0x4c52]or c:Ia(c.sa"G)2A?WUmb",c.sa"#vot",-0x4c52)]=A N=c._[c.Ha[-0x4a0c]or c:Ia(c.sa"u#f_rja>",c.sa"ZvXQ",-0x4a0c)]N,A,s,ma=0b1001011,N[c.La[0x1bb7]or c:Na(c.sa"auo`BH6m6",c.sa"WoHx",0x1bb7)],0x41,0b1101001 A=A(N,s,ma)D[c.Ha[0x3f4e]or c:Ia(c.sa"ufOJuwy)})p8",c.sa"_@3JP",0x3f4e)]=A N=c._[c.Ha[-0x4a0c]or c:Ia(c.sa"PQ)%^*>L",c.sa"LaPk",-0x4a0c)]N,A,ma,s=0x50,N[c.Ha[0x3c47]or c:Ia(c.sa"V3B`ou~$R",c.sa"5aR{",0x3c47)],0b10010110,0xdc A=A(N,s,ma)D[c.La[-0x4ce3]or c:Na(c.sa"2O@hnGHWL",c.sa"7*|v",-0x4ce3)]=A N=c._[c.Ha[-0x4a0c]or c:Ia(c.sa"ZYz~SHp&",c.sa"`9v)",-0x4a0c)]ma,A,N,s=0b110111,N[c.La[0x1bb7]or c:Na(c.sa"iw6mSCn2u",c.sa"W_9f",0x1bb7)],0x1e,0x50 A=A(N,s,ma)D[c.Ha[0x1431]or c:Ia(c.sa"HuUG#!4~qs+{p",c.sa"q_u>BWd",0x1431)]=A N=c._[c.La[0x155e]or c:Na(c.sa"vi={Q<3I",c.sa"bCK}",0x155e)]A,s,ma,N=N[c.La[0x1bb7]or c:Na(c.sa"2jct;!qg)",c.sa"laOH",0x1bb7)],0x41,0b1001011,0xf0 A=A(N,s,ma)D[c.La[0x1de0]or c:Na(c.sa"20}4kF#",c.sa"Fhc",0x1de0)]=A N=c._[c.La[0x155e]or c:Na(c.sa"mCIVW)&&",c.sa"Hl)@",0x155e)]ma,N,A,s=0b11110,0b1010000,N[c.La[0x1bb7]or c:Na(c.sa"39JzUj5#d",c.sa"e%@~",0x1bb7)],0x19 A=A(N,s,ma)D[c.Ha[0x4cee]or c:Ia(c.sa"YGb1BT~)d5",c.sa"fY1>y",0x4cee)]=A N=c._[c.La[0x155e]or c:Na(c.sa"7ck>HExZ",c.sa"k6%;",0x155e)]s,N,A,ma=0b1001,0b1100,N[c.Ha[0x3c47]or c:Ia(c.sa"OE<7U7npA",c.sa"-$g9",0x3c47)],0b10100 A=A(N,s,ma)D[c.Ha[-0x1292]or c:Ia(c.sa"7_LONe>1B^gnR",c.sa"8^$Z#Tm",-0x1292)]=A N=c._[c.Ha[-0x4a0c]or c:Ia(c.sa"5bo1F^Na",c.sa"zkyQ",-0x4a0c)]N,A,ma,s=0b100010,N[c.Ha[0x3c47]or c:Ia(c.sa"I=*f(o<<%",c.sa"0nA(",0x3c47)],0b1001011,0b10001100 A=A(N,s,ma)D[c.La[0x71fe]or c:Na(c.sa"BIp4B3j",c.sa"nq>",0x71fe)]=A N=c._[c.La[0x155e]or c:Na(c.sa"rn4}Lu5S",c.sa"T-@a",0x155e)]A,s,N,ma=N[c.Ha[0x3c47]or c:Ia(c.sa"rKO9mg`<H",c.sa"<k!O",0x3c47)],0xaa,0x28,0b1011010 A=A(N,s,ma)D[c.La[-0x6795]or c:Na(c.sa"tQj^4r=tWV2)h",c.sa"$!$|>>i",-0x6795)]=A N=c._[c.La[0x155e]or c:Na(c.sa"cz^&@onH",c.sa"Z0|b",0x155e)]A,s,N,ma=N[c.Ha[0x3c47]or c:Ia(c.sa"Ffuhe5*-u",c.sa"T0m9",0x3c47)],0b11001100,0b11111010,0x15 A=A(N,s,ma)D[c.La[0x2a9c]or c:Na(c.sa"bE9BJse1",c.sa"48|$",0x2a9c)]=A aa=D aa={[1]=0b10,[0b10]=aa}aa[0b11]=aa D={[1]=0b10,[0b10]=D}D[0b11]=D N,s,D[0b11][D[1]],A=c._[c.La[-0x2f5c]or c:Na(c.sa"i1C^Jlm",c.sa"lK2",-0x2f5c)],c:L{j,F},c:F{k},c:G{aa}N(s)s=c._[c.La[-0x5a16]or c:Na(c.sa"$yD6v;Z)4|",c.sa"oUb~7",-0x5a16)]N,s=s[c.La[0x20d3]or c:Na(c.sa"BPco",c.sa"O#",0x20d3)],c.La[0xc1c]or c:Na(c.sa"O$fXudj*L$cK",c.sa"L(Xd+",0xc1c)N=N(s)N={[1]=0b10,[0b10]=N}N[0b11]=N s=c.Ha[-0x7b87]or c:Ia(c.sa"y$+UD3w(kOf<Xsn",c.sa"4{`?YYxV",-0x7b87)N[0b11][N[1]][c.Ha[0x999]or c:Ia(c.sa"da_xz",c.sa"(=-",0x999)]=s s=false N[0b11][N[1]][c.Ha[-0xdbe]or c:Ia(c.sa"c5O(r*)2+2OSjq#",c.sa"Vy)IY2qX",-0xdbe)]=s z=c._[c.Ha[-0x731a]or c:Ia(c.sa"U;S_X",c.sa"lNt",-0x731a)]ma=z[c.La[0x4445]or c:Na(c.sa"hwzr{o&vtO(V6~|6^;",c.sa"{CfL{__^H",0x4445)]s=ma[c.La[0x2984]or c:Na(c.sa"fZ}++;&ik",c.sa"8jI5",0x2984)]N[0b11][N[1]][c.Ha[0x27e1]or c:Ia(c.sa"7)PqBT^vRyW~I4N3w8",c.sa"1Y|hR#129",0x27e1)]=s s=0x3e7 N[0b11][N[1]][c.Ha[0xf48]or c:Ia(c.sa"td~T)6}FMFMXwyC",c.sa"*Llk~{^$",0xf48)]=s s=true N[0b11][N[1]][c.La[-0x5b88]or c:Na(c.sa"1DjCdhEYU6m3QNZQFj",c.sa"12puFKKx1",-0x5b88)]=s ma,s=c:C{N,j},c._[c.Ha[0x3108]or c:Ia(c.sa"zbCFJqW",c.sa"M9%",0x3108)]s(ma)ma=N[0b11][N[1]][c.Ha[-0x409d]or c:Ia(c.sa"IF2w4fi?",c.sa"Lhon",-0x409d)]s=not ma B=s and(c.La[0x4402]or c:Qa(2451960207,2451960115,0x4402))or B+0x57 elseif B>=0b10000 then if B>0x10 then ma=c._[c.La[-0x5a16]or c:Na(c.sa"1Lgs{E9McZ",c.sa"&vJ-L",-0x5a16)]s,ma=ma[c.La[0x20d3]or c:Na(c.sa"s-d$",c.sa"!~",0x20d3)],c.La[-0x78e]or c:Na(c.sa"qhN%8fB",c.sa"66F",-0x78e)s=s(ma)s={[1]=0b10,[0b10]=s}s[0b11]=s z=c._[c.La[0x25c3]or c:Na(c.sa"5Y{aJcK",c.sa"l0^",0x25c3)]ma,p,z=z[c.La[0x20d3]or c:Na(c.sa"_x$b",c.sa"nE",0x20d3)],0,1 fa,O=p,z ma=ma(z,p,O,fa)s[0b11][s[1]][c.Ha[0x55f4]or c:Ia(c.sa"-v9UW",c.sa"mW=",0x55f4)]=ma z=c._[c.La[0x155e]or c:Na(c.sa"0(S#0YFq",c.sa"Zx}%",0x155e)]ma,z=z[c.Ha[0x3c47]or c:Ia(c.sa"ZDJ;7LJmm",c.sa"Ne~M",0x3c47)],0 p=z O=p ma=ma(z,p,O)s[0b11][s[1]][c.Ha[0x4ad2]or c:Ia(c.sa"1XxgJ2ND6$C|z)33=bTZ",c.sa"rEXwg4Kq1L",0x4ad2)]=ma ma=0.5 s[0b11][s[1]][c.La[0xdfd]or c:Na(c.sa"P>8@Hsh<Auw6KR@h|M~_jpN|7x2g",c.sa")7099k?hV%qv;X",0xdfd)]=ma ma=0 s[0b11][s[1]][c.Ha[-0x14f]or c:Ia(c.sa"5bb3-&0JMG_;L-wR%1Q",c.sa"1}>;w7lKj",-0x14f)]=ma ma=1 s[0b11][s[1]][c.La[-0x3b39]or c:Na(c.sa"FA!}JJbM",c.sa"16g$",-0x3b39)]=ma s[0b11][s[1]][c.Ha[-0x409d]or c:Ia(c.sa"5pAC&Vwn",c.sa"?F>N",-0x409d)]=N[0b11][N[1]]z=c._[c.La[-0x5a16]or c:Na(c.sa"7f4VZKS)3i",c.sa"Y9l6I",-0x5a16)]z,ma=c.La[-0x78e]or c:Na(c.sa"xsaZZng",c.sa";{N",-0x78e),z[c.La[0x20d3]or c:Na(c.sa"2Mit",c.sa"X#",0x20d3)]ma=ma(z)ma={[1]=0b10,[0b10]=ma}ma[0b11]=ma z=c.Ha[-0x4958]or c:Ia(c.sa"pRBH_",c.sa"&D;",-0x4958)ma[0b11][ma[1]][c.Ha[0x999]or c:Ia(c.sa"=Q6}L",c.sa"Q>g",0x999)]=z p=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"*zx4pzW",c.sa"wT%",-0x4d3a)]z,O,p=p[c.Ha[-0x5fea]or c:Ia(c.sa";p+G",c.sa"j{",-0x5fea)],0x1cc,0 S,fa=0b100110110,p z=z(p,O,fa,S)ma[0b11][ma[1]][c.Ha[0x55f4]or c:Ia(c.sa"r|*vA",c.sa"hV%",0x55f4)]=z p=c._[c.La[0x25c3]or c:Na(c.sa"@3_;Ehy",c.sa"{JH",0x25c3)]z,O,p=p[c.Ha[-0x5fea]or c:Ia(c.sa"eRgC",c.sa"69",-0x5fea)],-0b11100110,0.5 S,fa=-0x9b,p z=z(p,O,fa,S)ma[0b11][ma[1]][c.Ha[0x69e2]or c:Ia(c.sa"m^ftPygqp3",c.sa"iWgVN",0x69e2)]=z z=aa[0b11][aa[1]][c.La[0x3ea8]or c:Na(c.sa"(TnDO*Wrcmd(;",c.sa"uoZ>slK",0x3ea8)]ma[0b11][ma[1]][c.La[-0x7ee5]or c:Na(c.sa"jqXgiLGWz+q3dkCO6_sF",c.sa"i35Tr(=U(D",-0x7ee5)]=z z=0 ma[0b11][ma[1]][c.La[-0x3f9e]or c:Na(c.sa"BfUl+J?K6Ns8K61;s^}",c.sa"ZJJnnG}2)",-0x3f9e)]=z z=true ma[0b11][ma[1]][c.Ha[0x431a]or c:Ia(c.sa"PS6~$ru2ViZrK~VwBBxJ",c.sa"6&kSB-*vnV",0x431a)]=z z=0b10 ma[0b11][ma[1]][c.Ha[-0x620f]or c:Ia(c.sa")&URbEg1",c.sa"VMvS",-0x620f)]=z ma[0b11][ma[1]][c.La[-0x5548]or c:Na(c.sa"#F%;Umwx",c.sa"3;C1",-0x5548)]=N[0b11][N[1]]p,O,z,fa=ma[0b11][ma[1]],aa[0b11][aa[1]][c.Ha[-0x6ff6]or c:Ia(c.sa"c{LheKN<",c.sa"Xj(e",-0x6ff6)],A,1 z(p,O,fa)p=c._[c.Ha[0x7ed0]or c:Ia(c.sa"p<ls{iC@v5",c.sa"`m!<T",0x7ed0)]z,p=p[c.La[0x20d3]or c:Na(c.sa"(A&u",c.sa"z5",0x20d3)],c.Ha[0x2a00]or c:Ia(c.sa"h;^@Os{",c.sa"2hI",0x2a00)z=z(p)O=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"{gJ`Ang",c.sa")u;",-0x4d3a)]p,O,fa=O[c.Ha[-0x5fea]or c:Ia(c.sa"otA_",c.sa"^8",-0x5fea)],1,0b110 S,I=O,fa p=p(O,fa,S,I)z[c.La[-0x762d]or c:Na(c.sa"p<{?|",c.sa"3i1",-0x762d)]=p O=c._[c.La[0x25c3]or c:Na(c.sa"Ey)q!N&",c.sa"jd%",0x25c3)]p,O,fa=O[c.Ha[-0x5fea]or c:Ia(c.sa"J1`;",c.sa"RR",-0x5fea)],0,-0b11 I,S=fa,O p=p(O,fa,S,I)z[c.La[-0x73a8]or c:Na(c.sa"(x9`s_NK4C",c.sa"(7?}v",-0x73a8)]=p p=1 z[c.Ha[0x6215]or c:Ia(c.sa"uDLPZ^zQX3IXIG@xje?>{pdM4Kfe",c.sa"##~oinw*ohQrPS",0x6215)]=p p=0 z[c.Ha[-0b101001111]or c:Ia(c.sa"HLmE0)t}oQyZ^k|mF*h",c.sa"i0!cKn!$G",-0x14f)]=p p=1 z[c.Ha[-0x620f]or c:Ia(c.sa"<TX*+8Ak",c.sa"KYYF",-0x620f)]=p z[c.La[-0x5548]or c:Na(c.sa"Dso02eLw",c.sa"G!uF",-0x5548)]=ma[0b11][ma[1]]O=c._[c.La[-0x5a16]or c:Na(c.sa"UD`Aqb=o8h",c.sa"X-Bja",-0x5a16)]O,p=c.La[0x20d2]or c:Na(c.sa"(g@qQ^)BP7",c.sa"%!omU",0x20d2),O[c.La[0x20d3]or c:Na(c.sa"z{}Y",c.sa"t^",0x20d3)]p=p(O)O=aa[0b11][aa[1]][c.La[-0x3e8d]or c:Na(c.sa"EQD|k1Cv()00",c.sa"XcOmc",-0x3e8d)]p[c.Ha[0x606]or c:Ia(c.sa"+~D)z?E",c.sa"kDm",0x606)]=O O=0b10 p[c.La[0x5745]or c:Na(c.sa"Wmga5T2TY@LI",c.sa"fM!22",0x5745)]=O O=0.4 p[c.La[0x8c5]or c:Na(c.sa"si<PJ7Ji(lX0rx&",c.sa"4rSc~+Wi",0x8c5)]=O S=c._[c.La[0x5216]or c:Na(c.sa"?ik)1",c.sa"cB=",0x5216)]fa=S[c.Ha[-0x77b0]or c:Ia(c.sa"ut@5w&T!*{SMj3yO!Jf",c.sa"mm{~wnmF+",-0x77b0)]O=fa[c.Ha[-0x6ff6]or c:Ia(c.sa"{GlG&s~!",c.sa"Y|g#",-0x6ff6)]p[c.La[-0x66e2]or c:Na(c.sa"_3_T<!}tEi?$z%1%kI$",c.sa"iln-WzJas",-0x66e2)]=O p[c.La[-0x5548]or c:Na(c.sa"Oo!@ui0l",c.sa"nC2V",-0x5548)]=z fa=c._[c.La[-0x5a16]or c:Na(c.sa"_2bW1-Q(Xz",c.sa"BfO2g",-0x5a16)]O,fa=fa[c.La[0x20d3]or c:Na(c.sa"bboC",c.sa"8U",0x20d3)],c.La[0x2817]or c:Na(c.sa"4PL!5jy!&!Et>",c.sa"??d_*SO",0x2817)O=O(fa)S=c._[c.La[-0x29ae]or c:Na(c.sa"fB^EREZn9Z>#Z>CrT",c.sa"k6y^0Z^H",-0x29ae)]S,fa,y={},S[c.La[0x20d3]or c:Na(c.sa"0SXu",c.sa"Zv",0x20d3)],c._[c.Ha[-0xfdf]or c:Ia(c.sa"9z@!6c<4+u{(3V=(^qf8Su5gkDF",c.sa"AB#jOy9yk(D_s",-0xfdf)]y,ea,I=0,aa[0b11][aa[1]][c.La[-0x12ed]or c:Na(c.sa"*rOBtt^@",c.sa"aKM=",-0x12ed)],y[c.Ha[-0x5fea]or c:Ia(c.sa"PefJ",c.sa"Ap",-0x5fea)]I=I(y,ea)ea=c._[c.La[0x4ba3]or c:Na(c.sa"D*Sg@?Sunpmox|Petr6`7Iuq29R",c.sa"QQ{e9*Pk{UlW7",0x4ba3)]ea,y,G=0.15,ea[c.Ha[-0x5fea]or c:Ia(c.sa"W^I1",c.sa"2m",-0x5fea)],aa[0b11][aa[1]][c.Ha[0x829]or c:Ia(c.sa"qYzB1j0bC{j{",c.sa"&M$M~",0x829)]y=y(ea,G)G=c._[c.La[0x4ba3]or c:Na(c.sa"pxR-XO3Wxo1DK80XuVzLJysu+mj",c.sa"{dPG`pE&jnwc`",0x4ba3)]G,da,ea=0.35,c._[c.La[0x155e]or c:Na(c.sa"k&9ftmID",c.sa"Fyzt",0x155e)],G[c.Ha[-0x5fea]or c:Ia(c.sa"N<mW",c.sa"Bm",-0x5fea)]da,v,l,a=0b10100,da[c.La[0x1bb7]or c:Na(c.sa"t~?&495#v",c.sa"aZbn",0x1bb7)],0b101000,0b1100 v=c.h(v(da,a,l))ea=ea(G,c.i(v))v=c._[c.La[0x4ba3]or c:Na(c.sa"-a!sj-JgDgaNP4v2XM-@Yn^P@=>",c.sa"xdrkY%&$9QE}Z",0x4ba3)]a,v,G=c._[c.La[0x155e]or c:Na(c.sa"F^h2>mM#",c.sa"9prK",0x155e)],0.65,v[c.La[0x20d3]or c:Na(c.sa"<LLS",c.sa"jQ",0x20d3)]da,l,o,a=a[c.La[0x1bb7]or c:Na(c.sa"bavW*R`O5",c.sa"wFD9",0x1bb7)],0b1100,0x28,0x14 da=c.h(da(a,l,o))G=G(v,c.i(da))da=c._[c.Ha[-0xfdf]or c:Ia(c.sa"U6l3f+hdMreQ9u*{Ljoun|WbkY5",c.sa"3<wtMFsX!@`yK",-0xfdf)]da,a,v=0.85,aa[0b11][aa[1]][c.Ha[0x829]or c:Ia(c.sa"Xl^(fM|mF>L;",c.sa"e_IVH",0x829)],da[c.Ha[-0x5fea]or c:Ia(c.sa"JU1l",c.sa"QU",-0x5fea)]v=v(da,a)a=c._[c.La[0x4ba3]or c:Na(c.sa"=-;Pbg&?0fedWc|u6vRSiYH<2-v",c.sa"fCxzXbN4XIu&V",0x4ba3)]da,a,l=a[c.La[0x20d3]or c:Na(c.sa"t){d",c.sa"!v",0x20d3)],1,aa[0b11][aa[1]][c.La[-0x12ed]or c:Na(c.sa">WJLVh06",c.sa"zw4_",-0x12ed)]da=c.h(da(a,l))S[0b100],S[1],S[0b10],S[0b11],S[0b101]=G,I,y,ea,v c.j(S,0b110,c.i(da))fa=fa(S)O[c.La[-0x1f62]or c:Na(c.sa"CY%YJ7X",c.sa"^JM",-0x1f62)]=fa fa=0x2d O[c.Ha[-0x1cf9]or c:Ia(c.sa"^Tdej)xwkH",c.sa"iu|jg",-0x1cf9)]=fa O[c.Ha[-0x409d]or c:Ia(c.sa"+gd8_RV)",c.sa"SUZa",-0x409d)]=p S=c._[c.Ha[0x7ed0]or c:Ia(c.sa"kJB<wr_&-{",c.sa"J3+n1",0x7ed0)]S,fa=c.La[-0x78e]or c:Na(c.sa"m7KDJwg",c.sa"?$Z",-0x78e),S[c.La[0x20d3]or c:Na(c.sa"CM`b",c.sa"NB",0x20d3)]fa=fa(S)I=c._[c.La[0x25c3]or c:Na(c.sa"ktMAR_5",c.sa"VZ;",0x25c3)]I,y,S=1,0,I[c.Ha[-0x5fea]or c:Ia(c.sa"xw4=",c.sa"*8",-0x5fea)]G,ea=0b10,y S=S(I,y,ea,G)fa[c.La[-0x762d]or c:Na(c.sa"0{JWT",c.sa"kWl",-0x762d)]=S I=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"HI)gxQU",c.sa"(O>",-0x4d3a)]I,S=0,I[c.Ha[-0x5fea]or c:Ia(c.sa"CM`b",c.sa"NB",-0x5fea)]y=I ea,G=y,y S=S(I,y,ea,G)fa[c.Ha[0x69e2]or c:Ia(c.sa"u-;w~l-NQR",c.sa"crCHu",0x69e2)]=S S=aa[0b11][aa[1]][c.La[-0x12ed]or c:Na(c.sa"zE-@NTdM",c.sa"-!=a",-0x12ed)]fa[c.Ha[0x4ad2]or c:Ia(c.sa"3HgzCwn(;CCH%2-y;Z9a",c.sa"BiTC99P*e;",0x4ad2)]=S S=0 fa[c.Ha[-0x14f]or c:Ia(c.sa"<M446zFz~#<z^wWRW;2",c.sa"P%YbW1D~M",-0b101001111)]=S S=0b1010 fa[c.Ha[-0x620f]or c:Ia(c.sa"t&TyHqE`",c.sa"FUR)",-0x620f)]=S fa[c.La[-0x5548]or c:Na(c.sa"*)Y%SKgj",c.sa"y-|q",-0x5548)]=ma[0b11][ma[1]]I=c._[c.Ha[0x7ed0]or c:Ia(c.sa"TXGz3b8-xS",c.sa"8gCpD",0x7ed0)]S,I=I[c.La[0x20d3]or c:Na(c.sa"6Br5",c.sa"eE",0x20d3)],c.Ha[-0x9b9]or c:Ia(c.sa"@gUY3YQO;W27d",c.sa"3uuvPqy",-0x9b9)S=S(I)y=c._[c.La[-0x29ae]or c:Na(c.sa"w&CwyspXLW_EfdikN",c.sa"w%aj-j`a",-0x29ae)]G,y,I=c._[c.Ha[-0xfdf]or c:Ia(c.sa"c<9u}@a%P~DOgqH-Q(xRV6`<<PX",c.sa"JzUxlzk;Z^hdT",-0xfdf)],{},y[c.La[0x20d3]or c:Na(c.sa"%E8k",c.sa"qy",0x20d3)]ea,da,G=G[c.La[0x20d3]or c:Na(c.sa"PDNJ",c.sa"AO",0x20d3)],c._[c.La[0x155e]or c:Na(c.sa"idJ@}ODO",c.sa"8ac@",0x155e)],0 da,v,a,l=0b1000,da[c.Ha[0x3c47]or c:Ia(c.sa"K`Vz!3$JA",c.sa"=vgN",0x3c47)],0b110,0b1110 v=c.h(v(da,a,l))ea=ea(G,c.i(v))v=c._[c.Ha[-0xfdf]or c:Ia(c.sa"Yk?uH2o@H*GzLbED2X3D1EnYpTm",c.sa"V?oMuMS8+b?kE",-0xfdf)]da,v,G=aa[0b11][aa[1]][c.La[-0x3e8d]or c:Na(c.sa"BwVC`3rmBH2m",c.sa"<;Oo|",-0x3e8d)],0.2,v[c.La[0x20d3]or c:Na(c.sa"v$(1",c.sa"-2",0x20d3)]G=G(v,da)da=c._[c.Ha[-0xfdf]or c:Ia(c.sa"`)b&iRno<W0Fl;a(X&GM(3u>X%m",c.sa"^mX>2fhYL11-J",-0xfdf)]da,v,a=0.5,da[c.Ha[-0x5fea]or c:Ia(c.sa"VQP2",c.sa"4*",-0x5fea)],aa[0b11][aa[1]][c.Ha[0x5469]or c:Ia(c.sa"Bul0~x``)RtUSDl",c.sa"{nT5<C}j",0x5469)]v=v(da,a)a=c._[c.Ha[-0xfdf]or c:Ia(c.sa"JseCVJw2;_<#7-YMF1)nzF_%!3I",c.sa"6p#<jZcj@fbAA",-0xfdf)]a,da,l=0.8,a[c.Ha[-0x5fea]or c:Ia(c.sa";OqG",c.sa"js",-0x5fea)],aa[0b11][aa[1]][c.Ha[0x829]or c:Ia(c.sa"y`+?elC!glkp",c.sa"<M+q>",0x829)]da=da(a,l)l=c._[c.La[0x4ba3]or c:Na(c.sa"ylTe7(>)$O3U-lZ&*#J!3m_JKiv",c.sa"6Ms*8ZlSEI1^)",0x4ba3)]K,a,l=c._[c.Ha[-0x4a0c]or c:Ia(c.sa"rHr?Uk>~",c.sa"+vDZ",-0x4a0c)],l[c.Ha[-0x5fea]or c:Ia(c.sa"?dJ3",c.sa"g8",-0x5fea)],1 o,K,P,f=K[c.Ha[0x3c47]or c:Ia(c.sa"@7gEi`VY$",c.sa"NT`V",0x3c47)],0b1000,0b110,0b1110 o=c.h(o(K,P,f))a=c.h(a(l,c.i(o)))y[0b10],y[0b100],y[1],y[0b11]=G,da,ea,v c.j(y,0b101,c.i(a))I=I(y)S[c.Ha[0x606]or c:Ia(c.sa"rpbxPmj",c.sa"rsV",0x606)]=I S[c.Ha[-0x409d]or c:Ia(c.sa"7A;95B2N",c.sa"J4{9",-0x409d)]=fa y=c._[c.Ha[0x7ed0]or c:Ia(c.sa"$DF3s@0_;8",c.sa"q1Ez^",0x7ed0)]y,I=c.Ha[0x2a00]or c:Ia(c.sa"FDVE%3;",c.sa"TWJ",0x2a00),y[c.Ha[-0x5fea]or c:Ia(c.sa"B`!P",c.sa"O8",-0x5fea)]I=I(y)y=c.Ha[0x712c]or c:Ia(c.sa")a<Cj;;H",c.sa"*n@x",0x712c)I[c.Ha[0x999]or c:Ia(c.sa"ce7Nt",c.sa"(m4",0x999)]=y ea=c._[c.La[0x25c3]or c:Na(c.sa"N=0^TEd",c.sa"0Ur",0x25c3)]y,ea,G=ea[c.La[0x20d3]or c:Na(c.sa"S6og",c.sa"IR",0x20d3)],1,0 da,v=0x2a,G y=y(ea,G,v,da)I[c.La[-0x762d]or c:Na(c.sa"1rIC(",c.sa"W>x",-0x762d)]=y ea=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"WY$>!0{",c.sa"k}&",-0x4d3a)]y,ea=ea[c.Ha[-0x5fea]or c:Ia(c.sa")!xh",c.sa"y8",-0x5fea)],0 G=ea v,da=G,0b10 y=y(ea,G,v,da)I[c.Ha[0x69e2]or c:Ia(c.sa"!m%5V=C=ok",c.sa"=4jrM",0x69e2)]=y y=aa[0b11][aa[1]][c.La[-0x6d4d]or c:Na(c.sa"MBHR?$aQi",c.sa"7O58",-0x6d4d)]I[c.Ha[0x4ad2]or c:Ia(c.sa"m*{QVxRqXvyX{Tivxq~=",c.sa"`7!6;unvjU",0x4ad2)]=y y=0 I[c.Ha[-0b101001111]or c:Ia(c.sa"#+o}pQ>=0Ak1Taxrbp-",c.sa"BHlJ7N%e#",-0b101001111)]=y y=0b11 I[c.La[-0x3b39]or c:Na(c.sa"m&E9)=>7",c.sa"hK<b",-0x3b39)]=y I[c.La[-0x5548]or c:Na(c.sa"1exwJmgo",c.sa"ocL4",-0x5548)]=ma[0b11][ma[1]]ea=c._[c.La[-0x5a16]or c:Na(c.sa"T%4y*bey+d",c.sa"JJj+O",-0x5a16)]ea,y=c.Ha[0x2a00]or c:Ia(c.sa"SKDyJbN",c.sa"sSy",0x2a00),ea[c.La[0x20d3]or c:Na(c.sa"AS*c",c.sa"P5",0x20d3)]y=y(ea)G=c._[c.La[0x25c3]or c:Na(c.sa"U<zC#2L",c.sa"PBj",0x25c3)]G,v,ea=1,0,G[c.La[0x20d3]or c:Na(c.sa"B`!P",c.sa"O8",0x20d3)]da,a=v,G ea=ea(G,v,da,a)y[c.Ha[0x55f4]or c:Ia(c.sa"wt}CI",c.sa">*W",0x55f4)]=ea G=c._[c.La[0x25c3]or c:Na(c.sa"WdK<z0s",c.sa"L@)",0x25c3)]G,ea=0,G[c.La[0x20d3]or c:Na(c.sa"q_4d",c.sa"$^",0x20d3)]da,v=1,G a=v ea=ea(G,v,da,a)y[c.La[-0x73a8]or c:Na(c.sa");Ec5@-dZa",c.sa"1o~Kp",-0x73a8)]=ea ea=aa[0b11][aa[1]][c.Ha[-0x6ff6]or c:Ia(c.sa"OuQ^=wk!",c.sa"UegW",-0x6ff6)]y[c.La[-0x7ee5]or c:Na(c.sa"#}>6&kEyJ3>l2k-gtW0V",c.sa"2gBRwGS+v6",-0x7ee5)]=ea ea=0 y[c.Ha[-0x14f]or c:Ia(c.sa"G<A0uA?tk~U|=IH;Y%6",c.sa"E}2Ag1sZk",-0b101001111)]=ea ea=0b11 y[c.La[-0x3b39]or c:Na(c.sa"dX%9=xVH",c.sa"&)py",-0x3b39)]=ea y[c.Ha[-0x409d]or c:Ia(c.sa"_q991x;+",c.sa"Nz|t",-0x409d)]=I G=c._[c.La[-0x5a16]or c:Na(c.sa"h^)iapsdrx",c.sa"p|HZi",-0x5a16)]G,ea=c.Ha[-0x6707]or c:Ia(c.sa"fT0REn57UVxB",c.sa"LvqB_",-0x6707),G[c.La[0x20d3]or c:Na(c.sa"e0OC",c.sa"5&",0x20d3)]ea=ea(G)v=c._[c.La[-0x2675]or c:Na(c.sa"#hljA",c.sa"=&%",-0x2675)]G,v=v[c.La[0x7f53]or c:Na(c.sa"`ZM?`",c.sa"TbT",0x7f53)],0x25c6 G=G(v)ea[c.Ha[0x304e]or c:Ia(c.sa"ZDv7t",c.sa"133",0x304e)]=G v=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"4FWMMY5",c.sa"Mpy",-0x4d3a)]da,v,G=0x1e,0,v[c.Ha[-0x5fea]or c:Ia(c.sa"C?hc",c.sa"Mg",-0x5fea)]l,a=0b101010,v G=G(v,da,a,l)ea[c.Ha[0x55f4]or c:Ia(c.sa"tRjUj",c.sa"OaA",0x55f4)]=G v=c._[c.La[0x25c3]or c:Na(c.sa"fw;Yq<^",c.sa"{L}",0x25c3)]v,G,da=0,v[c.Ha[-0x5fea]or c:Ia(c.sa"&BoL",c.sa"qW",-0x5fea)],0b1010 a,l=v,-0b10 G=G(v,da,a,l)ea[c.Ha[0x69e2]or c:Ia(c.sa"xckpboc+^G",c.sa"BD|F7",0x69e2)]=G G=1 ea[c.Ha[0x6215]or c:Ia(c.sa"`zFBjrvyx#H1)g7Ce7@y7g3Bf@|F",c.sa"?~z*RBX+=_qer;",0x6215)]=G G=aa[0b11][aa[1]][c.Ha[-0x788]or c:Ia(c.sa"#W{cBG-v",c.sa"99o0",-0x788)]ea[c.Ha[0xd83]or c:Ia(c.sa"HXj+bn++BYu<H",c.sa"*ur6YVg",0xd83)]=G da=c._[c.La[0x5216]or c:Na(c.sa"BApVR",c.sa"^Jf",0x5216)]v=da[c.La[-0x6b74]or c:Na(c.sa"MnP^`",c.sa"E&u",-0x6b74)]G=v[c.La[-0x3cef]or c:Na(c.sa"&>X5;Li#bXQb7C",c.sa"BQxG}mj",-0x3cef)]ea[c.La[-0x6b74]or c:Na(c.sa"klwh(",c.sa"vDN",-0x6b74)]=G G=0b100000 ea[c.La[0x5fa1]or c:Na(c.sa"WpO7eVtpk$",c.sa"USAY3",0x5fa1)]=G v=da[c.La[-0x2050]or c:Na(c.sa"T&EuD^pK5Vr3mxLzm)",c.sa";nA(0X2J*",-0x2050)]G=v[c.Ha[-0x3560]or c:Ia(c.sa"GT^5L;JW",c.sa"$%Sz",-0x3560)]ea[c.La[-0x2050]or c:Na(c.sa"mZd$nIvp3Qrz@@oG7k",c.sa"dt76~MZm%",-0x2050)]=G G=0b100 ea[c.La[-0x3b39]or c:Na(c.sa"9L`iC;z9",c.sa"I)_F",-0x3b39)]=G ea[c.Ha[-0x409d]or c:Ia(c.sa"@JO4*N1X",c.sa"=_#N",-0x409d)]=I v=c._[c.La[-0x5a16]or c:Na(c.sa"%EMy(;=^+7",c.sa"h!L%W",-0x5a16)]G,v=v[c.La[0x20d3]or c:Na(c.sa";p+G",c.sa"j{",0x20d3)],c.La[0x2330]or c:Na(c.sa"!()L_+h?0V`v",c.sa"CHV%I",0x2330)G=G(v)v=c.La[0x63e5]or c:Na(c.sa"-VZuj(gt+p2^VCwN)Q9=9d7;@A7l",c.sa"L~?zK9b~^FX)pc",0x63e5)G[c.La[-0x39c8]or c:Na(c.sa"l9s-Q",c.sa"^Tq",-0x39c8)]=v da=c._[c.La[0x25c3]or c:Na(c.sa"i><eW>;",c.sa">D~",0x25c3)]da,a,v=1,-0b1100100,da[c.La[0x20d3]or c:Na(c.sa"sH3p",c.sa"#s",0x20d3)]o,l=0,da v=v(da,a,l,o)G[c.La[-0x762d]or c:Na(c.sa"3F;u`",c.sa"gIW",-0x762d)]=v da=c._[c.La[0x25c3]or c:Na(c.sa"@r=!-mH",c.sa"$fN",0x25c3)]v,da,a=da[c.La[0x20d3]or c:Na(c.sa"R9{U",c.sa"Is",0x20d3)],0,0x2c l,o=da,da v=v(da,a,l,o)G[c.La[-0x73a8]or c:Na(c.sa"7WQP%GVplF",c.sa"rWct;",-0x73a8)]=v v=1 G[c.Ha[0x6215]or c:Ia(c.sa"Ll^UYRrh~1rlT8k7yf2K<YFYIq&5",c.sa"PshkX5QQ=okaht",0x6215)]=v v=aa[0b11][aa[1]][c.Ha[0x304e]or c:Ia(c.sa"r^AcV",c.sa"rt<",0x304e)]G[c.Ha[0xd83]or c:Ia(c.sa"pRA1S&!nZB>%R",c.sa"jG6Sw%K",0xd83)]=v a=c._[c.La[0x5216]or c:Na(c.sa"xM_%L",c.sa"2mJ",0x5216)]da=a[c.Ha[0x1af5]or c:Ia(c.sa"@!8qJ",c.sa"wzm",0x1af5)]v=da[c.La[0x6480]or c:Na(c.sa";o_ire9O<fet7",c.sa"9TL=yrT",0x6480)]G[c.La[-0x6b74]or c:Na(c.sa"hh(pR",c.sa"3&8",-0x6b74)]=v v=0x11 G[c.Ha[-0x75b0]or c:Ia(c.sa"(rb{})n}5(",c.sa"t>_Mh",-0x75b0)]=v da=a[c.Ha[0xe63]or c:Ia(c.sa"fo+aiN-CVZZ<s)L1%v",c.sa"@M{t+_6XG",0xe63)]v=da[c.La[0x56d3]or c:Na(c.sa"r%8=i",c.sa"Eb9",0x56d3)]G[c.La[0x10]or c:Na(c.sa"FQ%Gvra<5lq>O5tZ}<",c.sa"i~;@!;=_9",0b10000)]=v da=a[c.Ha[-0x717a]or c:Ia(c.sa"r?^P^Zmx#2Q}0f>",c.sa"+&Ydh-SY",-0x717a)]v=da[c.Ha[0x481e]or c:Ia(c.sa"Nd-+GYy",c.sa"aR>",0x481e)]G[c.Ha[-0x717a]or c:Ia(c.sa"D*=oEQbr02mlbkR",c.sa"GzN6^WPb",-0x717a)]=v v=0b100 G[c.La[-0x3b39]or c:Na(c.sa"dOrk26A}",c.sa"YIYz",-0x3b39)]=v G[c.La[-0x5548]or c:Na(c.sa"s-l;lt&s",c.sa"<-_^",-0x5548)]=I da=c._[c.Ha[0x7ed0]or c:Ia(c.sa"_8IjV-WlZx",c.sa"ZH9Nh",0x7ed0)]da,v=c.Ha[-0x4863]or c:Ia(c.sa"AMDDN+&=xrj_?",c.sa"p5d~IO8",-0x4863),da[c.La[0x20d3]or c:Na(c.sa"QCdg",c.sa"KL",0x20d3)]v=v(da)v={[1]=0b10,[0b10]=v}v[0b11]=v da=c.Ha[0x2562]or c:Ia(c.sa"?Fzva%K",c.sa"X08",0x2562)v[0b11][v[1]][c.La[0xf59]or c:Na(c.sa"t9Xcf",c.sa"8RY",0xf59)]=da a=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"F#ruIRs",c.sa"L}U",-0x4d3a)]da,a,l=a[c.Ha[-0x5fea]or c:Ia(c.sa"6Br5",c.sa"eE",-0x5fea)],0,0b11110 o,K=a,l da=da(a,l,o,K)v[0b11][v[1]][c.La[-0x762d]or c:Na(c.sa"!3F3E",c.sa"Y?1",-0x762d)]=da a=c._[c.La[0x25c3]or c:Na(c.sa"{};nPm;",c.sa"Q>p",0x25c3)]a,l,da,K,o=1,-0b101000,a[c.La[0x20d3]or c:Na(c.sa"F*+y",c.sa"Uj",0x20d3)],-0b1111,0.5 da=da(a,l,o,K)v[0b11][v[1]][c.Ha[0x69e2]or c:Ia(c.sa"w%s~ClG`Ra",c.sa"R7tYt",0x69e2)]=da da=aa[0b11][aa[1]][c.La[0x6abf]or c:Na(c.sa"kf_6jr=Hk{",c.sa">ap6@",0x6abf)]v[0b11][v[1]][c.Ha[0x4ad2]or c:Ia(c.sa"v-bIKh0xTFpYz#kj?Kx)",c.sa"`@5pz1e%xe",0x4ad2)]=da da=0 v[0b11][v[1]][c.La[-0x3f9e]or c:Na(c.sa"+wz4xppb6x=aLAlnppJ",c.sa"J>tb!_nny",-0x3f9e)]=da da="X"v[0b11][v[1]][c.Ha[0x304e]or c:Ia(c.sa"hwH2Q",c.sa"j?(",0x304e)]=da da=aa[0b11][aa[1]][c.Ha[0x4bd1]or c:Ia(c.sa"j>Ngyxc",c.sa"w#x",0x4bd1)]v[0b11][v[1]][c.Ha[0xd83]or c:Ia(c.sa"{R*VtjK%}A+57",c.sa"&#T;TsQ",0xd83)]=da l=c._[c.La[0x5216]or c:Na(c.sa"?F`)y",c.sa"VyF",0x5216)]a=l[c.La[-0x6b74]or c:Na(c.sa"!nNwI",c.sa"+Jp",-0x6b74)]da=a[c.Ha[0x54c5]or c:Ia(c.sa"apOoTep}8{E_(",c.sa"A3{8gHU",0x54c5)]v[0b11][v[1]][c.Ha[0x1af5]or c:Ia(c.sa"G3*)l",c.sa"gLe",0x1af5)]=da da=0b1110 v[0b11][v[1]][c.La[0x5fa1]or c:Na(c.sa"-Nvwu+RCz=",c.sa"`N*S*",0x5fa1)]=da da=false v[0b11][v[1]][c.La[-0x55b7]or c:Na(c.sa"uqma0;xyTXGrz3QEy9B",c.sa"twEsg(OmH",-0x55b7)]=da da=0b100 v[0b11][v[1]][c.La[-0x3b39]or c:Na(c.sa"?lX(fADs",c.sa"<$AO",-0x3b39)]=da v[0b11][v[1]][c.Ha[-0x409d]or c:Ia(c.sa"@zl`7+tv",c.sa"qP3v",-0x409d)]=I da,l=v[0b11][v[1]][c.Ha[-0x6c9f]or c:Ia(c.sa"cmf}nr*H!vfv^",c.sa"!sKdgH2",-0x6c9f)],c:n{D,v}da,a=da.Connect,da da(a,l)l,da=c:I{D,v,aa},v[0b11][v[1]][c.La[-0x4031]or c:Na(c.sa")eh;E57Y$xkPi",c.sa"YUZ3_m;",-0x4031)]da,a=da.Connect,da da(a,l)da,l=v[0b11][v[1]][c.La[-0x7184]or c:Na(c.sa"slvRH?!D-Okiw_X$dmMyj{",c.sa"_MQKW;mNJ!",-0x7184)],c:y{D,ma,N}da,a=da.Connect,da da(a,l)a,da,l=nil,false,nil da={[1]=0b10,[0b10]=da}da[0b11]=da a={[1]=0b10,[0b10]=a}a[0b11]=a l={[1]=0b10,[0b10]=l}l[0b11]=l o,P=I[c.Ha[-0x5c53]or c:Ia(c.sa"MrD!xZ%uB7>2&",c.sa"8;Icx4*",-0x5c53)],c:l{ma,a,l,da}o,K=o.Connect,o o(K,P)o,P=I[c.Ha[-0xf97]or c:Ia(c.sa"P{`i|a$LyE6k-",c.sa"263;Z82",-0xf97)],c:Q{da}K,o=o,o.Connect o(K,P)P,o=c:P{l,a,ma,da},b[0b11][b[1]][c.Ha[-0x2699]or c:Ia(c.sa"$~A(ufa&WxoTrh_",c.sa"s`S9}TY~",-0x2699)]o,K=o.Connect,o o(K,P)K=c._[c.Ha[0x7ed0]or c:Ia(c.sa"cB1ZRUZVba",c.sa"9G%QR",0x7ed0)]o,K=K[c.La[0x20d3]or c:Na(c.sa"NkUK",c.sa"Cj",0x20d3)],c.Ha[0x2a00]or c:Ia(c.sa"URHTYeE",c.sa"Bp3",0x2a00)o=o(K)K=c.La[-0x4797]or c:Na(c.sa"Pqr#}yefD",c.sa"MA-}",-0x4797)o[c.La[0xf59]or c:Na(c.sa"Q}A%~",c.sa"ksS",0xf59)]=K P=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"Rh4PHG5",c.sa"(Et",-0x4d3a)]K,P,f=P[c.Ha[-0x5fea]or c:Ia(c.sa"QCdg",c.sa"KL",-0x5fea)],1,-0x28 ka,ha=-0x40,P K=K(P,f,ha,ka)o[c.La[-0x762d]or c:Na(c.sa"hIFrZ",c.sa"9n}",-0x762d)]=K P=c._[c.La[0x25c3]or c:Na(c.sa"_Z7=LkN",c.sa"QKA",0x25c3)]K,f,P=P[c.La[0x20d3]or c:Na(c.sa"%fQk",c.sa"r2",0x20d3)],0x14,0 ha,ka=P,0x36 K=K(P,f,ha,ka)o[c.La[-0x73a8]or c:Na(c.sa"S^TEmefqlE",c.sa"wAGUd",-0x73a8)]=K K=1 o[c.Ha[0x6215]or c:Ia(c.sa"+?FKqNJRPT=~<ubmMQ69SLFNYUa|",c.sa"%RPslmNqY%NB5o",0x6215)]=K K=0b11 o[c.Ha[-0x620f]or c:Ia(c.sa"7lO+vuH6",c.sa"rOQn",-0x620f)]=K o[c.La[-0x5548]or c:Na(c.sa"V!Lfuv}*",c.sa"AKEe",-0x5548)]=ma[0b11][ma[1]]P=c._[c.La[-0x5a16]or c:Na(c.sa"^IPZh+gtbI",c.sa"hm<wC",-0x5a16)]P,K=c.La[0x2330]or c:Na(c.sa"7ytUW5BuP$F8",c.sa"%z~Oj",0x2330),P[c.La[0x20d3]or c:Na(c.sa"d2(O",c.sa"7X",0x20d3)]K=K(P)P=c.La[0xa3f]or c:Na(c.sa"BGLVJT-|zI<;BBs+b1-QO!;)TFce^=NwhYp;cxZ6Q!4l1N5<x64w-CRx5LA7-zag<M*Dv3Fau-kNw9eO&t&xbHgCtFNd",c.sa"hQ11Y+kgRx-B{Zyg%4m5z#Ek*?-X9X8soQ+G6VfC6N$fP",0xa3f)K[c.Ha[0x304e]or c:Ia(c.sa"EfxU>",c.sa"b9n",0x304e)]=P f=c._[c.La[0x25c3]or c:Na(c.sa"Eu0axN&",c.sa"*mw",0x25c3)]P,ha,f=f[c.Ha[-0x5fea]or c:Ia(c.sa"v$(1",c.sa"-2",-0x5fea)],0,1 ka,d=ha,0b11110 P=P(f,ha,ka,d)K[c.La[-0x762d]or c:Na(c.sa"_kiAv",c.sa">7)",-0x762d)]=P f=c._[c.La[0x25c3]or c:Na(c.sa";?&;#g#",c.sa"khc",0x25c3)]P,f=f[c.La[0x20d3]or c:Na(c.sa"jfRu",c.sa";{",0x20d3)],0 ha=f ka,d=ha,ha P=P(f,ha,ka,d)K[c.Ha[0x69e2]or c:Ia(c.sa"?0$Wi$arC&",c.sa"@eUEZ",0x69e2)]=P P=1 K[c.Ha[0x6215]or c:Ia(c.sa"6BrciY$8?}2Kx#l7#Z|?F-r*s{3i",c.sa"UY}@eIZz9ScX?3",0x6215)]=P P=aa[0b11][aa[1]][c.La[-0x4c7e]or c:Na(c.sa"k#m8uQjn+",c.sa"`4+_",-0x4c7e)]K[c.La[-0x3fd7]or c:Na(c.sa"ppxL!kDHtK(*F",c.sa"%%GU}^Z",-0x3fd7)]=P ha=c._[c.La[0x5216]or c:Na(c.sa"!|3zt",c.sa"hK2",0x5216)]f=ha[c.La[-0x6b74]or c:Na(c.sa"Yz0If",c.sa"YAO",-0x6b74)]P=f[c.La[-0x6700]or c:Na(c.sa"ELUIyS$O",c.sa"6gX=",-0x6700)]K[c.La[-0x6b74]or c:Na(c.sa"{lL}R",c.sa"ue$",-0x6b74)]=P P=0b1100 K[c.Ha[-0x75b0]or c:Ia(c.sa"L2;S{MtztS",c.sa"aN-md",-0x75b0)]=P f=ha[c.Ha[0xe63]or c:Ia(c.sa"9=~E|v9BE?y>xzzfCT",c.sa"aqj688rn(",0xe63)]P=f[c.La[0x56d3]or c:Na(c.sa"obtBg",c.sa"m(T",0x56d3)]K[c.La[0x10]or c:Na(c.sa"y9KBuo>bt52fjU{d-w",c.sa"j1|UE&|vQ",0x10)]=P P=true K[c.La[0x3a14]or c:Na(c.sa"{o@-Jo7?9T5~<A",c.sa"%wl7PsQ",0x3a14)]=P P=0b11 K[c.Ha[-0x620f]or c:Ia(c.sa"u&%|9g3|",c.sa"tLN$",-0x620f)]=P K[c.Ha[-0x409d]or c:Ia(c.sa"uzFdAbzc",c.sa"D;wY",-0x409d)]=o f=c._[c.La[-0x5a16]or c:Na(c.sa"@V0Tj*tTJ>",c.sa"$^zKA",-0x5a16)]f,P=c.La[-0x78e]or c:Na(c.sa"BIE`80R",c.sa"mSg",-0x78e),f[c.La[0x20d3]or c:Na(c.sa"BriP",c.sa"N&",0x20d3)]P=P(f)P={[1]=0b10,[0b10]=P}P[0b11]=P ha=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"BJUo?MF",c.sa"t9J",-0x4d3a)]ka,ha,f=0,1,ha[c.Ha[-0x5fea]or c:Ia(c.sa"VQP2",c.sa"4*",-0x5fea)]d,ia=ka,0b101010 f=f(ha,ka,d,ia)P[0b11][P[1]][c.La[-0x762d]or c:Na(c.sa"p#q2w",c.sa"Yw`",-0x762d)]=f ha=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"c8p4;5d",c.sa"$Rh",-0x4d3a)]ha,f=0,ha[c.La[0x20d3]or c:Na(c.sa"Ix!;",c.sa"Q~",0x20d3)]ka,d,ia=ha,ha,0x2a f=f(ha,ka,d,ia)P[0b11][P[1]][c.Ha[0x69e2]or c:Ia(c.sa"%AWDC?wIYj",c.sa"*@E$!",0x69e2)]=f f=aa[0b11][aa[1]][c.Ha[-0x1292]or c:Ia(c.sa"&WC^^bmfA95O)",c.sa"5K`~;iU",-0x1292)]P[0b11][P[1]][c.La[-0x7ee5]or c:Na(c.sa"v)Lj7#6ak@pWFfl&t3KM",c.sa"!G|)VX+gO0",-0x7ee5)]=f f=0 P[0b11][P[1]][c.La[-0x3f9e]or c:Na(c.sa"ZQLhwU&h=<$uLJ#%<4k",c.sa"kF+`$RkJS",-0x3f9e)]=f f=0b11 P[0b11][P[1]][c.La[-0x3b39]or c:Na(c.sa"HS2;4$CL",c.sa"?4oY",-0x3b39)]=f P[0b11][P[1]][c.La[-0x5548]or c:Na(c.sa"2MwY!0;B",c.sa"&}>%",-0x5548)]=o f,ha,d,ka=A,P[0b11][P[1]],1,aa[0b11][aa[1]][c.Ha[-0x6ff6]or c:Ia(c.sa"`4HpZ8sh",c.sa"k$<}",-0x6ff6)]f=f(ha,ka,d)f={[1]=0b10,[0b10]=f}f[0b11]=f ka=c._[c.Ha[0x7ed0]or c:Ia(c.sa"!V|4f>Jz;|",c.sa"B;I|C",0x7ed0)]ha,ka=ka[c.La[0x20d3]or c:Na(c.sa"h=Y*",c.sa"<^",0x20d3)],c.La[0x51d3]or c:Na(c.sa"m<7+cBG|M",c.sa"w_wZ",0x51d3)ha=ha(ka)ha={[1]=0b10,[0b10]=ha}ha[0b11]=ha d=c._[c.La[0x25c3]or c:Na(c.sa"x|fE&-2",c.sa")9(",0x25c3)]ia,ka,d=-0b10100,d[c.Ha[-0x5fea]or c:Ia(c.sa"d2(O",c.sa"7X",-0x5fea)],1 ga,X=0,d ka=ka(d,ia,X,ga)ha[0b11][ha[1]][c.Ha[0x55f4]or c:Ia(c.sa"g;=aq",c.sa"G1d",0x55f4)]=ka d=c._[c.La[0x25c3]or c:Na(c.sa"B+nS;Lj",c.sa"i*W",0x25c3)]ka,ia,d=d[c.Ha[-0x5fea]or c:Ia(c.sa"OF&W",c.sa"B>",-0x5fea)],0b1010,0 X=d ga=X ka=ka(d,ia,X,ga)ha[0b11][ha[1]][c.La[-0x73a8]or c:Na(c.sa"^T6En*T%r}",c.sa"ov*K>",-0x73a8)]=ka ka=1 ha[0b11][ha[1]][c.La[0xdfd]or c:Na(c.sa"xaY4RqGi@oIY3m1=b|{ZcFRLKM|l",c.sa"03=r?xfjJt%!c{",0xdfd)]=ka ka=c.Ha[0x2348]or c:Ia(c.sa"zaKg}^m{TkmR=z%<34wN!2",c.sa"Q(0S)PDy_6",0x2348)ha[0b11][ha[1]][c.Ha[-0x61d7]or c:Ia(c.sa"<};B)@RohrJC#zwn`*)",c.sa"68@DS@L#q",-0x61d7)]=ka ka=aa[0b11][aa[1]][c.Ha[0x3f4e]or c:Ia(c.sa"ek>}OXFMi}P5",c.sa">{3Z8",0x3f4e)]ha[0b11][ha[1]][c.Ha[0x383f]or c:Ia(c.sa"zqv(n#r8#5i?CKw&+<h^+y",c.sa"G%B8;5hT^`",0x383f)]=ka ka=aa[0b11][aa[1]][c.Ha[0x5469]or c:Ia(c.sa"{~V|bj;j0(q6vtq",c.sa"-r#P_f4%",0x5469)]ha[0b11][ha[1]][c.Ha[0xd83]or c:Ia(c.sa"0UG*rV>%P<auW",c.sa"AOM1YRR",0xd83)]=ka ka=0b1101 ha[0b11][ha[1]][c.Ha[-0x75b0]or c:Ia(c.sa"&o&FN$T|t3",c.sa"#B)=d",-0x75b0)]=ka ia=c._[c.Ha[-0x731a]or c:Ia(c.sa"Bf=BG",c.sa"tY!",-0x731a)]d=ia[c.Ha[0x1af5]or c:Ia(c.sa"fS{<m",c.sa"&&B",0x1af5)]ka=d[c.Ha[-0x6788]or c:Ia(c.sa"2-+{u",c.sa"wMz",-0x6788)]ha[0b11][ha[1]][c.Ha[0x1af5]or c:Ia(c.sa"fCH!)",c.sa"Y{m",0x1af5)]=ka ka=false ha[0b11][ha[1]][c.Ha[-0x66d]or c:Ia(c.sa"NyOornhy`Ve&_1Fhd3Xw",c.sa"!)jaT`-G?p",-0x66d)]=ka ka=0b100 ha[0b11][ha[1]][c.La[-0x3b39]or c:Na(c.sa";C-*&QMm",c.sa"!8E!",-0x3b39)]=ka ka=la ka=ka()ha[0b11][ha[1]][c.Ha[0x304e]or c:Ia(c.sa"qh*hD",c.sa"0QU",0x304e)]=ka ha[0b11][ha[1]][c.La[-0x5548]or c:Na(c.sa"MqY_?QI7",c.sa"`#%-",-0x5548)]=P[0b11][P[1]]ka,ia=ha[0b11][ha[1]][c.Ha[-0x3a49]or c:Ia(c.sa"U`Jq6TV_H",c.sa"11Kf",-0x3a49)],c:u{P,f,aa,D}ka,d=ka.Connect,ka ka(d,ia)ia,ka=c:A{P,f,aa,D},ha[0b11][ha[1]][c.Ha[-0x61f4]or c:Ia(c.sa"9wIMMD*+={EC",c.sa"Buq_M",-0x61f4)]ka,d=ka.Connect,ka ka(d,ia)d=c._[c.Ha[0x7ed0]or c:Ia(c.sa"Xork&K!==R",c.sa"1pnzF",0x7ed0)]d,ka=c.Ha[-0x6707]or c:Ia(c.sa"B>eu(Jox0?8~",c.sa"xrUi=",-0x6707),d[c.Ha[-0x5fea]or c:Ia(c.sa"tf#d",c.sa"!T",-0x5fea)]ka=ka(d)ka={[1]=0b10,[0b10]=ka}ka[0b11]=ka d=""ka[0b11][ka[1]][c.Ha[0x304e]or c:Ia(c.sa"J$Vsm",c.sa"9BB",0x304e)]=d ia=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"i6^xV?f",c.sa"W84",-0x4d3a)]ia,X,d=1,0,ia[c.Ha[-0x5fea]or c:Ia(c.sa"<?j3",c.sa"iv",-0x5fea)]ga,E=X,0x16 d=d(ia,X,ga,E)ka[0b11][ka[1]][c.La[-0x762d]or c:Na(c.sa"N<w2!",c.sa"D;W",-0x762d)]=d ia=c._[c.La[0x25c3]or c:Na(c.sa"`5DD9o&",c.sa"U91",0x25c3)]d,ia=ia[c.Ha[-0x5fea]or c:Ia(c.sa"oR@_",c.sa"@&",-0x5fea)],0 X=ia ga,E=X,0b1011100 d=d(ia,X,ga,E)ka[0b11][ka[1]][c.Ha[0x69e2]or c:Ia(c.sa"P24B_Y1%vb",c.sa"lvJ}F",0x69e2)]=d d=1 ka[0b11][ka[1]][c.La[0xdfd]or c:Na(c.sa"vPy+Z{a8LDk_$?LN{CbHOCvLq3}*",c.sa"9&h|sQ7W1s<}2_",0xdfd)]=d d=aa[0b11][aa[1]][c.La[0x1de0]or c:Na(c.sa"PkeY`cm",c.sa"4hj",0x1de0)]ka[0b11][ka[1]][c.La[-0x3fd7]or c:Na(c.sa"rTsJ$R-W`D6(#",c.sa"6=zJC@c",-0x3fd7)]=d X=c._[c.La[0x5216]or c:Na(c.sa">SNkq",c.sa"4X*",0x5216)]ia=X[c.La[-0x6b74]or c:Na(c.sa"#-Hwl",c.sa"@PG",-0x6b74)]d=ia[c.La[0xd54]or c:Na(c.sa"5`saph;Jq^fLyqSZV>",c.sa"bpq+yHSJX",0xd54)]ka[0b11][ka[1]][c.La[-0x6b74]or c:Na(c.sa"B1Q^b",c.sa"DP#",-0x6b74)]=d d=0b1011 ka[0b11][ka[1]][c.Ha[-0x75b0]or c:Ia(c.sa"(MaO8)<oc>",c.sa"!I~|F",-0x75b0)]=d ia=X[c.Ha[0xe63]or c:Ia(c.sa"y0RU+HQj`VunVFH@|*",c.sa"=$viOW!LT",0xe63)]d=ia[c.La[0x56d3]or c:Na(c.sa"!mjAQ",c.sa"%Z>",0x56d3)]ka[0b11][ka[1]][c.Ha[0xe63]or c:Ia(c.sa"?%8a`Im~R++j`st<8%",c.sa"0F7a>6ui0",0xe63)]=d d=true ka[0b11][ka[1]][c.Ha[0x37bf]or c:Ia(c.sa"0{)cMV<h^V(NQu",c.sa"G@<O9Rs",0x37bf)]=d d=0b11 ka[0b11][ka[1]][c.La[-0x3b39]or c:Na(c.sa"+MHeFuuA",c.sa"Gu40",-0x3b39)]=d ka[0b11][ka[1]][c.Ha[-0x409d]or c:Ia(c.sa"hh)04YrF",c.sa"$OYE",-0x409d)]=o ia=c._[c.Ha[0x7ed0]or c:Ia(c.sa"5%$m&IrhK>",c.sa"V568=",0x7ed0)]d,ia=ia[c.La[0x20d3]or c:Na(c.sa"<nR3",c.sa"iU",0x20d3)],c.Ha[0x2a00]or c:Ia(c.sa"wZ4*}mH",c.sa"%<}",0x2a00)d=d(ia)d={[1]=0b10,[0b10]=d}d[0b11]=d X=c._[c.La[0x25c3]or c:Na(c.sa"?McyKiU",c.sa"4Y&",0x25c3)]ia,ga,X=X[c.La[0x20d3]or c:Na(c.sa"5E}^",c.sa"eg",0x20d3)],0b110,0 _,E=ga,X ia=ia(X,ga,E,_)d[0b11][d[1]][c.Ha[0x55f4]or c:Ia(c.sa"WI#<!",c.sa"DK`",0x55f4)]=ia X=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"!NUFPrT",c.sa"hLi",-0x4d3a)]ia,X=X[c.Ha[-0x5fea]or c:Ia(c.sa";OqG",c.sa"js",-0x5fea)],0 ga,E,_=X,X,0b1100100 ia=ia(X,ga,E,_)d[0b11][d[1]][c.Ha[0x69e2]or c:Ia(c.sa"dvq?LUve_0",c.sa"$Xy#N",0x69e2)]=ia ia=aa[0b11][aa[1]][c.La[-0x66bf]or c:Na(c.sa"^)n(=>?1Bk#Q",c.sa"AX-+T",-0x66bf)]d[0b11][d[1]][c.La[-0x7ee5]or c:Na(c.sa"jP(G6ziPu9pzt7vw0GWJ",c.sa"ZmbyC=wp=5",-0x7ee5)]=ia ia=1 d[0b11][d[1]][c.La[0xdfd]or c:Na(c.sa"@o%nX$Aosmh6*deZ=-(Dmuu374F&",c.sa"e{Sfv8TOzJ%?`5",0xdfd)]=ia ia=0 d[0b11][d[1]][c.La[-0x3f9e]or c:Na(c.sa"V6tUtV6l5kr*d6vyG>3",c.sa"D8mH}7u_N",-0x3f9e)]=ia ia=0b11 d[0b11][d[1]][c.Ha[-0x620f]or c:Ia(c.sa"_h;?NOZx",c.sa"gD$N",-0x620f)]=ia d[0b11][d[1]][c.Ha[-0x409d]or c:Ia(c.sa"df7}*)=B",c.sa"KDa6",-0x409d)]=o ia={[1]=0b10,[0b10]=ia}ia[0b11]=ia ia[0b11][ia[1]],E,X=c:z{D,aa,d,ka},c._[c.Ha[0x7ed0]or c:Ia(c.sa"c>7ZeQ2Rp~",c.sa"e;}1H",0x7ed0)],c:B{ka,d}E,ga=c.Ha[-0x4863]or c:Ia(c.sa"$3I+~k>)N?fV}",c.sa")9)l&lK",-0x4863),E[c.La[0x20d3]or c:Na(c.sa"_Wkb",c.sa"m;",0x20d3)]ga=ga(E)ga={[1]=0b10,[0b10]=ga}ga[0b11]=ga _=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"iU77L?E",c.sa"MBe",-0x4d3a)]V,h,_,E,U=-0b100,0b101010,0.35,_[c.Ha[-0x5fea]or c:Ia(c.sa"@cZc",c.sa"o&",-0x5fea)],0 E=E(_,V,U,h)ga[0b11][ga[1]][c.La[-0x762d]or c:Na(c.sa"`9;u4",c.sa"EUE",-0x762d)]=E _=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"!hrs%r2",c.sa"#Fq",-0x4d3a)]_,E=0,_[c.Ha[-0x5fea]or c:Ia(c.sa"KucK",c.sa"E&",-0x5fea)]V=_ U,h=V,0b1111100 E=E(_,V,U,h)ga[0b11][ga[1]][c.La[-0x73a8]or c:Na(c.sa"o0tgHzn&D+",c.sa"y?gh|",-0x73a8)]=E E=aa[0b11][aa[1]][c.Ha[0x51d1]or c:Ia(c.sa"dBiopR*6sjF1}x$",c.sa">NnX(u_^",0x51d1)]ga[0b11][ga[1]][c.La[-0x7ee5]or c:Na(c.sa"1DAE7_d9A=FOpTI{3dr1",c.sa"A_Ym1$`<xP",-0x7ee5)]=E E=0 ga[0b11][ga[1]][c.Ha[-0x14f]or c:Ia(c.sa"Lrk1~d!}Y+S&K<`tWa$",c.sa"HPjv%?jr#",-0x14f)]=E E=c.La[-0x73d4]or c:Na(c.sa"XveG%>Ah9",c.sa"*rG2",-0x73d4)ga[0b11][ga[1]][c.La[-0x39c8]or c:Na(c.sa"&Di0|",c.sa"y_o",-0x39c8)]=E E=aa[0b11][aa[1]][c.Ha[-0x788]or c:Ia(c.sa"Iu)`W7^M",c.sa"(RO<",-0x788)]ga[0b11][ga[1]][c.La[-0x3fd7]or c:Na(c.sa"LLC1(O?egQJUs",c.sa"4o-)876",-0x3fd7)]=E V=c._[c.La[0x5216]or c:Na(c.sa"`6S6F",c.sa"O1u",0x5216)]_=V[c.La[-0x6b74]or c:Na(c.sa"<W<a0",c.sa"I-&",-0x6b74)]E=_[c.La[0x6480]or c:Na(c.sa"t2XE)cYz!8AaV",c.sa"7EGL3>;",0x6480)]ga[0b11][ga[1]][c.La[-0x6b74]or c:Na(c.sa"jBKQL",c.sa"1Ih",-0x6b74)]=E E=0b1101 ga[0b11][ga[1]][c.La[0x5fa1]or c:Na(c.sa"0YHCh226c>",c.sa"9tR~=",0x5fa1)]=E E=false ga[0b11][ga[1]][c.La[-0x55b7]or c:Na(c.sa"l*{7k00~r~(fGzK5KpH",c.sa"AbdiFmcG>",-0x55b7)]=E E=0b11 ga[0b11][ga[1]][c.La[-0x3b39]or c:Na(c.sa"4zU<8oel",c.sa"cKB2",-0x3b39)]=E ga[0b11][ga[1]][c.La[-0x5548]or c:Na(c.sa"aklP6x#$",c.sa"oYx@",-0x5548)]=o _,U,E,V=ga[0b11][ga[1]],1,A,aa[0b11][aa[1]][c.Ha[-0x6ff6]or c:Ia(c.sa"{UH?FD--",c.sa"W=_8",-0x6ff6)]E(_,V,U)E,V=ga[0b11][ga[1]][c.La[0x3dff]or c:Na(c.sa"0)h6ml?s6Oqk;",c.sa"@WzAgPX",0x3dff)],c:t{D,ga,aa}_,E=E,E.Connect E(_,V)V,E=c:v{D,ga,aa},ga[0b11][ga[1]][c.Ha[-0x4ef]or c:Ia(c.sa"ohvN-fSe&X`G5",c.sa"<&RlJ&;",-0x4ef)]E,_=E.Connect,E E(_,V)_=c._[c.Ha[0x7ed0]or c:Ia(c.sa"DPBnz0bW@K",c.sa"V>&Qk",0x7ed0)]_,E=c.La[0x6ef3]or c:Na(c.sa"0)EP_oFi|>wXg",c.sa"-rBMoRs",0x6ef3),_[c.La[0x20d3]or c:Na(c.sa"esyO",c.sa"5C",0x20d3)]E=E(_)E={[1]=0b10,[0b10]=E}E[0b11]=E V=c._[c.La[0x25c3]or c:Na(c.sa"v(%6M)B",c.sa"kmd",0x25c3)]V,e,U,h,_=0.65,0x2a,-0b100,0,V[c.La[0x20d3]or c:Na(c.sa"MNV7",c.sa"D*",0x20d3)]_=_(V,U,h,e)E[0b11][E[1]][c.Ha[0x55f4]or c:Ia(c.sa"cy3W*",c.sa"2P*",0x55f4)]=_ V=c._[c.La[0x25c3]or c:Na(c.sa"=RVsPfB",c.sa"da?",0x25c3)]h,e,U,_,V=0,0b1111100,0b100,V[c.Ha[-0x5fea]or c:Ia(c.sa"KucK",c.sa"E&",-0x5fea)],0.35 _=_(V,U,h,e)E[0b11][E[1]][c.La[-0x73a8]or c:Na(c.sa"FL#c}3vrUq",c.sa"q5T+t",-0x73a8)]=_ _=aa[0b11][aa[1]][c.Ha[-0x788]or c:Ia(c.sa"_$$cVCf@",c.sa"t4O&",-0x788)]E[0b11][E[1]][c.La[-0x7ee5]or c:Na(c.sa"2ry{c{AARfBsECh_j$?N",c.sa"=(`r1u?ta3",-0x7ee5)]=_ _=0 E[0b11][E[1]][c.La[-0x3f9e]or c:Na(c.sa"_18e0n35Xa!dIx2m@L}",c.sa"N#OnXGPt(",-0x3f9e)]=_ _=c.La[0x1582]or c:Na(c.sa"@B;=p+5#OY",c.sa"O=xVh",0x1582)E[0b11][E[1]][c.La[-0x39c8]or c:Na(c.sa"@u=Oo",c.sa"&7}",-0x39c8)]=_ V=c._[c.La[0x155e]or c:Na(c.sa"1;Gj_+*J",c.sa"X0Ap",0x155e)]V,_=0b11111111,V[c.La[0x1bb7]or c:Na(c.sa"P`d_On=W(",c.sa"X~{M",0x1bb7)]U=V h=U _=_(V,U,h)E[0b11][E[1]][c.Ha[0xd83]or c:Ia(c.sa"W4!4hSy;9HCn*",c.sa"8dZ_mHv",0xd83)]=_ U=c._[c.Ha[-0x731a]or c:Ia(c.sa"{Y1@2",c.sa"D!2",-0x731a)]V=U[c.Ha[0x1af5]or c:Ia(c.sa"Dmnro",c.sa"Rcr",0x1af5)]_=V[c.La[0x6480]or c:Na(c.sa"P`-^}oqCg&Wta",c.sa"{0aHd7X",0x6480)]E[0b11][E[1]][c.Ha[0x1af5]or c:Ia(c.sa"tzU&i",c.sa"FzW",0x1af5)]=_ _=0b1110 E[0b11][E[1]][c.La[0x5fa1]or c:Na(c.sa"w;FQquoiIs",c.sa"n+kv9",0x5fa1)]=_ _=false E[0b11][E[1]][c.La[-0x55b7]or c:Na(c.sa"+=Yn<_^|uwpOYljso?J",c.sa"kHxxY{qUU",-0x55b7)]=_ _=0b11 E[0b11][E[1]][c.La[-0x3b39]or c:Na(c.sa"FDon&2RZ",c.sa"LSl6",-0x3b39)]=_ E[0b11][E[1]][c.La[-0x5548]or c:Na(c.sa"#)g6OiH8",c.sa"^XHZ",-0x5548)]=o _,U=E[0b11][E[1]][c.Ha[-0x6c9f]or c:Ia(c.sa"sMFg8C7{yU6EX",c.sa"Kz6RY<p",-0x6c9f)],c:o{D,E,aa}_,V=_.Connect,_ _(V,U)_,U=E[0b11][E[1]][c.Ha[-0x4ef]or c:Ia(c.sa"`}medHu~~{LpA",c.sa"Q#Iq4wg",-0x4ef)],c:D{D,E,aa}_,V=_.Connect,_ _(V,U)V=c._[c.Ha[0x7ed0]or c:Ia(c.sa"F!A|V81d;z",c.sa"EQ+6b",0x7ed0)]_,V=V[c.La[0x20d3]or c:Na(c.sa"1`Qt",c.sa"Xa",0x20d3)],c.La[0x6ef3]or c:Na(c.sa"f0KHb@m_*<jNJ",c.sa"v*QBxD*",0x6ef3)_=_(V)_={[1]=0b10,[0b10]=_}_[0b11]=_ U=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"2Y@@NU;",c.sa"#8L",-0x4d3a)]h,V,U=0,U[c.Ha[-0x5fea]or c:Ia(c.sa"OF&W",c.sa"B>",-0x5fea)],1 e,T=h,0b11110 V=V(U,h,e,T)_[0b11][_[1]][c.Ha[0x55f4]or c:Ia(c.sa"1T8Hg",c.sa"L{|",0x55f4)]=V U=c._[c.La[0x25c3]or c:Na(c.sa"a~4lO6a",c.sa"QYH",0x25c3)]U,V=0,U[c.Ha[-0x5fea]or c:Ia(c.sa"*WAt",c.sa"xc",-0x5fea)]T,e,h=0b10110000,U,U V=V(U,h,e,T)_[0b11][_[1]][c.La[-0x73a8]or c:Na(c.sa"Uhv|udiMUe",c.sa"*^!?P",-0x73a8)]=V V=1 _[0b11][_[1]][c.La[0xdfd]or c:Na(c.sa"*!<9lZu=nY-Q(iu{N0dw=so=1<j(",c.sa"wuiHsPl*ZRvz?j",0xdfd)]=V V=c.La[0x3f7e]or c:Na(c.sa"OiASR%!RAz&7Ivu!1SQg^{hgNJ1Iis=#Q?j{(zOp55t9t@b!gB-*;p",c.sa"6umLrfv3pS`XI0JuA0KZ?3;}y1^",0x3f7e)_[0b11][_[1]][c.La[-0x39c8]or c:Na(c.sa"go3D(",c.sa"=g<",-0x39c8)]=V V=aa[0b11][aa[1]][c.La[-0x6b5]or c:Na(c.sa"U&mzRsux_=Zsx2P",c.sa"W5j_6q#g",-0x6b5)]_[0b11][_[1]][c.La[-0x3fd7]or c:Na(c.sa"I;Gx0t^uscN8S",c.sa"?KP&rZU",-0x3fd7)]=V h=c._[c.La[0x5216]or c:Na(c.sa"e;!XA",c.sa"a5?",0x5216)]U=h[c.Ha[0x1af5]or c:Ia(c.sa"OSfaJ",c.sa"*bM",0x1af5)]V=U[c.Ha[0x54c5]or c:Ia(c.sa"M<95p3T+KztPc",c.sa"YrqUo00",0x54c5)]_[0b11][_[1]][c.La[-0x6b74]or c:Na(c.sa"TF7$K",c.sa"ryK",-0x6b74)]=V V=0b1101 _[0b11][_[1]][c.Ha[-0x75b0]or c:Ia(c.sa"m#bi&kf&mg",c.sa">KM+$",-0x75b0)]=V V=false _[0b11][_[1]][c.La[-0x55b7]or c:Na(c.sa"jK@=Vvls5U-AP-X4)wn",c.sa"nqu)7C$h}",-0x55b7)]=V V=0b11 _[0b11][_[1]][c.Ha[-0x620f]or c:Ia(c.sa"o@-j5M@#",c.sa"G$O<",-0x620f)]=V _[0b11][_[1]][c.La[-0x5548]or c:Na(c.sa"wokl+K)L",c.sa"&MxK",-0x5548)]=o U=c._[c.La[-0x5a16]or c:Na(c.sa"79OFBJ|3}~",c.sa"{?c$?",-0x5a16)]V,U=U[c.Ha[-0x5fea]or c:Ia(c.sa"dU0a",c.sa"6a",-0x5fea)],c.La[0x20d2]or c:Na(c.sa"$xxKa?slx(",c.sa"zQ-Ay",0x20d2)V=V(U)V={[1]=0b10,[0b10]=V}V[0b11]=V U=aa[0b11][aa[1]][c.La[-0x12ed]or c:Na(c.sa"#dhQ2d-M",c.sa"fE9!",-0x12ed)]V[0b11][V[1]][c.Ha[0x606]or c:Ia(c.sa"gj=gywE",c.sa"G{*",0x606)]=U U=0.5 V[0b11][V[1]][c.Ha[0x1c91]or c:Ia(c.sa"%_6&c@+7xv>H",c.sa"8PZCb",0x1c91)]=U U=0.4 V[0b11][V[1]][c.Ha[0x5585]or c:Ia(c.sa"vjPfT&j^MB4qe{?",c.sa"c)T-faOV",0x5585)]=U V[0b11][V[1]][c.La[-0x5548]or c:Na(c.sa"@l=Y$TZ{",c.sa"_%)#",-0x5548)]=_[0b11][_[1]]e,U=c:w{D,_,V},_[0b11][_[1]][c.La[0x3dff]or c:Na(c.sa"mTkq_`<`sX%<K",c.sa"o~f_`+W",0x3dff)]U,h=U.Connect,U U(h,e)U,e=_[0b11][_[1]][c.Ha[-0x4ef]or c:Ia(c.sa"b^tjyIClyyGB^",c.sa"T|`W8I{",-0x4ef)],c:N{V,_,aa,D}U,h=U.Connect,U U(h,e)e,U=c:r{_,aa,V},_[0b11][_[1]][c.Ha[0x2812]or c:Ia(c.sa"l5%}8pek(=t8!*?h6Hg1v;",c.sa"W*BJ2LkJz;",0x2812)]h,U=U,U.Connect U(h,e)h=c._[c.Ha[0x7ed0]or c:Ia(c.sa"4__MZCtnKw",c.sa"n`tpd",0x7ed0)]U,h=h[c.Ha[-0x5fea]or c:Ia(c.sa"1`Qt",c.sa"Xa",-0x5fea)],c.Ha[-0x6707]or c:Ia(c.sa"CD&1tJ=05q9R",c.sa"=P9yr",-0x6707)U=U(h)h=""U[c.La[-0x39c8]or c:Na(c.sa"CqoNT",c.sa"CUX",-0x39c8)]=h e=c._[c.La[0x25c3]or c:Na(c.sa"+QR1Ry#",c.sa"hK~",0x25c3)]e,h,T=1,e[c.Ha[-0x5fea]or c:Ia(c.sa"JU1l",c.sa"QU",-0x5fea)],0 g,J=0b10100,T h=h(e,T,J,g)U[c.La[-0x762d]or c:Na(c.sa"bzEFf",c.sa"H6{",-0x762d)]=h e=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"Yn@lL3;",c.sa"***",-0x4d3a)]h,e=e[c.La[0x20d3]or c:Na(c.sa"Lr7W",c.sa"Ed",0x20d3)],0 T=e g,J=0xd8,T h=h(e,T,J,g)U[c.La[-0x73a8]or c:Na(c.sa"1~|dFB0k-|",c.sa"(6U!n",-0x73a8)]=h h=1 U[c.La[0xdfd]or c:Na(c.sa"Lc_ZLhNM=3VUyf)!?)&<w@Z;>l<@",c.sa"i1!clIo9Eo*`fd",0xdfd)]=h h=aa[0b11][aa[1]][c.La[-0x66bf]or c:Na(c.sa"_&dw;;VZ}E$N",c.sa"hO=I*",-0x66bf)]U[c.La[-0x3fd7]or c:Na(c.sa"BUP)76c}8*i(~",c.sa"SNYR0cK",-0x3fd7)]=h T=c._[c.La[0x5216]or c:Na(c.sa"NUwOT",c.sa"!3_",0x5216)]e=T[c.Ha[0x1af5]or c:Ia(c.sa"FNO!5",c.sa">1h",0x1af5)]h=e[c.La[-0x6700]or c:Na(c.sa"(-unn7*h",c.sa"K6#V",-0x6700)]U[c.La[-0x6b74]or c:Na(c.sa"fs(0-",c.sa"{l@",-0x6b74)]=h h=0b1010 U[c.La[0x5fa1]or c:Na(c.sa"9Al#w8*iZo",c.sa"W7`Hu",0x5fa1)]=h e=T[c.La[0b10000]or c:Na(c.sa";PKkCmUBDZ^USKNTq6",c.sa"S2E7WqLj1",0x10)]h=e[c.Ha[-0x3560]or c:Ia(c.sa"N;b!RHro",c.sa"sZ$9",-0x3560)]U[c.La[0b10000]or c:Na(c.sa"k9h|%`lz_Fdl4wdhoA",c.sa")ajx{e;nH",0x10)]=h h=0b11 U[c.Ha[-0x620f]or c:Ia(c.sa"XcD_tKCJ",c.sa")mt(",-0x620f)]=h U[c.La[-0x5548]or c:Na(c.sa"0KpwK&Km",c.sa"Z=g^",-0x5548)]=o e=c._[c.Ha[0x7ed0]or c:Ia(c.sa"X2EVTPQiX4",c.sa"MIEm%",0x7ed0)]e,h=c.La[-0x78e]or c:Na(c.sa"9j7|DJ^",c.sa")ms",-0x78e),e[c.La[0x20d3]or c:Na(c.sa"CM`b",c.sa"NB",0x20d3)]h=h(e)T=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"DbW@9P5",c.sa"m3#",-0x4d3a)]e,T,J=T[c.Ha[-0x5fea]or c:Ia(c.sa"tf#d",c.sa"!T",-0x5fea)],1,0 w,g=0b10,J e=e(T,J,g,w)h[c.Ha[0x55f4]or c:Ia(c.sa"eV0_5",c.sa"{w@",0x55f4)]=e T=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"Vz*wN1p",c.sa"^EU",-0x4d3a)]T,e=0,T[c.Ha[-0x5fea]or c:Ia(c.sa"oR@_",c.sa"@&",-0x5fea)]g,w,J=1,-0b10,T e=e(T,J,g,w)h[c.La[-0x73a8]or c:Na(c.sa"!WH7(<`e$f",c.sa"w2^v}",-0x73a8)]=e e=aa[0b11][aa[1]][c.Ha[-0x788]or c:Ia(c.sa"MI*XlF0B",c.sa"*+2v",-0x788)]h[c.La[-0x7ee5]or c:Na(c.sa"025+BXX#CpEEYmUZ1hml",c.sa";Ub#=D*<vs",-0x7ee5)]=e e=0 h[c.La[-0x3f9e]or c:Na(c.sa"G|xwJ@55Rj+E7O0$!r<",c.sa"39*V6HK29",-0x3f9e)]=e e=0b1010 h[c.La[-0x3b39]or c:Na(c.sa"1nY)6$B+",c.sa"=%QW",-0x3b39)]=e h[c.La[-0x5548]or c:Na(c.sa"j;Ck4s9^",c.sa"6~^8",-0x5548)]=ma[0b11][ma[1]]T=c._[c.Ha[0x7ed0]or c:Ia(c.sa"hbDs7uO^bm",c.sa"qVY)1",0x7ed0)]e,T=T[c.Ha[-0x5fea]or c:Ia(c.sa"(%H)",c.sa"yZ",-0x5fea)],c.La[0x2817]or c:Na(c.sa"fx?JeEU@CLM>z",c.sa"O)1Zd)B",0x2817)e=e(T)J=c._[c.La[-0x29ae]or c:Na(c.sa"zwI7CuPmAK2THRXnE",c.sa"f88%~g8T",-0x29ae)]J,T,w={},J[c.La[0x20d3]or c:Na(c.sa"F*+y",c.sa"Uj",0x20d3)],c._[c.Ha[-0xfdf]or c:Ia(c.sa"N0Qor9&jXGJ;!RE)1(PnF+(BDZ~",c.sa"qDU-3BW&-s{R9",-0xfdf)]R,w,g=c._[c.La[0x155e]or c:Na(c.sa"F?5|BX~F",c.sa"@f&g",0x155e)],0,w[c.La[0x20d3]or c:Na(c.sa"ih+{",c.sa"<N",0x20d3)]R,L,Y,_a=0b1000,0b1110,R[c.La[0x1bb7]or c:Na(c.sa"923SDGwwJ",c.sa"sbP8",0x1bb7)],0b110 Y=c.h(Y(R,_a,L))g=g(w,c.i(Y))Y=c._[c.La[0x4ba3]or c:Na(c.sa"5M@=bW(-6eW@bHUT#IogQ385xCj",c.sa"0~2i_UlhPO3R3",0x4ba3)]w,R,Y=Y[c.La[0x20d3]or c:Na(c.sa"SyDg",c.sa"Hv",0x20d3)],aa[0b11][aa[1]][c.Ha[0x829]or c:Ia(c.sa"Q9&g+epUiCeE",c.sa"Tt*@g",0x829)],0.2 w=w(Y,R)R=c._[c.La[0x4ba3]or c:Na(c.sa"=vU_wr$Pt^=s(3<?l!P!9U1gA-v",c.sa"TAg-n5!HQ*II9",0x4ba3)]R,Y,_a=0.5,R[c.La[0x20d3]or c:Na(c.sa"YGHE",c.sa"1O",0x20d3)],aa[0b11][aa[1]][c.Ha[0x5469]or c:Ia(c.sa"G<J78kwG_SeL0sw",c.sa"HUC}|6?F",0x5469)]Y=Y(R,_a)_a=c._[c.La[0x4ba3]or c:Na(c.sa"rWyguZKN!3u-J<h2=981IdQDhkp",c.sa"y~Q3$_aCHfb>#",0x4ba3)]_a,R,L=0.8,_a[c.Ha[-0x5fea]or c:Ia(c.sa"vbn1",c.sa"+y",-0x5fea)],aa[0b11][aa[1]][c.La[-0x3e8d]or c:Na(c.sa"u~qd?o<h<?od",c.sa"Dwa0z",-0x3e8d)]R=R(_a,L)L=c._[c.La[0x4ba3]or c:Na(c.sa"tg2AMuuR>-tu}$CS?8x_$ltL&n*",c.sa"Q`oS$AHu9W#qR",0x4ba3)]_a,W,L=L[c.Ha[-0x5fea]or c:Ia(c.sa"T2Vs",c.sa"Gy",-0x5fea)],c._[c.La[0x155e]or c:Na(c.sa"RSJ=L7tR",c.sa"{bd#",0x155e)],1 C,r,W,ca=0b110,0b1110,0b1000,W[c.La[0x1bb7]or c:Na(c.sa"s6woxVuXw",c.sa"!!XV",0x1bb7)]ca=c.h(ca(W,C,r))_a=c.h(_a(L,c.i(ca)))J[1],J[0b11],J[0b10],J[0b100]=g,Y,w,R c.j(J,0b101,c.i(_a))T=T(J)e[c.La[-0x1f62]or c:Na(c.sa"iVmd?y8",c.sa"VaW",-0x1f62)]=T e[c.Ha[-0x409d]or c:Ia(c.sa"0au(fSeg",c.sa"?lw^",-0x409d)]=h T,g=ga[0b11][ga[1]][c.La[-0x7184]or c:Na(c.sa"{)Zz3a@ui9$A>sZRP=3K*Z",c.sa"J_MK-cUI`L",-0x7184)],c:R{n,ia,aa,ga,H,m,D}T,J=T.Connect,T T(J,g)g,T=c:p{E,Q,m,ha,F,n,b,D,ma,s,H,N,aa,k,ia,u},E[0b11][E[1]][c.La[-0x7184]or c:Na(c.sa";|6Uu7tuWl+6H!XG5;YR#Q",c.sa"eMpmXMHp$W",-0x7184)]J,T=T,T.Connect T(J,g)return else x=c._[c.Ha[-0x76d0]or c:Ia(c.sa"VQYK",c.sa"5&",-0x76d0)]B,q=0xb30/B,x[c.La[0x3ca7]or c:Na(c.sa"<^4zE{YB#",c.sa"Hkg+",0x3ca7)]end else B=q and 0b1110011/B or 0xb0-B end elseif B<=0x2f then B,q=0x2a3a/B,c._[c.Ha[0x6401]or c:Ia(c.sa"P{3awYqwp+UJ6IC",c.sa"#WZg#v^W",0x6401)]else B,x=0b1000010-B,c._[c.La[0x4fbe]or c:Na(c.sa"&JvN(3zq",c.sa"<bJ3",0x4fbe)]q=x[c.Ha[-0x7c4b]or c:Ia(c.sa"txG<tOFXL",c.sa"PcGj",-0x7c4b)]end elseif B>0b1110010 then if B<=0b1110100 then ma,s=c:H{N,F},c._[c.Ha[0x3108]or c:Ia(c.sa"wmGLZss",c.sa"TE+",0x3108)]B=c.La[-0x6b81]or c:Ra(0x304e1491,2978551968,2168128539,-0x6b81)s(ma)else x,ja=c._[c.Ha[0b110101110]or c:Ia(c.sa"s_9d^|3v",c.sa"Baq$",0x1ae)],c._[c.Ha[0x6401]or c:Ia(c.sa"+cIh_dQa9jYdKa)",c.sa"JtbToMza",0x6401)]x=x(ja)ja=c.Ha[-0x5136]or c:Ia(c.sa"6^k+=2bVK1",c.sa"L0tZG",-0x5136)q=x==ja B=q and 0b10101011-B or(c.Ha[-0x5890]or c:Ja(0b1100000,0x86,-0x5890))end elseif B<0x70 then if B<=0x48 then B=q and(c.Ha[-0x5890]or c:Ja(0x20,0xc6,-0x5890))or(c.Ha[-0x2619]or c:Ja(0b1010100,0x78,-0x2619))else ma=N[0b11][N[1]][c.Ha[-0x409d]or c:Ia(c.sa"@Eq916W#",c.sa"s(qj",-0x409d)]s=not ma B=s and(c.La[0x6b3f]or c:Ma(0b1110100,0x6b3f))or 0b10000010-B end elseif B>0x70 then m=c.Ha[-0x413c]or c:Ia(c.sa"@>khvta2PeVdGBEbFe&CLvi^",c.sa"5^Xa`-x{qWng",-0x413c)m={[1]=0b10,[0b10]=m}m[0b11]=m F,k=c.Ha[-0x53f8]or c:Ia(c.sa"&5Ds+K$ZNDf>2GP",c.sa"#x6PZ{h0",-0x53f8),c._[c.Ha[0x13fc]or c:Ia(c.sa"ey?<^",c.sa"&KU",0x13fc)]k,u=k.GetService,k k=k(u,F)k={[1]=0b10,[0b10]=k}k[0b11]=k b,u=c.Ha[-0x14aa]or c:Ia(c.sa"61~wow8Aj",c.sa"u+c&",-0x14aa),c._[c.Ha[0x13fc]or c:Ia(c.sa"?3w1B",c.sa"_=^",0x13fc)]F,u=u,u.GetService u=u(F,b)u={[1]=0b10,[0b10]=u}u[0b11]=u F=u[0b11][u[1]][c.Ha[0x6d1]or c:Ia(c.sa"Vgcauv3>&L>$qG",c.sa"-I9ZDE&",0x6d1)]F={[1]=0b10,[0b10]=F}F[0b11]=F b=not F[0b11][F[1]]B=b and(c.Ha[-0x55e3]or c:Ja(0,0b1110000,-0x55e3))or(c.Ha[0x618b]or c:Ja(0b1000,0b10011010,0x618b))else ba,b=c:s{F,u},c._[c.Ha[0x3108]or c:Ia(c.sa"=^XeI^#",c.sa"f0+",0x3108)]b(ba)b=not F[0b11][F[1]]B=b and 0x4c20/B or B+0x2a end end end end,function(a,b,c,d,e)a.Ta[e]=a.d(a.a(a.d(d),a.d(a.a(4294967295,c+b))))+(a.a(a.d(a.a(d,0xffff)),a.a(c,0xffff))*a.a(a.d(a.a(0xffff,c)),a.a(0xffff,d))+a.b(a.a(0xffff,c),a.a(d,0xffff))*a.a(a.a(c,0xffff),a.a(d,0xffff))-a.a(c,0xffff)*a.a(d,0xffff)+(-a.a(c+b,4294967295)+a.d(a.d(a.a(4294967295,c+b)))))return a.Ta[e]end,function(a,b,c,d,e)a.La[e]=a.c(a.d(b),a.d(a.a(c-d,4294967295)))+(a.a(a.d(a.a(d,0xffff)),a.a(b,0xffff))*a.a(a.d(a.a(b,0xffff)),a.a(0xffff,d))+a.b(a.a(0xffff,b),a.a(0xffff,d))*a.a(a.a(0xffff,b),a.a(0xffff,d))-a.a(d,0xffff)*a.a(b,0xffff))return a.La[e]end,function(c,a)return function()local f,e,b f,b=a[0b10][0b11][a[0b10][1]],a[1][0b11][a[1][1]]b,e=b.JSONDecode,b b=c.h(b(e,f))return c.i(b)end end,function(c,a)return function()local g,f,e g,e=a[0b100][0b11][a[0b100][1]],a[0b10][0b11][a[0b10][1]]g[c.La[-0x39c8]or c:Na(c.sa"olvns",c.sa"HOT",-0x39c8)]=e f=a[0b11][0b11][a[0b11][1]]e=f[c.La[-0x6b5]or c:Na(c.sa"tO8&6x(=@sRrS0M",c.sa"deo9UVeJ",-0x6b5)]g[c.Ha[0xd83]or c:Ia(c.sa"RTM{jwQe0ydc^",c.sa"_6R?50R",0xd83)]=e e,g=f[c.La[-0x12ed]or c:Na(c.sa"ezd1rxv&",c.sa"#MeI",-0x12ed)],a[1][0b11][a[1][1]]g[c.Ha[0x606]or c:Ia(c.sa"75qB<Bm",c.sa"lU4",0x606)]=e return end end,function(c,a)return function()local g,e,f,_ _=c.Ta[0x386c]or c:Xa(0x30,0b1001,0b11111100,0x386c)while true do if _>=0b1001011 then if _<0b11110111 then _=f and(c.La[0x55dc]or c:Sa(0x13,0b1101,0x55dc))or(c.Ha[0x2e1]or c:Pa(0xd91e972,0xd91c092,0x2e1))elseif _<=0b11110111 then return f else e,g=c:ha{a[1]},c._[c.La[-0x2f5c]or c:Na(c.sa"JP<7(AO",c.sa"b4&",-0x2f5c)]g,e=g(e)f=g _=f and(c.Ha[0x42da]or c:Ka(0x33,0x42da))or(c.Ha[0x7e5]or c:Ja(0b1011,0x43,0x7e5))end elseif _>0b1111 then _,f=0xef1/_,e else _,f=c.Ha[-0x42ff]or c:Pa(3143259161,3143269075,-0x42ff),""end end end end,function(c,a)return function()local g,d,i,b,f,_ g,d,i,_=a[1][0b11][a[1][1]],{},a[0b10][0b11][a[0b10][1]],a[0b11][0b11][a[0b11][1]]b=_[c.La[0x71a8]or c:Na(c.sa"rmd*EX(5o5v$|k5",c.sa"LI~a3*!2",0x71a8)]d[c.La[-0x7ee5]or c:Na(c.sa"I(G2)e%C3{7IV<^b;>lC",c.sa"q(-F~oRb%L",-0x7ee5)]=b f,d=d,0.1 g(i,f,d)return end end,function(c,a)return function()local d,g,i,_,b,f g,d,i,_=a[0b100][0b11][a[0b100][1]],{},a[0b10][0b11][a[0b10][1]],a[0b11][0b11][a[0b11][1]]b=_[c.La[-0x7de8]or c:Na(c.sa"tzUSHRd@",c.sa"3NY^",-0x7de8)]d[c.Ta[-0x6b6d]or c:Wa(c.sa"W#LNUQ~",c.sa"CXN",-0x6b6d)]=b d,f=0.15,d g(i,f,d)i,d,b=a[1][0b11][a[1][1]],{},_[c.Ha[-0x1292]or c:Ia(c.sa"^yV*>x8LI~r?d",c.sa")8#;vum",-0x1292)]d[c.La[-0x7ee5]or c:Na(c.sa")909P<=s&4|Khl7?!Zl{",c.sa"nm@0C1p9`O",-0x7ee5)]=b d,f=0.15,d g(i,f,d)return end end,function(a,b,c)a.La[c]=b return a.La[c]end,{},function(c)return function(m)local t,q,d,e,s,f,k,i,v,n,b,w,r,_,g,j,u,y,h,x,l,z h=c.Ha[0x43d7]or c:Ja(0xc1,0b1000000,0x43d7)repeat if h<0xa2 then if h>0x2f then if h<=0x4a then j=c._[c.La[0x3ac2]or c:Na(c.sa"?cMv(`~",c.sa"yqN",0x3ac2)]l,j=j[c.Ha[-0x3690]or c:Ia(c.sa"ZHGr~iCq",c.sa"Dd-L",-0x3690)],k l=l(j)q,j=0,#u h=j>q and(c.Ha[-0x6ef6]or c:Pa(0x10b22647,0x10b20c88,-0x6ef6))or 0x79-h else h,u=h+0x97,"="end elseif h>=0b10110 then if h>0b10110 then j,_,q,x=l.gsub,"-",l,"+"j=j(q,x,_)x,j,_,q="/",j.gsub,"_",j j=j(q,x,_)q,j,_,x=j,j.gsub,"","="j=j(q,x,_)l=j return l else l=0b10 h=b==l and(c.La[0x674]or c:Ra(3507745050,3603260577,0x5b17328,0x674))or(c.Ha[0x1ad9]or c:Oa(3385146229,2484020352,0x35b5dc6c,0x1ad9))end else j=c._[c.La[0x5c18]or c:Na(c.sa"oO^_ZVUY",c.sa"_7Cp",0x5c18)]q,j,l=0b11,"\0",j[c.Ha[-0x2101]or c:Ia(c.sa"tGuZ",c.sa"*#",-0x2101)]q=q-b l=l(j,q)l,m=1,m..l h=b==l and 0xcf8/h or(c.Ha[0x206d]or c:Ka(0x16,0x206d))end elseif h>0xc2 then if h<=0b11001110 then q=c._[c.La[0x5c18]or c:Na(c.sa"crKY@G>i",c.sa">sku",0x5c18)]n,x,j,q,_=#u,1,q[c.Ha[-0x7ad2]or c:Ia(c.sa"otum",c.sa"?f",-0x7ad2)],l,#l _=_-n j=j(q,x,_)h,l=c.Ta[0x3454]or c:Xa(0b11101,0b1000,0x2a,0x3454),j..u else q,l,j=0b11,1,#m h=(j~=j or(q>0 and l>j or(q<=0 or q~=q)and l<j))and h+-0b10110000 or(c.Ta[-0x1418]or c:Va(0x6f0640ac,0x6f063fea,-0x1418))end elseif h<0b11000001 then if h<=0xa2 then l=l+q h=(q>0 and l>j or q<=0 and l<j or q~=q)and 0xec-h or(c.Ta[-0x1418]or c:Va(3674266782,3674266588,-0x1418))else h,u=0b110100000-h,c.La[-0x4599]or c:Na(c.sa"L_`",c.sa"c>",-0x4599)end elseif h<=0xc1 then u={}l,v,k,u=0b11,#m,u,""b,l=v%l,0 h=b>l and(c.Ta[0x38e4]or c:Va(0x7c5996b1,0x7c59969d,0x38e4))or(c.Ta[0x22cd]or c:Xa(0x10,0b110010,0xb8,0x22cd))else _=c._[c.Ha[-0x6781]or c:Ia(c.sa"mfiV`$Ls",c.sa"i>c)",-0x6781)]x,n,_,w=_[c.Ta[0x3bf5]or c:Wa(c.sa"9198;",c.sa"esT",0x3bf5)],l,m,0b10 w=l+w x,_,n=x(_,n,w)r=0x10000 d,e=x*r,0x100 r=_*e i=d+r w,r=i+n,c._[c.Ha[0x8f0]or c:Ia(c.sa"T}wnl",c.sa"Dlh",0x8f0)]r,d=0x40000,r[c.La[0x5189]or c:Na(c.sa"qb#Z~w*",c.sa"K*a",0x5189)]r=w/r d=d(r)r=0x40 i,e=d%r,c._[c.Ha[0x8f0]or c:Ia(c.sa"OA=BW",c.sa"b0z",0x8f0)]r,e=e[c.Ha[-0x1d4e]or c:Ia(c.sa"FLNevI{",c.sa"A4v",-0x1d4e)],0x1000 e=w/e r=r(e)e=0x40 d,y=r%e,c._[c.Ha[0x8f0]or c:Ia(c.sa"UwB4w",c.sa"88Q",0x8f0)]y,e=0b1000000,y[c.Ha[-0x1d4e]or c:Ia(c.sa"9L*KZ2m",c.sa"p?U",-0x1d4e)]y=w/y e=e(y)y=0x40 r,e,g=e%y,w%y,c._[c.Ha[0x4fe0]or c:Ia(c.sa"#-Y%x*8",c.sa"z_I",0x4fe0)]y,g,s=g[c.Ta[0x7f9e]or c:Wa(c.sa"Q@s9Pp!o",c.sa"I?{~",0x7f9e)],k,c._[c.Ha[-0x6781]or c:Ia(c.sa"p;yVfP22",c.sa"yCc#",-0x6781)]f,z,s=s[c.Ta[-0x425b]or c:Wa(c.sa"YHWJ",c.sa"82",-0x425b)],1,c.La[0x720]or c:Na(c.sa"&zC$2!E7SPJFM}!QO5z;l6y@dg(CE^WLlsNhxABH>Ae;w??wpj9hS?7Z~Z&|v{7dd;6;(z2{rdv+^Gfy",c.sa"DlL%YZ@~aP>7#Vebsj0hh)#(d^}6PAfMqI#O@Gyn",0x720)t,z=i+z,i+z f=c.h(f(s,t,z))y(g,c.i(f))g=c._[c.Ta[0x7eac]or c:Wa(c.sa"9Qg|L4F",c.sa"XqW",0x7eac)]s,g,y=c._[c.Ha[-0x6781]or c:Ia(c.sa"^I^8>d!q",c.sa"#1()",-0x6781)],k,g[c.La[-0x7b92]or c:Na(c.sa"a#FN@PO|",c.sa"$2=P",-0x7b92)]z,s,f=1,c.Ta[-0x2ca9]or c:Wa(c.sa"b`DFI8PrCo)c}UEsLU7DM*uvtwFPtHabvzIVHU>@P$XfwH~wsn^E$kbmi8_4VJa4#&|(&e91Q7vI!lR1",c.sa"H%tiAT#^CcoJ!68<$_p+7E*8L;8P^JC^_Ft0&=2g",-0x2ca9),s[c.Ha[-0x7ad2]or c:Ia(c.sa"pr)|",c.sa"(*",-0x7ad2)]z,t=d+z,d+z f=c.h(f(s,t,z))y(g,c.i(f))g=c._[c.La[0x3ac2]or c:Na(c.sa"hij2$mH",c.sa"3iA",0x3ac2)]y,g,s=g[c.Ta[0x7f9e]or c:Wa(c.sa"DkFp@KZ5",c.sa"LrwP",0x7f9e)],k,c._[c.La[0x5c18]or c:Na(c.sa"lC-0UuC@",c.sa"(ZJy",0x5c18)]s,z,f=c.Ha[0x7738]or c:Ia(c.sa"uGW#opbI*tsFef(1VX|Ty;(I2l)X{{C2*e=K*=3)i2S?jjv)|$j;}sHI(Yapn{yu}@!B_ONFT^R8<bN!",c.sa"6nL#8cm67TS_SLDUuFyJM2!qdO;6w9?tM+=fzp)k",0x7738),1,s[c.Ha[-0x7ad2]or c:Ia(c.sa"$j;d",c.sa"y8",-0x7ad2)]z,t=r+z,r+z h,f=0x164-h,c.h(f(s,t,z))y(g,c.i(f))g=c._[c.Ha[0x4fe0]or c:Ia(c.sa"`d;i)>i",c.sa"KaK",0x4fe0)]s,g,y=c._[c.La[0x5c18]or c:Na(c.sa"FPxn<hKK",c.sa"@910",0x5c18)],k,g[c.La[-0x7b92]or c:Na(c.sa"W#I;C{Q&",c.sa"b&m`",-0x7b92)]f,s,z=s[c.Ta[-0x425b]or c:Wa(c.sa"Yi)V",c.sa"7y",-0x425b)],c.Ta[-0x2ca9]or c:Wa(c.sa"blOPcGIPLjK=B6aJ8p0qg{vxUqVufPZ;1$T!p8jRQt)EU99imDX3IR)1yo8rqk#ZJ$CSyw0_I;NnVYhp",c.sa"HJA&hcQuDO3A;_Fb|61W)cJWi_oe%dHq&Vnp`w|O",-0x2ca9),1 t,z=e+z,e+z f=c.h(f(s,t,z))y(g,c.i(f))end until false end end,function(c,a)return function(m,k,f,p,b)local l,n,g,i,q,_,j,o,h h=c.Ta[0x499]or c:Ua(0b10011100,0x499)while true do if h<0x94 then if h>=0b101 then if h>0b101 then g=b h=g and 0x3c54/h or 0x2d18/h else h,_=c.Ta[-0x36b2]or c:Xa(0b111101,0x15,0b11100110,-0x36b2),0.18 end else i=c._[c.Ha[-0x731a]or c:Ia(c.sa"$o=^K",c.sa"lZ^",-0x731a)]h,g=h+0x4a,i[c.Ha[0x4386]or c:Ia(c.sa"iI%Q(k*lPsWRs}",c.sa"{~g`;%m",0x4386)]n=g[c.Ta[-0x3cf7]or c:Wa(c.sa";k41S!~",c.sa"u)z",-0x3cf7)]end elseif h<=0b11000110 then if h>0x9c then o=o(_,n,g)_,j,l=k,l,l.Create l=l(j,q,o,_)j,l=l,l.Play l(j)return elseif h<=0x94 then i=c._[c.Ha[-0x731a]or c:Ia(c.sa"!=v+{",c.sa"&4v",-0x731a)]g=i[c.Ta[0x3c63]or c:Wa(c.sa"J_$z`L4_6)8c`ivi#-(",c.sa"duTL%FXB=",0x3c63)]h,g=h+0b110010,g[c.Ha[0x5274]or c:Ia(c.sa"W?Wq",c.sa"DF",0x5274)]else l,q,_=a[1][0b11][a[1][1]],m,c._[c.Ta[0x6883]or c:Wa(c.sa"v>@NVjvmy!j{",c.sa";8(iZ",0x6883)]o,_=_[c.Ha[-0x5fea]or c:Ia(c.sa"H#{x",c.sa"Sp",-0x5fea)],f h=_ and(c.Ha[-0x6227]or c:Ka(0b11110110,-0x6227))or(c.La[-0x1d09]or c:Sa(0b101,1,-0x1d09))end else n=p h=n and(c.Ta[-0x6bfc]or c:Va(3509738874,3509738796,-0x6bfc))or 0b11111010-h end end end end,function(c,a)return function(g,k,f)local h,d,_,b,j h=c.Ha[-0x34f1]or c:Pa(0x211a759b,0x211a5d32,-0x34f1)while true do if h<=0x7b then if h<0b1010111 then d[c.Ha[0x1c91]or c:Ia(c.sa"m6M?Ms+FwfvH",c.sa"mC5_T",0x1c91)]=b j=c._[c.La[0x5216]or c:Na(c.sa"c~419",c.sa"Av^",0x5216)]_=j[c.La[-0x66e2]or c:Na(c.sa"uY6w~daf;;V?-BDl0Az",c.sa"S^WcYFAVM",-0x66e2)]b=_[c.Ta[0x1259]or c:Wa(c.sa"{{|n~3?B",c.sa"y=iR",0x1259)]d[c.Ha[-0x77b0]or c:Ia(c.sa"j@wNU3($qV#8wzT?3Jn",c.sa"@q==GJ*&?",-0x77b0)]=b d[c.La[-0x5548]or c:Na(c.sa"UT#EdVL|",c.sa"HV+N",-0x5548)]=g return d elseif h>0x57 then h,b=c.Ta[0x5425]or c:Va(0x21ecc8a2,0x21ecc86e,0x5425),1 else d[c.Ha[0x606]or c:Ia(c.sa"U#@VjZU",c.sa"!5j",0x606)]=b b=f h=b and(c.La[0x50b7]or c:Sa(0b1101,0b100,0x50b7))or h+0b100100 end elseif h>0xd8 then _=a[1][0b11][a[1][1]]h,b=c.La[0x5aaf]or c:Sa(1,0x57,0x5aaf),_[c.Ta[0x1259]or c:Wa(c.sa"_KD`ugXR",c.sa"wC0o",0x1259)]else b=c._[c.La[-0x5a16]or c:Na(c.sa"E)RIx1`lY<",c.sa"t_xvj",-0x5a16)]b,d=c.La[0x20d2]or c:Na(c.sa"$AUzT;G}$?",c.sa"`WMTR",0x20d2),b[c.La[0x20d3]or c:Na(c.sa"CM`b",c.sa"NB",0x20d3)]d=d(b)b=k h=b and(c.Ha[0x45f2]or c:Ja(0b1000100,0b1010111,0x45f2))or(c.La[0x2003]or c:Qa(2795187343,2795187298,0x2003))end end end end,na=function(c,k,f,...)local b,n,m,g,_,j,l,q,h,i,p,o h=0xd9 repeat if h<=0b10000000 then if h>=0x5c then if h<0x73 then if h<=0b1011100 then h,m[q]=0xea,o else i=0x18721 g,i=i*b,0x88ad n=g+i n,_=1,n%p o=_+n q,h,_=k[o],0x5c,b+n o=m[_]end elseif h<=0x73 then h=b>l and 0x6e0f/h or 0b101101111-h else h=b>l and h+0b1110101 or 0x1c80/h end elseif h>0x2c then h=j<=0 and 0b1000001-h or 0b1010000-h elseif h>0x17 then h=j>0 and 0b1110011 or 0xfc elseif h>0b1000 then h=j~=j and 0x1603/h or 0b1101010 else h=b<l and h+0b11101101 or 0b11111-h end elseif h>0xd9 then if h<=0xf5 then if h>0b11101010 then h,b,l,j=0b10000101,m[f],m,c.h(...)else b=b+j h=j>0 and 0x80 or 0x39 end else h=j~=j and 0b11000110 or 0b10110000 end elseif h>0xc6 then b,p,q,m=0,#k,1,c l,j=p-q,q h=l~=l and 0b11110101 or 0x2c elseif h>=0xb0 then if h>0b10110000 then h=b<l and h+0x2f or 0x6a else h=j<=0 and 0b11000110 or 0b1101010 end else b=c.h(b(l,c.i(j)))return c.i(b)end until false end,h=function(...)return{[1]={...},[0b10]=select("#",...)}end,function(c,a)return function()local _,d,e,g,f _=c.Ha[0x3e62]or c:Oa(3855390118,0x2ab32555,3138991514,0x3e62)while true do if _>0b110010 then e,_,d=a[0b10][0b11][a[0b10][1]],c.La[-0x3f2d]or c:Sa(1,0x21,-0x3f2d),c.La[-0x7bb4]or c:Na(c.sa"9P?u;DeXljB>",c.sa"Qv#n%",-0x7bb4)e,f=e.FindFirstChildOfClass,e e=e(f,d)elseif _>0b100001 then e,g=a[0b10][0b11][a[0b10][1]],a[1][0b11][a[1][1]]_=e and(c.Ha[-0x3b09]or c:Ja(0xd0,0xc4,-0x3b09))or(c.Ta[0x2c92]or c:Ya(0b100001,1,0x2c92))else g[c.Ha[-0x409d]or c:Ia(c.sa"Ofq?SJ%0",c.sa"3sW2",-0x409d)]=e return end end end end,function(c,a)return function()local o,b,f,i,d,l,t,n,r,p,e,k,h,j,m,_,q,s h=c.Ha[0x2e2c]or c:Oa(3828775481,0x2918831d,3139272730,0x2e2c)while true do if h<0b10001101 then if h<0b111100 then if h>=0b10010 then if h>0x2c then h,b=c.La[-0x3ff6]or c:Qa(0xda549b4,0xda549ca,-0x3ff6),s elseif h<=0b10010 then j=c._[c.Ha[0x8f0]or c:Ia(c.sa"S_(r0",c.sa"Yc~",0x8f0)]j,l=0x15180,j[c.La[0x5189]or c:Na(c.sa"r--hLvj",c.sa"<iP",0x5189)]j=b/j l=l(j)q=c._[c.Ha[0x8f0]or c:Ia(c.sa"{N?5B",c.sa"gpm",0x8f0)]o,j=0x15180,q[c.La[0x5189]or c:Na(c.sa"nWT`XjQ",c.sa"$o~",0x5189)]o,q=0xe10,b%o q=q/o j=j(q)o=c._[c.Ta[-0xeee]or c:Wa(c.sa";M4iq",c.sa"jj{",-0xeee)]_,q=0xe10,o[c.Ha[-0x1d4e]or c:Ia(c.sa"ETAQ$H~",c.sa"%t`",-0x1d4e)]_,o=0b111100,b%_ o=o/_ q=q(o)_={}_,o=0,_ h=l>_ and h+0x68 or 0b10111100-h else s,f=c:X{m},c._[c.Ha[0x3108]or c:Ia(c.sa"<{I}E`T",c.sa"d6o",0x3108)]f,s=f(s)b=f h=b and(c.Ta[0x5425]or c:Ya(0b11010,0b10,0x5425))or(c.Ha[0x3c26]or c:Pa(3179388587,3179395036,0x3c26))end elseif h<=0b110 then n=0 _=q>n h=_ and(c.Ta[-0xa0b]or c:Va(3393081269,3393081051,-0xa0b))or 0b11111111-h else b=c._[c.La[-0x5a16]or c:Na(c.sa"O4|w}V%r)r",c.sa"S9!Gq",-0x5a16)]s,b=b[c.La[0x20d3]or c:Na(c.sa"R$Wg",c.sa"H~",0x20d3)],c.La[-0x78e]or c:Na(c.sa"%w6k3?*",c.sa"FNy",-0x78e)s=s(b)l=c._[c.La[0x25c3]or c:Na(c.sa"L0WxtCI",c.sa"9ux",0x25c3)]l,b,j=0,l[c.Ha[-0x5fea]or c:Ia(c.sa"mYt6",c.sa"_y",-0x5fea)],0b101000000 q,o=l,0b1001000 b=b(l,j,q,o)s[c.La[-0x762d]or c:Na(c.sa"u-%!_",c.sa"wBr",-0x762d)]=b l=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"mPo2$@c",c.sa"48s",-0x4d3a)]b,l,j=l[c.Ha[-0x5fea]or c:Ia(c.sa"5gG^",c.sa"e*",-0x5fea)],1,0b1010 o,q=-0x5a,l b=b(l,j,q,o)s[c.Ta[-0x611d]or c:Wa(c.sa"CGl(p0rzkM",c.sa"b)Fw=",-0x611d)]=b l=a[0b11][0b11][a[0b11][1]]b=l[c.Ha[-0x722d]or c:Ia(c.sa"yQY|qvWbl",c.sa">eJ`",-0x722d)]s[c.Ta[0x2763]or c:Wa(c.sa"IKIg<U1@DI6uap+R&;Q6",c.sa"df%#8IvWB;",0x2763)]=b b=0 s[c.Ta[0x7f3a]or c:Wa(c.sa"Ab3)%Y2r`|ZAG7D=w=Q",c.sa"VizFK43Gl",0x7f3a)]=b b=0b1010 s[c.Ha[-0x620f]or c:Ia(c.sa"iwhyOCpQ",c.sa"PeRc",-0x620f)]=b s[c.Ta[0x447c]or c:Wa(c.sa";Zw)dT)_",c.sa"u`;y",0x447c)]=f[0b11][f[1]]l=c._[c.Ha[0x7ed0]or c:Ia(c.sa"#mYOW?aC{-",c.sa"-AJU2",0x7ed0)]b,l=l[c.La[0x20d3]or c:Na(c.sa"KQtx",c.sa"Q2",0x20d3)],c.Ha[-0x4cf0]or c:Ia(c.sa"?2Fwd%dGo5",c.sa"NuI*F",-0x4cf0)b=b(l)j=c._[c.Ha[0x421d]or c:Ia(c.sa"v-*$I",c.sa"zUB",0x421d)]j,l,q=0,j[c.Ha[-0x5fea]or c:Ia(c.sa"tDv#",c.sa"#Q",-0x5fea)],0b1010 l=l(j,q)b[c.Ta[-0x3511]or c:Wa(c.sa"9dRHQgj@`NHW8Fv",c.sa"ULI0-;Vu",-0x3511)]=l b[c.Ta[0x447c]or c:Wa(c.sa"L1Wl-Y~B",c.sa"5dx|",0x447c)]=s l=c._[c.Ta[0x1536]or c:Wa(c.sa"|Fw&l*R`98",c.sa"w%hpZ",0x1536)]l,b=c.La[0x20d2]or c:Na(c.sa"(DfB~_tPzD",c.sa"3`V?#",0x20d2),l[c.Ta[-0x653d]or c:Wa(c.sa"-qpt",c.sa"um",-0x653d)]b=b(l)j=a[0b11][0b11][a[0b11][1]]l=j[c.Ta[0x1259]or c:Wa(c.sa"t#CJsdN%",c.sa"?;k|",0x1259)]b[c.Ha[0x606]or c:Ia(c.sa"Ul?#0ZU",c.sa"cN_",0x606)]=l l=1 b[c.Ha[0x1c91]or c:Ia(c.sa"A(N_v9+jq)1^",c.sa"=fnGT",0x1c91)]=l q=c._[c.La[0x5216]or c:Na(c.sa"h^Dxu",c.sa"$jt",0x5216)]j=q[c.La[-0x66e2]or c:Na(c.sa"T_N}&Ib1z%KI173U@dt",c.sa"Ne@6wh*2B",-0x66e2)]l=j[c.Ha[-0x6ff6]or c:Ia(c.sa"bVAosNY?",c.sa"r7bo",-0x6ff6)]b[c.La[-0x66e2]or c:Na(c.sa"z=W2iFen}Kn~kgl6b<A",c.sa"X?sb@=JbI",-0x66e2)]=l b[c.Ha[-0x409d]or c:Ia(c.sa"<|fJ0DbD",c.sa"yGOP",-0x409d)]=s l=c._[c.La[-0x5a16]or c:Na(c.sa"q1o?+iP`^@",c.sa"@tn8l",-0x5a16)]l,b=c.Ha[0x2a00]or c:Ia(c.sa"rtE?9g#",c.sa"p5O",0x2a00),l[c.Ha[-0x5fea]or c:Ia(c.sa"{r2P",c.sa"lK",-0x5fea)]b=b(l)j=c._[c.Ta[0x2f26]or c:Wa(c.sa"8{H@Ld;",c.sa"PMH",0x2f26)]_,q,j,l,o=-0x10,0b11,0,j[c.Ha[-0x5fea]or c:Ia(c.sa"CM`b",c.sa"NB",-0x5fea)],1 l=l(j,q,o,_)b[c.Ha[0x55f4]or c:Ia(c.sa")~Nra",c.sa"!G!",0x55f4)]=l j=c._[c.La[0x25c3]or c:Na(c.sa"6?G|Gas",c.sa"F+c",0x25c3)]j,l=0,j[c.Ha[-0x5fea]or c:Ia(c.sa"e{^O",c.sa"5d",-0x5fea)]o,_,q=j,0b1000,j l=l(j,q,o,_)b[c.Ta[-0x611d]or c:Wa(c.sa"u!cDUlz=4!",c.sa";OR<g",-0x611d)]=l j=a[0b11][0b11][a[0b11][1]]l=j[c.Ha[0x16b9]or c:Ia(c.sa"9m}*W+oU}",c.sa"*S<~",0x16b9)]b[c.La[-0x7ee5]or c:Na(c.sa"Gn@4-bUY40AD-1Ie<2eG",c.sa"G+|B?Mwa?<",-0x7ee5)]=l l=0 b[c.La[-0x3f9e]or c:Na(c.sa"Qb&;m^3X_mQid`9+J1Z",c.sa"8={wC<0ud",-0x3f9e)]=l l=0b1011 b[c.Ha[-0x620f]or c:Ia(c.sa"Xz6lR#bf",c.sa"9H24",-0x620f)]=l b[c.La[-0x5548]or c:Na(c.sa"f-;1+J%R",c.sa"_EXX",-0x5548)]=s j=c._[c.Ta[0x1536]or c:Wa(c.sa"&q6F7=R!OW",c.sa"hAdxd",0x1536)]j,l=c.Ha[-0x4cf0]or c:Ia(c.sa"8%)XRJZtat",c.sa"hKdDF",-0x4cf0),j[c.La[0x20d3]or c:Na(c.sa"+}Fh",c.sa"vH",0x20d3)]l=l(j)q=c._[c.La[-0x5a3f]or c:Na(c.sa"GbRrY",c.sa"VrB",-0x5a3f)]j,o,q=q[c.Ha[-0x5fea]or c:Ia(c.sa"qo}$",c.sa"%>",-0x5fea)],0b11,0 j=j(q,o)l[c.Ta[-0x3511]or c:Wa(c.sa"qNAU6m5#HmiE@RH",c.sa";mqwD@ca",-0x3511)]=j l[c.La[-0x5548]or c:Na(c.sa"zEuf}S`P",c.sa"do=C",-0x5548)]=b j=c._[c.La[-0x5a16]or c:Na(c.sa"V0%#~NP9sx",c.sa"Qz8{9",-0x5a16)]j,l=c.La[0x2330]or c:Na(c.sa"CyoQbKZ+U99{",c.sa"wR`Jx",0x2330),j[c.Ha[-0x5fea]or c:Ia(c.sa"y|$z",c.sa"(*",-0x5fea)]l=l(j)o=c._[c.Ta[-0x7e3a]or c:Wa(c.sa"FD*P_",c.sa"T3G",-0x7e3a)]q,o=o[c.Ha[0x7ca5]or c:Ia(c.sa"{rLal",c.sa"ke&",0x7ca5)],0x25c6 q=q(o)o=c.Ha[0x2320]or c:Ia(c.sa")_e6&+_$$l%0tug",c.sa"m!&GcTlN",0x2320)j=q..o l[c.Ta[0xd05]or c:Wa(c.sa"fCa1+",c.sa")L;",0xd05)]=j q=c._[c.La[0x25c3]or c:Na(c.sa";_TkVg#",c.sa"sJ8",0x25c3)]j,n,q,_,o=q[c.Ta[-0x653d]or c:Wa(c.sa"w!N<",c.sa"*Z",-0x653d)],0b11000,1,0,-0x14 j=j(q,o,_,n)l[c.Ta[0x1a9c]or c:Wa(c.sa"4y-4j",c.sa"UBv",0x1a9c)]=j q=c._[c.Ta[0x2f26]or c:Wa(c.sa"0>nP;Wd",c.sa"SAY",0x2f26)]j,o,q=q[c.Ta[-0x653d]or c:Wa(c.sa"BPco",c.sa"O#",-0x653d)],0b1110,0 _,n=q,0b1010 j=j(q,o,_,n)l[c.Ta[-0x611d]or c:Wa(c.sa"P554nY5qcs",c.sa"9hWWT",-0x611d)]=j j=1 l[c.Ta[-0x6c3b]or c:Wa(c.sa"Lhe_sZ@yaU0{bs=?pn2Ytw;I-`~m",c.sa"0FN}r2+TE~Y@d4",-0x6c3b)]=j q=a[0b11][0b11][a[0b11][1]]j=q[c.Ta[-0x51a3]or c:Wa(c.sa"2$)GYh*>B",c.sa"TkR?",-0x51a3)]l[c.La[-0x3fd7]or c:Na(c.sa"kz$0~=BjIx-If",c.sa"rLX)4#Q",-0x3fd7)]=j o=c._[c.Ta[-0x3a63]or c:Wa(c.sa"yVi@<",c.sa"{<r",-0x3a63)]q=o[c.Ha[0x1af5]or c:Ia(c.sa"<HF0?",c.sa"t)&",0x1af5)]j=q[c.Ha[0x54c5]or c:Ia(c.sa"u;%4K-<r$*McM",c.sa"zA2H3_W",0x54c5)]l[c.Ta[0x4b30]or c:Wa(c.sa"cQRio",c.sa"F<k",0x4b30)]=j j=0b1110 l[c.Ha[-0x75b0]or c:Ia(c.sa"oe)TwnjA`q",c.sa"?J#x8",-0x75b0)]=j q=o[c.Ta[-0x2b2a]or c:Wa(c.sa"2L*y5q?4gK2b4IOytx",c.sa"Q(*d4{L;+",-0x2b2a)]j=q[c.Ta[-0x6aa6]or c:Wa(c.sa"s`!BE",c.sa"=A8",-0x6aa6)]l[c.Ta[-0x2b2a]or c:Wa(c.sa"hGG*v#e`wIU<D-jt9b",c.sa"(g$lvoy83",-0x2b2a)]=j j=0b1011 l[c.Ha[-0x620f]or c:Ia(c.sa"yEzbr6$S",c.sa"esJL",-0x620f)]=j l[c.La[-0x5548]or c:Na(c.sa"GfYtiLst",c.sa"BQ0Y",-0x5548)]=s q=c._[c.Ta[0x1536]or c:Wa(c.sa">q)~G!%5Qy",c.sa"q9?Fp",0x1536)]j,q=q[c.La[0x20d3]or c:Na(c.sa"zO|<",c.sa"&;",0x20d3)],c.Ta[0x51b2]or c:Wa(c.sa"O2EvoQpDE2as",c.sa"9;LL~",0x51b2)j=j(q)o=c.Ha[-0x4a95]or c:Ia(c.sa"H{snAN{1f?1ds&u%|Tes8U!BITm",c.sa"^(1O@?maW4gnR",-0x4a95)q=o..k j[c.Ha[0x304e]or c:Ia(c.sa"=;Xxp",c.sa"fxG",0x304e)]=q o=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"(dq5Lwg",c.sa"t%L",-0x4d3a)]_,o,t,n,q=-0b10100,1,0b10110,0,o[c.Ha[-0x5fea]or c:Ia(c.sa"Z)A1",c.sa"0R",-0x5fea)]q=q(o,_,n,t)j[c.Ha[0x55f4]or c:Ia(c.sa"mo>gQ",c.sa"T*L",0x55f4)]=q o=c._[c.Ta[0x2f26]or c:Wa(c.sa"Zm3d$2>",c.sa"JL~",0x2f26)]o,q,_=0,o[c.Ha[-0x5fea]or c:Ia(c.sa"b9ib",c.sa"9R",-0x5fea)],0b1110 n,t=o,0x24 q=q(o,_,n,t)j[c.Ha[0x69e2]or c:Ia(c.sa"-X<tm`XDr4",c.sa"F<VKF",0x69e2)]=q q=1 j[c.Ta[-0x6c3b]or c:Wa(c.sa"fU{55v%g1oA`Q*3vqH|KtXgLx3g7",c.sa"!qP0g)XgXYOlg?",-0x6c3b)]=q o=a[0b11][0b11][a[0b11][1]]q=o[c.Ha[-0x6f33]or c:Ia(c.sa"L}gE8Q$lh",c.sa"HvkX",-0x6f33)]j[c.La[-0x3fd7]or c:Na(c.sa")r_U9fbNB|t?&",c.sa"!{6QMfd",-0x3fd7)]=q _=c._[c.Ha[-0x731a]or c:Ia(c.sa"+3M-(",c.sa"gq#",-0x731a)]o=_[c.La[-0x6b74]or c:Na(c.sa"4J9Q$",c.sa"N=p",-0x6b74)]q=o[c.Ta[-0x7ea3]or c:Wa(c.sa"sZ-*HUHb",c.sa"?mU(",-0x7ea3)]j[c.Ha[0x1af5]or c:Ia(c.sa"Jxvu>",c.sa"B6|",0x1af5)]=q q=0b1100 j[c.Ha[-0x75b0]or c:Ia(c.sa"Qk^RfRgozl",c.sa"dQ<oY",-0x75b0)]=q o=_[c.La[0b10000]or c:Na(c.sa"%hqg^{Hu5N)OwA<gl_",c.sa"8|tLs6tkZ",0b10000)]q=o[c.La[0x56d3]or c:Na(c.sa"=}*I6",c.sa"Dy0",0x56d3)]j[c.Ta[-0x2b2a]or c:Wa(c.sa"-+;;B<B`YWg5UYxzTW",c.sa"i{-JDyU?o",-0x2b2a)]=q q=0b1011 j[c.Ha[-0x620f]or c:Ia(c.sa"^v`n2<75",c.sa"9EPp",-0x620f)]=q j[c.Ta[0x447c]or c:Wa(c.sa"bQilp7`*",c.sa"BzDO",0x447c)]=s q,_,t=a[1][0b11][a[1][1]],s,c._[c.Ha[-0x74d4]or c:Ia(c.sa"QqB~<Xz(AsX#",c.sa"+i|%D",-0x74d4)]n,r,t=t[c.Ta[-0x653d]or c:Wa(c.sa"A}Ko",c.sa"Oa",-0x653d)],c._[c.Ha[-0x731a]or c:Ia(c.sa"xMqlD",c.sa"2>k",-0x731a)],0.4 d=r[c.Ta[0xc32]or c:Wa(c.sa"GU<9^A`shsav%}",c.sa"cZdlKOa",0xc32)]i,d=d[c.La[-0x2d90]or c:Na(c.sa"$w>K6>;",c.sa"J(v",-0x2d90)],r[c.Ha[-0x39bf]or c:Ia(c.sa"j%s0JDt{HCd3R|raXzI",c.sa"Q5ZxD5(~=",-0x39bf)]d=d[c.Ha[0x5274]or c:Ia(c.sa"%JA_",c.sa"g#",0x5274)]n=n(t,i,d)d,t=c._[c.Ha[-0x4d3a]or c:Ia(c.sa"`?JTIoB",c.sa"_pS",-0x4d3a)],{}r,d,i=-0x14a,1,d[c.Ta[-0x653d]or c:Wa(c.sa"pOl6",c.sa"@c",-0x653d)]p,e=-0b1011010,d i=i(d,r,e,p)t[c.Ha[0x69e2]or c:Ia(c.sa"zhImbn`VF%",c.sa"dhZYK",0x69e2)]=i o,q=q,q.Create q=q(o,_,n,t)q,o=q.Play,q q(o)o=c._[c.La[0x39d9]or c:Na(c.sa"rxBnV",c.sa"aMJ",0x39d9)]o,q=0b101,o[c.La[0x2232]or c:Na(c.sa"aE5M^",c.sa"=LY",0x2232)]q(o)q,t,_=a[1][0b11][a[1][1]],c._[c.La[0x5f5e]or c:Na(c.sa"H=Kq`4Wf-m3;",c.sa"F5~NC",0x5f5e)],s t,n,r=0.35,t[c.Ha[-0x5fea]or c:Ia(c.sa"%E8k",c.sa"qy",-0x5fea)],c._[c.Ha[-0x731a]or c:Ia(c.sa"f$p*G",c.sa"fW!",-0x731a)]d=r[c.Ta[0xc32]or c:Wa(c.sa";o5ULGQ;R}Dlow",c.sa"q`Lr9Tm",0xc32)]d,i=r[c.Ta[0x3c63]or c:Wa(c.sa"BCk*U>-qx@yjk|~^e71",c.sa"XU;s8g`Gz",0x3c63)],d[c.Ta[-0x3cf7]or c:Wa(c.sa"B<d9H0R",c.sa"b)N",-0x3cf7)]d=d[c.La[0x67e2]or c:Na(c.sa"F%|",c.sa"cm",0x67e2)]n=n(t,i,d)t,d={},c._[c.Ha[-0x4d3a]or c:Ia(c.sa"9p)j=dH",c.sa"qDT",-0x4d3a)]i,r,d=d[c.Ta[-0x653d]or c:Wa(c.sa"b$)C",c.sa"8v",-0x653d)],0b1010,1 e,p=d,-0b1011010 i=i(d,r,e,p)t[c.Ha[0x69e2]or c:Ia(c.sa"6qFd*Fp>n`",c.sa"uxtB7",0x69e2)]=i o,q=q,q.Create q=q(o,_,n,t)o,q=q,q.Play q(o)o=c._[c.La[0x39d9]or c:Na(c.sa"g4l)9",c.sa"x%L",0x39d9)]o,q=0.38,o[c.Ta[0x3770]or c:Wa(c.sa"Gyg5>",c.sa"M4k",0x3770)]q(o)q,o=f[0b11][f[1]].Destroy,f[0b11][f[1]]q(o)return end elseif h<=0x5d then if h<0b1010001 then h=f and(c.La[0x3081]or c:Qa(2540308891,2540308919,0x3081))or 0b100001000-h elseif h<=0b1010001 then o,l=c._[c.Ha[0x7968]or c:Ia(c.sa"fWjVMkje*N",c.sa"I%=cD",0x7968)],s[c.Ta[-0x4de9]or c:Wa(c.sa"=R&vXaKzt9t>s0)!T",c.sa"vMk<_B&`",-0x4de9)]q=o[c.La[-0x3139]or c:Na(c.sa";o$f",c.sa"j{",-0x3139)]q=q()j=q[c.La[-0x2f2]or c:Na(c.sa"@Fyp>FmT8$J-P*S)c",c.sa"8D!2*Nu>",-0x2f2)]l,b=0,l-j h=b>l and 0b1100011-h or(c.La[0x42c7]or c:Sa(0b10,0x63,0x42c7))else h,n=0x4d04/h,c._[c.Ha[0x4fe0]or c:Ia(c.sa"t=GHSyZ",c.sa"w%G",0x4fe0)]t,n,_="M",o,n[c.Ha[0x68f4]or c:Ia(c.sa"Au-)8E!q",c.sa"u3tz",0x68f4)]t=q..t _(n,t)end elseif h<=0b1111010 then n=c._[c.Ta[0x7eac]or c:Wa(c.sa"ds1y*Y5",c.sa"4>J",0x7eac)]_,n,t=n[c.Ha[0x68f4]or c:Ia(c.sa"JO42^<2C",c.sa"LXlD",0x68f4)],o,"D"t=l..t h=0b100100100-h _(n,t)else h=b and(c.La[-0x289]or c:Ra(0x5ea9b723,3465772962,0x6fe9c830,-0x289))or(c.Ta[0x76cb]or c:Va(0x7e4e18d0,0x7e4e1804,0x76cb))end elseif h<=0xd0 then if h>=0xc6 then if h<0xcc then h,k=c.La[0xee7]or c:Ma(0xcc,0xee7),c.Ha[-0x5df4]or c:Ia(c.sa"M|{j{cG+e",c.sa"yaWO",-0x5df4)elseif h<=0b11001100 then s=c._[c.Ha[0x7ed0]or c:Ia(c.sa"$ADwy?|^gk",c.sa"kr3{V",0x7ed0)]s,f=c.Ta[0xdf]or c:Wa(c.sa"FpL5|27xy&3I",c.sa"WAAWV",0xdf),s[c.Ha[-0x5fea]or c:Ia(c.sa"tDv#",c.sa"#Q",-0x5fea)]f=f(s)f={[1]=0b10,[0b10]=f}f[0b11]=f s=c.La[0x2301]or c:Na(c.sa"0;hW}1I$7@yH*4m&tC",c.sa"E4+Ja0>Vi",0x2301)f[0b11][f[1]][c.Ta[0x62b5]or c:Wa(c.sa"odCWB",c.sa"(_s",0x62b5)]=s s=false f[0b11][f[1]][c.Ta[-0x198d]or c:Wa(c.sa"<5&yFeAC}<2*ZE!",c.sa"u|0UA2%G",-0x198d)]=s s=0x270f f[0b11][f[1]][c.Ha[0xf48]or c:Ia(c.sa"^?P8N9qq_nVU863",c.sa"jB)A{60r",0xf48)]=s s=true f[0b11][f[1]][c.Ta[0x16d8]or c:Wa(c.sa"H+^kWDi?PPb4pSx7eo",c.sa"ei{QjSaL7",0x16d8)]=s b,s=c:Y{f},c._[c.Ta[-0x6edd]or c:Wa(c.sa"6T<?`4*",c.sa"W1s",-0x6edd)]s(b)b=f[0b11][f[1]][c.La[-0x5548]or c:Na(c.sa"bO!@L2n7",c.sa"ab_d",-0x5548)]s=not b h=s and h+0b100 or 0xb28/h else s,l=a[0b10][0b11][a[0b10][1]],c.Ha[-0x3443]or c:Ia(c.sa"kUK1(r6mfisQ",c.sa"*-cl#",-0x3443)b,s=s,s.WaitForChild h,s=c.Ta[0x2aa7]or c:Va(3129247516,3129247502,0x2aa7),s(b,l)f[0b11][f[1]][c.Ha[-0x409d]or c:Ia(c.sa"8D}0WXcz",c.sa"Yz9d",-0x409d)]=s end elseif h>0xaa then b,h,s=m[0b11][m[1]],0b11111110-h,c._[c.La[-0x5369]or c:Na(c.sa"+H>A-",c.sa"3a$",-0x5369)]s=s(b)b=c.La[0x5c18]or c:Na(c.sa"*fvGNEKm",c.sa"H$tl",0x5c18)f=s==b elseif h>0b10001101 then _=0 h=j>_ and h+0b1001000 or 0xb0-h else k=a[0b100][0b11][a[0b100][1]]m=k[c.Ta[0x34a2]or c:Wa(c.sa"sKpP(<*3de&Eo",c.sa"&AorDmj",0x34a2)]m={[1]=0b10,[0b10]=m}m[0b11]=m k,f=c.Ha[0x6687]or c:Ia(c.sa"xQ#f2j3k2",c.sa"Q{(L",0x6687),m[0b11][m[1]]h=f and(c.Ha[-0x1026]or c:Pa(2486493859,2486487056,-0x1026))or(c.Ha[0x1a79]or c:Ja(0b10100,0x3c,0x1a79))end elseif h>=0xf2 then if h>0xf2 then h,n,t=c.Ha[0x66f5]or c:Ja(0b11000000,0b1011010,0x66f5),#o,0 _=n==t else h,n=h+-0b11101100,c._[c.Ta[0x7eac]or c:Wa(c.sa"Id?C5C;",c.sa"O%?",0x7eac)]_,n,t=n[c.La[-0x7b92]or c:Na(c.sa"`>h)Hu^j",c.sa"X~U8",-0x7b92)],o,"H"t=j..t _(n,t)end elseif h>0xd4 then h=_ and h+-0x7d or 0b110101110-h else n=c._[c.Ha[0x4fe0]or c:Ia(c.sa"tjW5>y#",c.sa"sMr",0x4fe0)]n,_,t=o,n[c.Ta[0x4155]or c:Wa(c.sa"&@n#HKO_",c.sa"vtCd",0x4155)]," "h,_=c.La[0xee7]or c:Ra(0x2b463be3,0x413f0c60,0x15f8d131,0xee7),_(n,t)k=_ end end end end,function(c,a)return function()local b,e,f f,b=a[0b10][0b11][a[0b10][1]],a[1][0b11][a[1][1]]e,b=b,b.JSONDecode b=c.h(b(e,f))return c.i(b)end end,function(c,a)return function()local d,g,b,k,_,j,f,e _,d,g,k=c._[c.La[0x155e]or c:Na(c.sa"pyhgu_$2",c.sa"7K-B",0x155e)],{},a[1][0b11][a[1][1]],a[0b10][0b11][a[0b10][1]]b,_,e,j=_[c.La[0x1bb7]or c:Na(c.sa"=Zd@Rs*}S",c.sa")cAn",0x1bb7)],0x78,0x23,0x1e b=b(_,j,e)d[c.La[-0x7ee5]or c:Na(c.sa"h{AUS7Bt+>q{mkP9Vx+x",c.sa"yR$}dZxo}-",-0x7ee5)]=b d,f=0.1,d g(k,f,d)return end end,function(c,a)return function()local f,g,d,e d,g,e=c.La[-0x1265]or c:Na(c.sa"Xm1}*M;Jl",c.sa"Z2&6",-0x1265),a[1][0b11][a[1][1]],c._[c.Ta[-0x1409]or c:Wa(c.sa"rOmI&",c.sa"!mI",-0x1409)]f,e=e,e.GetService e=e(f,d)g[c.Ha[-0x409d]or c:Ia(c.sa"EMrd@Y)J",c.sa"Jpz0",-0x409d)]=e return end end,function(c,a)return function(m,k)local _,j,h,f,b,l,p,q,o,i,g,n h=0b111001 while true do if h>0b1110110 then if h>0b10101000 then if h>=0xec then if h>0xec then return f else h=l~=l and 0b11111100 or h+-0x89 end else h=p<b and 0xad40/h or h+-0x4d end elseif h>0b10100100 then if h<=0b10100110 then h=l<=0 and 0b100011 or 0xec else h=p>b and 0x1a4-h or 0b10100110 end elseif h>0xa1 then h,_=0x4b98/h,c.h(_(n,g))elseif h>0x93 then h=l~=l and 0xb0 or 0x47b2/h else h=h+0b10001 end elseif h<=0b1100011 then if h>=0b1010011 then if h>=0b1010101 then if h<=0b1010101 then p=p+l h=l>0 and 0xa8 or 0b10100110 else q,n,j,_,o=a[0b10][0b11][a[0b10][1]],1,a[1][0b11][a[1][1]],m,a[0b11][0b11][a[0b11][1]]h,n=0x27,p+n end else h=p>b and 0xfc or 0x3433/h end elseif h<0x27 then h=p<b and 0b100011111-h or 0b11101100 elseif h>0x27 then j,p,f,q=#m,0,"",1 b,l=j-q,q h=b~=b and 0b11111100 or 0b1101111 else o=o(_,n)_,n,i=a[0b11][0b11][a[0b11][1]],k,#k i,h,g=1,0x93,p%i g=g+i end elseif h>=0b1110010 then if h<=0b1110010 then h=l<=0 and 0xb0 or 0xd5-h else h,q=0b1110001,c.h(q(o,c.i(_)))end elseif h<=0b1101111 then h=l>0 and h+-0b11100 or h+0x32 else j=j(c.i(q))h,f=0b1010101,f..j end end end end,function(c,a)return function(g)local e,d,f,h h=c.Ta[0x4e70]or c:Ua(0x2b,0x4e70)repeat if h<0x34 then if h>0x14 then g={[1]=0b10,[0b10]=g}g[0b11]=g f,e=c:la{a[1],g},c._[c.Ha[0x3108]or c:Ia(c.sa"+KS7C#s",c.sa">8b",0x3108)]e,f=e(f)d=e h=d and(c.La[0x50b7]or c:Ra(0x481dcebd,2607890306,0x535370f9,0x50b7))or(c.Ha[0x5ce]or c:Ka(0b10100000,0x5ce))else h,d=c.Ta[0x706b]or c:Ua(0b10101110,0x706b),nil end elseif h<0xa0 then h,d=0xd4-h,f elseif h<=0xa0 then h=d and(c.Ha[0x4ed8]or c:Pa(2867951087,2867944624,0x4ed8))or(c.La[-0x6b81]or c:Qa(4005772276,4005772256,-0x6b81))else return d end until false end end,function(c,a)return function()local e,f,b b,f=a[1][0b11][a[1][1]],a[0b10][0b11][a[0b10][1]]b,e=b.JSONEncode,b b=c.h(b(e,f))return c.i(b)end end,function(c,a)return function()local f,d,g,e g,d,f=a[1][0b11][a[1][1]],a[0b10][0b11][a[0b10][1]],{}f[c.La[0x2c84]or c:Na(c.sa"Lu7g",c.sa"76",0x2c84)]=d d=c.Ha[-0x10ea]or c:Ia(c.sa"!obl",c.sa"g#",-0x10ea)f[c.Ha[0x5b96]or c:Ia(c.sa"N$*{3<xK",c.sa"DT)L",0x5b96)]=d d=a[0b11][0b11][a[0b11][1]]f[c.La[-0x6dd4]or c:Na(c.sa"Lt1ceT4Q(",c.sa"5kCt",-0x6dd4)]=d e,g=g,g.RequestAsync g=c.h(g(e,f))return c.i(g)end end,function(c,a)return function()local e,b b,e=c._[c.Ta[-0x2939]or c:Wa(c.sa"(Fmi*m&p~Y&4T",c.sa"y=TIs<N",-0x2939)],a[1][0b11][a[1][1]]b=c.h(b(e))return c.i(b)end end,function(c,a)return function(m,k)local i,q,f,l,n,o,h,p,j,d,b,_,g h=0xf9 while true do if h>0x5e then if h<0xc0 then if h<=0xb4 then if h<0x89 then h,_=0x6b4/h,c.h(_(n,g))elseif h<=0b10001001 then h=l<=0 and h+0x6d or 0b11000000 else h=l~=l and 0xf6 or 0b10001001 end else h=l<=0 and 0b1010101 or 0b11010000-h end elseif h>0xf6 then j,p,f,q=#m,0,"",1 l,b=q,j-q h=b~=b and 0x4e or 0b1010110 elseif h<0xee then q,n,_,o,j=a[0b10][0b11][a[0b10][1]],1,m,a[0b11][0b11][a[0b11][1]],a[1][0b11][a[1][1]]h,n=0b11010,p+n elseif h<=0b11101110 then h,q=0x14,c.h(q(o,c.i(_)))else h=p<b and 0x144-h or 0xc0 end elseif h<=0x35 then if h<=0x1a then if h>=0x15 then if h>0x15 then o=o(_,n)_,d,h,n,g=a[0b11][0b11][a[0b11][1]],#k,0b10000100,k,#k i=p%d g=g-i else h=l~=l and 0x4e or 0b11010101-h end elseif h>0b1101 then h,j=0x5e,j(c.i(q))f=f..j else h=h+0xe1 end elseif h>0x20 then h=p>b and 0x1026/h or 0x2544/h else h=p>b and 0b1101110-h or h+0x9b end elseif h<0b1010110 then if h<=0x4e then return f else h=p<b and 0x4e or 0b10101 end elseif h>0x56 then p=p+l h=l>0 and 0x20 or 0b10111011 else h=l>0 and 0b110101 or h+0b1011110 end end end end,function(c,a)return function()local e,f,_,b _=c.La[-0x651]or c:Sa(0x6c,1,-0x651)repeat if _<=0b1001111 then if _<0b111110 then if _>0b11111 then _=b and _+0xa3 or _+0b10111100 elseif _>0b11000 then return else _=b and 0x1530/_ or 0x5d0/_ end elseif _<0b1000101 then b=a[0b10][0b11][a[0b10][1]]_=b and(c.La[0x6b6a]or c:Sa(1,0x4f,0x6b6a))or(c.Ta[-0x2b1b]or c:Ya(1,0x26,-0x2b1b))elseif _>0b1000101 then b,_,f=a[0b10][0b11][a[0b10][1]],0b1110101-_,c.Ta[-0x1463]or c:Wa(c.sa"&F}u1`0?14^Z",c.sa"or9m?",-0x1463)b,e=b.FindFirstChild,b b=b(e,f)else f,_,b=c.Ha[-0x7b87]or c:Ia(c.sa"=Io<H<$u}iw@~S2",c.sa"44fC*iLC",-0x7b87),_+-0x2d,a[1][0b11][a[1][1]]e,b=b,b.FindFirstChild b=b(e,f)end elseif _<0xc9 then if _<=0x6c then b=a[1][0b11][a[1][1]]_=b and(c.Ta[0x5cf9]or c:Ua(0x45,0x5cf9))or(c.Ta[-0x1c1a]or c:Ua(0b11000,-0x1c1a))else _,f,e=c.La[-0x59ed]or c:Sa(0b11111,1,-0x59ed),b,b.Destroy e(f)end elseif _<=0xc9 then e=a[0b10][0b11][a[0b10][1]]f,b=c.La[0x2ff4]or c:Na(c.sa"YikBXx6D*)5>UI=",c.sa"zs?tb4j=",0x2ff4),e[c.Ha[-0x3443]or c:Ia(c.sa"wr|CbgK^`6j{",c.sa"_oM^n",-0x3443)]b,e=b.FindFirstChild,b _,b=c.Ha[-0x7c49]or c:Pa(0x3497fe6b,0x3497d478,-0x7c49),b(e,f)else _=b and 0b110100000-_ or 0x1b5e/_ end until false end end,function(c,a)return function()local f,g,d,e d,f,g=c.Ta[-0x7120]or c:Wa(c.sa"w0f9OeD8OQP;34",c.sa"n;!i!9{",-0x7120),a[0b10][0b11][a[0b10][1]],a[1][0b11][a[1][1]]f,e,d={},f..d,a[0b11][0b11][a[0b11][1]]f[c.Ha[-0x4456]or c:Ia(c.sa"DIhi~GX",c.sa"Ph9",-0x4456)]=d g(e,f)return end end,function(c,a)return function()local b,f,_,e _=c.Ha[-0x1d5a]or c:Ja(0b11,0x44,-0x1d5a)repeat if _<0b1001011 then b,f=a[0b10][0b11][a[0b10][1]],c.Ta[0x31fc]or c:Wa(c.sa"B3|Gn9X?&+Jro=",c.sa"ZZU&IaR",0x31fc)b,e=b.GetPropertyChangedSignal,b b=b(e,f)e,b=b,b.Wait b=b(e)_=b and(c.Ha[0x3f99]or c:Pa(3651143084,3651153198,0x3f99))or(c.La[0x753f]or c:Ra(2628744311,3022106835,0x17723c97,0x753f))elseif _>0b1001011 then e=a[0b10][0b11][a[0b10][1]]_,b=_+-0b10000010,e[c.Ta[0x31fc]or c:Wa(c.sa"5u{RNnGL5<e2^~",c.sa"UCS{A^#",0x31fc)]else a[1][0b11][a[1][1]]=b return end until false end end,function(a,b,c,d)a.Ha[d]=a.c(c,0x29f1)+(-b+0b10*a.c(a.a(a.c(c,0x29f1),a.c(c,0x29f1)),a.b(4294967295,b))+-0b10*a.b(a.d(b),a.c(b,4294967295)))+(a.a(a.a(b,0xffff),a.d(a.a(b,0xffff)))*a.a(a.a(b,0xffff),a.d(a.a(b,0xffff)))+a.a(a.a(0xffff,b),a.a(0xffff,b))*a.b(a.a(b,0xffff),a.a(b,0xffff))-a.a(b,0xffff)*a.a(b,0xffff))return a.Ha[d]end,function(c,a)return function(b)local e,f b={[1]=0b10,[0b10]=b}b[0b11]=b e,f=c._[c.La[-0x2f5c]or c:Na(c.sa"rv$bOy8",c.sa"XV(",-0x2f5c)],c:ga{a[1],b}e(f)return end end,function(c,a)return function()local i,_,f,b,d,g _,g,d,i=a[0b11][0b11][a[0b11][1]],a[0b100][0b11][a[0b100][1]],{},a[0b10][0b11][a[0b10][1]]b=_[c.Ha[0x5469]or c:Ia(c.sa"#3}>F!I8&13B|{e",c.sa"<*%Y(Nre",0x5469)]d[c.La[-0x3fd7]or c:Na(c.sa"=hG^`Al%wLxlj",c.sa"W6M&uvj",-0x3fd7)]=b f,d=d,0.2 g(i,f,d)b,d,i=0.5,{},a[1][0b11][a[1][1]]d[c.Ha[0x1c91]or c:Ia(c.sa"Lw<zje0YfVWB",c.sa"h3ys>",0x1c91)]=b b=0.4 d[c.Ha[0x5585]or c:Ia(c.sa"q}Q^qc@UA;wy$X!",c.sa"U<$$0rSJ",0x5585)]=b d,f=0.2,d g(i,f,d)return end end,function(c,a)return function()local d,_,b,h,i,f,g h=c.Ha[0x206d]or c:Pa(0x529a731b,0x529a5af4,0x206d)repeat if h<0x72 then g=c._[c.La[0x3e72]or c:Na(c.sa"AXG3jGC(jZG5",c.sa"M_DFU",0x3e72)]h=g and(c.Ha[0x34f7]or c:Oa(3937231181,0x5c3a6ca3,2389920431,0x34f7))or(c.Ta[-0x58aa]or c:Xa(0b11110,0b100110,0b10000110,-0x58aa))elseif h>0b1110010 then return else i,b,d,f,g=c.Ha[0x43ac]or c:Ia(c.sa"`j^Z10jl{?#F*IcL8I?l^#",c.sa"HJr(Bmc8?v",0x43ac),a[0b10][0b11][a[0b10][1]],{},a[1][0b11][a[1][1]],c._[c.Ta[-0x3792]or c:Wa(c.sa"p3%EBjK#Ywi~",c.sa">7&v>",-0x3792)]d[c.Ta[0x1f8a]or c:Wa(c.sa"o{)?",c.sa"^#",0x1f8a)]=b h,_=h+0b1010100,c._[c.Ta[-0x6d0e]or c:Wa(c.sa"m5B",c.sa"`T",-0x6d0e)]_,b=c.Ta[-0x7043]or c:Wa(c.sa"FLD",c.sa"3I",-0x7043),_[c.Ta[0xaed]or c:Wa(c.sa"v@oPJ",c.sa"&`|",0xaed)]b=b(_)d[c.Ha[-0x44a3]or c:Ia(c.sa"cIjsA",c.sa"h!O",-0x44a3)]=b f=f(d)g(i,f)end until false end end,function(c,a)return function()local b,e,_,f _=c.La[0x1baa]or c:Qa(4188877003,4188876809,0x1baa)while true do if _>0b1101001 then if _<=0xc2 then if _<0b10100111 then _,e=c.La[0x1c68]or c:Ra(3658360751,4005075755,0x14aa7384,0x1c68),""elseif _>0xa7 then b=c._[c.Ta[-0x2970]or c:Wa(c.sa"{t8z96;%",c.sa"mw7M",-0x2970)]_=b and(c.Ta[-0x6e34]or c:Xa(0b101,0b10011,0x11,-0x6e34))or(c.Ta[0x1ea1]or c:Ya(0x69,1,0x1ea1))else b=""return b end else _,e=c.Ha[0x435c]or c:Pa(0x7e105b0c,0x7e107349,0x435c),b[c.Ha[-0x3060]or c:Ia(c.sa"9TN`",c.sa"b^",-0x3060)]end elseif _<=0x19 then if _<=0b10101 then if _>0b1000 then b,e,f=a[1][0b11][a[1][1]],c._[c.Ta[0x226b]or c:Wa(c.sa"6!Zy`0Qdxw",c.sa"W|3(3",0x226b)],c.La[0x3ae7]or c:Na(c.sa"aM}4RO*%pcPS)x)4Kq{>e*",c.sa"V<%Z7O^>}1",0x3ae7)e=c.h(e(f))b=b(c.i(e))e=b _=e and 0xdd-_ or(c.Ha[0x435c]or c:Ja(0b10000,0b1010100,0x435c))else return e end else b,_,e=c._[c.Ta[-0x2970]or c:Wa(c.sa"a>iY9*<J",c.sa"8?`$",-0x2970)],c.Ta[0x1ea1]or c:Ya(1,0x69,0x1ea1),c.La[0x3ae7]or c:Na(c.sa"1M();E}bQmJ^eM#Zj>{h3;",c.sa"@Id}Rw@{X1",0x3ae7)b=b(e)end elseif _>0x54 then _=b and 0x89d/_ or _+0b111110 else _=e and(c.Ta[0x3cd]or c:Xa(0,0,0b1000,0x3cd))or(c.La[0x79a]or c:Sa(0b10011,0b1000,0x79a))end end end end,function(c,a)return function(m)local _,n,o,l,h,i,b,p,j,f,k,e,g h=0b111101 repeat if h<=0b10100000 then if h>=0x88 then if h>0b10001000 then e=0b1010101 n,j,e,_,g,i=m,k*e,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+-;<=>?@^_`{|}~",m.sub,f,f _=_(n,g,i)e,o,n,g=e.find,e,1,true e=e(o,_,n,g)l,h,j=j+e,0x88,1 k=l-j else f=f+b h=(b>0 and f>p or b<=0 and f<p or b~=b)and 0xa9 or 0x5500/h end else p,k,f=0b101,0,1 b=f h=(p~=p or(b>0 and f>p or(b<=0 or b~=b)and f<p))and 0xa9 or 0xa0 end else b,p,l,f=k,a[0b10][0b11][a[0b10][1]],0b11000,a[1][0b11][a[1][1]]p=p(b,l)e,l,b,j=0x10,a[0b10][0b11][a[0b10][1]],a[0b11][0b11][a[0b11][1]],k l=l(j,e)j=0xff b=b(l,j)j,o,l,e=a[0b10][0b11][a[0b10][1]],0b1000,a[0b11][0b11][a[0b11][1]],k j=j(e,o)e=0b11111111 l=l(j,e)e,o,j=k,0b11111111,a[0b11][0b11][a[0b11][1]]j=c.h(j(e,o))f=c.h(f(p,b,l,c.i(j)))return c.i(f)end until false end end,function(c,a)return function()local d,b,e,g,k,f,_,j _,k,d,g=c._[c.Ha[-0x4a0c]or c:Ia(c.sa"ABp=jl%x",c.sa"m*!j",-0x4a0c)],a[0b10][0b11][a[0b10][1]],{},a[1][0b11][a[1][1]]_,b=1,_[c.Ta[-0x653d]or c:Wa(c.sa"`tjo",c.sa"lm",-0x653d)]e,j=_,_ b=b(_,j,e)d[c.La[-0x3fd7]or c:Na(c.sa"gx&ctdcV}}HVO",c.sa"IYfcD&;",-0x3fd7)]=b f,d=d,0.2 g(k,f,d)k,d,b=a[0b11][0b11][a[0b11][1]],{},1 d[c.La[0x5745]or c:Na(c.sa"qQJwYoyO0#g#",c.sa"#;U0H",0x5745)]=b b=0 d[c.La[0x8c5]or c:Na(c.sa"LOMCRx*vBsJ-VtE",c.sa"Z^_hHNEQ",0x8c5)]=b f,d=d,0.2 g(k,f,d)return end end,function(a,b,c)a.Ha[c]=b return a.Ha[c]end,function(c,a)return function(g)local _,d,h,i,f,b h=c.Ha[0x54e4]or c:Ka(0x60,0x54e4)repeat if h<=0b1101100 then if h>=0b1100000 then if h>0b1100000 then h,_,f=0b100010101-h,c._[c.Ha[-0x731a]or c:Ia(c.sa"kCwlc",c.sa"_{s",-0x731a)],g[c.Ha[-0x794b]or c:Ia(c.sa"jMqh&-0Z2*RKD!;yZ",c.sa"f|cqZq}c",-0x794b)]b=_[c.Ha[-0x794b]or c:Ia(c.sa"s>vI4z4DLG3Q~>ing",c.sa"ob(2My8i",-0x794b)]d=b[c.Ha[-0x1043]or c:Ia(c.sa"Sq69tWd",c.sa"X$=",-0x1043)]i=f==d else f,_=g[c.Ha[-0x794b]or c:Ia(c.sa"=qa|lHrLHBr=14L*Z",c.sa"xqr#iTD<",-0x794b)],c._[c.Ha[-0x731a]or c:Ia(c.sa"&U^lN",c.sa"6^j",-0x731a)]b=_[c.Ha[-0x794b]or c:Ia(c.sa"Nd{i<kb7(ZPu8Gic>",c.sa"71@G2bsP",-0x794b)]d=b[c.La[-0x6fb]or c:Na(c.sa"3-s05F*h^s)WteP",c.sa"byTXLn??",-0x6fb)]i=f==d h=i and(c.Ha[-0x2d83]or c:Oa(4263475650,0x20d977a0,3712379882,-0x2d83))or(c.La[-0x651]or c:Ra(0x544a697,0x1d42aecb,0x17fe07d0,-0x651))end else i=true a[0b100][0b11][a[0b100][1]],h,i=i,c.Ha[0x719d]or c:Ka(0b11101110,0x719d),g[c.Ha[0x69e2]or c:Ia(c.sa"1JbwYC)BI%",c.sa"fW*C1",0x69e2)]f,a[0b10][0b11][a[0b10][1]]=a[1][0b11][a[1][1]],i i=f[c.Ha[0x69e2]or c:Ia(c.sa"pS$QXyS?-^",c.sa"TbtC+",0x69e2)]a[0b11][0b11][a[0b11][1]]=i end elseif h<=0xa9 then h=i and 0b11001011-h or 0x197-h else return end until false end end,function(c,a)return function()local i,d,_,b,g,f g,_,d,i=a[1][0b11][a[1][1]],a[0b11][0b11][a[0b11][1]],{},a[0b10][0b11][a[0b10][1]]b=_[c.Ta[0x5a6e]or c:Wa(c.sa"GVnxo1;$@@",c.sa"cY-z=",0x5a6e)]d[c.La[-0x7ee5]or c:Na(c.sa"a&Eq?*CNqYUTdDH+&|0^",c.sa"Bfe0u$K4Mw",-0x7ee5)]=b f,d=d,0.1 g(i,f,d)return end end,function(c,a)return function(m)local f,e,d,h,_,i,b,k,l,j h=c.Ha[-0x63b7]or c:Ka(0xb0,-0x63b7)while true do if h>0b10110000 then if h>0b10111001 then h=k and(c.La[0x4ed1]or c:Ra(0xd26d171,3589961336,3369313558,0x4ed1))or 0b100101000-h else l,f=c._[c.Ta[-0x3a63]or c:Wa(c.sa"S3YMw",c.sa"5>N",-0x3a63)],m[c.La[-0x41bc]or c:Na(c.sa"K+8n9xqoHNRi24qZ~",c.sa"5%9_(xD@",-0x41bc)]b=l[c.Ta[0x181b]or c:Wa(c.sa"k5gH>-0rGXNT2NRzW",c.sa"+8{j3m4E",0x181b)]d=b[c.Ha[0x723f]or c:Ia(c.sa"4lzT;U|}pMQ`=xdHv",c.sa"ECseUUPA",0x723f)]k=f==d h=k and 0xaf9b/h or(c.Ha[0x11de]or c:Oa(0x61eb6593,0x41af4dc7,0x203c2e0b,0x11de))end elseif h<=0b1000000 then if h<=0x35 then if h<=0b10011 then d,f=a[0b10][0b11][a[0b10][1]],m[c.La[-0x73a8]or c:Na(c.sa"FD|^b3n-wn",c.sa"+|NOO",-0x73a8)]k,h,b,f=f-d,0x48-h,c._[c.Ta[0x2f26]or c:Wa(c.sa"6)GtMas",c.sa"KyC",0x2f26)],a[0b11][0b11][a[0b11][1]]d,j=b[c.La[0x20d3]or c:Na(c.sa"y0N1",c.sa")B",0x20d3)],a[1][0b11][a[1][1]]l=j.X b,i=l[c.Ha[-0x3ed1]or c:Ia(c.sa"xsQv0j{",c.sa"?CJ",-0x3ed1)],j e=i.X e,j=k.X,e[c.Ha[-0x33e]or c:Ia(c.sa"*4Gf~)B*",c.sa"cCnc",-0x33e)]l,e=j+e,i.Y j,_=e[c.Ha[-0x3ed1]or c:Ia(c.sa"g^;(Ovj",c.sa"^VR",-0x3ed1)],i i=_.Y e,i=i[c.Ha[-0x33e]or c:Ia(c.sa"xy-SJ&!Y",c.sa"*Q)j",-0x33e)],k.Y e=e+i d=d(b,l,j,e)f[c.La[-0x73a8]or c:Na(c.sa"H1H=$5cWGx",c.sa"AXJ}Z",-0x73a8)]=d else return end else f,l=m[c.La[-0x41bc]or c:Na(c.sa"PQ7H&?Qd(lb@$zIeg",c.sa"0i>e=&Km",-0x41bc)],c._[c.Ha[-0x731a]or c:Ia(c.sa"%~JhQ",c.sa"Jcs",-0x731a)]b=l[c.Ha[-0x794b]or c:Ia(c.sa"ACVr{-~u|A5Ao0(F8",c.sa"Y^kMt;z|",-0x794b)]h,d=c.La[-0x1824]or c:Ra(0x732829f6,0x7818732a,0x4f04a25,-0x1824),b[c.Ta[0x269a]or c:Wa(c.sa"3wbJaHv",c.sa"Uls",0x269a)]k=f==d end else k=a[0b100][0b11][a[0b100][1]]h=k and(c.Ta[0x696e]or c:Ua(0b10111001,0x696e))or(c.Ha[-0x18f8]or c:Oa(4186623941,0x2e1e75a4,3412901799,-0x18f8))end end end end,function(c,a)return function()local b,e b,e=a[1][0b11][a[1][1]],""b[c.Ta[0xd05]or c:Wa(c.sa"W&lbN",c.sa"GGz",0xd05)]=e e,b=1,a[0b10][0b11][a[0b10][1]]b[c.Ta[-0x6c3b]or c:Wa(c.sa"e6&O%?uZ7SO#g#Sv`IPnn;VWy_^t",c.sa"KGi2miTY{lBAeF",-0x6c3b)]=e return end end,function(c,a)return function()local g,b,_,d,f,i _,i,g,d=a[0b11][0b11][a[0b11][1]],a[0b10][0b11][a[0b10][1]],a[1][0b11][a[1][1]],{}b=_[c.Ta[-0x3492]or c:Wa(c.sa"bUGB4ORho(35HL<",c.sa"Cr@VZD$M",-0x3492)]d[c.La[-0x7ee5]or c:Na(c.sa"#eOlwsI{<h>3b2tqo}Pn",c.sa"1mDNcuTmd}",-0x7ee5)]=b d,f=0.1,d g(i,f,d)return end end,function(c)local h,i,b,d,f,g h=0b10000011 while true do if h>0b10000011 then d=b.band f={[1]=0b10,[0b10]=f}f[0b11]=f d={[1]=0b10,[0b10]=d}d[0b11]=d b=c:ta{d,g,f,i}return b else f=string g,i=f.char,f.gsub g={[1]=0b10,[0b10]=g}h,g[0b11]=0b10100001,g i={[1]=0b10,[0b10]=i}i[0b11]=i b=bit32 f=b.rshift end end end,function(a,b,c,d)a.Ha[d]=a.d(a.a(a.d(c),a.d(b)))+(a.a(a.a(b,0xffff),a.d(a.a(0xffff,b)))*a.a(a.a(0xffff,b),a.d(a.a(b,0xffff)))+a.b(a.a(0xffff,b),a.a(0xffff,b))*a.a(a.a(b,0xffff),a.a(0xffff,b))-a.a(0xffff,b)*a.a(0xffff,b)+c+-a.d(a.c(c,4294967295)))+-a.d(a.c(b,4294967295))+b return a.Ha[d]end,function(a,b,c,d)a.Ta[d]=a.a(a.d(b),c)*a.a(a.a(a.d(c),b),a.d(a.d(4294967295)))+(-b+(a.a(c,a.d(b))*a.a(a.a(a.d(a.d(4294967295)),a.a(a.d(c),b)),4294967295)+(-(a.a(a.d(a.c(a.a(b,c),a.d(4294967295))),a.a(c,a.d(b)))*a.a(a.d(c),b))+c+-a.c(c,a.d(4294967295))+a.b(b,b)))+a.a(b,c)*a.b(b,c))return a.Ta[d]end,function(c,a)return function(g)local h,i,_,b,f,d h=c.La[0x3ec3]or c:Sa(0b101111,1,0x3ec3)repeat if h<=0b101111 then if h<=0x14 then if h<=0b1010 then _,f=c._[c.Ha[-0x731a]or c:Ia(c.sa"({tl+",c.sa"9hL",-0x731a)],g[c.La[-0x41bc]or c:Na(c.sa"q!^l1EV_Xni*g*Klm",c.sa")MY0BYw-",-0x41bc)]b=_[c.La[-0x41bc]or c:Na(c.sa")DnVG6N2#+lXoMW<N",c.sa">{=t|VSx",-0x41bc)]d=b[c.La[-0x704b]or c:Na(c.sa"TW@+}X8",c.sa"01p",-0x704b)]h,i=c.Ha[-0x3809]or c:Pa(3237444205,3237434280,-0x3809),f==d else h=i and 0x1298/h or 0x8c-h end else _,f=c._[c.La[0x5216]or c:Na(c.sa"J%9~^",c.sa"?sx",0x5216)],g[c.Ta[0x181b]or c:Wa(c.sa"7TOV=6;m_Z0J|kkCI",c.sa"L#cG{Ts;",0x181b)]b=_[c.Ha[-0x794b]or c:Ia(c.sa"ZD35ZAD&2NU6n6@T>",c.sa"@K(Vo6F2",-0x794b)]d=b[c.Ha[0x2b5c]or c:Ia(c.sa"i-1Nwj`6dbM<IoR",c.sa"v+GVX@5T",0x2b5c)]i=f==d h=i and(c.Ha[-0x3809]or c:Ja(0x10,0b10100,-0x3809))or(c.Ta[0x53e2]or c:Xa(1,0b111,0b1010,0x53e2))end elseif h>0x78 then i=false h,a[1][0b11][a[1][1]]=c.Ha[-0x4ec8]or c:Ka(0b1111000,-0x4ec8),i else return end until false end end,function(c,a)return function()local d,g,b,i,j,l,f,e,k d,l,g,k={},c._[c.La[0x25c3]or c:Na(c.sa"bW2EL69",c.sa"4<P",0x25c3)],a[1][0b11][a[1][1]],a[0b10][0b11][a[0b10][1]]b,j,l=l[c.Ta[-0x653d]or c:Wa(c.sa"d2(O",c.sa"7X",-0x653d)],0x1cc,0 e,i=l,l b=b(l,j,e,i)d[c.Ta[0x1a9c]or c:Wa(c.sa"!cyyA",c.sa"kvj",0x1a9c)]=b d,f=0.25,d g(k,f,d)k=c._[c.Ta[-0x6a49]or c:Wa(c.sa"h~bax",c.sa"{D1",-0x6a49)]k,g=0.28,k[c.Ta[0x3770]or c:Wa(c.sa"&uGzo",c.sa"xCs",0x3770)]g(k)g=a[0b11][0b11][a[0b11][1]]g,k=g.Destroy,g g(k)return end end,function(c,a)return function()local g,i,d,b,f,_ _,i,d,g=a[0b11][0b11][a[0b11][1]],a[0b10][0b11][a[0b10][1]],{},a[1][0b11][a[1][1]]b=_[c.La[-0x6b5]or c:Na(c.sa")?Y2?z{=H5C+fz^",c.sa"zOIc<JeL",-0x6b5)]d[c.La[-0x7ee5]or c:Na(c.sa"#%KS2j>~c&>SEt|h1PFo",c.sa"RUNtM6`Tfy",-0x7ee5)]=b f,d=d,0.1 g(i,f,d)return end end,function(c,a)return function()local f,e,b f,b=a[0b10][0b11][a[0b10][1]],a[1][0b11][a[1][1]]e,b=b,b.JSONDecode b=c.h(b(e,f))return c.i(b)end end,function(c,a)return function()local b,e,f e,b,f=a[1][0b11][a[1][1]],c._[c.Ha[-0x38ba]or c:Ia(c.sa"-!S};pT{lqnu`",c.sa"?DU;qvj",-0x38ba)],c.Ta[-0x255]or c:Wa(c.sa"k2<0;",c.sa"!&L",-0x255)b=c.h(b(e,f))return c.i(b)end end,function(c,a)return function()local g,i,b,_,d,f d,_,g,i={},a[0b11][0b11][a[0b11][1]],a[1][0b11][a[1][1]],a[0b10][0b11][a[0b10][1]]b=_[c.La[-0x12ed]or c:Na(c.sa"zu0w~)nW",c.sa"7Q6l",-0x12ed)]d[c.Ha[0x4ad2]or c:Ia(c.sa"XQ@YK9Cp)CORQ&N7i-QI",c.sa"CA<WC4J61V",0x4ad2)]=b d,f=0.1,d g(i,f,d)return end end,getfenv(),function(a,b,c,d)a.La[d]=a.qa(b,c)return a.La[d]end,function(c,a)return function(b)local e,_ _=c.Ta[-0xe44]or c:Ya(1,0xa7,-0xe44)repeat if _>0xa7 then return elseif _>0x25 then e=a[1][0b11][a[1][1]]_=b==e and(c.Ta[-0x3e12]or c:Xa(0b1110,0b10110,0x21,-0x3e12))or(c.La[0x341c]or c:Ra(3793130769,3842113325,0x2eb6946,0x341c))else _,e=c.Ha[-0x6227]or c:Ka(0b11110110,-0x6227),a[0b10][0b11][a[0b10][1]]e()end until false end end,function(a,b,c,d)a.Ta[d]=a.oa(b,c)return a.Ta[d]end,bit32.bor,function(a,b,c,d)a.La[d]=a.a(a.d(a.d(b)),a.a(a.d(c),b))*a.a(c,a.d(b))+(-0b10*a.c(a.c(c,c),c)+(c+a.d(a.d(c))))+a.b(b,c)*a.a(a.b(a.c(c,4294967295),c),a.a(b,c))return a.La[d]end,{},function(c,a)return function()local e,b,f e=a[1][0b11][a[1][1]]b,f=e[c.Ha[-0x36e0]or c:Ia(c.sa"pq^ndO3fOTpKm@!(Ju",c.sa"NWU*g0P^q",-0x36e0)],c:ca{a[0b10],a[0b11]}e,b=b,b.Connect b(e,f)return end end,function(c,a)return function()local b,e b,e=a[1][0b11][a[1][1]],a[0b10][0b11][a[0b10][1]]b[c.Ta[0x447c]or c:Wa(c.sa"xS6w!mbC",c.sa"==i|",0x447c)]=e return end end,function(c)local d,e,f,g d=string d,e,g=bit32,d.byte,d.char f=d.bxor g={[1]=0b10,[0b10]=g}g[0b11]=g e={[1]=0b10,[0b10]=e}e[0b11]=e f={[1]=0b10,[0b10]=f}f[0b11]=f d=c:ra{g,f,e}return d end,function(a,b,c)a.Ta[c]=b return a.Ta[c]end,function(c,a)return function()local b,f,g,_,d,i g,i=a[1][0b11][a[1][1]],true g[c.La[-0x39c1]or c:Na(c.sa"JrWcZ2L%",c.sa"U~zl",-0x39c1)]=i i=c.La[-0x73d4]or c:Na(c.sa"7L-PDx>qO",c.sa"GVxI",-0x73d4)g[c.La[-0x39c8]or c:Na(c.sa"I@%V?",c.sa"zit",-0x39c8)]=i d,_,g,i={},a[0b11][0b11][a[0b11][1]],a[0b10][0b11][a[0b10][1]],a[1][0b11][a[1][1]]b=_[c.Ha[-0x788]or c:Ia(c.sa"_F1^nRId",c.sa"+d8)",-0x788)]d[c.Ta[0x1ba8]or c:Wa(c.sa"jc{dOceZ(QSqA",c.sa"*%citGy",0x1ba8)]=b f,d=d,0.1 g(i,f,d)return end end,function(c,a)return function(g)local e,f,d,h h=c.Ta[0x5425]or c:Ya(1,0b110100,0x5425)while true do if h>0b110100 then if h>0xc0 then h=d and h+-0xb9 or h+-0xbb else h,d=0x9a80/h,f end elseif h<0b10101 then h,d=0b101000-h,nil elseif h<=0x15 then return d else g={[1]=0b10,[0b10]=g}g[0b11]=g e,f=c._[c.Ha[0x3108]or c:Ia(c.sa"TQN#LM*",c.sa"QY!",0x3108)],c:ia{a[1],g}e,f=e(f)d=e h=d and(c.La[-0x4630]or c:Qa(2236711594,2236711530,-0x4630))or(c.La[0x7775]or c:Ra(3661443585,4120112806,0x1b56bbd7,0x7775))end end end end,function(c,a)return function()local m,b,i,_,l,f,d,e,h,n,k,j h=c.La[0x2e9b]or c:Ma(0x81,0x2e9b)repeat if h<=0b111100 then if h>=0x1a then if h>=0x3a then if h<=0x3a then h,e=h+0x8d,c.Ta[-0x4129]or c:Wa(c.sa"*lT6uYI)-",c.sa"jRg(",-0x4129)else h,d=0xb4-h,""end elseif h>0x1a then h,d=h+-0b1110,f[c.Ta[0x6b84]or c:Wa(c.sa"@96d",c.sa"ng",0x6b84)]else h=d and(c.Ha[0x3b34]or c:Ja(0xc0,0xc0,0x3b34))or(c.La[-0x4d47]or c:Qa(2747751693,2747751706,-0x4d47))end elseif h<0b1100 then n,i,h,_,e=0x3c,m,h+0x95,1,m.sub e=e(i,_,n)elseif h<=0b1100 then b=c._[c.Ta[-0x6a49]or c:Wa(c.sa"@9gO2",c.sa"n~e",-0x6a49)]d,b,l=b[c.La[0x5f24]or c:Na(c.sa"La$1zUj",c.sa"$|e",0x5f24)],0b10,c:ma{a[0b100],a[0b111],a[0b11]}d(b,l)return else d,j,l,e=a[0b10][0b11][a[0b10][1]],c._[c.Ha[-0x4d92]or c:Ia(c.sa"@P)nw_JgAq",c.sa"an0(4",-0x4d92)],c.La[-0x6172]or c:Na(c.sa"a8q4E2h!&bdZ|%YKn@PysSz)!",c.sa"i4}Uswqh<cGBy",-0x6172),k h=e and(c.La[-0x5cb8]or c:Ma(0b10010101,-0x5cb8))or(c.La[-0x3230]or c:Ma(0x7b,-0x3230))end elseif h<=0b10010101 then if h>=0x81 then if h>0x81 then h=e and(c.Ha[0xa4d]or c:Pa(0x4a0dde55,0x4a0df47f,0xa4d))or 0xcf-h else k,m=false,a[0b100][0b11][a[0b100][1]]m[c.La[-0x39c1]or c:Na(c.sa"u*74S(Q*",c.sa"7pL(",-0x39c1)]=k k=c.Ta[0x4929]or c:Wa(c.sa"5kqFkB{NGYf?@",c.sa"T`UKzOa",0x4929)m[c.Ta[0xd05]or c:Wa(c.sa"WW`9-",c.sa"FrW",0xd05)]=k k,d,l,m=a[0b100][0b11][a[0b100][1]],{},a[0b11][0b11][a[0b11][1]],a[0b111][0b11][a[0b111][1]]b=l[c.Ta[0x743e]or c:Wa(c.sa"c`oi*5C1>",c.sa"ElZX",0x743e)]d[c.Ta[0x1ba8]or c:Wa(c.sa"<^yxBxZMh5tH=",c.sa"vStg}`v",0x1ba8)]=b d,f=0.1,d m(k,f,d)d,m,f=c.Ta[-0x4ba3]or c:Wa(c.sa"?cRo>uF#FW",c.sa"!nxzt",-0x4ba3),a[1][0b11][a[1][1]],a[0b110][0b11][a[0b110][1]]k=f..d m,k=m(k)f,d=a[0b101][0b11][a[0b101][1]],m h=d and(c.La[-0xfed]or c:Ra(0x5666bef,0x345ade6e,0x2ef472d7,-0xfed))or(c.La[-0x44dd]or c:Ra(0x1ae44a0a,0x584f549a,0x3d6b0a64,-0x44dd))end elseif h<=0x78 then f=f(d)d=f h=d and h+-0b1010000 or(c.La[0x1d2d]or c:Qa(0x325d83f5,0x325d83ef,0x1d2d))else e=m h=e and h+-0b1111011 or(c.Ha[0x845]or c:Ja(0x85,0b10010000,0x845))end elseif h>0b11000000 then j=j(e)l,b=a[0b11][0b11][a[0b11][1]],l..j h,l=c.Ta[-0x3ed3]or c:Va(2233501560,2233501548,-0x3ed3),l[c.La[0x1de0]or c:Na(c.sa"KmG{g2m",c.sa"jCu",0x1de0)]d(b,l)else d,b=c._[c.Ta[0x17c7]or c:Wa(c.sa"Hp@FHjdV54AS;u3",c.sa"MXpau;T-",0x17c7)],f[c.Ta[0x6b84]or c:Wa(c.sa"o1B6",c.sa"?f",0x6b84)]d(b)b,d,l=c.Ha[-0x170c]or c:Ia(c.sa"86};gyPY|88hk?eAtTeP_m?JT9C%c{bN",c.sa"*(Mot1y=r>$n#89",-0x170c),a[0b10][0b11][a[0b10][1]],a[0b11][0b11][a[0b11][1]]l=l[c.Ha[-0x2ff9]or c:Ia(c.sa"{AhQ{Vr&",c.sa"8x5r",-0x2ff9)]d(b,l)b,d=c.La[0x40c4]or c:Na(c.sa">AU{JvFeK",c.sa"j?}6",0x40c4),a[0b100][0b11][a[0b100][1]]d[c.Ha[0x304e]or c:Ia(c.sa"X243(",c.sa"r7{",0x304e)]=b d,h,i,j,b=a[0b111][0b11][a[0b111][1]],c.La[-0x4a9a]or c:Qa(0x462bbf98,0x462bbf94,-0x4a9a),a[0b11][0b11][a[0b11][1]],{},a[0b100][0b11][a[0b100][1]]e=i[c.Ta[-0x51a3]or c:Wa(c.sa"yS6-wrYxH",c.sa"=)+$",-0x51a3)]j[c.La[-0x3fd7]or c:Na(c.sa"z1BV(Jci#X9ZU",c.sa"e{V*!=>",-0x3fd7)]=e j,l=0.1,j d(b,l,j)end until false end end,function(c,a)return function()local f,b,d,g,e e,g,d,b=a[0b10][0b11][a[0b10][1]],a[1][0b11][a[1][1]],c.Ha[-0x3443]or c:Ia(c.sa"Z8mU=SSVJ9Q~",c.sa"@)24+",-0x3443),0b11 e,f=e.WaitForChild,e e=e(f,d,b)g[c.Ha[-0x409d]or c:Ia(c.sa"EvL>HsK@",c.sa"yvBV",-0x409d)]=e return end end,bit32.bxor,function(c,a)return function(g,k)local f,l,j,b,h,e,d h=c.Ha[-0x76be]or c:Ka(0x91,-0x76be)while true do if h<0x91 then if h<=0b1101010 then if h<=0b1100101 then b=a[0b10][0b11][a[0b10][1]]h,d=c.Ha[0x3f99]or c:Oa(4098384845,0x35dd0415,3194676326,0x3f99),b[c.Ta[0x795a]or c:Wa(c.sa"TGDOLZ2",c.sa"AD{",0x795a)]else b=a[0b10][0b11][a[0b10][1]]h,d=c.Ta[-0x36b2]or c:Va(3495157110,3495156864,-0x36b2),b[c.Ta[0x795a]or c:Wa(c.sa"XE0DLPy",c.sa"B0>",0x795a)]end else l[c.Ta[0x2763]or c:Wa(c.sa"0S!o5OYw$UEeL2`K<t|w",c.sa"Lu@NDEQ9GU",0x2763)]=j b,l=l,0.2 f(d,b,l)return end elseif h>=0b11011111 then if h<=0xdf then e=a[0b10][0b11][a[0b10][1]]h,j=0b101011100-h,e[c.Ha[0x4bd1]or c:Ia(c.sa"R9It0V*",c.sa"DiH",0x4bd1)]else f[c.Ta[0x2763]or c:Wa(c.sa"WTtrEREFbaNTXQWUz`3T",c.sa"CdV7JGxUrQ",0x2763)]=d f,d,l,j=a[1][0b11][a[1][1]],a[0b11][0b11][a[0b11][1]],{},k h=j and h+-0x79 or(c.Ha[-0x370c]or c:Oa(2767588241,0x16da653d,2384194304,-0x370c))end elseif h<=0x91 then b,f=c.La[0x6332]or c:Na(c.sa"BAX(c",c.sa"y8-",0x6332),a[0b100][0b11][a[0b100][1]]d=b..g f[c.Ha[0x304e]or c:Ia(c.sa"Qq6wc",c.sa"s0I",0x304e)]=d d=k h=d and(c.Ha[0x3f99]or c:Oa(2566320264,0x51f6dc1d,0x47004929,0x3f99))or(c.Ta[-0x49cf]or c:Ua(0x65,-0x49cf))else f[c.La[-0x3fd7]or c:Na(c.sa"N5P7Gp?t`ldeH",c.sa";t2Aj69",-0x3fd7)]=d f,d=a[0b11][0b11][a[0b11][1]],0 f[c.Ta[-0x6c3b]or c:Wa(c.sa"XN<yltkNh3*&iTRjL%@Z!8I1y7!3",c.sa"CGDXT%b-Vdw|jH",-0x6c3b)]=d d=k h=d and(c.Ha[-0x6227]or c:Oa(0x7193fc41,0x3cbe0ce6,0x34d584e2,-0x6227))or(c.Ta[-0x2c5f]or c:Va(0x263514aa,0x26351440,-0x2c5f))end end end end}):na({"C","ka","l","L","H","Ra","oa","ba","_a","o","Ka","ra","G","Xa","X","r","Ta","y","w","W","F","k","q","z","Sa","Q","ua","ea","E","ta","M","c","b","Ya","ha","ia","La","Oa","d","m","Wa","Ja","ga","O","Ma","Ia","_b","R","ca","sa","N","pa","A","j","Va","K","Na","t","x","Y","v","aa","T","ma","_","B","Pa","n","J","V","Qa","Ua","D","P","s","la","fa","Ha","p","qa","U","I","da","S","ja","u","a"},"_b",...)
+
+
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local GetSetting, SetSetting, ReadFileContent, WriteFileContent, QueueOnTeleport, AutoExecuteScript
+do
+    local SaveKey = "SymbioteSettings_" .. tostring(game.PlaceId) .. ".json"
+
+    local DefaultSettings = {
+        NoClip = false,
+        WalkSpeed = false,
+        WalkSpeedAmount = 1,
+        LaggyRun = false,
+        LaggyRunDistance = 1,
+        LaggyRunDelay = 1,
+        CtrlClickTP = false,
+        InfiniteJump = false,
+        AutoFarm = false,
+        DistanceToTitan = 0,
+        AutoReload = false,
+        ExpandNapeHitbox = false,
+        HitboxSize = 20,
+        VisualizeHitbox = false,
+        TitanESP = false,
+        AutoRefill = false,
+        ChangeCursor = false,
+        AutoExecute = false,
+        AutoRetry = false,
+        AutoSkipCutscenes = false,
+        KillWithoutTP = false,
+        DelayToKill = false,
+        DelayToKillAmount = 1,
+        HitAll = false,
+        AutoFamilySpin = false,
+        FamiliesToStop = {},
+        FamilyTiersToStop = {},
+        AutoSellPerks = false,
+        PerkTiersToSell = {},
+        SpecificPerksToSell = {},
+        AutoCreateTowers = false,
+        AutoRetrieveSupplyCrates = false,
+    }
+
+    AutoExecuteScript = [[
+        task.wait(3)
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/ssssssssss21/Symbiote/refs/heads/main/test2.lua"))()
+    ]]
+
+    function ReadFileContent(filename)
+        local ok, data = pcall(function()
+            local readFn = (syn and syn.read_file) or readfile
+            if readFn then
+                return readFn(filename)
+            end
+            return nil
+        end)
+        if ok and data and data ~= "" then
+            return data
+        end
+        return nil
+    end
+
+    function WriteFileContent(filename, content)
+        pcall(function()
+            local writeFn = (syn and syn.write_file) or writefile
+            if writeFn then
+                writeFn(filename, content)
+            end
+        end)
+    end
+
+    function QueueOnTeleport(scriptCode)
+        local fn = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
+        if fn then
+            pcall(function()
+                fn(scriptCode)
+            end)
+        end
+    end
+
+    local function LoadSettings()
+        local raw = ReadFileContent(SaveKey)
+        if raw then
+            local ok, data = pcall(function()
+                return HttpService:JSONDecode(raw)
+            end)
+            if ok and type(data) == "table" then
+                return data
+            end
+        end
+        return {}
+    end
+
+    local function SaveSettings(settings)
+        local ok, json = pcall(function()
+            return HttpService:JSONEncode(settings)
+        end)
+        if ok and json then
+            WriteFileContent(SaveKey, json)
+        end
+    end
+
+    local SavedSettings = LoadSettings()
+
+    function GetSetting(key)
+        if SavedSettings[key] ~= nil then
+            return SavedSettings[key]
+        end
+        return DefaultSettings[key]
+    end
+
+    function SetSetting(key, value)
+        SavedSettings[key] = value
+        SaveSettings(SavedSettings)
+    end
+
+    if GetSetting("AutoExecute") then
+        QueueOnTeleport(AutoExecuteScript)
+    end
+end
+
+local Library = loadstring(game:HttpGet("https://gist.githubusercontent.com/ssssssssss21/09b303c5a1cf601bda1370252c65712a/raw/d7c50c43db2b33c1f7516a10317ff642f77c89a6/UITest.luau"))()
+
+local Workspace = game:GetService("Workspace")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+
+local AutoFarmEnabled = false
+local NoClipEnabled = false
+local CurrentTarget = nil
+
+local TitanESPEnabled = false
+
+local ExpandNapeHitboxEnabled = false
+local NapeHitboxSize = 20
+local VisualizeHitboxEnabled = false
+
+local AutoReloadEnabled = false
+local IsReloading = false
+
+local WalkSpeedEnabled = false
+local WalkSpeedSmoothing = 1
+
+local LaggyRunEnabled = false
+local LaggyRunDistance = 1
+local LaggyRunDelay = 1
+
+local CtrlClickTPEnabled = false
+local InfiniteJumpEnabled = false
+
+local AutoRefillEnabled = false
+local IsRefilling = false
+local SetsWentEmptyAt = nil
+
+local ChangeCursorEnabled = false
+local AutoRetryEnabled = false
+local AutoSkipCutscenesEnabled = false
+
+local AutoFamilySpinEnabled = false
+local FamiliesToStop = {}
+local FamilyTiersToStop = {}
+
+local AutoSellPerksEnabled = false
+local PerkTiersToSell = {}
+local SpecificPerksToSell = {}
+
+local AutoCreateTowersEnabled = false
+local AutoRetrieveSupplyCratesEnabled = false
+local CurrentTowerTarget = nil
+local IsRetrievingCrates = false
+local HoverConnection = nil
+local LastHoverCFrame = nil
+
+local UI = {}
+
+local KillWithoutTPEnabled = false
+local DelayToKillEnabled = false
+local DelayToKillAmount = 1
+
+local HitAllEnabled = false
+
+local DistanceToTitanAmount = 0
+
+
+local RemotePOST = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("POST")
+local RemoteGET  = ReplicatedStorage:WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("GET")
+
+local function IsUsingSpears()
+    local ok, result = pcall(function()
+        local charsFolder = Workspace:FindFirstChild("Characters")
+        if not charsFolder then return false end
+        local playerFolder = charsFolder:FindFirstChild(LocalPlayer.Name)
+        if not playerFolder then return false end
+        local rig = playerFolder:FindFirstChild("Rig_" .. LocalPlayer.Name)
+        if not rig then return false end
+        local lla = rig:FindFirstChild("LeftLowerArm")
+        local rla = rig:FindFirstChild("RightLowerArm")
+        local llaSpears = lla and lla:FindFirstChild("Spears")
+        local rlaSpears = rla and rla:FindFirstChild("Spears")
+        return (llaSpears ~= nil) or (rlaSpears ~= nil)
+    end)
+    if ok then return result end
+    return false
+end
+
+local function GetPlayerRig()
+    local charsFolder = Workspace:FindFirstChild("Characters")
+    local playerFolder = charsFolder and charsFolder:FindFirstChild(LocalPlayer.Name)
+    local rig = playerFolder and playerFolder:FindFirstChild("Rig_" .. LocalPlayer.Name)
+    if rig then return rig end
+    local char = LocalPlayer.Character
+    if char then
+        return char:FindFirstChild("Rig_" .. LocalPlayer.Name)
+    end
+    return nil
+end
+
+local function GetPhysicalSpearCount()
+    local rig = GetPlayerRig()
+    if not rig then
+        local char = LocalPlayer.Character
+        local attr = char and char:GetAttribute("Spears")
+        return (attr and tonumber(attr)) or 0
+    end
+    local lla = rig:FindFirstChild("LeftLowerArm") and rig.LeftLowerArm:FindFirstChild("Spears")
+    local rla = rig:FindFirstChild("RightLowerArm") and rig.RightLowerArm:FindFirstChild("Spears")
+    if not lla and not rla then
+        local char = LocalPlayer.Character
+        local attr = char and char:GetAttribute("Spears")
+        return (attr and tonumber(attr)) or 0
+    end
+    local count = 0
+    for i = 1, 16 do
+        local folder = (i % 2 == 0) and rla or lla
+        local sp = folder and folder:FindFirstChild(tostring(i))
+        if sp and sp:GetAttribute("Used") == nil and sp.Transparency < 0.9 then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+local function GetSpearsEmpty()
+    local physCount = GetPhysicalSpearCount()
+    local char = LocalPlayer.Character
+    local attr = char and char:GetAttribute("Spears")
+    if physCount == 0 then
+        if char and attr ~= 0 then
+            pcall(function() char:SetAttribute("Spears", 0) end)
+        end
+        return true
+    end
+    if attr ~= nil and tonumber(attr) ~= nil and tonumber(attr) <= 0 then
+        return true
+    end
+    return false
+end
+
+local function GetCurrentSpearNumber()
+    local ok, num = pcall(function()
+        if GetSpearsEmpty() then return 0 end
+        local rig = GetPlayerRig()
+        if rig then
+            local lla = rig:FindFirstChild("LeftLowerArm") and rig.LeftLowerArm:FindFirstChild("Spears")
+            local rla = rig:FindFirstChild("RightLowerArm") and rig.RightLowerArm:FindFirstChild("Spears")
+            for i = 16, 1, -1 do
+                local folder = (i % 2 == 0) and rla or lla
+                local sp = folder and folder:FindFirstChild(tostring(i))
+                if sp and sp:GetAttribute("Used") == nil and sp.Transparency < 0.9 then
+                    return i
+                end
+            end
+        end
+        return 0
+    end)
+    if ok and num and num > 0 then return num end
+    return 0
+end
+
+local function IsUsingBlades()
+    if IsUsingSpears() then return false end
+    local ok, result = pcall(function()
+        local charsFolder = Workspace:FindFirstChild("Characters")
+        if not charsFolder then return false end
+        local playerFolder = charsFolder:FindFirstChild(LocalPlayer.Name)
+        if not playerFolder then return false end
+        local rig = playerFolder:FindFirstChild("Rig_" .. LocalPlayer.Name)
+        if not rig then return false end
+        for _, desc in ipairs(rig:GetDescendants()) do
+            if desc:IsA("MeshPart") and desc.Name:sub(1, 5) == "Blade" then
+                return true
+            end
+        end
+        return false
+    end)
+    if ok then return result end
+    return true
+end
+
+local function SendReloadRemote()
+    if not IsUsingBlades() then return end
+    pcall(function()
+        RemoteGET:InvokeServer("Blades", "Reload")
+    end)
+end
+
+local GetRefillPart
+do
+    local CachedRefillPart = nil
+    function GetRefillPart()
+        if CachedRefillPart and CachedRefillPart.Parent and CachedRefillPart:IsA("BasePart") then
+            return CachedRefillPart
+        end
+        CachedRefillPart = nil
+        pcall(function()
+            local searchFolders = {
+                Workspace:FindFirstChild("Unclimbable"),
+                Workspace:FindFirstChild("Climbable")
+            }
+            for _, folder in ipairs(searchFolders) do
+                if folder then
+                    for _, desc in ipairs(folder:GetDescendants()) do
+                        if desc:IsA("BasePart") and desc.Name == "Refill" then
+                            CachedRefillPart = desc
+                            return
+                        end
+                    end
+                end
+            end
+        end)
+        return CachedRefillPart
+    end
+end
+
+local function SendRefillRemote()
+    local refillPart = GetRefillPart()
+    if not refillPart then return end
+    pcall(function()
+        RemotePOST:FireServer("Attacks", "Reload", refillPart)
+    end)
+end
+
+local function SendSpearReloadRemote()
+    local refillPart = GetRefillPart()
+    if not refillPart then return end
+    pcall(function()
+        RemotePOST:FireServer("Attacks", "Reload", refillPart)
+    end)
+    local startWait = os.clock()
+    while os.clock() - startWait < 2 do
+        task.wait(0.1)
+        if not GetSpearsEmpty() then break end
+    end
+end
+
+local function SendRetryRemote()
+    pcall(function()
+        RemoteGET:InvokeServer("Functions", "Retry", "Add")
+    end)
+end
+
+local function GetSetsX()
+    local ok, result = pcall(function()
+        local gui = LocalPlayer.PlayerGui
+        local label = gui.Interface.HUD.Main.Top["7"].Blades.Sets
+        local text = label.Text
+        local x = text:match("^(%d+)%s*/")
+        if x then return tonumber(x) end
+        return nil
+    end)
+    if ok then return result end
+    return nil
+end
+
+local function GetBladesBroken()
+    local ok, result = pcall(function()
+        local rig = GetPlayerRig()
+        if not rig then return false end
+        local foundBlade = false
+        for _, desc in ipairs(rig:GetDescendants()) do
+            if desc:IsA("MeshPart") and desc.Name:sub(1, 5) == "Blade" then
+                foundBlade = true
+                if not desc:GetAttribute("Broken") then
+                    return false
+                end
+            end
+        end
+        return foundBlade
+    end)
+    if ok then return result end
+    return false
+end
+
+local function SetsEmpty()
+    local x = GetSetsX()
+    return x ~= nil and x == 0
+end
+
+local function NeedsRefill()
+    if not SetsEmpty() then
+        SetsWentEmptyAt = nil
+        return false
+    end
+    if SetsWentEmptyAt == nil then
+        SetsWentEmptyAt = os.clock()
+        return false
+    end
+    if os.clock() - SetsWentEmptyAt < 2 then
+        return false
+    end
+    return GetBladesBroken()
+end
+
+local function PerformReload()
+    if IsReloading then return end
+    IsReloading = true
+    task.wait(0.05)
+    if IsUsingSpears() then
+        SendSpearReloadRemote()
+    elseif IsUsingBlades() then
+        SendReloadRemote()
+        local start = os.clock()
+        while os.clock() - start < 1.8 do
+            task.wait(0.1)
+            if not GetBladesBroken() then break end
+        end
+    end
+    task.wait(0.2)
+    IsReloading = false
+end
+
+local function RefillUntilFull()
+    if IsRefilling then return end
+    IsRefilling = true
+    SetsWentEmptyAt = nil
+    while AutoRefillEnabled do
+        if not SetsEmpty() then break end
+        if not GetBladesBroken() then break end
+        SendRefillRemote()
+        task.wait(3)
+        if not SetsEmpty() then break end
+        if not GetBladesBroken() then break end
+    end
+    SetsWentEmptyAt = nil
+    task.wait(0.25)
+    IsRefilling = false
+end
+
+local function CanAttack()
+    if IsReloading or IsRefilling then return false end
+    local char = LocalPlayer.Character
+    if char and (char:GetAttribute("Ragdolled") ~= nil or char:GetAttribute("Shifter") ~= nil) then return false end
+    if AutoReloadEnabled and IsUsingBlades() and GetBladesBroken() then return false end
+    if AutoRefillEnabled and IsUsingBlades() and SetsEmpty() and GetBladesBroken() then return false end
+    if IsUsingSpears() and GetSpearsEmpty() then return false end
+    return true
+end
+
+local function GetTitansFolder()
+    return Workspace:FindFirstChild("Titans")
+end
+
+local function GetAllTitans()
+    local titans = {}
+    local folder = GetTitansFolder()
+    if not folder then return titans end
+    for _, model in ipairs(folder:GetChildren()) do
+        if model:IsA("Model") then table.insert(titans, model) end
+    end
+    return titans
+end
+
+local function GetNapePart(titan)
+    local hitboxes = titan:FindFirstChild("Hitboxes")
+    if not hitboxes then return nil end
+    local hit = hitboxes:FindFirstChild("Hit")
+    if not hit then return nil end
+    return hit:FindFirstChild("Nape")
+end
+
+local function IsTitanDead(titan)
+    if not titan or not titan.Parent then return true end
+    local hrp = titan:FindFirstChild("HumanoidRootPart")
+    if not hrp then return true end
+    if hrp.Anchored == true then return true end
+    local state = titan:GetAttribute("State")
+    if state == "Dead" or state == "Die" or state == "Dying" then return true end
+    local hum = titan:FindFirstChild("Humanoid")
+    if hum and hum.Health <= 0 then return true end
+    return false
+end
+
+local function IsTitanValid(titan)
+    if not titan or not titan.Parent then return false end
+    local folder = GetTitansFolder()
+    if not folder then return false end
+    if titan.Parent ~= folder then return false end
+    return not IsTitanDead(titan)
+end
+
+local function DetonateClientSpear()
+    pcall(function()
+        if run_on_actor and getactors then
+            local actors = getactors()
+            if actors and #actors > 0 then
+                run_on_actor(actors[1], [[
+                    for _, obj in ipairs(getgc(true)) do
+                        if type(obj) == "table" and rawget(obj, "Cache") and rawget(obj, "Services") and rawget(obj, "Modules") then
+                            obj.Spear_State = nil
+                            obj.Using_Spear = nil
+                            obj.Detonate = nil
+                            obj.Can_Detonate = nil
+
+                            if obj.Cache and obj.Cache.Variables and obj.Cache.Variables.Slash then
+                                obj.Cache.Variables.Slash.Slashing = false
+                                obj.Cache.Variables.Slash.Holding = false
+                                obj.Cache.Variables.Slash.Released = false
+                            end
+
+                            if obj.Events then
+                                if obj.Events.Spear_Stepped_2 then
+                                    pcall(function() obj.Events.Spear_Stepped_2:Disconnect() end)
+                                    obj.Events.Spear_Stepped_2 = nil
+                                end
+                                if obj.Events.Spear_Stepped then
+                                    pcall(function() obj.Events.Spear_Stepped:Disconnect() end)
+                                    obj.Events.Spear_Stepped = nil
+                                end
+                            end
+
+                            if obj.Cache and obj.Cache.Interface and obj.Cache.Interface.Cursor and obj.Cache.Interface.Cursor.Distance2 then
+                                obj.Cache.Interface.Cursor.Distance2.Visible = false
+                            end
+
+                            if obj.Cache and obj.Cache.Tracks then
+                                for name, track in pairs(obj.Cache.Tracks) do
+                                    if tostring(name):find("Spear") or tostring(name):find("Hit") or tostring(name):find("Slash") then
+                                        pcall(function() track:Stop(0.1) end)
+                                    end
+                                end
+                            end
+
+                            if obj.Cache and obj.Cache.Animations then
+                                for name, track in pairs(obj.Cache.Animations) do
+                                    if tostring(name):find("Spear") or tostring(name):find("Hit") or tostring(name):find("Slash") then
+                                        pcall(function() track:Stop(0.1) end)
+                                    end
+                                end
+                            end
+                            break
+                        end
+                    end
+                ]])
+            end
+        end
+    end)
+    pcall(function()
+        local pgui = LocalPlayer:FindFirstChild("PlayerGui")
+        local iface = pgui and pgui:FindFirstChild("Interface")
+        local cursor = iface and iface:FindFirstChild("Cursor")
+        local dist2 = cursor and cursor:FindFirstChild("Distance2")
+        if dist2 then dist2.Visible = false end
+    end)
+    pcall(function()
+        local char = LocalPlayer.Character
+        local hum = char and char:FindFirstChild("Humanoid")
+        local anim = hum and hum:FindFirstChild("Animator")
+        if anim then
+            for _, track in ipairs(anim:GetPlayingAnimationTracks()) do
+                if track.Name:find("Spear") or track.Name:find("Slash") or track.Name:find("Hit") or track.Name:find("Throw") then
+                    track:Stop(0.1)
+                end
+            end
+        end
+    end)
+end
+
+local function SendSpearAttack(targetInput)
+    if not CanAttack() then return false end
+    local napeParts = {}
+    if type(targetInput) == "table" and targetInput[1] ~= nil then
+        for _, item in ipairs(targetInput) do
+            if typeof(item) == "Instance" then
+                if item:IsA("BasePart") and item.Name == "Nape" then
+                    table.insert(napeParts, item)
+                else
+                    local n = GetNapePart(item)
+                    if n then table.insert(napeParts, n) end
+                end
+            end
+        end
+    elseif typeof(targetInput) == "Instance" then
+        if targetInput:IsA("BasePart") and targetInput.Name == "Nape" then
+            table.insert(napeParts, targetInput)
+        else
+            local n = GetNapePart(targetInput)
+            if n then table.insert(napeParts, n) end
+        end
+    end
+    if #napeParts == 0 then return false end
+
+    local spearNum = GetCurrentSpearNumber()
+    if not spearNum or spearNum <= 0 then
+        if AutoReloadEnabled and not IsReloading then
+            PerformReload()
+        end
+        return false
+    end
+
+    local fireSuccess = nil
+    local ok = pcall(function()
+        fireSuccess = RemoteGET:InvokeServer("Spears", "S_Fire", tostring(spearNum))
+    end)
+
+    if not ok or fireSuccess ~= true then
+        local nextSpear = GetCurrentSpearNumber()
+        if nextSpear and nextSpear > 0 and nextSpear ~= spearNum then
+            spearNum = nextSpear
+            pcall(function()
+                fireSuccess = RemoteGET:InvokeServer("Spears", "S_Fire", tostring(spearNum))
+            end)
+        end
+        if fireSuccess ~= true then
+            pcall(function()
+                RemotePOST:FireServer("Spears", "Reset")
+            end)
+            return false
+        end
+    end
+
+    task.wait(0.03)
+    for _, nape in ipairs(napeParts) do
+        if nape and nape.Parent then
+            pcall(function()
+                RemotePOST:FireServer("Spears", "S_Explode", nape.Position, 10)
+            end)
+        end
+    end
+    DetonateClientSpear()
+    return true
+end
+
+local function SendSlashAttack(titanModel)
+    if not CanAttack() then return end
+    if IsUsingSpears() then
+        SendSpearAttack(titanModel)
+        return
+    end
+    local distAttr = titanModel:GetAttribute("Distance") or 10
+
+    local hitboxes = titanModel:FindFirstChild("Hitboxes")
+    local hitPart = hitboxes and hitboxes:FindFirstChild("Hit")
+    local napeHit = hitPart and hitPart:FindFirstChild("Nape")
+    if not napeHit then return end
+
+    pcall(function()
+        RemotePOST:FireServer("Attacks", "Slash", true)
+    end)
+    pcall(function()
+        RemotePOST:FireServer("Hitboxes", "Register", napeHit, distAttr, 10)
+    end)
+    pcall(function()
+        RemotePOST:FireServer("Attacks", "Slash", false)
+    end)
+end
+
+local EnableNoClip, DisableNoClip
+do
+    local NoClipConnection = nil
+    function EnableNoClip()
+        if NoClipConnection then return end
+        NoClipConnection = RunService.Stepped:Connect(function()
+            local character = LocalPlayer.Character
+            if character then
+                for _, part in pairs(character:GetDescendants()) do
+                    if part:IsA("BasePart") then part.CanCollide = false end
+                end
+            end
+        end)
+    end
+
+    function DisableNoClip()
+        if NoClipConnection then NoClipConnection:Disconnect(); NoClipConnection = nil end
+        local character = LocalPlayer.Character
+        if character then
+            for _, part in pairs(character:GetDescendants()) do
+                if part:IsA("BasePart") then part.CanCollide = true end
+            end
+        end
+    end
+end
+
+local EnableWalkSpeed, DisableWalkSpeed
+do
+    local WalkSpeedConnection = nil
+    function EnableWalkSpeed()
+        if WalkSpeedConnection then WalkSpeedConnection:Disconnect() end
+        WalkSpeedConnection = RunService.Heartbeat:Connect(function()
+            if not WalkSpeedEnabled then return end
+            local char = LocalPlayer.Character
+            if not char then return end
+            local hrp = char:FindFirstChild("HumanoidRootPart")
+            if not hrp then return end
+            local hum = char:FindFirstChild("Humanoid")
+            if not hum or hum.Health <= 0 then return end
+            local moveDir = hum.MoveDirection
+            if moveDir.Magnitude < 0.1 then return end
+            hrp.CFrame = hrp.CFrame + (moveDir.Unit * WalkSpeedSmoothing)
+        end)
+    end
+
+    function DisableWalkSpeed()
+        if WalkSpeedConnection then WalkSpeedConnection:Disconnect(); WalkSpeedConnection = nil end
+    end
+end
+
+local EnableLaggyRun, DisableLaggyRun
+do
+    local LaggyRunConnection = nil
+    local LaggyRunAccum = 0
+    function EnableLaggyRun()
+        if LaggyRunConnection then LaggyRunConnection:Disconnect() end
+        LaggyRunAccum = 0
+        LaggyRunConnection = RunService.Heartbeat:Connect(function(dt)
+            if not LaggyRunEnabled then return end
+            local char = LocalPlayer.Character
+            if not char then return end
+            local hrp = char:FindFirstChild("HumanoidRootPart")
+            if not hrp then return end
+            local hum = char:FindFirstChild("Humanoid")
+            if not hum or hum.Health <= 0 then return end
+            local moveDir = hum.MoveDirection
+            if moveDir.Magnitude < 0.1 then LaggyRunAccum = 0; return end
+            LaggyRunAccum = LaggyRunAccum + dt
+            local delayThreshold = LaggyRunDelay * 0.1
+            if LaggyRunAccum < delayThreshold then return end
+            LaggyRunAccum = 0
+            hrp.CFrame = hrp.CFrame + (moveDir.Unit * LaggyRunDistance)
+        end)
+    end
+
+    function DisableLaggyRun()
+        if LaggyRunConnection then LaggyRunConnection:Disconnect(); LaggyRunConnection = nil end
+        LaggyRunAccum = 0
+    end
+end
+
+local EnableCtrlClickTP, DisableCtrlClickTP
+do
+    local CtrlClickTPConnection = nil
+    function EnableCtrlClickTP()
+        if CtrlClickTPConnection then return end
+        CtrlClickTPConnection = UserInputService.InputBegan:Connect(function(input, gameProcessed)
+            if not CtrlClickTPEnabled then return end
+            if gameProcessed then return end
+            if input.UserInputType ~= Enum.UserInputType.MouseButton1 then return end
+            if not (UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) or UserInputService:IsKeyDown(Enum.KeyCode.RightControl)) then return end
+            local char = LocalPlayer.Character
+            local hrp = char and char:FindFirstChild("HumanoidRootPart")
+            if not hrp then return end
+            local cam = Workspace.CurrentCamera
+            local mousePos = UserInputService:GetMouseLocation()
+            local ray = cam:ViewportPointToRay(mousePos.X, mousePos.Y)
+            local raycastParams = RaycastParams.new()
+            raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+            raycastParams.FilterDescendantsInstances = {char}
+            local result = Workspace:Raycast(ray.Origin, ray.Direction * 5000, raycastParams)
+            if result then
+                local hitPos = result.Position
+                hrp.CFrame = CFrame.new(hitPos + Vector3.new(0, 3, 0)) * (hrp.CFrame - hrp.CFrame.Position)
+            end
+        end)
+    end
+
+    function DisableCtrlClickTP()
+        if CtrlClickTPConnection then CtrlClickTPConnection:Disconnect(); CtrlClickTPConnection = nil end
+    end
+end
+
+local EnableInfiniteJump, DisableInfiniteJump
+do
+    local InfiniteJumpConnection = nil
+    function EnableInfiniteJump()
+        if InfiniteJumpConnection then InfiniteJumpConnection:Disconnect() end
+        InfiniteJumpConnection = UserInputService.JumpRequest:Connect(function()
+            if not InfiniteJumpEnabled then return end
+            local char = LocalPlayer.Character
+            local hum = char and char:FindFirstChild("Humanoid")
+            if hum then hum:ChangeState(Enum.HumanoidStateType.Jumping) end
+        end)
+    end
+
+    function DisableInfiniteJump()
+        if InfiniteJumpConnection then
+            InfiniteJumpConnection:Disconnect()
+            InfiniteJumpConnection = nil
+        end
+    end
+end
+
+local EnableChangeCursor, DisableChangeCursor
+do
+    local CursorConnection = nil
+    local OriginalCursorVisible = nil
+    function EnableChangeCursor()
+        local playerGui = LocalPlayer:FindFirstChild("PlayerGui")
+        local interface = playerGui and playerGui:FindFirstChild("Interface")
+        local cursor = interface and interface:FindFirstChild("Cursor")
+        if cursor and OriginalCursorVisible == nil then
+            OriginalCursorVisible = cursor.Visible
+        end
+        if cursor then cursor.Visible = false end
+        UserInputService.MouseIconEnabled = true
+        if CursorConnection then CursorConnection:Disconnect() end
+        CursorConnection = RunService.Heartbeat:Connect(function()
+            if not ChangeCursorEnabled then return end
+            if not cursor or not cursor.Parent then
+                local pg = LocalPlayer:FindFirstChild("PlayerGui")
+                local iface = pg and pg:FindFirstChild("Interface")
+                cursor = iface and iface:FindFirstChild("Cursor")
+            end
+            if cursor then cursor.Visible = false end
+        end)
+    end
+
+    function DisableChangeCursor()
+        if CursorConnection then CursorConnection:Disconnect(); CursorConnection = nil end
+        local playerGui = LocalPlayer:FindFirstChild("PlayerGui")
+        local interface = playerGui and playerGui:FindFirstChild("Interface")
+        local cursor = interface and interface:FindFirstChild("Cursor")
+        if cursor then
+            cursor.Visible = OriginalCursorVisible ~= nil and OriginalCursorVisible or true
+        end
+        OriginalCursorVisible = nil
+    end
+end
+
+local EnableAutoRetry, DisableAutoRetry
+do
+    local AutoRetryConnection = nil
+    local function TryRetry()
+        if not AutoRetryEnabled then return end
+        SendRetryRemote()
+    end
+
+    function DisableAutoRetry()
+        if AutoRetryConnection then
+            AutoRetryConnection:Disconnect()
+            AutoRetryConnection = nil
+        end
+    end
+
+    function EnableAutoRetry()
+        DisableAutoRetry()
+
+        task.spawn(function()
+            local rewards = nil
+            pcall(function()
+                rewards = LocalPlayer:WaitForChild("PlayerGui", 60)
+                    :WaitForChild("Interface", 60)
+                    :WaitForChild("Rewards", 60)
+            end)
+            if not rewards then return end
+
+            if rewards.Visible then
+                task.wait(1)
+                TryRetry()
+            end
+
+            AutoRetryConnection = rewards:GetPropertyChangedSignal("Visible"):Connect(function()
+                if not AutoRetryEnabled then return end
+                if not rewards.Visible then return end
+                task.wait(1)
+                TryRetry()
+            end)
+
+            task.spawn(function()
+                local lastVisible = rewards.Visible
+                while AutoRetryEnabled do
+                    task.wait(1)
+                    if not AutoRetryEnabled then break end
+                    local ok, currentVisible = pcall(function() return rewards.Visible end)
+                    if not ok then break end
+                    if currentVisible and not lastVisible then
+                        task.wait(1)
+                        TryRetry()
+                    end
+                    lastVisible = currentVisible
+                end
+            end)
+        end)
+    end
+end
+
+local EnableAutoSkipCutscenes, DisableAutoSkipCutscenes
+do
+    local AutoSkipCutscenesConnection = nil
+    local AutoSkipCutscenesBusy = false
+    local AutoSkipCutscenesThread = nil
+
+    local function GetNil(name)
+        local getNil = getnilinstances or get_nil_instances
+        if not getNil then return nil end
+        local list = getNil()
+        if type(list) == "table" then
+            for _, object in ipairs(list) do
+                if object.Name == name then
+                    return object
+                end
+            end
+        end
+        return nil
+    end
+
+    local function SendSkipKeyInput(skipButton)
+        pcall(function()
+            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+            task.wait(0.05)
+            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+        end)
+
+        local interact = skipButton and (skipButton:FindFirstChild("Interact") or skipButton:FindFirstChildWhichIsA("GuiButton", true))
+        if interact then
+            local fireSignal = firesignal
+            if fireSignal then
+                pcall(function() fireSignal(interact.MouseButton1Click) end)
+                pcall(function() fireSignal(interact.MouseButton1Down) end)
+                pcall(function() fireSignal(interact.MouseButton1Up) end)
+                pcall(function() fireSignal(interact.Activated) end)
+            end
+            if interact.AbsolutePosition and interact.AbsoluteSize then
+                local center = interact.AbsolutePosition + (interact.AbsoluteSize / 2)
+                pcall(function()
+                    VirtualInputManager:SendMouseButtonEvent(center.X, center.Y, 0, true, game, 0)
+                    task.wait(0.05)
+                    VirtualInputManager:SendMouseButtonEvent(center.X, center.Y, 0, false, game, 0)
+                end)
+            end
+        end
+    end
+
+    local function CheckAndSkipCutscene(skip)
+        if not AutoSkipCutscenesEnabled or AutoSkipCutscenesBusy then return end
+        if not (skip and skip.Visible) then return end
+
+        AutoSkipCutscenesBusy = true
+
+        local middleObj = GetNil("Middle")
+        if middleObj then
+            pcall(function()
+                RemotePOST:FireServer("Functions", "Finished", middleObj)
+            end)
+        end
+
+        task.wait(0.3)
+
+        if AutoSkipCutscenesEnabled and skip and skip.Visible then
+            SendSkipKeyInput(skip)
+        end
+
+        task.wait(0.5)
+        AutoSkipCutscenesBusy = false
+    end
+
+    function DisableAutoSkipCutscenes()
+        if AutoSkipCutscenesConnection then
+            AutoSkipCutscenesConnection:Disconnect()
+            AutoSkipCutscenesConnection = nil
+        end
+        if AutoSkipCutscenesThread then
+            task.cancel(AutoSkipCutscenesThread)
+            AutoSkipCutscenesThread = nil
+        end
+        AutoSkipCutscenesBusy = false
+    end
+
+    function EnableAutoSkipCutscenes()
+        DisableAutoSkipCutscenes()
+        AutoSkipCutscenesThread = task.spawn(function()
+            local skip = nil
+            pcall(function()
+                skip = LocalPlayer:WaitForChild("PlayerGui", 60)
+                    :WaitForChild("Interface", 60)
+                    :WaitForChild("Skip", 60)
+            end)
+            if not skip then return end
+
+            if skip.Visible then
+                task.spawn(function()
+                    CheckAndSkipCutscene(skip)
+                end)
+            end
+
+            AutoSkipCutscenesConnection = skip:GetPropertyChangedSignal("Visible"):Connect(function()
+                if not AutoSkipCutscenesEnabled then return end
+                if skip.Visible then
+                    task.spawn(function()
+                        CheckAndSkipCutscene(skip)
+                    end)
+                end
+            end)
+
+            while AutoSkipCutscenesEnabled do
+                task.wait(0.5)
+                if not AutoSkipCutscenesEnabled then break end
+                if not skip or not skip.Parent then
+                    if AutoSkipCutscenesConnection then
+                        AutoSkipCutscenesConnection:Disconnect()
+                        AutoSkipCutscenesConnection = nil
+                    end
+                    pcall(function()
+                        local pgui = LocalPlayer:FindFirstChild("PlayerGui")
+                        local iface = pgui and pgui:FindFirstChild("Interface")
+                        skip = iface and iface:FindFirstChild("Skip")
+                    end)
+                    if skip and AutoSkipCutscenesConnection == nil then
+                        AutoSkipCutscenesConnection = skip:GetPropertyChangedSignal("Visible"):Connect(function()
+                            if not AutoSkipCutscenesEnabled then return end
+                            if skip.Visible then
+                                task.spawn(function()
+                                    CheckAndSkipCutscene(skip)
+                                end)
+                            end
+                        end)
+                    end
+                end
+                local ok, isVisible = pcall(function() return skip and skip.Visible end)
+                if ok and isVisible and not AutoSkipCutscenesBusy then
+                    task.spawn(function()
+                        CheckAndSkipCutscene(skip)
+                    end)
+                end
+            end
+            AutoSkipCutscenesThread = nil
+        end)
+    end
+end
+
+
+
+local ApplyNapeHitbox, RestoreNapeHitbox, GetNapeTopPosition, RemoveAllVisuals
+do
+    local OriginalNapeSizes = {}
+    local HitboxVisuals = {}
+
+    function ApplyNapeHitbox(overrideSize)
+        local size = overrideSize or NapeHitboxSize
+        local titans = GetAllTitans()
+        for _, titan in ipairs(titans) do
+            local nape = GetNapePart(titan)
+            if nape and nape:IsA("BasePart") then
+                if not OriginalNapeSizes[titan] then
+                    OriginalNapeSizes[titan] = nape.Size
+                end
+                local current = math.max(nape.Size.X, nape.Size.Y, nape.Size.Z)
+                if math.abs(current - size) > 0.01 then
+                    nape.Size = Vector3.new(size, size, size)
+                end
+            end
+        end
+        for titan in pairs(OriginalNapeSizes) do
+            if not titan.Parent then
+                OriginalNapeSizes[titan] = nil
+            end
+        end
+    end
+
+    function RestoreNapeHitbox()
+        local titans = GetAllTitans()
+        for _, titan in ipairs(titans) do
+            local nape = GetNapePart(titan)
+            if nape and nape:IsA("BasePart") then
+                if OriginalNapeSizes[titan] then
+                    nape.Size = OriginalNapeSizes[titan]
+                    OriginalNapeSizes[titan] = nil
+                end
+            end
+        end
+        for titan in pairs(OriginalNapeSizes) do
+            if not titan.Parent then OriginalNapeSizes[titan] = nil end
+        end
+    end
+
+    function GetNapeTopPosition(nape)
+        local halfExtent = math.max(nape.Size.X, nape.Size.Y, nape.Size.Z) / 2
+        local napeUp = nape.CFrame.UpVector
+        local napeRight = nape.CFrame.RightVector
+        local napeLook = nape.CFrame.LookVector
+        local topCenter = nape.Position + napeUp * halfExtent
+        local corner1 = topCenter + napeRight * halfExtent + napeLook * halfExtent
+        local corner2 = topCenter + napeRight * halfExtent - napeLook * halfExtent
+        local corner3 = topCenter - napeRight * halfExtent + napeLook * halfExtent
+        local corner4 = topCenter - napeRight * halfExtent - napeLook * halfExtent
+        local highest = corner1
+        if corner2.Y > highest.Y then highest = corner2 end
+        if corner3.Y > highest.Y then highest = corner3 end
+        if corner4.Y > highest.Y then highest = corner4 end
+        return highest
+    end
+
+    local function CreateOrUpdateVisuals()
+        if not VisualizeHitboxEnabled then return end
+        local titans = GetAllTitans()
+        local activeTitans = {}
+        for _, titan in ipairs(titans) do
+            activeTitans[titan] = true
+            local nape = GetNapePart(titan)
+            if nape and nape:IsA("BasePart") then
+                if not HitboxVisuals[titan] then
+                    local sel = Instance.new("SelectionBox")
+                    sel.Color3 = Color3.fromRGB(255, 50, 50)
+                    sel.LineThickness = 0.08
+                    sel.SurfaceTransparency = 1
+                    sel.Adornee = nape
+                    sel.Parent = Workspace.CurrentCamera
+                    HitboxVisuals[titan] = sel
+                end
+            end
+        end
+        for titan, sel in pairs(HitboxVisuals) do
+            if not activeTitans[titan] then
+                if sel and sel.Parent then sel:Destroy() end
+                HitboxVisuals[titan] = nil
+            end
+        end
+    end
+
+    function RemoveAllVisuals()
+        for titan, sel in pairs(HitboxVisuals) do
+            if sel and sel.Parent then sel:Destroy() end
+        end
+        HitboxVisuals = {}
+    end
+
+    RunService.Heartbeat:Connect(function()
+        if ExpandNapeHitboxEnabled then
+            local targetSize = AutoFarmEnabled and 100 or NapeHitboxSize
+            ApplyNapeHitbox(targetSize)
+        end
+        if VisualizeHitboxEnabled then CreateOrUpdateVisuals() end
+    end)
+end
+
+local FarmAboveOffset = 2
+
+local function GetFarmCFrame(titan)
+    local nape = GetNapePart(titan)
+    if not nape then
+        local hrp = titan:FindFirstChild("HumanoidRootPart")
+        if not hrp then return nil end
+        local topPos = hrp.Position + Vector3.new(0, 3, 0)
+        return CFrame.new(topPos + Vector3.new(0, FarmAboveOffset + DistanceToTitanAmount, 0), topPos)
+    end
+    if IsUsingSpears() then
+        local look = nape.CFrame.LookVector
+        local dist = 85 + DistanceToTitanAmount
+        local targetPos = nape.Position + Vector3.new(0, 55, 0) - (look * dist)
+        return CFrame.lookAt(targetPos, nape.Position)
+    else
+        local totalOffset = FarmAboveOffset + DistanceToTitanAmount
+        local topCorner = GetNapeTopPosition(nape)
+        local targetPos = topCorner + Vector3.new(0, totalOffset, 0)
+        return CFrame.new(targetPos, topCorner)
+    end
+end
+
+local function GetTitanHeight(model)
+    local minY = math.huge
+    local maxY = -math.huge
+    for _, part in ipairs(model:GetDescendants()) do
+        if part:IsA("BasePart") then
+            local top = part.Position.Y + part.Size.Y / 2
+            local bot = part.Position.Y - part.Size.Y / 2
+            if top > maxY then maxY = top end
+            if bot < minY then minY = bot end
+        end
+    end
+    if maxY == -math.huge then return 0 end
+    return maxY - minY
+end
+
+local function FindBestTitan(exclude)
+    local folder = GetTitansFolder()
+    if not folder then return nil end
+    local best = nil
+    local bestHeight = -math.huge
+    for _, model in ipairs(folder:GetChildren()) do
+        if model:IsA("Model") and model ~= exclude and IsTitanValid(model) then
+            local height = GetTitanHeight(model)
+            if height > bestHeight then
+                bestHeight = height
+                best = model
+            end
+        end
+    end
+    return best
+end
+
+local function FindBestSpearTarget(exclude)
+    local folder = GetTitansFolder()
+    if not folder then return nil end
+    local candidates = {}
+    for _, model in ipairs(folder:GetChildren()) do
+        if model:IsA("Model") and model ~= exclude and IsTitanValid(model) and GetNapePart(model) then
+            table.insert(candidates, model)
+        end
+    end
+    if #candidates == 0 then return nil end
+    if #candidates == 1 then return candidates[1] end
+
+    local bestTarget = candidates[1]
+    local bestScore = -1
+    for _, c1 in ipairs(candidates) do
+        local nape1 = GetNapePart(c1)
+        local pos1 = nape1 and nape1.Position
+        if pos1 then
+            local score = 0
+            for _, c2 in ipairs(candidates) do
+                local nape2 = GetNapePart(c2)
+                if nape2 and (nape2.Position - pos1).Magnitude <= 135 then
+                    score = score + 1
+                end
+            end
+            if score > bestScore then
+                bestScore = score
+                bestTarget = c1
+            end
+        end
+    end
+    return bestTarget
+end
+
+local FindNextTower, IsTowerUnbuilt, ExpandTowerHitbox
+do
+    local LastTowerScanTime = 0
+
+    function IsTowerUnbuilt(towerModel)
+        if not towerModel or not towerModel.Parent then return false end
+        local watchTower = towerModel:FindFirstChild("Watch_Tower")
+        if not watchTower then return false end
+        if watchTower:FindFirstChild("H") then return false end
+        local circle = towerModel:FindFirstChild("Circle")
+        if not circle then return false end
+        local beam1 = circle:FindFirstChild("Beam1")
+        if not beam1 or not beam1:IsA("BasePart") then return false end
+        return true
+    end
+
+    function ExpandTowerHitbox(towerModel)
+        local circle = towerModel and towerModel:FindFirstChild("Circle")
+        local hitbox = circle and circle:FindFirstChild("Hitbox")
+        if hitbox and hitbox:IsA("BasePart") then
+            pcall(function()
+                hitbox.Size = Vector3.new(1984, 1984, 1984)
+            end)
+        end
+    end
+
+    function FindNextTower()
+        for _, child in ipairs(Workspace:GetChildren()) do
+            if child:IsA("Model") and child.Name:find("WatchTower") then
+                ExpandTowerHitbox(child)
+                if IsTowerUnbuilt(child) then
+                    return child
+                end
+            end
+        end
+        local mapFolder = Workspace:FindFirstChild("Map") or Workspace:FindFirstChild("Unclimbable")
+        if mapFolder then
+            for _, child in ipairs(mapFolder:GetChildren()) do
+                if child:IsA("Model") and child.Name:find("WatchTower") then
+                    ExpandTowerHitbox(child)
+                    if IsTowerUnbuilt(child) then
+                        return child
+                    end
+                end
+            end
+        end
+        local now = os.clock()
+        if now - LastTowerScanTime > 1 then
+            LastTowerScanTime = now
+            for _, child in ipairs(Workspace:GetDescendants()) do
+                if child:IsA("Model") and child.Name:find("WatchTower") then
+                    ExpandTowerHitbox(child)
+                    if IsTowerUnbuilt(child) then
+                        return child
+                    end
+                end
+            end
+        end
+        return nil
+    end
+end
+
+local function UpdateHoverStabilizer()
+    local shouldRun = (AutoFarmEnabled and not KillWithoutTPEnabled) or AutoCreateTowersEnabled
+    if not shouldRun then
+        if HoverConnection then
+            HoverConnection:Disconnect()
+            HoverConnection = nil
+        end
+        LastHoverCFrame = nil
+        local char = LocalPlayer.Character
+        local hum = char and char:FindFirstChild("Humanoid")
+        if hum then hum.PlatformStand = false end
+        return
+    end
+
+    if HoverConnection then return end
+
+    HoverConnection = RunService.Heartbeat:Connect(function()
+        local active = (AutoFarmEnabled and not KillWithoutTPEnabled) or AutoCreateTowersEnabled
+        if not active then
+            if HoverConnection then
+                HoverConnection:Disconnect()
+                HoverConnection = nil
+            end
+            LastHoverCFrame = nil
+            local char = LocalPlayer.Character
+            local hum = char and char:FindFirstChild("Humanoid")
+            if hum then hum.PlatformStand = false end
+            return
+        end
+
+        if IsRetrievingCrates then return end
+
+        local char = LocalPlayer.Character
+        if not char then return end
+        local hum = char:FindFirstChild("Humanoid")
+        if not hum or hum.Health <= 0 then return end
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+
+        local targetCF = nil
+
+        if AutoCreateTowersEnabled then
+            if CurrentTowerTarget and not IsTowerUnbuilt(CurrentTowerTarget) then
+                CurrentTowerTarget = nil
+            end
+            if not CurrentTowerTarget then
+                CurrentTowerTarget = FindNextTower()
+                if CurrentTowerTarget then
+                    ExpandTowerHitbox(CurrentTowerTarget)
+                end
+            end
+            if CurrentTowerTarget and IsTowerUnbuilt(CurrentTowerTarget) then
+                ExpandTowerHitbox(CurrentTowerTarget)
+                local circle = CurrentTowerTarget:FindFirstChild("Circle")
+                local beam1 = circle and circle:FindFirstChild("Beam1")
+                if beam1 and beam1:IsA("BasePart") then
+                    targetCF = beam1.CFrame + Vector3.new(0, 200, 0)
+                end
+            end
+        end
+
+        if not targetCF and AutoFarmEnabled and not KillWithoutTPEnabled then
+            if CurrentTarget and IsTitanValid(CurrentTarget) then
+                targetCF = GetFarmCFrame(CurrentTarget)
+            else
+                targetCF = LastHoverCFrame or hrp.CFrame
+            end
+        end
+
+        if targetCF then
+            hum.PlatformStand = true
+            LastHoverCFrame = targetCF
+            hrp.CFrame = targetCF
+            pcall(function()
+                hrp.AssemblyLinearVelocity = Vector3.zero
+                hrp.AssemblyAngularVelocity = Vector3.zero
+            end)
+        elseif not AutoFarmEnabled and not CurrentTowerTarget then
+            hum.PlatformStand = false
+        end
+    end)
+end
+
+Workspace.DescendantAdded:Connect(function(desc)
+    if desc:IsA("Model") and desc.Name:find("WatchTower") then
+        task.delay(0.2, function()
+            ExpandTowerHitbox(desc)
+        end)
+        task.delay(1, function()
+            ExpandTowerHitbox(desc)
+        end)
+    elseif desc.Name == "Hitbox" and desc.Parent and desc.Parent.Name == "Circle" and desc.Parent.Parent and desc.Parent.Parent.Name:find("WatchTower") then
+        pcall(function()
+            desc.Size = Vector3.new(1984, 1984, 1984)
+        end)
+    end
+end)
+
+local RetrieveSupplyCrates, StartRetrieveSupplyCratesLoop
+do
+    local AutoRetrieveSupplyCratesThread = nil
+    local VisitedCrateCooldowns = {}
+
+    function RetrieveSupplyCrates()
+        if not AutoRetrieveSupplyCratesEnabled then return end
+        local unclimbable = Workspace:FindFirstChild("Unclimbable")
+        if not unclimbable then return end
+
+        local now = tick()
+        for obj in pairs(VisitedCrateCooldowns) do
+            if not obj.Parent or now > (VisitedCrateCooldowns[obj] or 0) then
+                VisitedCrateCooldowns[obj] = nil
+            end
+        end
+
+        local thunderSpearModels = {}
+        for _, child in ipairs(unclimbable:GetChildren()) do
+            if child:IsA("Model") and child.Name:find("ThunderSpear") then
+                if not VisitedCrateCooldowns[child] or now > VisitedCrateCooldowns[child] then
+                    table.insert(thunderSpearModels, child)
+                end
+            end
+        end
+
+        if #thunderSpearModels == 0 then return end
+
+        local char = LocalPlayer.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+
+        IsRetrievingCrates = true
+
+        for _, tsModel in ipairs(thunderSpearModels) do
+            if not AutoRetrieveSupplyCratesEnabled then break end
+            VisitedCrateCooldowns[tsModel] = tick() + 4
+            local hitbox = tsModel:FindFirstChild("Hitbox") or tsModel:FindFirstChild("Hitbox", true)
+            if hitbox and hitbox:IsA("BasePart") then
+                pcall(function()
+                    hitbox.Size = Vector3.new(1984, 1984, 1984)
+                end)
+                hrp.CFrame = hitbox.CFrame
+                pcall(function()
+                    hrp.AssemblyLinearVelocity = Vector3.zero
+                    hrp.AssemblyAngularVelocity = Vector3.zero
+                end)
+                task.wait(0.2)
+            elseif tsModel.PrimaryPart then
+                hrp.CFrame = tsModel.PrimaryPart.CFrame
+                task.wait(0.2)
+            end
+        end
+
+        if AutoRetrieveSupplyCratesEnabled then
+            local suppliesCircle = unclimbable:FindFirstChild("Supplies_Circle")
+            if suppliesCircle then
+                local hitbox = suppliesCircle:FindFirstChild("Hitbox") or suppliesCircle:FindFirstChild("Hitbox", true)
+                if hitbox and hitbox:IsA("BasePart") then
+                    pcall(function()
+                        hitbox.Size = Vector3.new(1984, 1984, 1984)
+                    end)
+                    hrp.CFrame = hitbox.CFrame
+                    pcall(function()
+                        hrp.AssemblyLinearVelocity = Vector3.zero
+                        hrp.AssemblyAngularVelocity = Vector3.zero
+                    end)
+                    task.wait(0.2)
+                elseif suppliesCircle.PrimaryPart then
+                    hrp.CFrame = suppliesCircle.PrimaryPart.CFrame
+                    task.wait(0.2)
+                end
+            end
+        end
+
+        IsRetrievingCrates = false
+    end
+
+    function StartRetrieveSupplyCratesLoop()
+        if AutoRetrieveSupplyCratesThread then return end
+        AutoRetrieveSupplyCratesThread = task.spawn(function()
+            while AutoRetrieveSupplyCratesEnabled do
+                RetrieveSupplyCrates()
+                task.wait(0.5)
+            end
+            AutoRetrieveSupplyCratesThread = nil
+        end)
+    end
+
+    local function BindUnclimbable(folder)
+        if not folder then return end
+        folder.ChildAdded:Connect(function(child)
+            if AutoRetrieveSupplyCratesEnabled and child:IsA("Model") and child.Name:find("ThunderSpear") then
+                task.delay(0.1, RetrieveSupplyCrates)
+            end
+        end)
+    end
+
+    local initialUnclimbable = Workspace:FindFirstChild("Unclimbable")
+    if initialUnclimbable then
+        BindUnclimbable(initialUnclimbable)
+    end
+    Workspace.ChildAdded:Connect(function(child)
+        if child.Name == "Unclimbable" then
+            BindUnclimbable(child)
+        end
+    end)
+end
+
+local function FarmLoop()
+    UpdateHoverStabilizer()
+
+    local isFirstTitan = true
+
+    while AutoFarmEnabled do
+        if not AutoFarmEnabled then break end
+
+        if AutoReloadEnabled and not IsReloading then
+            if IsUsingSpears() and GetSpearsEmpty() then
+                PerformReload()
+            elseif IsUsingBlades() and GetBladesBroken() then
+                PerformReload()
+            end
+        end
+
+        if not AutoFarmEnabled then break end
+
+        if AutoRefillEnabled and not IsRefilling and IsUsingBlades() then
+            if NeedsRefill() then
+                task.spawn(RefillUntilFull)
+                while IsRefilling do task.wait(0.2) end
+            end
+        end
+
+        if not AutoFarmEnabled then break end
+        if not CanAttack() then task.wait(0.1); continue end
+
+        if HitAllEnabled then
+            local allTitans = GetAllTitans()
+            local validEntries = {}
+            for _, titan in ipairs(allTitans) do
+                if IsTitanValid(titan) then
+                    local nape = GetNapePart(titan)
+                    if nape then
+                        table.insert(validEntries, { nape = nape, titan = titan })
+                    end
+                end
+            end
+
+            if #validEntries == 0 then
+                CurrentTarget = nil
+                task.wait(0.2)
+                continue
+            end
+
+            local batchSize = 8
+            if IsUsingSpears() then
+                for i = 1, #validEntries, batchSize do
+                    if not CanAttack() or not AutoFarmEnabled or not HitAllEnabled then break end
+                    if AutoReloadEnabled and not IsReloading and GetSpearsEmpty() then
+                        PerformReload()
+                        if GetSpearsEmpty() then break end
+                    end
+
+                    local batch = {}
+                    for j = i, math.min(i + batchSize - 1, #validEntries) do
+                        local entry = validEntries[j]
+                        if entry.titan and IsTitanValid(entry.titan) and entry.nape and entry.nape.Parent then
+                            table.insert(batch, entry)
+                        end
+                    end
+                    if #batch == 0 then continue end
+
+                    CurrentTarget = batch[1].titan
+                    local char = LocalPlayer.Character
+                    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+
+                    if not KillWithoutTPEnabled and hrp and CurrentTarget then
+                        local farmCF = GetFarmCFrame(CurrentTarget)
+                        if farmCF then
+                            hrp.CFrame = farmCF
+                            LastHoverCFrame = farmCF
+                            hrp.AssemblyLinearVelocity = Vector3.zero
+                            hrp.AssemblyAngularVelocity = Vector3.zero
+                        end
+                    end
+
+                    local napeBatch = {}
+                    for _, entry in ipairs(batch) do
+                        table.insert(napeBatch, entry.nape)
+                    end
+
+                    local fired = SendSpearAttack(napeBatch)
+                    if fired then
+                        local waitTime = DelayToKillEnabled and math.max(DelayToKillAmount, 0.15) or 0.15
+                        task.wait(waitTime)
+                    else
+                        task.wait(0.08)
+                    end
+                end
+                task.wait(0.1)
+            elseif IsUsingBlades() then
+                if not KillWithoutTPEnabled then
+                    CurrentTarget = FindBestTitan()
+                    local char = LocalPlayer.Character
+                    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                    if hrp and CurrentTarget then
+                        local farmCF = GetFarmCFrame(CurrentTarget)
+                        if farmCF then
+                            hrp.CFrame = farmCF
+                            LastHoverCFrame = farmCF
+                            hrp.AssemblyLinearVelocity = Vector3.zero
+                            hrp.AssemblyAngularVelocity = Vector3.zero
+                        end
+                    end
+                else
+                    CurrentTarget = nil
+                end
+
+                for i = 1, #validEntries, batchSize do
+                    if not CanAttack() or not AutoFarmEnabled or not HitAllEnabled then break end
+                    pcall(function() RemotePOST:FireServer("Attacks", "Slash", true) end)
+                    for j = i, math.min(i + batchSize - 1, #validEntries) do
+                        if not CanAttack() then break end
+                        local entryNape = validEntries[j].nape
+                        if entryNape and entryNape.Parent then
+                            pcall(function()
+                                RemotePOST:FireServer("Hitboxes", "Register", entryNape, 9e4, 9e4)
+                            end)
+                        end
+                    end
+                    task.wait(0.02)
+                    pcall(function() RemotePOST:FireServer("Attacks", "Slash", false) end)
+
+                    if DelayToKillEnabled and i + batchSize <= #validEntries then
+                        task.wait(DelayToKillAmount)
+                    else
+                        task.wait(0.1)
+                    end
+                end
+                task.wait(0.15)
+            end
+            continue
+        end
+
+        if not CurrentTarget or not IsTitanValid(CurrentTarget) then
+            CurrentTarget = IsUsingSpears() and FindBestSpearTarget() or FindBestTitan()
+        end
+        if not CurrentTarget or not IsTitanValid(CurrentTarget) then
+            task.wait(0.2)
+            continue
+        end
+
+        if not CanAttack() then task.wait(0.1); continue end
+
+        local char = LocalPlayer.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+
+        if not KillWithoutTPEnabled and not IsRetrievingCrates and (not AutoCreateTowersEnabled or not CurrentTowerTarget) then
+            if hrp then
+                local farmCF = GetFarmCFrame(CurrentTarget)
+                if farmCF then
+                    hrp.CFrame = farmCF
+                    LastHoverCFrame = farmCF
+                    hrp.AssemblyLinearVelocity = Vector3.zero
+                    hrp.AssemblyAngularVelocity = Vector3.zero
+                end
+            end
+        end
+
+        if not AutoFarmEnabled then break end
+
+        if IsUsingSpears() then
+            local nape = GetNapePart(CurrentTarget)
+            if nape and CanAttack() then
+                SendSpearAttack(CurrentTarget)
+            end
+
+            local waitStart = os.clock()
+            local maxWait = DelayToKillEnabled and math.max(DelayToKillAmount, 0.4) or 0.45
+            while AutoFarmEnabled and not HitAllEnabled and (os.clock() - waitStart < maxWait) do
+                task.wait(0.04)
+                if not IsTitanValid(CurrentTarget) then break end
+                if not KillWithoutTPEnabled and not IsRetrievingCrates and (not AutoCreateTowersEnabled or not CurrentTowerTarget) then
+                    local c = LocalPlayer.Character
+                    local h = c and c:FindFirstChild("HumanoidRootPart")
+                    if h and CurrentTarget and IsTitanValid(CurrentTarget) then
+                        local farmCF = GetFarmCFrame(CurrentTarget)
+                        if farmCF then
+                            h.CFrame = farmCF
+                            LastHoverCFrame = farmCF
+                            h.AssemblyLinearVelocity = Vector3.zero
+                            h.AssemblyAngularVelocity = Vector3.zero
+                        end
+                    end
+                end
+            end
+
+            if not AutoFarmEnabled then break end
+
+            if not IsTitanValid(CurrentTarget) then
+                local deadTarget = CurrentTarget
+                local nextTarget = FindBestSpearTarget(deadTarget)
+                if nextTarget then
+                    CurrentTarget = nextTarget
+                    if not KillWithoutTPEnabled and not IsRetrievingCrates and (not AutoCreateTowersEnabled or not CurrentTowerTarget) then
+                        local c = LocalPlayer.Character
+                        local h = c and c:FindFirstChild("HumanoidRootPart")
+                        if h then
+                            local nextCF = GetFarmCFrame(nextTarget)
+                            if nextCF then
+                                h.CFrame = nextCF
+                                LastHoverCFrame = nextCF
+                                h.AssemblyLinearVelocity = Vector3.zero
+                                h.AssemblyAngularVelocity = Vector3.zero
+                            end
+                        end
+                    end
+                else
+                    CurrentTarget = nil
+                end
+
+                if DelayToKillEnabled and not isFirstTitan then
+                    task.wait(DelayToKillAmount)
+                end
+                isFirstTitan = false
+            end
+        else
+            while AutoFarmEnabled and not HitAllEnabled do
+                task.wait(0.2)
+                if not AutoFarmEnabled then break end
+
+                if AutoReloadEnabled and not IsReloading and IsUsingBlades() and GetBladesBroken() then
+                    PerformReload()
+                end
+
+                if AutoRefillEnabled and not IsRefilling and IsUsingBlades() and NeedsRefill() then
+                    task.spawn(RefillUntilFull)
+                    while IsRefilling do task.wait(0.2) end
+                end
+                if not AutoFarmEnabled then break end
+                if not CanAttack() then continue end
+
+                if not IsTitanValid(CurrentTarget) then
+                    local deadTarget = CurrentTarget
+                    local nextTarget = FindBestTitan(deadTarget)
+                    if nextTarget then
+                        CurrentTarget = nextTarget
+                        if not KillWithoutTPEnabled and not IsRetrievingCrates and (not AutoCreateTowersEnabled or not CurrentTowerTarget) then
+                            local c = LocalPlayer.Character
+                            local h = c and c:FindFirstChild("HumanoidRootPart")
+                            if h then
+                                local farmCF = GetFarmCFrame(nextTarget)
+                                if farmCF then
+                                    h.CFrame = farmCF
+                                    LastHoverCFrame = farmCF
+                                    h.AssemblyLinearVelocity = Vector3.zero
+                                    h.AssemblyAngularVelocity = Vector3.zero
+                                end
+                            end
+                        end
+                    else
+                        CurrentTarget = nil
+                    end
+
+                    if DelayToKillEnabled and not isFirstTitan then
+                        task.wait(DelayToKillAmount)
+                    end
+                    isFirstTitan = false
+
+                    break
+                end
+
+                if not KillWithoutTPEnabled and not IsRetrievingCrates and (not AutoCreateTowersEnabled or not CurrentTowerTarget) then
+                    local c = LocalPlayer.Character
+                    local h = c and c:FindFirstChild("HumanoidRootPart")
+                    if h then
+                        local farmCF = GetFarmCFrame(CurrentTarget)
+                        if farmCF then
+                            h.CFrame = farmCF
+                            LastHoverCFrame = farmCF
+                            h.AssemblyLinearVelocity = Vector3.zero
+                            h.AssemblyAngularVelocity = Vector3.zero
+                        end
+                    end
+                end
+
+                local napeNow = GetNapePart(CurrentTarget)
+                if napeNow and CanAttack() then
+                    pcall(function() SendSlashAttack(CurrentTarget) end)
+                end
+            end
+        end
+    end
+
+    UpdateHoverStabilizer()
+    CurrentTarget = nil
+end
+
+task.spawn(function()
+    while true do
+        task.wait(0.2)
+        if not AutoReloadEnabled then continue end
+        if AutoFarmEnabled then continue end
+        if IsReloading or IsRefilling then continue end
+        if IsUsingSpears() then
+            if GetSpearsEmpty() then
+                PerformReload()
+            end
+        elseif IsUsingBlades() then
+            if GetBladesBroken() then
+                PerformReload()
+            end
+        end
+    end
+end)
+
+task.spawn(function()
+    while true do
+        task.wait(0.5)
+        if not AutoRefillEnabled or not IsUsingBlades() then
+            SetsWentEmptyAt = nil
+            continue
+        end
+        if AutoFarmEnabled then continue end
+        if IsRefilling then continue end
+        if NeedsRefill() then
+            task.spawn(RefillUntilFull)
+        end
+    end
+end)
+
+local RemoveAllTitanESP
+do
+    local TitanESPObjects = {}
+
+    function RemoveAllTitanESP()
+        for _, obj in pairs(TitanESPObjects) do
+            if obj.highlight and obj.highlight.Parent then obj.highlight:Destroy() end
+            if obj.billboard and obj.billboard.Parent then obj.billboard:Destroy() end
+        end
+        TitanESPObjects = {}
+    end
+
+    local function CreateTitanESP(model)
+        if TitanESPObjects[model] then return end
+        local rootPart = model:FindFirstChild("HumanoidRootPart")
+            or model:FindFirstChildWhichIsA("BasePart") or model.PrimaryPart
+        if not rootPart then return end
+        local highlight = Instance.new("SelectionBox")
+        highlight.Color3 = Color3.fromRGB(120, 80, 255)
+        highlight.LineThickness = 0.07
+        highlight.SurfaceTransparency = 0.85
+        highlight.SurfaceColor3 = Color3.fromRGB(120, 80, 255)
+        highlight.Adornee = model
+        highlight.Parent = Workspace.CurrentCamera
+        local billboard = Instance.new("BillboardGui")
+        billboard.AlwaysOnTop = true
+        billboard.Size = UDim2.new(0, 160, 0, 50)
+        billboard.StudsOffset = Vector3.new(0, 4, 0)
+        billboard.Adornee = rootPart
+        billboard.Parent = Workspace.CurrentCamera
+        local nameLabel = Instance.new("TextLabel")
+        nameLabel.Size = UDim2.new(1, 0, 0.52, 0)
+        nameLabel.BackgroundTransparency = 1
+        nameLabel.TextColor3 = Color3.fromRGB(200, 170, 255)
+        nameLabel.TextStrokeTransparency = 0.35
+        nameLabel.TextStrokeColor3 = Color3.fromRGB(20, 5, 50)
+        nameLabel.Font = Enum.Font.GothamBold
+        nameLabel.TextSize = 14
+        nameLabel.Text = "Titan"
+        nameLabel.Parent = billboard
+        local distLabel = Instance.new("TextLabel")
+        distLabel.Size = UDim2.new(1, 0, 0.48, 0)
+        distLabel.Position = UDim2.new(0, 0, 0.52, 0)
+        distLabel.BackgroundTransparency = 1
+        distLabel.TextColor3 = Color3.fromRGB(255, 220, 100)
+        distLabel.TextStrokeTransparency = 0.35
+        distLabel.TextStrokeColor3 = Color3.fromRGB(20, 5, 50)
+        distLabel.Font = Enum.Font.GothamBold
+        distLabel.TextSize = 13
+        distLabel.Text = "-- m"
+        distLabel.Parent = billboard
+        TitanESPObjects[model] = {
+            highlight = highlight,
+            billboard = billboard,
+            distLabel = distLabel,
+            rootPart = rootPart,
+            lastDist = nil,
+        }
+    end
+
+    RunService.Heartbeat:Connect(function()
+        if not TitanESPEnabled then return end
+        local character = LocalPlayer.Character
+        local charHRP = character and character:FindFirstChild("HumanoidRootPart")
+        local titansFolder = GetTitansFolder()
+        local activeModels = {}
+        if titansFolder then
+            for _, model in pairs(titansFolder:GetChildren()) do
+                if model:IsA("Model") then
+                    activeModels[model] = true
+                    if not TitanESPObjects[model] then CreateTitanESP(model) end
+                end
+            end
+        end
+        local toRemove = {}
+        for model in pairs(TitanESPObjects) do
+            if not activeModels[model] then table.insert(toRemove, model) end
+        end
+        for _, model in ipairs(toRemove) do
+            local obj = TitanESPObjects[model]
+            if obj.highlight and obj.highlight.Parent then obj.highlight:Destroy() end
+            if obj.billboard and obj.billboard.Parent then obj.billboard:Destroy() end
+            TitanESPObjects[model] = nil
+        end
+        if charHRP then
+            for _, entry in pairs(TitanESPObjects) do
+                if entry.rootPart and entry.rootPart.Parent then
+                    local dist = math.floor((charHRP.Position - entry.rootPart.Position).Magnitude)
+                    if entry.lastDist ~= dist then
+                        entry.lastDist = dist
+                        entry.distLabel.Text = dist .. " m"
+                    end
+                end
+            end
+        end
+    end)
+end
+
+
+do
+    local AutoFamilySpinThread = nil
+    local AutoSellPerksThread = nil
+
+    local Window = Library:CreateWindow({
+    Title = " Symbiote ",
+    Size = UDim2.new(0, 580, 0, 440),
+})
+
+local PlayerTab = Window:CreateTab("Player")
+local AutoFarmTab = Window:CreateTab("Auto Farm")
+local VariousTab = Window:CreateTab("Various")
+local StatsTab = Window:CreateTab("Stats")
+
+local StatsFile = "Symbiote_AOTR_Stats.json"
+
+local function LoadStatsJson()
+    local raw = ReadFileContent(StatsFile)
+    if not raw then return nil end
+    local ok, data = pcall(function()
+        return HttpService:JSONDecode(raw)
+    end)
+    if ok and type(data) == "table" then
+        return data
+    end
+    return nil
+end
+
+local StatsData
+do
+    local LoadedData = LoadStatsJson() or {}
+    StatsData = {
+        Player = {
+            Prestige = tonumber(LoadedData.Player and LoadedData.Player.Prestige) or 0,
+            Level = tonumber(LoadedData.Player and LoadedData.Player.Level) or 1,
+            Gems = tonumber(LoadedData.Player and LoadedData.Player.Gems) or 0,
+            Gold = tonumber(LoadedData.Player and LoadedData.Player.Gold) or 0,
+        },
+        LastRound = {
+            TimeTaken = tostring(LoadedData.LastRound and LoadedData.LastRound.TimeTaken or "00:00"),
+            Difficulty = tostring(LoadedData.LastRound and LoadedData.LastRound.Difficulty or "N/A"),
+            TitansKilled = tonumber(LoadedData.LastRound and LoadedData.LastRound.TitansKilled) or 0,
+            DamageDealt = tonumber(LoadedData.LastRound and LoadedData.LastRound.DamageDealt) or 0,
+            Gold = tonumber(LoadedData.LastRound and LoadedData.LastRound.Gold) or 0,
+            Gems = tonumber(LoadedData.LastRound and LoadedData.LastRound.Gems) or 0,
+            XP = tonumber(LoadedData.LastRound and LoadedData.LastRound.XP) or 0,
+            Items = (LoadedData.LastRound and type(LoadedData.LastRound.Items) == "table") and LoadedData.LastRound.Items or {},
+        },
+        Session = {
+            MissionsCompleted = tonumber(LoadedData.Session and LoadedData.Session.MissionsCompleted) or 0,
+            TotalSeconds = tonumber(LoadedData.Session and LoadedData.Session.TotalSeconds) or 0,
+            FastestSeconds = tonumber(LoadedData.Session and LoadedData.Session.FastestSeconds) or 0,
+            TitansKilled = tonumber(LoadedData.Session and LoadedData.Session.TitansKilled) or 0,
+            DamageDealt = tonumber(LoadedData.Session and LoadedData.Session.DamageDealt) or 0,
+            Gold = tonumber(LoadedData.Session and LoadedData.Session.Gold) or 0,
+            Gems = tonumber(LoadedData.Session and LoadedData.Session.Gems) or 0,
+            XP = tonumber(LoadedData.Session and LoadedData.Session.XP) or 0,
+            Items = (LoadedData.Session and type(LoadedData.Session.Items) == "table") and LoadedData.Session.Items or {},
+            RarityCounts = (LoadedData.Session and type(LoadedData.Session.RarityCounts) == "table") and LoadedData.Session.RarityCounts or {
+                Common = 0,
+                Uncommon = 0,
+                Rare = 0,
+                Epic = 0,
+                Legendary = 0,
+                Mythic = 0,
+                Secret = 0,
+            },
+        },
+    }
+end
+
+local function SaveStatsJson()
+    local ok, enc = pcall(function()
+        return HttpService:JSONEncode(StatsData)
+    end)
+    if ok and enc then
+        WriteFileContent(StatsFile, enc)
+    end
+end
+
+local LiveRoundData = {
+    Status = "In Progress",
+    Seconds = 0,
+    Difficulty = "N/A",
+}
+
+local PendingRoundDrops = {
+    Gold = 0,
+    Gems = 0,
+    XP = 0,
+    Items = {},
+    Rarities = {},
+}
+
+local IgnoredDropNames = {
+    ["Common_Perk"] = true,
+    ["Uncommon_Perk"] = true,
+    ["Rare_Perk"] = true,
+    ["Epic_Perk"] = true,
+    ["Legendary_Perk"] = true,
+    ["Mythic_Perk"] = true,
+    ["Common Perk"] = true,
+    ["Uncommon Perk"] = true,
+    ["Rare Perk"] = true,
+    ["Epic Perk"] = true,
+    ["Legendary Perk"] = true,
+    ["Mythic Perk"] = true,
+}
+
+local function IsIgnoredDrop(name)
+    if not name or name == "" then return true end
+    if IgnoredDropNames[name] then return true end
+    if name:match("[_%s]Perk$") then return true end
+    return false
+end
+
+local RoundState = "Playing"
+local FinalizeDebounce = false
+local RoundStartTime = os.clock()
+
+local function FormatNumber(num)
+    if not num then return "0" end
+    local n = math.floor(tonumber(num) or 0)
+    local formatted = tostring(n):reverse():gsub("(%d%d%d)", "%1,"):reverse()
+    if formatted:sub(1, 1) == "," then
+        formatted = formatted:sub(2)
+    end
+    return formatted
+end
+
+local function FormatSeconds(sec)
+    local total = math.max(0, math.floor(tonumber(sec) or 0))
+    local m = math.floor(total / 60)
+    local s = total % 60
+    return string.format("%02d:%02d", m, s)
+end
+
+local function FormatAverageTime(totalSec, count)
+    if not count or count <= 0 then return "00:00" end
+    local avg = math.floor(totalSec / count)
+    local low = math.max(0, math.floor(avg / 5) * 5)
+    local high = low + 5
+    return string.format("%s - %s", FormatSeconds(low), FormatSeconds(high))
+end
+
+local CachedModules = {}
+
+local function GetPerksModule()
+    if not CachedModules.Perks then
+        pcall(function()
+            CachedModules.Perks = require(ReplicatedStorage.Modules.Storage.Perks)
+        end)
+    end
+    return CachedModules.Perks
+end
+
+local function GetItemsModule()
+    if not CachedModules.Items then
+        pcall(function()
+            CachedModules.Items = require(ReplicatedStorage.Modules.Storage.Items)
+        end)
+    end
+    return CachedModules.Items
+end
+
+local function GetValuesModule()
+    if not CachedModules.Values then
+        pcall(function()
+            CachedModules.Values = require(ReplicatedStorage.Modules.Storage.Values)
+        end)
+    end
+    return CachedModules.Values
+end
+
+local function GetPerkRarity(perkName)
+    local perksMod = GetPerksModule()
+    if type(perksMod) == "table" then
+        local cleaned = string.gsub(perkName, "_", " ")
+        for rarity, list in pairs(perksMod) do
+            if type(list) == "table" and (list[perkName] or list[cleaned]) then
+                return rarity
+            end
+        end
+    end
+    return "Rare"
+end
+
+local function GetItemRarity(itemName)
+    local itemsMod = GetItemsModule()
+    if type(itemsMod) == "table" then
+        local cleaned = string.gsub(itemName, "_", " ")
+        if itemsMod[itemName] then return itemsMod[itemName].Rarity end
+        if itemsMod[cleaned] then return itemsMod[cleaned].Rarity end
+    end
+    return nil
+end
+
+local StatsLabels = {}
+do
+    local dummySectionRef = StatsTab:AddLabel("PLAYER STATS:")
+    local statsPage = dummySectionRef.Row.Parent
+
+    local function CreateStatsCard()
+        local container = Instance.new("Frame")
+        container.Size = UDim2.new(1, -8, 0, 0)
+        container.AutomaticSize = Enum.AutomaticSize.Y
+        container.BackgroundColor3 = Color3.fromRGB(24, 22, 34)
+        container.BackgroundTransparency = 0.2
+        container.BorderSizePixel = 0
+        container.Parent = statsPage
+
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0, 6)
+        corner.Parent = container
+
+        local stroke = Instance.new("UIStroke")
+        stroke.Color = Color3.fromRGB(48, 40, 70)
+        stroke.Thickness = 1
+        stroke.Parent = container
+
+        local padding = Instance.new("UIPadding")
+        padding.PaddingTop = UDim.new(0, 10)
+        padding.PaddingBottom = UDim.new(0, 10)
+        padding.PaddingLeft = UDim.new(0, 14)
+        padding.PaddingRight = UDim.new(0, 14)
+        padding.Parent = container
+
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, 0, 0, 0)
+        label.AutomaticSize = Enum.AutomaticSize.Y
+        label.BackgroundTransparency = 1
+        label.TextColor3 = Color3.fromRGB(225, 220, 240)
+        label.Font = Enum.Font.RobotoMono
+        label.TextSize = 13
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.TextYAlignment = Enum.TextYAlignment.Top
+        label.TextWrapped = true
+        label.Parent = container
+
+        return label
+    end
+
+    StatsLabels.Player = CreateStatsCard()
+    StatsTab:AddLabel("MISSION STATS (LIVE):")
+    StatsLabels.LiveMission = CreateStatsCard()
+    StatsTab:AddLabel("LAST ROUND STATS:")
+    StatsLabels.LastRound = CreateStatsCard()
+    StatsTab:AddLabel("TOTAL SESSION STATS:")
+    StatsLabels.Session = CreateStatsCard()
+end
+
+local function UpdateStatsUI()
+    StatsLabels.Player.Text = string.format(
+        "Prestige: %s\nLevel: %s\nGems: %s\nGold: %s",
+        FormatNumber(StatsData.Player.Prestige),
+        FormatNumber(StatsData.Player.Level),
+        FormatNumber(StatsData.Player.Gems),
+        FormatNumber(StatsData.Player.Gold)
+    )
+
+    StatsLabels.LiveMission.Text = string.format(
+        "Status: %s\nTime: %s\nDifficulty: %s",
+        LiveRoundData.Status,
+        FormatSeconds(LiveRoundData.Seconds),
+        LiveRoundData.Difficulty
+    )
+
+    local lastRound = StatsData.LastRound
+    local lastRoundDropCount = (lastRound.Items and #lastRound.Items) or 0
+    local lastRoundLines = {
+        "Time Taken: " .. tostring(lastRound.TimeTaken),
+        "Difficulty: " .. tostring(lastRound.Difficulty),
+        "Titans Killed: " .. FormatNumber(lastRound.TitansKilled or 0),
+        "Damage Dealt: " .. FormatNumber(lastRound.DamageDealt or 0),
+        "Gold: " .. FormatNumber(lastRound.Gold),
+        "Gems: " .. FormatNumber(lastRound.Gems),
+        "XP: " .. FormatNumber(lastRound.XP),
+        "Drops (" .. tostring(lastRoundDropCount) .. "):",
+    }
+    if lastRoundDropCount > 0 then
+        for _, itm in ipairs(lastRound.Items) do
+            table.insert(lastRoundLines, "  " .. itm)
+        end
+    else
+        table.insert(lastRoundLines, "  None")
+    end
+    StatsLabels.LastRound.Text = table.concat(lastRoundLines, "\n")
+
+    local sess = StatsData.Session
+    local count = sess.MissionsCompleted or 0
+    local fastestStr = (sess.FastestSeconds and sess.FastestSeconds > 0)
+        and FormatSeconds(sess.FastestSeconds)
+        or "00:00"
+    local avgStr = FormatAverageTime(sess.TotalSeconds or 0, count)
+
+    local rc = sess.RarityCounts or {}
+    local rarityLines = {
+        string.format("Common: %s | Uncommon: %s | Rare: %s",
+            FormatNumber(rc.Common or 0),
+            FormatNumber(rc.Uncommon or 0),
+            FormatNumber(rc.Rare or 0)
+        ),
+        string.format("Epic: %s | Legendary: %s | Mythic: %s",
+            FormatNumber(rc.Epic or 0),
+            FormatNumber(rc.Legendary or 0),
+            FormatNumber(rc.Mythic or 0)
+        ),
+    }
+    if (rc.Secret or 0) > 0 then
+        table.insert(rarityLines, string.format("Secret: %s", FormatNumber(rc.Secret)))
+    end
+
+    local sessionLines = {
+        "Missions Completed: " .. FormatNumber(count),
+        "Fastest Time: " .. fastestStr,
+        "Average Time: " .. avgStr,
+        "Titans Killed: " .. FormatNumber(sess.TitansKilled or 0),
+        "Damage Dealt: " .. FormatNumber(sess.DamageDealt or 0),
+        "Gold: " .. FormatNumber(sess.Gold or 0),
+        "Gems: " .. FormatNumber(sess.Gems or 0),
+        "XP: " .. FormatNumber(sess.XP or 0),
+        "Total Drops: " .. tostring(#(sess.Items or {})),
+        "Rarity Breakdown:\n  " .. table.concat(rarityLines, "\n  "),
+    }
+    StatsLabels.Session.Text = table.concat(sessionLines, "\n")
+end
+
+local function FetchPlayerStats()
+    local updated = false
+    local isMainMenu = (game.PlaceId == 14916516914)
+
+    if isMainMenu then
+        local pAttr = LocalPlayer:GetAttribute("Prestige")
+        if pAttr ~= nil then
+            StatsData.Player.Prestige = tonumber(pAttr) or StatsData.Player.Prestige
+            updated = true
+        end
+
+        local lAttr = LocalPlayer:GetAttribute("Level")
+        if lAttr ~= nil then
+            StatsData.Player.Level = tonumber(lAttr) or StatsData.Player.Level
+            updated = true
+        end
+
+        local pg = LocalPlayer:FindFirstChild("PlayerGui")
+        local iface = pg and pg:FindFirstChild("Interface")
+        local topbar = iface and iface:FindFirstChild("Topbar")
+        if topbar and topbar:FindFirstChild("Main") and topbar.Main:FindFirstChild("Currencies") then
+            local curr = topbar.Main.Currencies
+            local goldNode = curr:FindFirstChild("Gold") and curr.Gold:FindFirstChild("Amount")
+            local gemsNode = curr:FindFirstChild("Gems") and curr.Gems:FindFirstChild("Amount")
+            if goldNode and goldNode:IsA("TextLabel") then
+                local rawGold = goldNode.Text:gsub(",", ""):gsub("%s", "")
+                local nGold = tonumber(rawGold)
+                if nGold then
+                    StatsData.Player.Gold = nGold
+                    updated = true
+                end
+            end
+            if gemsNode and gemsNode:IsA("TextLabel") then
+                local rawGems = gemsNode.Text:gsub(",", ""):gsub("%s", "")
+                local nGems = tonumber(rawGems)
+                if nGems then
+                    StatsData.Player.Gems = nGems
+                    updated = true
+                end
+            end
+        end
+    else
+        local lAttr = LocalPlayer:GetAttribute("Level")
+        if lAttr ~= nil then
+            StatsData.Player.Level = tonumber(lAttr) or StatsData.Player.Level
+            updated = true
+        end
+
+        local pAttr = LocalPlayer:GetAttribute("Prestige")
+        if pAttr ~= nil then
+            StatsData.Player.Prestige = tonumber(pAttr) or StatsData.Player.Prestige
+            updated = true
+        end
+
+        local ok, _, playerProfileData = pcall(function()
+            return RemoteGET:InvokeServer("S_Rewards", "Get")
+        end)
+        if ok and type(playerProfileData) == "table" then
+            if playerProfileData.Progression and type(playerProfileData.Progression) == "table" then
+                if playerProfileData.Progression.Prestige ~= nil then
+                    StatsData.Player.Prestige = tonumber(playerProfileData.Progression.Prestige) or StatsData.Player.Prestige
+                    updated = true
+                end
+                if playerProfileData.Progression.Level ~= nil then
+                    StatsData.Player.Level = tonumber(playerProfileData.Progression.Level) or StatsData.Player.Level
+                    updated = true
+                end
+            end
+            if playerProfileData.Currency and type(playerProfileData.Currency) == "table" then
+                if playerProfileData.Currency.Gold ~= nil then
+                    StatsData.Player.Gold = tonumber(playerProfileData.Currency.Gold) or StatsData.Player.Gold
+                    updated = true
+                end
+                if playerProfileData.Currency.Gems ~= nil then
+                    StatsData.Player.Gems = tonumber(playerProfileData.Currency.Gems) or StatsData.Player.Gems
+                    updated = true
+                end
+            end
+        end
+    end
+
+    if updated then
+        SaveStatsJson()
+    end
+
+    UpdateStatsUI()
+end
+
+local function FinalizeRound()
+    if RoundState == "Ended" or FinalizeDebounce then return end
+    FinalizeDebounce = true
+    RoundState = "Ended"
+
+    task.wait(0.6)
+
+    LiveRoundData.Status = "Completed"
+
+    local finSec = tonumber(Workspace:GetAttribute("Seconds"))
+    if not finSec or finSec <= 0 then
+        finSec = math.max(1, LiveRoundData.Seconds)
+    end
+
+    local finDiff = Workspace:GetAttribute("Difficulty")
+    if not finDiff or tostring(finDiff) == "" or tostring(finDiff) == "N/A" then
+        if LiveRoundData.Difficulty and LiveRoundData.Difficulty ~= "N/A" then
+            finDiff = LiveRoundData.Difficulty
+        elseif StatsData.LastRound.Difficulty and StatsData.LastRound.Difficulty ~= "N/A" then
+            finDiff = StatsData.LastRound.Difficulty
+        else
+            finDiff = "Easy"
+        end
+    end
+    finDiff = tostring(finDiff)
+
+    local roundKills = 0
+    local roundDamage = 0
+
+    local pg = LocalPlayer:FindFirstChild("PlayerGui")
+    local iface = pg and pg:FindFirstChild("Interface")
+    local rewGui = iface and iface:FindFirstChild("Rewards")
+    local itemsFolder = nil
+    if rewGui and rewGui:FindFirstChild("Main") and rewGui.Main:FindFirstChild("Info") then
+        local infoMain = rewGui.Main.Info.Main
+        local statsFolder = infoMain:FindFirstChild("Stats")
+        if statsFolder then
+            local timeNode = statsFolder:FindFirstChild("Time_Taken") and statsFolder.Time_Taken:FindFirstChild("Amount")
+            if timeNode and timeNode:IsA("TextLabel") and timeNode.Text ~= "" and timeNode.Text ~= "00:00" then
+                local minStr, secStr = string.match(timeNode.Text, "(%d+):(%d+)")
+                if minStr and secStr then
+                    local parsedSec = (tonumber(minStr) or 0) * 60 + (tonumber(secStr) or 0)
+                    if parsedSec > 0 then
+                        finSec = parsedSec
+                    end
+                end
+            end
+            local killsNode = statsFolder:FindFirstChild("Kills") and statsFolder.Kills:FindFirstChild("Amount")
+            if killsNode and killsNode:IsA("TextLabel") then
+                local rawK = killsNode.Text:gsub(",", ""):gsub("%s", "")
+                roundKills = tonumber(rawK) or 0
+            end
+            local dmgNode = statsFolder:FindFirstChild("Damage") and statsFolder.Damage:FindFirstChild("Amount")
+            if dmgNode and dmgNode:IsA("TextLabel") then
+                local rawD = dmgNode.Text:gsub(",", ""):gsub("%s", "")
+                roundDamage = tonumber(rawD) or 0
+            end
+        end
+
+        itemsFolder = infoMain:FindFirstChild("Items")
+    end
+
+    local roundGold = PendingRoundDrops.Gold
+    local roundGems = PendingRoundDrops.Gems
+    local roundXP = PendingRoundDrops.XP
+    local roundItems = {}
+    local roundRarities = {}
+
+    local okRem, roundRewardsData, playerProfileData = pcall(function()
+        return RemoteGET:InvokeServer("S_Rewards", "Get")
+    end)
+    local gotServerDrops = false
+    if okRem and type(roundRewardsData) == "table" then
+        if roundRewardsData.Seconds and tonumber(roundRewardsData.Seconds) and tonumber(roundRewardsData.Seconds) > 0 then
+            finSec = tonumber(roundRewardsData.Seconds)
+        end
+        if roundRewardsData.Stats and type(roundRewardsData.Stats) == "table" then
+            if tonumber(roundRewardsData.Stats.Kills) and tonumber(roundRewardsData.Stats.Kills) > roundKills then
+                roundKills = tonumber(roundRewardsData.Stats.Kills)
+            end
+            if tonumber(roundRewardsData.Stats.Damage) and tonumber(roundRewardsData.Stats.Damage) > roundDamage then
+                roundDamage = tonumber(roundRewardsData.Stats.Damage)
+            end
+        end
+        local obt = roundRewardsData.Obtained
+        if type(obt) == "table" then
+            local g = tonumber(obt.Gold) or 0
+            local gm = tonumber(obt.Gems) or 0
+            local x = tonumber(obt.XP) or 0
+            if g > 0 then roundGold = g end
+            if gm > 0 then roundGems = gm end
+            if x > 0 then roundXP = x end
+
+            if type(obt.Perks) == "table" then
+                for _, pName in ipairs(obt.Perks) do
+                    if not IsIgnoredDrop(pName) then
+                        local r = GetPerkRarity(pName) or "Common"
+                        local clean = string.gsub(pName, "_", " ") .. " (" .. r .. ")"
+                        table.insert(roundItems, clean)
+                        table.insert(roundRarities, r)
+                    end
+                end
+            end
+            if type(obt.Drops) == "table" then
+                for _, dName in ipairs(obt.Drops) do
+                    if not IsIgnoredDrop(dName) then
+                        local r = GetItemRarity(dName) or "Common"
+                        local clean = string.gsub(dName, "_", " ") .. " (" .. r .. ")"
+                        table.insert(roundItems, clean)
+                        table.insert(roundRarities, r)
+                    end
+                end
+            end
+            if type(obt.Chests) == "table" then
+                for _, cName in ipairs(obt.Chests) do
+                    if not IsIgnoredDrop(cName) then
+                        local r = GetItemRarity(cName) or "Rare"
+                        local clean = string.gsub(cName, "_", " ") .. " (" .. r .. ")"
+                        table.insert(roundItems, clean)
+                        table.insert(roundRarities, r)
+                    end
+                end
+            end
+            gotServerDrops = true
+        end
+    end
+
+    if (not gotServerDrops or #roundItems == 0) and #PendingRoundDrops.Items > 0 then
+        roundItems = table.clone(PendingRoundDrops.Items)
+        roundRarities = table.clone(PendingRoundDrops.Rarities)
+        if PendingRoundDrops.Gold > 0 then roundGold = PendingRoundDrops.Gold end
+        if PendingRoundDrops.Gems > 0 then roundGems = PendingRoundDrops.Gems end
+        if PendingRoundDrops.XP > 0 then roundXP = PendingRoundDrops.XP end
+    elseif (not gotServerDrops or #roundItems == 0) and itemsFolder then
+        for _, child in ipairs(itemsFolder:GetChildren()) do
+            if child:IsA("Frame") and child:FindFirstChild("Main") and child.Main:FindFirstChild("Inner") then
+                local inner = child.Main.Inner
+                local qNode = inner:FindFirstChild("Quantity")
+                local qText = qNode and qNode.Text or ""
+                local rawQty = qText:gsub(",", ""):gsub("%+", ""):gsub("%s", "")
+                local nQty = tonumber(rawQty) or 1
+                local rFrame = inner:FindFirstChild("Rarity")
+                local rColor = rFrame and rFrame.BackgroundColor3
+                local matchedRarity = "Common"
+                local valMod = GetValuesModule()
+                if valMod and valMod.Colours then
+                    for rName, cVal in pairs(valMod.Colours) do
+                        if rColor and math.abs(rColor.R - cVal.R) < 0.05 and math.abs(rColor.G - cVal.G) < 0.05 and math.abs(rColor.B - cVal.B) < 0.05 then
+                            matchedRarity = rName
+                            break
+                        end
+                    end
+                end
+                local icon = inner:FindFirstChild("Icon")
+                local img = icon and icon.Image or ""
+                local itemName = nil
+                local itemMod = GetItemsModule()
+                if itemMod then
+                    for iName, iData in pairs(itemMod) do
+                        if iData.Image and tostring(iData.Image) ~= "" and img:find(tostring(iData.Image)) then
+                            itemName = iName
+                            break
+                        end
+                    end
+                end
+                if itemName and not IsIgnoredDrop(itemName) then
+                    if itemName == "Gold" and roundGold == 0 then
+                        roundGold = nQty
+                    elseif itemName == "Gems" and roundGems == 0 then
+                        roundGems = nQty
+                    elseif itemName == "XP" and roundXP == 0 then
+                        roundXP = nQty
+                    else
+                        local clean = string.gsub(itemName, "_", " ") .. " (" .. matchedRarity .. ")"
+                        table.insert(roundItems, clean)
+                        table.insert(roundRarities, matchedRarity)
+                    end
+                end
+            end
+        end
+    end
+
+    local lastRound = StatsData.LastRound
+    lastRound.TimeTaken = FormatSeconds(finSec)
+    lastRound.Difficulty = finDiff
+    lastRound.TitansKilled = roundKills
+    lastRound.DamageDealt = roundDamage
+    lastRound.Gold = roundGold
+    lastRound.Gems = roundGems
+    lastRound.XP = roundXP
+    lastRound.Items = table.clone(roundItems)
+
+    local sess = StatsData.Session
+    sess.MissionsCompleted = (sess.MissionsCompleted or 0) + 1
+    sess.TotalSeconds = (sess.TotalSeconds or 0) + finSec
+    if finSec > 0 then
+        if not sess.FastestSeconds or sess.FastestSeconds == 0 or finSec < sess.FastestSeconds then
+            sess.FastestSeconds = finSec
+        end
+    end
+    sess.TitansKilled = (sess.TitansKilled or 0) + roundKills
+    sess.DamageDealt = (sess.DamageDealt or 0) + roundDamage
+    sess.Gold = (sess.Gold or 0) + roundGold
+    sess.Gems = (sess.Gems or 0) + roundGems
+    sess.XP = (sess.XP or 0) + roundXP
+    sess.Items = sess.Items or {}
+    for _, itm in ipairs(roundItems) do
+        table.insert(sess.Items, itm)
+    end
+    sess.RarityCounts = sess.RarityCounts or {}
+    for _, r in ipairs(roundRarities) do
+        sess.RarityCounts[r] = (sess.RarityCounts[r] or 0) + 1
+    end
+
+    if okRem and type(playerProfileData) == "table" then
+        if playerProfileData.Progression and type(playerProfileData.Progression) == "table" then
+            if playerProfileData.Progression.Prestige ~= nil then
+                StatsData.Player.Prestige = tonumber(playerProfileData.Progression.Prestige) or StatsData.Player.Prestige
+            end
+            if playerProfileData.Progression.Level ~= nil then
+                StatsData.Player.Level = tonumber(playerProfileData.Progression.Level) or StatsData.Player.Level
+            end
+        end
+        if playerProfileData.Currency and type(playerProfileData.Currency) == "table" then
+            if playerProfileData.Currency.Gold ~= nil then
+                StatsData.Player.Gold = tonumber(playerProfileData.Currency.Gold) or StatsData.Player.Gold
+            end
+            if playerProfileData.Currency.Gems ~= nil then
+                StatsData.Player.Gems = tonumber(playerProfileData.Currency.Gems) or StatsData.Player.Gems
+            end
+        end
+    end
+
+    SaveStatsJson()
+    UpdateStatsUI()
+
+    FinalizeDebounce = false
+end
+
+local function StartNewRound()
+    if RoundState == "Playing" then return end
+    RoundState = "Playing"
+    RoundStartTime = os.clock()
+
+    LiveRoundData.Status = "In Progress"
+    LiveRoundData.Seconds = 0
+
+    local liveDiff = Workspace:GetAttribute("Difficulty")
+    if not liveDiff or tostring(liveDiff) == "" or tostring(liveDiff) == "N/A" then
+        liveDiff = StatsData.LastRound.Difficulty or "N/A"
+    end
+    LiveRoundData.Difficulty = tostring(liveDiff)
+
+    PendingRoundDrops = {
+        Gold = 0,
+        Gems = 0,
+        XP = 0,
+        Items = {},
+        Rarities = {},
+    }
+
+    UpdateStatsUI()
+end
+
+local function HookRewardsModule()
+    pcall(function()
+        local rewMod = ReplicatedStorage:WaitForChild("Modules", 10)
+        local uiMod = rewMod and rewMod:WaitForChild("User Interface", 10)
+        local rewardsMod = uiMod and uiMod:WaitForChild("Rewards", 10)
+        if not rewardsMod then return end
+        local rObj = require(rewardsMod)
+        if type(rObj) ~= "table" then return end
+
+        if type(rObj.Create) == "function" and not rObj.__SymbioteHooked then
+            rObj.__SymbioteHooked = true
+            local origCreate = rObj.Create
+            rObj.Create = function(self, uiTarget, kind, itemKey, amountText, displayNameOverride)
+                pcall(function()
+                    local rawQty = tostring(amountText or ""):gsub(",", ""):gsub("%+", ""):gsub("%s", "")
+                    local nQty = tonumber(rawQty) or 1
+                    local rawName = tostring((displayNameOverride and displayNameOverride ~= "") and displayNameOverride or itemKey or "")
+
+                    if kind == 1 or itemKey == "Gold" or rawName == "Gold" then
+                        PendingRoundDrops.Gold = PendingRoundDrops.Gold + nQty
+                    elseif itemKey == "Gems" or rawName == "Gems" then
+                        PendingRoundDrops.Gems = PendingRoundDrops.Gems + nQty
+                    elseif itemKey == "XP" or rawName == "XP" then
+                        PendingRoundDrops.XP = PendingRoundDrops.XP + nQty
+                    elseif not IsIgnoredDrop(rawName) then
+                        local r = GetPerkRarity(rawName) or GetItemRarity(rawName)
+                        if not r and type(self) == "table" and self.Modules and self.Modules.Items and self.Modules.Items[itemKey] then
+                            r = self.Modules.Items[itemKey].Rarity
+                        end
+                        r = r or "Common"
+                        local cleanName = string.gsub(rawName, "_", " ")
+                        local entryText = cleanName .. " (" .. r .. ")"
+                        table.insert(PendingRoundDrops.Items, entryText)
+                        table.insert(PendingRoundDrops.Rarities, r)
+                    end
+                end)
+                return origCreate(self, uiTarget, kind, itemKey, amountText, displayNameOverride)
+            end
+        end
+
+        if type(rObj.Setup) == "function" and not rObj.__SymbioteSetupHooked then
+            rObj.__SymbioteSetupHooked = true
+            local origSetup = rObj.Setup
+            rObj.Setup = function(self, payload)
+                local ret = origSetup(self, payload)
+                if RoundState == "Playing" then
+                    task.defer(function()
+                        FinalizeRound()
+                    end)
+                end
+                return ret
+            end
+        end
+    end)
+end
+
+local function HookMissionTracker()
+    HookRewardsModule()
+
+    task.spawn(function()
+        local pg = LocalPlayer:WaitForChild("PlayerGui", 60)
+        local iface = pg and pg:WaitForChild("Interface", 60)
+        local rewards = iface and iface:WaitForChild("Rewards", 60)
+        if not rewards then return end
+
+        rewards:GetPropertyChangedSignal("Visible"):Connect(function()
+            if rewards.Visible then
+                if RoundState == "Playing" then
+                    task.delay(0.6, function()
+                        FinalizeRound()
+                    end)
+                end
+            else
+                if RoundState == "Ended" and not FinalizeDebounce then
+                    StartNewRound()
+                end
+            end
+        end)
+    end)
+
+    Workspace:GetAttributeChangedSignal("Difficulty"):Connect(function()
+        local d = Workspace:GetAttribute("Difficulty")
+        if d and tostring(d) ~= "" and tostring(d) ~= "N/A" then
+            LiveRoundData.Difficulty = tostring(d)
+            UpdateStatsUI()
+        end
+    end)
+end
+
+StatsTab:AddButton("Reset Session Stats", function()
+    StatsData.Session = {
+        MissionsCompleted = 0,
+        TotalSeconds = 0,
+        FastestSeconds = 0,
+        TitansKilled = 0,
+        DamageDealt = 0,
+        Gold = 0,
+        Gems = 0,
+        XP = 0,
+        Items = {},
+        RarityCounts = {
+            Common = 0,
+            Uncommon = 0,
+            Rare = 0,
+            Epic = 0,
+            Legendary = 0,
+            Mythic = 0,
+            Secret = 0,
+        },
+    }
+    SaveStatsJson()
+    UpdateStatsUI()
+end)
+
+StatsTab:AddButton("Refresh Stats", function()
+    FetchPlayerStats()
+end)
+
+task.spawn(function()
+    task.wait(0.3)
+    FetchPlayerStats()
+    HookMissionTracker()
+
+    local isMainMenu = (game.PlaceId == 14916516914)
+    local refreshTimer = 0
+
+    if not isMainMenu then
+        RoundState = "Playing"
+        local liveDiff = Workspace:GetAttribute("Difficulty")
+        if not liveDiff or tostring(liveDiff) == "" or tostring(liveDiff) == "N/A" then
+            liveDiff = StatsData.LastRound.Difficulty or "N/A"
+        end
+        LiveRoundData.Difficulty = tostring(liveDiff)
+    else
+        RoundState = "Lobby"
+    end
+
+    while true do
+        task.wait(0.5)
+        refreshTimer = refreshTimer + 0.5
+
+        if isMainMenu then
+            LiveRoundData.Status = "In Lobby"
+            LiveRoundData.Seconds = 0
+            LiveRoundData.Difficulty = "N/A"
+        else
+            local pg = LocalPlayer:FindFirstChild("PlayerGui")
+            local iface = pg and pg:FindFirstChild("Interface")
+            local rew = iface and iface:FindFirstChild("Rewards")
+            local rewardsVisible = rew and rew.Visible
+
+            if rewardsVisible then
+                if RoundState == "Playing" and not FinalizeDebounce then
+                    task.delay(0.6, function()
+                        FinalizeRound()
+                    end)
+                end
+            else
+                if RoundState == "Ended" and not FinalizeDebounce then
+                    StartNewRound()
+                elseif RoundState == "Playing" then
+                    LiveRoundData.Status = "In Progress"
+                    LiveRoundData.Seconds = math.max(0, math.floor(os.clock() - RoundStartTime))
+
+                    local liveDiff = Workspace:GetAttribute("Difficulty")
+                    if liveDiff and tostring(liveDiff) ~= "" and tostring(liveDiff) ~= "N/A" then
+                        LiveRoundData.Difficulty = tostring(liveDiff)
+                    elseif LiveRoundData.Difficulty == "N/A" and StatsData.LastRound.Difficulty and StatsData.LastRound.Difficulty ~= "N/A" then
+                        LiveRoundData.Difficulty = StatsData.LastRound.Difficulty
+                    end
+                end
+            end
+        end
+
+        if refreshTimer >= 15 then
+            refreshTimer = 0
+            FetchPlayerStats()
+        else
+            UpdateStatsUI()
+        end
+    end
+end)
+
+UI.NoClip = PlayerTab:AddToggle("NoClip", function(state)
+    NoClipEnabled = state
+    SetSetting("NoClip", state)
+    if state then EnableNoClip() else DisableNoClip() end
+end)
+
+UI.WalkSpeed = PlayerTab:AddToggle("Walk Speed", function(state)
+    WalkSpeedEnabled = state
+    SetSetting("WalkSpeed", state)
+    if state then EnableWalkSpeed() else DisableWalkSpeed() end
+end)
+UI.WalkSpeedSlider = PlayerTab:AddSlider("Walk Speed Amount", 1, 5, GetSetting("WalkSpeedAmount"), function(v)
+    WalkSpeedSmoothing = v
+    SetSetting("WalkSpeedAmount", v)
+end)
+
+UI.LaggyRun = PlayerTab:AddToggle("Laggy Run", function(state)
+    LaggyRunEnabled = state
+    SetSetting("LaggyRun", state)
+    if state then EnableLaggyRun() else DisableLaggyRun() end
+end)
+UI.LaggyRunDistSlider = PlayerTab:AddSlider("Laggy Run Distance", 1, 10, GetSetting("LaggyRunDistance"), function(v)
+    LaggyRunDistance = v
+    SetSetting("LaggyRunDistance", v)
+end)
+UI.LaggyRunDelaySlider = PlayerTab:AddSlider("Laggy Run Delay", 1, 10, GetSetting("LaggyRunDelay"), function(v)
+    LaggyRunDelay = v
+    SetSetting("LaggyRunDelay", v)
+end)
+
+UI.CtrlClickTP = PlayerTab:AddToggle("CTRL + Click to TP", function(state)
+    CtrlClickTPEnabled = state
+    SetSetting("CtrlClickTP", state)
+    if state then EnableCtrlClickTP() else DisableCtrlClickTP() end
+end)
+
+UI.InfiniteJump = PlayerTab:AddToggle("Infinite Jump", function(state)
+    InfiniteJumpEnabled = state
+    SetSetting("InfiniteJump", state)
+    if state then EnableInfiniteJump() else DisableInfiniteJump() end
+end)
+
+UI.AutoFarm = AutoFarmTab:AddToggle("Auto Farm", function(state)
+    SetSetting("AutoFarm", state)
+    if state then
+        AutoFarmEnabled = true
+        ExpandNapeHitboxEnabled = true
+        NapeHitboxSize = 100
+        ApplyNapeHitbox(100)
+        task.spawn(FarmLoop)
+    else
+        AutoFarmEnabled = false
+        CurrentTarget = nil
+        UpdateHoverStabilizer()
+    end
+end)
+
+UI.HitAll = AutoFarmTab:AddToggle("Hit All", function(state)
+    HitAllEnabled = state
+    SetSetting("HitAll", state)
+    if state then
+        CurrentTarget = nil
+    end
+end)
+
+UI.DistanceToTitanSlider = AutoFarmTab:AddSlider("Distance to Titan", 0, 50, GetSetting("DistanceToTitan"), function(v)
+    DistanceToTitanAmount = v
+    SetSetting("DistanceToTitan", v)
+end)
+
+UI.AutoReload = AutoFarmTab:AddToggle("Auto Reload", function(state)
+    AutoReloadEnabled = state
+    SetSetting("AutoReload", state)
+end)
+
+UI.KillWithoutTP = AutoFarmTab:AddToggle("Kill Without TP", function(state)
+    KillWithoutTPEnabled = state
+    SetSetting("KillWithoutTP", state)
+    UpdateHoverStabilizer()
+end)
+
+UI.DelayToKill = AutoFarmTab:AddToggle("Delay To Kill", function(state)
+    DelayToKillEnabled = state
+    SetSetting("DelayToKill", state)
+end)
+UI.DelayToKillSlider = AutoFarmTab:AddSlider("Delay(s)", 0, 300, GetSetting("DelayToKillAmount"), function(v)
+    DelayToKillAmount = v
+    SetSetting("DelayToKillAmount", v)
+end)
+
+UI.ExpandNapeHitbox = AutoFarmTab:AddToggle("Expand Nape Hitbox", function(state)
+    ExpandNapeHitboxEnabled = state
+    SetSetting("ExpandNapeHitbox", state)
+    if not state then RestoreNapeHitbox() else ApplyNapeHitbox() end
+end)
+
+UI.HitboxSizeSlider = AutoFarmTab:AddSlider("Hitbox Size", 20, 100, GetSetting("HitboxSize"), function(v)
+    NapeHitboxSize = v
+    SetSetting("HitboxSize", v)
+    if ExpandNapeHitboxEnabled then ApplyNapeHitbox() end
+end)
+
+UI.VisualizeHitbox = AutoFarmTab:AddToggle("Visualize Hitbox", function(state)
+    VisualizeHitboxEnabled = state
+    SetSetting("VisualizeHitbox", state)
+    if not state then RemoveAllVisuals() end
+end)
+
+VariousTab:AddLabel("VARIOUS")
+
+UI.TitanESP = VariousTab:AddToggle("Titan ESP", function(state)
+    TitanESPEnabled = state
+    SetSetting("TitanESP", state)
+    if not state then RemoveAllTitanESP() end
+end)
+
+UI.ChangeCursor = VariousTab:AddToggle("Change Cursor", function(state)
+    ChangeCursorEnabled = state
+    SetSetting("ChangeCursor", state)
+    if state then EnableChangeCursor() else DisableChangeCursor() end
+end)
+
+UI.AutoRefill = VariousTab:AddToggle("Auto Refill", function(state)
+    AutoRefillEnabled = state
+    SetSetting("AutoRefill", state)
+    if not state then SetsWentEmptyAt = nil end
+end)
+
+UI.AutoRetry = VariousTab:AddToggle("Auto Retry", function(state)
+    AutoRetryEnabled = state
+    SetSetting("AutoRetry", state)
+    if state then EnableAutoRetry() else DisableAutoRetry() end
+end)
+
+UI.AutoExecute = VariousTab:AddToggle("Auto Execute", function(state)
+    SetSetting("AutoExecute", state)
+    if state then
+        QueueOnTeleport(AutoExecuteScript)
+    else
+        QueueOnTeleport("")
+    end
+end)
+
+UI.AutoSkipCutscenes = VariousTab:AddToggle("Auto Skip Cutscenes", function(state)
+    AutoSkipCutscenesEnabled = state
+    SetSetting("AutoSkipCutscenes", state)
+    if state then EnableAutoSkipCutscenes() else DisableAutoSkipCutscenes() end
+end)
+
+local FamilyData = {
+    AllFamilies = {},
+    TierMap = {},
+    TiersList = { "Common", "Rare", "Epic", "Legendary", "Mythic" }
+}
+do
+    pcall(function()
+        local famMod = require(ReplicatedStorage.Modules.Storage.Families)
+        for tier, list in pairs(famMod) do
+            if type(list) == "table" then
+                for name in pairs(list) do
+                    table.insert(FamilyData.AllFamilies, name)
+                    FamilyData.TierMap[name] = tier
+                end
+            end
+        end
+        table.sort(FamilyData.AllFamilies)
+    end)
+    if #FamilyData.AllFamilies == 0 then
+        FamilyData.AllFamilies = {
+            "Ackerman", "Arlert", "Azumabito", "Boyega", "Bozado", "Braun", "Braus",
+            "Finger", "Fritz", "Galliard", "Grice", "Helos", "Hume", "Iglehaut",
+            "Inocenio", "Kirstein", "Kruger", "Ksaver", "Leonhart", "Munsell",
+            "Pikale", "Ral", "Reeves", "Reiss", "Shiki", "Smith", "Springer",
+            "Tybur", "Yeager", "Zoe"
+        }
+        local staticTiers = {
+            Legendary = { "Yeager", "Ackerman", "Reiss" },
+            Common = { "Reeves", "Blouse", "Inocenio", "Munsell", "Boyega", "Ral", "Bozado", "Pikale", "Hume", "Iglehaut" },
+            Epic = { "Galliard", "Zoe", "Leonhart", "Tybur", "Ksaver", "Braun", "Finger", "Arlert" },
+            Secret = { "Shiki" },
+            Mythic = { "Helos", "Fritz" },
+            Rare = { "Braus", "Kruger", "Azumabito", "Smith", "Grice", "Springer", "Kirstein" }
+        }
+        for tier, list in pairs(staticTiers) do
+            for _, name in ipairs(list) do
+                FamilyData.TierMap[name] = tier
+            end
+        end
+    end
+end
+
+local function ShowFamilyFoundNotification(familyName, tier)
+    local targetContainer = nil
+    pcall(function()
+        local coreGui = game:GetService("CoreGui")
+        local test = Instance.new("Folder", coreGui)
+        test:Destroy()
+        targetContainer = coreGui
+    end)
+    if not targetContainer then
+        targetContainer = LocalPlayer:FindFirstChildOfClass("PlayerGui") or LocalPlayer:WaitForChild("PlayerGui", 3)
+    end
+    if not targetContainer then return end
+
+    local oldNotify = targetContainer:FindFirstChild("Symbiote_FamilyFoundNotify")
+    if oldNotify then
+        oldNotify:Destroy()
+    end
+
+    local sg = Instance.new("ScreenGui")
+    sg.Name = "Symbiote_FamilyFoundNotify"
+    sg.ResetOnSpawn = false
+    sg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    sg.Parent = targetContainer
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 280, 0, 52)
+    frame.Position = UDim2.new(0.5, 0, 0.88, 0)
+    frame.AnchorPoint = Vector2.new(0.5, 0.5)
+    frame.BackgroundColor3 = Color3.fromRGB(24, 22, 34)
+    frame.BackgroundTransparency = 1
+    frame.BorderSizePixel = 0
+    frame.Parent = sg
+
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Color3.fromRGB(140, 60, 255)
+    stroke.Thickness = 1.5
+    stroke.Transparency = 1
+    stroke.Parent = frame
+
+    local glowBar = Instance.new("Frame")
+    glowBar.Size = UDim2.new(0, 4, 0.65, 0)
+    glowBar.Position = UDim2.new(0, 8, 0.5, 0)
+    glowBar.AnchorPoint = Vector2.new(0, 0.5)
+    glowBar.BackgroundColor3 = Color3.fromRGB(80, 220, 150)
+    glowBar.BackgroundTransparency = 1
+    glowBar.BorderSizePixel = 0
+    glowBar.Parent = frame
+
+    local title = Instance.new("TextLabel")
+    title.Text = "Family found!"
+    title.Size = UDim2.new(1, -26, 0, 20)
+    title.Position = UDim2.new(0, 22, 0, 7)
+    title.BackgroundTransparency = 1
+    title.TextColor3 = Color3.fromRGB(80, 220, 150)
+    title.TextTransparency = 1
+    title.Font = Enum.Font.GothamBold
+    title.TextSize = 14
+    title.TextXAlignment = Enum.TextXAlignment.Left
+    title.Parent = frame
+
+    local sub = Instance.new("TextLabel")
+    sub.Text = string.format("%s (%s)", tostring(familyName), tostring(tier))
+    sub.Size = UDim2.new(1, -26, 0, 18)
+    sub.Position = UDim2.new(0, 22, 0, 27)
+    sub.BackgroundTransparency = 1
+    sub.TextColor3 = Color3.fromRGB(245, 240, 255)
+    sub.TextTransparency = 1
+    sub.Font = Enum.Font.GothamMedium
+    sub.TextSize = 12
+    sub.TextXAlignment = Enum.TextXAlignment.Left
+    sub.Parent = frame
+
+    local TweenService = game:GetService("TweenService")
+    local twIn = TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+    TweenService:Create(frame, twIn, {Position = UDim2.new(0.5, 0, 0.84, 0), BackgroundTransparency = 0.1}):Play()
+    TweenService:Create(stroke, twIn, {Transparency = 0}):Play()
+    TweenService:Create(glowBar, twIn, {BackgroundTransparency = 0}):Play()
+    TweenService:Create(title, twIn, {TextTransparency = 0}):Play()
+    TweenService:Create(sub, twIn, {TextTransparency = 0}):Play()
+
+    task.delay(5, function()
+        if not sg or not sg.Parent then return end
+        local twOut = TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
+        local t1 = TweenService:Create(frame, twOut, {Position = UDim2.new(0.5, 0, 0.88, 0), BackgroundTransparency = 1})
+        TweenService:Create(stroke, twOut, {Transparency = 1}):Play()
+        TweenService:Create(glowBar, twOut, {BackgroundTransparency = 1}):Play()
+        TweenService:Create(title, twOut, {TextTransparency = 1}):Play()
+        TweenService:Create(sub, twOut, {TextTransparency = 1}):Play()
+        t1:Play()
+        t1.Completed:Connect(function()
+            if sg and sg.Parent then
+                sg:Destroy()
+            end
+        end)
+    end)
+end
+
+local function IsFamilyMatch(list, value)
+    if type(list) ~= "table" or not value then return false end
+    if list[value] == true then return true end
+    for k, v in pairs(list) do
+        if v == value or (k == value and v == true) then
+            return true
+        end
+    end
+    return false
+end
+
+local function StartFamilySpinLoop()
+    if AutoFamilySpinThread then return end
+    AutoFamilySpinThread = task.spawn(function()
+        while AutoFamilySpinEnabled do
+            local ok, spins, extra, rolledFamily, pity = pcall(function()
+                return RemoteGET:InvokeServer("Family", "Roll")
+            end)
+
+            if ok and type(rolledFamily) == "string" and rolledFamily ~= "" then
+                local rolledTier = FamilyData.TierMap[rolledFamily] or "Common"
+                local totalSpins = (tonumber(spins) or 0) + (tonumber(extra) or 0)
+
+                local getActorsFn = (getactors or (syn and syn.getactors))
+                local runOnActorFn = (run_on_actor or (syn and syn.run_on_actor))
+
+                if getActorsFn and runOnActorFn then
+                    pcall(function()
+                        local actor = getActorsFn()[1]
+                        if actor then
+                            actor:SetAttribute("Symbiote_RollSync", HttpService:JSONEncode({
+                                Spins = spins,
+                                Extra = extra,
+                                Family = rolledFamily,
+                                Pity = pity
+                            }))
+                            runOnActorFn(actor, [[
+                                local act = getactors()[1]
+                                local raw = act:GetAttribute("Symbiote_RollSync")
+                                if not raw then return end
+                                local http = game:GetService("HttpService")
+                                local sync = http:JSONDecode(raw)
+                                local host = nil
+                                for _, v in ipairs(getgc(true)) do
+                                    if type(v) == "table" and rawget(v, "Cache") and rawget(v, "Modules") and rawget(v, "Services") then
+                                        host = v
+                                        break
+                                    end
+                                end
+                                if host and host.Cache and host.Cache.Data then
+                                    local d = host.Cache.Data
+                                    d.Spins = tonumber(sync.Spins) or d.Spins
+                                    d.Extra = tonumber(sync.Extra) or d.Extra
+                                    local slot = d.Slots and d.Current_Slot and d.Slots[d.Current_Slot]
+                                    if slot and slot.Avatar then
+                                        slot.Avatar.Family = sync.Family
+                                        slot.Avatar.Pity = tonumber(sync.Pity) or slot.Avatar.Pity
+                                    end
+                                    local pgui = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
+                                    local cust = pgui and pgui:FindFirstChild("Interface") and pgui.Interface:FindFirstChild("Customisation")
+                                    local famUI = cust and cust:FindFirstChild("Family")
+                                    local custMod = host.Modules and host.Modules.Customisation
+                                    if custMod and custMod.Family_Details and famUI then
+                                        pcall(function()
+                                            custMod.Family_Details(host, famUI, true, false)
+                                        end)
+                                    end
+                                end
+                            ]])
+                        end
+                    end)
+                end
+
+                pcall(function()
+                    local pg = LocalPlayer:FindFirstChild("PlayerGui")
+                    local cust = pg and pg:FindFirstChild("Interface") and pg.Interface:FindFirstChild("Customisation")
+                    local famUI = cust and cust:FindFirstChild("Family")
+                    if famUI then
+                        local famTitle = famUI:FindFirstChild("Family") and famUI.Family:FindFirstChild("Title")
+                        if famTitle and famTitle:IsA("TextLabel") then
+                            famTitle.Text = string.upper(rolledFamily) .. " (" .. rolledTier .. ")"
+                        end
+                        local rollBtn = famUI:FindFirstChild("Buttons_2") and famUI.Buttons_2:FindFirstChild("Roll")
+                        local rollTitle = rollBtn and rollBtn:FindFirstChild("Title")
+                        if rollTitle and rollTitle:IsA("TextLabel") then
+                            rollTitle.Text = "ROLL (" .. tostring(totalSpins) .. ")"
+                        end
+                        local pityLabel = famUI:FindFirstChild("Pity")
+                        if pityLabel and pityLabel:IsA("TextLabel") and pity then
+                            pityLabel.Text = "EPIC+ PITY: " .. tostring(pity) .. "/400"
+                        end
+                    end
+                end)
+
+                if IsFamilyMatch(FamiliesToStop, rolledFamily) or IsFamilyMatch(FamilyTiersToStop, rolledTier) then
+                    AutoFamilySpinEnabled = false
+                    if UI.AutoFamilySpin then
+                        UI.AutoFamilySpin:SetState(false)
+                    end
+                    ShowFamilyFoundNotification(rolledFamily, rolledTier)
+                    break
+                end
+
+                if totalSpins <= 0 then
+                    AutoFamilySpinEnabled = false
+                    if UI.AutoFamilySpin then
+                        UI.AutoFamilySpin:SetState(false)
+                    end
+                    break
+                end
+
+                task.wait(0.1)
+            else
+                task.wait(0.25)
+            end
+        end
+        AutoFamilySpinThread = nil
+    end)
+end
+
+VariousTab:AddLabel("AUTO FAMILY ROLL")
+
+UI.AutoFamilySpin = VariousTab:AddToggle("Auto Family Spin", function(state)
+    AutoFamilySpinEnabled = state
+    SetSetting("AutoFamilySpin", state)
+    if state then
+        StartFamilySpinLoop()
+    end
+end)
+
+
+
+UI.FamiliesDropdown = VariousTab:AddDropdown("Families To Stop", FamilyData.AllFamilies, function(selected)
+    FamiliesToStop = selected or {}
+    SetSetting("FamiliesToStop", FamiliesToStop)
+end)
+
+UI.FamilyTiersDropdown = VariousTab:AddDropdown("Family Tiers To Stop", FamilyData.TiersList, function(selected)
+    FamilyTiersToStop = selected or {}
+    SetSetting("FamilyTiersToStop", FamilyTiersToStop)
+end)
+
+local PerkData = {
+    AllPerks = {},
+    RarityMap = {},
+    TiersList = { "Common", "Rare", "Epic", "Legendary", "Mythic" }
+}
+do
+    pcall(function()
+        local perksMod = require(ReplicatedStorage.Modules.Storage.Perks)
+        for tier, list in pairs(perksMod) do
+            if type(list) == "table" then
+                for name in pairs(list) do
+                    table.insert(PerkData.AllPerks, name)
+                    PerkData.RarityMap[name] = tier
+                end
+            end
+        end
+        table.sort(PerkData.AllPerks)
+    end)
+    if #PerkData.AllPerks == 0 then
+        PerkData.AllPerks = {
+            "Adaptation", "Adrenaline", "Aegis", "Art of War", "Black Flash", "Blessed", "Butcher", "Carnifex",
+            "Courage Catalyst", "Cripple", "Critical Hunter", "Enduring", "Enhanced Metabolism", "Everlasting Flame",
+            "Eviscerate", "Exhumation", "Experimental Shells", "First Aid", "Flame Rhapsody", "Flawed Release",
+            "Focus", "Font of Inspiration", "Font of Vitality", "Forceful", "Fortitude", "Founder's Blessing",
+            "Fully Stocked", "Gear Beginner", "Gear Expert", "Gear Intermediate", "Gear Master", "Hardy",
+            "Heavenly Restriction", "Heightened Vitality", "Hollow", "Immortal", "Indefatigable", "Invincible",
+            "Kengo", "Lightweight", "Lucky", "Luminous", "Mangle", "Maximum Firepower", "Mighty",
+            "Munitions Expert", "Munitions Master", "Mutilate", "Peerless Commander", "Peerless Constitution",
+            "Peerless Focus", "Peerless Strength", "Perfect Form", "Perfect Soul", "Protection", "Reckless Abandon",
+            "Resilient", "Robust", "Safeguard", "Sanctified", "Siphoning", "Sixth Sense", "Solo",
+            "Soulfeed", "Speedy", "Stalwart Durability", "Tatsujin", "Tough", "Trauma Battery", "Tyrant's Stare",
+            "Unbreakable", "Unyielding", "Unparalleled Strength", "Unwavering Belief", "Warchief", "Warrior",
+            "Wind Rhapsody"
+        }
+        local staticTiers = {
+            Common = { "Cripple", "Enduring", "Enhanced Metabolism", "First Aid", "Fortitude", "Gear Beginner", "Hollow", "Lucky", "Mighty" },
+            Rare = { "Blessed", "Critical Hunter", "Experimental Shells", "Forceful", "Fully Stocked", "Gear Intermediate", "Heightened Vitality", "Lightweight", "Mangle", "Protection", "Tough", "Unyielding" },
+            Epic = { "Adrenaline", "Butcher", "Flawed Release", "Focus", "Gear Expert", "Hardy", "Luminous", "Munitions Expert", "Mutilate", "Peerless Strength", "Reckless Abandon", "Resilient", "Safeguard", "Siphoning", "Solo", "Speedy", "Stalwart Durability", "Trauma Battery", "Unbreakable", "Warrior" },
+            Legendary = { "Aegis", "Carnifex", "Courage Catalyst", "Eviscerate", "Exhumation", "Flame Rhapsody", "Font of Vitality", "Gear Master", "Indefatigable", "Invincible", "Munitions Master", "Peerless Commander", "Peerless Constitution", "Peerless Focus", "Perfect Form", "Perfect Soul", "Robust", "Sanctified", "Sixth Sense", "Tyrant's Stare", "Unparalleled Strength", "Warchief", "Wind Rhapsody" },
+            Mythic = { "Adaptation", "Art of War", "Black Flash", "Everlasting Flame", "Explosive Fortune", "Font of Inspiration", "Founder's Blessing", "Heavenly Restriction", "Immortal", "Kengo", "Maximum Firepower", "Soulfeed", "Tatsujin", "Unwavering Belief" }
+        }
+        for tier, list in pairs(staticTiers) do
+            for _, name in ipairs(list) do
+                PerkData.RarityMap[name] = tier
+            end
+        end
+    end
+end
+
+local function SellMatchingPerks()
+    if not AutoSellPerksEnabled then return end
+
+    local function isMatch(name, rarity)
+        if not name then return false end
+        local r = rarity or PerkData.RarityMap[name] or "Common"
+        if PerkTiersToSell[r] == true then
+            return true
+        end
+        if SpecificPerksToSell[name] == true then
+            return true
+        end
+        return false
+    end
+
+    local didActorScan = false
+    local deletedLookup = {}
+    local getActorsFn = (getactors or (syn and syn.getactors))
+    local runOnActorFn = (run_on_actor or (syn and syn.run_on_actor))
+
+    if getActorsFn and runOnActorFn then
+        pcall(function()
+            local actors = getActorsFn()
+            local actor = actors and actors[1]
+            if actor then
+                actor:SetAttribute("Symbiote_PerkFilter", HttpService:JSONEncode({
+                    Tiers = PerkTiersToSell,
+                    Specific = SpecificPerksToSell
+                }))
+                runOnActorFn(actor, [[
+                    local rs = game:GetService("ReplicatedStorage")
+                    local remoteGET = rs:WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("GET")
+                    local perksMod = require(rs.Modules.Storage.Perks)
+                    local rarityMap = {}
+                    for r, list in pairs(perksMod) do
+                        if type(list) == "table" then
+                            for name in pairs(list) do
+                                rarityMap[name] = r
+                            end
+                        end
+                    end
+
+                    local hostObj = nil
+                    for _, v in ipairs(getgc(true)) do
+                        if type(v) == "table" and rawget(v, "Cache") and rawget(v, "Modules") then
+                            hostObj = v
+                            break
+                        end
+                    end
+
+                    local actor = getactors()[1]
+                    if hostObj and hostObj.Cache and hostObj.Cache.Data then
+                        local data = hostObj.Cache.Data
+                        local currentSlot = data.Current_Slot or 1
+                        local slotData = data.Slots and data.Slots[currentSlot]
+                        if slotData and slotData.Perks and slotData.Perks.Storage then
+                            local equippedIds = {}
+                            for _, eqId in pairs(slotData.Perks.Equipped or {}) do
+                                if eqId and eqId ~= "" then
+                                    equippedIds[eqId] = true
+                                end
+                            end
+
+                            local rawFilter = actor:GetAttribute("Symbiote_PerkFilter")
+                            local http = game:GetService("HttpService")
+                            local filter = rawFilter and http:JSONDecode(rawFilter) or { Tiers = {}, Specific = {} }
+
+                            local batch = {}
+                            local deletedList = {}
+                            for id, info in pairs(slotData.Perks.Storage) do
+                                local name = info.Name
+                                local rarity = rarityMap[name] or "Common"
+                                local match = (filter.Tiers[rarity] == true) or (filter.Specific[name] == true)
+                                if match and not equippedIds[id] then
+                                    table.insert(batch, tostring(id))
+                                    table.insert(deletedList, tostring(id))
+                                    if #batch >= 25 then
+                                        local res = remoteGET:InvokeServer("S_Equipment", "Delete", "Perk", batch)
+                                        if type(res) == "table" then
+                                            hostObj.Cache.Data = res
+                                            data = res
+                                            slotData = data.Slots and data.Slots[currentSlot]
+                                        end
+                                        batch = {}
+                                    end
+                                end
+                            end
+                            if #batch > 0 then
+                                local res = remoteGET:InvokeServer("S_Equipment", "Delete", "Perk", batch)
+                                if type(res) == "table" then
+                                    hostObj.Cache.Data = res
+                                end
+                            end
+                            actor:SetAttribute("Symbiote_PerkDeleted", http:JSONEncode(deletedList))
+                        end
+                    end
+                ]])
+                didActorScan = true
+                local rawDeleted = actor:GetAttribute("Symbiote_PerkDeleted")
+                if rawDeleted then
+                    local list = HttpService:JSONDecode(rawDeleted)
+                    if type(list) == "table" then
+                        for _, id in ipairs(list) do
+                            deletedLookup[id] = true
+                        end
+                    end
+                end
+            end
+        end)
+    end
+
+    local pg = LocalPlayer:FindFirstChild("PlayerGui")
+    local iface = pg and pg:FindFirstChild("Interface")
+    local equip = iface and iface:FindFirstChild("Equipment")
+    local perkList = equip and equip:FindFirstChild("Perk_List")
+    local holder = perkList and perkList:FindFirstChild("Holder")
+    local itemsFolder = holder and holder:FindFirstChild("Items")
+    if itemsFolder then
+        local fallbackIds = {}
+        local fallbackFrames = {}
+        for _, child in ipairs(itemsFolder:GetChildren()) do
+            if child:IsA("GuiObject") and child.Name ~= "Grid" then
+                local id = child:GetAttribute("ID")
+                local name = child:GetAttribute("Tag") or child.Name
+                local rarity = child:GetAttribute("Rarity") or PerkData.RarityMap[name] or "Common"
+                if id then
+                    local idStr = tostring(id)
+                    if deletedLookup[idStr] then
+                        child:Destroy()
+                    elseif not didActorScan and isMatch(name, rarity) then
+                        table.insert(fallbackIds, idStr)
+                        table.insert(fallbackFrames, child)
+                    end
+                end
+            end
+        end
+        if #fallbackIds > 0 then
+            local batch = {}
+            for i, id in ipairs(fallbackIds) do
+                table.insert(batch, id)
+                if #batch >= 25 or i == #fallbackIds then
+                    pcall(function()
+                        RemoteGET:InvokeServer("S_Equipment", "Delete", "Perk", batch)
+                    end)
+                    batch = {}
+                end
+            end
+            for _, frame in ipairs(fallbackFrames) do
+                if frame and frame.Parent then
+                    frame:Destroy()
+                end
+            end
+        end
+    end
+end
+
+local function StartAutoSellPerksLoop()
+    if AutoSellPerksThread then return end
+    AutoSellPerksThread = task.spawn(function()
+        while AutoSellPerksEnabled do
+            SellMatchingPerks()
+            task.wait(1.5)
+        end
+        AutoSellPerksThread = nil
+    end)
+end
+
+VariousTab:AddLabel("AUTO SELL PERKS")
+
+UI.AutoSellPerks = VariousTab:AddToggle("Auto Sell Selected Tier Perks", function(state)
+    AutoSellPerksEnabled = state
+    SetSetting("AutoSellPerks", state)
+    if state then
+        SellMatchingPerks()
+        StartAutoSellPerksLoop()
+    end
+end)
+
+UI.PerkTiersDropdown = VariousTab:AddDropdown("Perk Tiers To Sell", PerkData.TiersList, function(selected)
+    PerkTiersToSell = selected or {}
+    SetSetting("PerkTiersToSell", PerkTiersToSell)
+    if AutoSellPerksEnabled then
+        SellMatchingPerks()
+    end
+end)
+
+UI.SpecificPerksDropdown = VariousTab:AddDropdown("Select Perks To Sell", PerkData.AllPerks, function(selected)
+    SpecificPerksToSell = selected or {}
+    SetSetting("SpecificPerksToSell", SpecificPerksToSell)
+    if AutoSellPerksEnabled then
+        SellMatchingPerks()
+    end
+end)
+
+VariousTab:AddLabel("THUNDER SPEARS")
+
+UI.AutoCreateTowers = VariousTab:AddToggle("Auto Create Towers(Outskirts)", function(state)
+    AutoCreateTowersEnabled = state
+    SetSetting("AutoCreateTowers", state)
+    if state then
+        FindNextTower()
+        UpdateHoverStabilizer()
+    else
+        CurrentTowerTarget = nil
+        UpdateHoverStabilizer()
+    end
+end)
+
+UI.AutoRetrieveSupplyCrates = VariousTab:AddToggle("Auto Retrieve Supply Crates(Forest)", function(state)
+    AutoRetrieveSupplyCratesEnabled = state
+    SetSetting("AutoRetrieveSupplyCrates", state)
+    if state then
+        StartRetrieveSupplyCratesLoop()
+        task.spawn(RetrieveSupplyCrates)
+    else
+        IsRetrievingCrates = false
+    end
+end)
+
+task.spawn(function()
+    while true do
+        local pg = LocalPlayer:FindFirstChild("PlayerGui")
+        local iface = pg and pg:FindFirstChild("Interface")
+        local equip = iface and iface:FindFirstChild("Equipment")
+        local perkList = equip and equip:FindFirstChild("Perk_List")
+        local holder = perkList and perkList:FindFirstChild("Holder")
+        local itemsFolder = holder and holder:FindFirstChild("Items")
+        if itemsFolder then
+            itemsFolder.ChildAdded:Connect(function(child)
+                if not AutoSellPerksEnabled then return end
+                task.delay(0.1, function()
+                    if not AutoSellPerksEnabled then return end
+                    if child and child:IsA("GuiObject") and child.Name ~= "Grid" then
+                        local name = child:GetAttribute("Tag") or child.Name
+                        local rarity = child:GetAttribute("Rarity") or PerkData.RarityMap[name] or "Common"
+                        local id = child:GetAttribute("ID")
+                        local match = (PerkTiersToSell[rarity] == true) or (SpecificPerksToSell[name] == true)
+                        if id and match then
+                            pcall(function()
+                                RemoteGET:InvokeServer("S_Equipment", "Delete", "Perk", { tostring(id) })
+                            end)
+                            if child and child.Parent then
+                                child:Destroy()
+                            end
+                        end
+                    end
+                end)
+            end)
+            break
+        end
+        task.wait(1)
+    end
+end)
+
+local function ApplySavedSettings()
+    WalkSpeedSmoothing = GetSetting("WalkSpeedAmount")
+    LaggyRunDistance = GetSetting("LaggyRunDistance")
+    LaggyRunDelay = GetSetting("LaggyRunDelay")
+    NapeHitboxSize = GetSetting("HitboxSize")
+    DelayToKillAmount = GetSetting("DelayToKillAmount")
+    DistanceToTitanAmount = GetSetting("DistanceToTitan")
+
+    task.wait(0.3)
+
+    if GetSetting("NoClip") then
+        NoClipEnabled = true
+        EnableNoClip()
+        if UI.NoClip then UI.NoClip:SetState(true) end
+    end
+
+    if GetSetting("WalkSpeed") then
+        WalkSpeedEnabled = true
+        EnableWalkSpeed()
+        if UI.WalkSpeed then UI.WalkSpeed:SetState(true) end
+    end
+
+    if UI.WalkSpeedSlider then UI.WalkSpeedSlider:SetValue(GetSetting("WalkSpeedAmount")) end
+
+    if GetSetting("LaggyRun") then
+        LaggyRunEnabled = true
+        EnableLaggyRun()
+        if UI.LaggyRun then UI.LaggyRun:SetState(true) end
+    end
+
+    if UI.LaggyRunDistSlider then UI.LaggyRunDistSlider:SetValue(GetSetting("LaggyRunDistance")) end
+    if UI.LaggyRunDelaySlider then UI.LaggyRunDelaySlider:SetValue(GetSetting("LaggyRunDelay")) end
+
+    if GetSetting("CtrlClickTP") then
+        CtrlClickTPEnabled = true
+        EnableCtrlClickTP()
+        if UI.CtrlClickTP then UI.CtrlClickTP:SetState(true) end
+    end
+
+    if GetSetting("InfiniteJump") then
+        InfiniteJumpEnabled = true
+        EnableInfiniteJump()
+        if UI.InfiniteJump then UI.InfiniteJump:SetState(true) end
+    end
+
+    if GetSetting("AutoReload") then
+        AutoReloadEnabled = true
+        if UI.AutoReload then UI.AutoReload:SetState(true) end
+    end
+
+    if GetSetting("KillWithoutTP") then
+        KillWithoutTPEnabled = true
+        if UI.KillWithoutTP then UI.KillWithoutTP:SetState(true) end
+    end
+
+    if GetSetting("DelayToKill") then
+        DelayToKillEnabled = true
+        if UI.DelayToKill then UI.DelayToKill:SetState(true) end
+    end
+
+    if UI.DelayToKillSlider then UI.DelayToKillSlider:SetValue(GetSetting("DelayToKillAmount")) end
+    if UI.DistanceToTitanSlider then UI.DistanceToTitanSlider:SetValue(GetSetting("DistanceToTitan")) end
+
+    if GetSetting("HitAll") then
+        HitAllEnabled = true
+        if UI.HitAll then UI.HitAll:SetState(true) end
+    end
+
+    if GetSetting("ExpandNapeHitbox") then
+        ExpandNapeHitboxEnabled = true
+        ApplyNapeHitbox()
+        if UI.ExpandNapeHitbox then UI.ExpandNapeHitbox:SetState(true) end
+    end
+
+    if UI.HitboxSizeSlider then UI.HitboxSizeSlider:SetValue(GetSetting("HitboxSize")) end
+
+    if GetSetting("VisualizeHitbox") then
+        VisualizeHitboxEnabled = true
+        if UI.VisualizeHitbox then UI.VisualizeHitbox:SetState(true) end
+    end
+
+    if GetSetting("TitanESP") then
+        TitanESPEnabled = true
+        if UI.TitanESP then UI.TitanESP:SetState(true) end
+    end
+
+    if GetSetting("AutoRefill") then
+        AutoRefillEnabled = true
+        if UI.AutoRefill then UI.AutoRefill:SetState(true) end
+    end
+
+    if GetSetting("ChangeCursor") then
+        ChangeCursorEnabled = true
+        EnableChangeCursor()
+        if UI.ChangeCursor then UI.ChangeCursor:SetState(true) end
+    end
+
+    if GetSetting("AutoExecute") then
+        if UI.AutoExecute then UI.AutoExecute:SetState(true) end
+    end
+
+    if GetSetting("AutoRetry") then
+        AutoRetryEnabled = true
+        EnableAutoRetry()
+        if UI.AutoRetry then UI.AutoRetry:SetState(true) end
+    end
+
+    if GetSetting("AutoSkipCutscenes") then
+        AutoSkipCutscenesEnabled = true
+        EnableAutoSkipCutscenes()
+        if UI.AutoSkipCutscenes then UI.AutoSkipCutscenes:SetState(true) end
+    end
+
+    local savedFamilies = GetSetting("FamiliesToStop")
+    if type(savedFamilies) == "table" and UI.FamiliesDropdown then
+        FamiliesToStop = savedFamilies
+        UI.FamiliesDropdown:SetSelected(savedFamilies)
+    end
+
+    local savedTiers = GetSetting("FamilyTiersToStop")
+    if type(savedTiers) == "table" and UI.FamilyTiersDropdown then
+        FamilyTiersToStop = savedTiers
+        UI.FamilyTiersDropdown:SetSelected(savedTiers)
+    end
+
+    if GetSetting("AutoFamilySpin") then
+        AutoFamilySpinEnabled = true
+        if UI.AutoFamilySpin then UI.AutoFamilySpin:SetState(true) end
+        StartFamilySpinLoop()
+    end
+
+    local savedPerkTiers = GetSetting("PerkTiersToSell")
+    if type(savedPerkTiers) == "table" and UI.PerkTiersDropdown then
+        PerkTiersToSell = savedPerkTiers
+        UI.PerkTiersDropdown:SetSelected(savedPerkTiers)
+    end
+
+    local savedSpecificPerks = GetSetting("SpecificPerksToSell")
+    if type(savedSpecificPerks) == "table" and UI.SpecificPerksDropdown then
+        SpecificPerksToSell = savedSpecificPerks
+        UI.SpecificPerksDropdown:SetSelected(savedSpecificPerks)
+    end
+
+    if GetSetting("AutoSellPerks") then
+        AutoSellPerksEnabled = true
+        if UI.AutoSellPerks then UI.AutoSellPerks:SetState(true) end
+        SellMatchingPerks()
+        StartAutoSellPerksLoop()
+    end
+
+    if GetSetting("AutoCreateTowers") then
+        AutoCreateTowersEnabled = true
+        if UI.AutoCreateTowers then UI.AutoCreateTowers:SetState(true) end
+        FindNextTower()
+        UpdateHoverStabilizer()
+    end
+
+    if GetSetting("AutoRetrieveSupplyCrates") then
+        AutoRetrieveSupplyCratesEnabled = true
+        if UI.AutoRetrieveSupplyCrates then UI.AutoRetrieveSupplyCrates:SetState(true) end
+        StartRetrieveSupplyCratesLoop()
+        task.spawn(RetrieveSupplyCrates)
+    end
+
+    if GetSetting("AutoFarm") then
+        AutoFarmEnabled = true
+        ExpandNapeHitboxEnabled = true
+        NapeHitboxSize = 100
+        ApplyNapeHitbox(100)
+        task.spawn(FarmLoop)
+        if UI.AutoFarm then UI.AutoFarm:SetState(true) end
+        if UI.ExpandNapeHitbox then UI.ExpandNapeHitbox:SetState(true) end
+    end
+end
+
+    ApplySavedSettings()
+end
